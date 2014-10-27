@@ -1,64 +1,102 @@
 from django.db import models
+from django.contrib.auth.models import User
+import datetime
+from dateutil.relativedelta import relativedelta
 
 # Create your models here.
 
 
 class Item(models.Model):
-    title = models.CharField(max_length=1024, blank=False)
+    title = models.CharField(max_length=144, blank=False, null=False)
+    quantity = models.IntegerField(default=1)
+    condition_choices = (
+        ('nw', 'New'),
+        ('Ln', 'Like new'),
+        ('Gd', 'Good'),
+        ('Fl', 'Functional'),
+    )
+    condition = models.CharField(
+        max_length=2,
+        choices=condition_choices,
+        default='Gd'
+    )
+    detail = models.TextField(default='')
+    link = models.URLField()
+    time_created = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
         return self.title
 
 
-class Person(models.Model):
-    name = models.CharField(max_length=127, blank=False)
-    item = models.ManyToManyField(Item, through='Ownership')
+class RegUser(User):
+    nickname = models.CharField(default='', max_length=140)
+    to_users = models.ManyToManyField(
+        'self',
+        symmetrical=False,
+        through='PassEvent',
+        through_fields=('giver', 'receiver')
+    )
 
     def __unicode__(self):
-        return self.name
+        return self.username
 
 
-class Ownership(models.Model):
-    item = models.ForeignKey(Item)
-    Person = models.ForeignKey(Person)
+class Post(models.Model):
+    title = models.CharField(max_length=144, blank=False, null=False)
+    owner = models.ForeignKey(RegUser)
+    item = models.ManyToManyField(
+        Item,
+        through='ItemStatus',
+        through_fields=('post', 'item'),
+    )
+    zip_code = models.CharField(
+        max_length=5,
+        blank=False,
+        null=False,
+        default=''
+    )
+    detail = models.TextField(default='')
+    today = datetime.date.today()
+    day = today + relativedelta(months=1)
+    expiration_date = models.DateField(default=day)
+    time_posted = models.DateTimeField(auto_now_add=True)
 
-# class Item(models.Model):
-#     title = models.CharField(max_length=144, blank=False, null=False)
-#     quantity = models.IntegerField(default=1)
-#     condition_choices = (
-#         ('Ln', 'Like new'),
-#         ('Gd', 'Good'),
-#         ('Fr', 'Fair'),
-#     )
-#     description = models.TextField(default='')
-#     link = models.CharField(max_length=1024, default='')
-#     time_created = models.DateTimeField(auto_now_add=True)
-#     past_owner = models.ManyToManyField(RegUser)
-#     past_post = models.ManyToManyField(Post)
-
-#     def __unicode__(self):
-#         return self.title
-
-
-# class RegUser(models.Model):
-#     name = models.CharField(max_length=200, blank=False, null=False)
-#     email = models.EmailField(blank=False)
-#     post - models.ForeignKey(Post)
-#     received_item = models.ManyToManyField(Item)
-#     pass_item = models.ManyToManyField(Item)
-
-#     def __unicode__(self):
-#         return self.name
+    def __unicode__(self):
+        return self.title
 
 
-# class Post(models.Model):
-#     title = models.CharField(max_length=144, blank=False, null=False)
-#     item = models.ManyToManyField(Item)
-#     time_created = models.DateTimeField(auto_now_add=True)
+class PassEvent(models.Model):
+    item = models.ForeignKey(Item, related_name='related_events')
+    post = models.ForeignKey(Post, related_name='related_events')
+    giver = models.ForeignKey(
+        RegUser,
+        related_name='events_as_giver'
+    )
+    receiver = models.ForeignKey(
+        RegUser,
+        related_name='events_as_receiver'
+    )
+    time_happened = models.DateTimeField(auto_now_add=True)
 
-#     def __unicode__(self):
-#         return self.title
+    def __unicode__(self):
+        return self.item
 
 
-# class Event(models.Model):
-#     item = models.ForeignKey()
+class ItemStatus(models.Model):
+    item = models.ForeignKey(Item, related_name='related_status')
+    post = models.ForeignKey(Post, related_name='related_status')
+    status_choices = (
+        ('av', 'Available'),
+        ('po', 'Possed on'),
+        ('dp', 'Disposed'),
+        ('dl', 'Deleted'),
+    )
+    item_status = models.CharField(
+        max_length=2,
+        choices=status_choices,
+        default='av',
+    )
+    item_request = models.ManyToManyField(RegUser)
+
+    def __unicode__(self):
+        return self.item.title

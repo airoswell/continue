@@ -91,6 +91,7 @@ TEMPLATE_DIRS = {
     os.path.join(
         os.path.dirname(__file__),
         'static',
-        'templates'
+        'templates',
     ).replace('\\', '/'),
 }
+

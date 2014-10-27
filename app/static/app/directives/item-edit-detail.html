@@ -1,0 +1,32 @@
+<div layout='vertical' mg-t-40 layout-margin>
+  <div layout="vertical" layout-sm="horizontal" layout-align='center center'>
+    <div layout='horizontal' layout-align='center center' mg-t-10>
+      <div>
+        <input class='input-default' type='text' placeholder='Item title'
+            ng-model="item.title">
+      </div>
+      <div class='helper-text'> x </div>
+      <div>
+        <input class='input-default input-short' type='text' placeholder="quantity"
+            ng-model='item.quantity'>
+      </div>
+    </div>
+    <div class="btn-group btn-group-md" mg-t-10>
+      <button type="button" class="btn"
+          ng-class="{'btn-active': item.condition === 'Nw'}" ng-click="set_cond(item, 'Nw')">New</button>
+      <button type="button" class="btn"
+          ng-class="{'btn-active': item.condition === 'Ln'}" ng-click="set_cond(item, 'Ln')">Like new</button>
+      <button type="button" class="btn"
+          ng-class="{'btn-active': item.condition === 'Gd'}" ng-click="set_cond(item, 'Gd')">Good</button>
+      <button type="button" class="btn"
+          ng-class="{'btn-active': item.condition === 'Fr'}" ng-click="set_cond(item, 'Fr')">Fair</button>
+    </div>
+  </div>
+  <div layout='horizontal' layout-align='center'>
+    <div flex="100" flex-sm="80" flex-md="50">
+      <textarea class="form-control" style='width:100%' rows="3" placeholder='Further detail of your item (Optional)'
+          ng-model='item.detail'>
+      </textarea>
+    </div>
+  </div>
+</div>

@@ -1,5 +1,40 @@
-<nav class="navbar navbar-default" role="navigation">
-  <div class="container-fluid">
+<style type="text/css">
+  .navbar.navbar-default {
+    background: #fff;border-top: 5px solid #62B44F;
+    padding-top: 20px;box-shadow: 5px 0px 5px #ccc;
+  }
+  .navbar{
+    margin-bottom: 0px;
+  }
+  .navbar li, .navbar a{
+    transition: all 0.2s;color: #A59994;
+  }
+
+  .nav.navbar-nav.navbar-right>li{
+    font-size: 20px;
+  }
+  .nav.navbar-nav.navbar-right>li:hover{
+    background: #62B44F;
+  }
+  .navbar-default .navbar-nav > li > a{
+    color:#A59994;
+  }
+  .navbar-default .navbar-nav > li > a:hover,
+  .navbar-default .navbar-nav > li > a:focus{
+    color: #fff;
+  }
+
+  .dropdown-menu {
+    font-size: 18px;
+  }
+  .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus{
+    background: #62B44F;color: #fff;
+  }
+</style>
+
+<nav class="navbar navbar-default" role="navigation"
+    ng-app="PassOn">
+  <div class="container-fluid" ng-controller='NavbarCtrl'>
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -8,17 +43,25 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Brand</a>
+      <a class="" href="/app/">Still Good</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Link</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
+          <li ng-show='user_info.is_anonymous'>
+            <a href="/app/login/">Log in</a>
+          </li>
+          <li ng-hide='user_info.is_anonymous'>
+            <a href="/app/user/compose/">Post</a>
+          </li>
+          <li ng-hide='user_info.is_anonymous'>
+            <a href="/app/logout/">Log out</a>
+          </li>
+        <li class="dropdown" ng-hide='user_info.is_anonymous'>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="#">Action</a></li>
+            <li><a href="/app/user/">Account page</a></li>
             <li><a href="#">Another action</a></li>
             <li><a href="#">Something else here</a></li>
             <li class="divider"></li>

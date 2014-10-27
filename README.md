@@ -15,8 +15,7 @@
 - `name` (`CharField`)
 - `email` (`EmailField`)
 - `posts` (`ForeignKey`: `Post`)
-- `received_item` (ManyToManyField: `Item`)
-- `passed_item` (ManyToManyField: `Item`)
+- `to_users` (`ManyToManyField`: `'self'`, `symmetrical=False`, `through`=`'PassEvent'`, `through_fields=('giver', 'receiver')`)
 
 ### The `Post` `class`
 
@@ -33,13 +32,30 @@
 - `description` (`TextField`)
 - `link` (CharField)
 - `time_created` (`DateTimeField`)
-- `past_owner` (`ManyToManyField`: `RegUser`)
-- `past_post` (`ManyToManyField`: `Post`)
 
-### The `Event` `class`
+### The `PassEvent` `class`
 
 - `item` (`ForeignKey`: `Item`)
 - `post` (`ForeignKey`: `Post`)
-- `date_passed` (`DateTimeField`)
-- `from_user` (`ForeignKey`: `RegUser`, related_name="PASS_FROM")
-- `to_user` (`ForeignKey`: `RegUser`, related_name="PASS_TO")
+- `time_happenedd` (`DateTimeField`)
+- `giver` (`ForeignKey`: `RegUser`, `related_name="events_as_giver"`)
+- `receiver` (`ForeignKey`: `RegUser`, `related_name="events_as_receiver"`)
+
+### Common `query`
+
+- Given an `Item`, retrieve all related past `giver`s
+    
+        RegUser.objects.filter(events_as_giver__item=<item-object>)
+
+- Given a `RegUser` `john`, retrieve all related `to_users`
+
+        john.to_users.all()
+
+- Given a `RegUser` `john`, retrieve all `Item`s that `john` gave out
+
+        Item.objects.filter(related_events__giver=john)
+
+- Given a `RegUser` `jane`, retrieve all `Item`s that `jane` received
+
+        Item.opbjects.filter(related_events__receiver=jane)
+

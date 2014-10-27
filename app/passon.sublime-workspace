@@ -1,0 +1,1971 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"crea",
+				"create_user	(function)"
+			],
+			[
+				"sign",
+				"signup_data"
+			],
+			[
+				"margin",
+				"margin"
+			],
+			[
+				"inlin",
+				"inline-block"
+			],
+			[
+				"padding",
+				"padding-right"
+			],
+			[
+				"get",
+				"get_posts	(function)"
+			],
+			[
+				"Post",
+				"PostOverview	(class)"
+			],
+			[
+				"posts",
+				"posts_queryset	(statement)"
+			],
+			[
+				"Po",
+				"PostOverview	(class)"
+			],
+			[
+				"user",
+				"user_info"
+			],
+			[
+				"is",
+				"is_anonymous"
+			],
+			[
+				"log",
+				"login_is_show"
+			],
+			[
+				"glob",
+				"globals	(function)"
+			],
+			[
+				"paddin",
+				"padding-right"
+			],
+			[
+				"loa",
+				"load	(function)"
+			],
+			[
+				"h",
+				"HttpResponse	(class)"
+			],
+			[
+				"post",
+				"post_overview	(statement)"
+			],
+			[
+				"zip",
+				"zip_code	(param)"
+			],
+			[
+				"border-co",
+				"border-color"
+			],
+			[
+				"succ",
+				"success"
+			],
+			[
+				"list",
+				"listview	ListView"
+			],
+			[
+				"current_",
+				"current_item	(statement)"
+			],
+			[
+				"curren",
+				"current_item	(statement)"
+			],
+			[
+				"new_",
+				"new_items"
+			],
+			[
+				"text",
+				"textarea	Tag"
+			],
+			[
+				"font-",
+				"font-size"
+			],
+			[
+				"sear",
+				"search_string	(statement)"
+			],
+			[
+				"search",
+				"search_string"
+			],
+			[
+				"Reg",
+				"RegUserAdmin	(class)"
+			],
+			[
+				"query",
+				"query_json	(statement)"
+			],
+			[
+				"date",
+				"dateutil	(module)"
+			],
+			[
+				"all_user",
+				"all_users_list	(statement)"
+			],
+			[
+				"all_",
+				"all_users_json	(statement)"
+			],
+			[
+				"marin",
+				"margin-bottom"
+			],
+			[
+				"events_as_",
+				"events_as_receiver"
+			],
+			[
+				"through",
+				"through_fields"
+			],
+			[
+				"throu",
+				"through_fields"
+			],
+			[
+				"blog",
+				"BlogAdmin	(class)"
+			],
+			[
+				"Model",
+				"ModelAdmin	(class)"
+			],
+			[
+				"v",
+				"views	(module)"
+			],
+			[
+				"all",
+				"all_users	(statement)"
+			],
+			[
+				"fields",
+				"fieldsets"
+			],
+			[
+				"model",
+				"ModelAdmin	(class)"
+			],
+			[
+				"field",
+				"fieldsets"
+			],
+			[
+				"Item",
+				"ItemSetAdmin	(class)"
+			],
+			[
+				"Mod",
+				"ModelAdmin	(class)"
+			],
+			[
+				"ques",
+				"question	(function)"
+			],
+			[
+				"quesion",
+				"question_id	(param)"
+			],
+			[
+				"http",
+				"HttpResponseRedirect	(class)"
+			],
+			[
+				"question",
+				"question_id	(param)"
+			],
+			[
+				"djan",
+				"django	(module)"
+			],
+			[
+				"Http",
+				"HttpResponseRedirect	(class)"
+			],
+			[
+				"dj",
+				"django	(module)"
+			],
+			[
+				"Ng",
+				"NgModelFormMixin	(class)"
+			],
+			[
+				"angu",
+				"angular_model	(module)"
+			],
+			[
+				"Ques",
+				"QuestionAdmin	(class)"
+			],
+			[
+				"project",
+				"project-name"
+			],
+			[
+				"render",
+				"render_to_response	(function)"
+			],
+			[
+				"rend",
+				"render_to_response	(function)"
+			],
+			[
+				"mod",
+				"ModelAdmin	(class)"
+			],
+			[
+				"smar",
+				"smart_unicode	(statement)"
+			],
+			[
+				"aut",
+				"auto_now	(param)"
+			],
+			[
+				"auto",
+				"auto_now_add	(param)"
+			],
+			[
+				"auto_",
+				"auto_now_add	(param)"
+			],
+			[
+				"ch",
+				"CharField	(class)"
+			],
+			[
+				"marg",
+				"margin"
+			],
+			[
+				"max",
+				"max-width"
+			],
+			[
+				"font",
+				"font-size"
+			],
+			[
+				"or",
+				"order-confirm-wrapper"
+			],
+			[
+				"Dial",
+				"DialogController"
+			],
+			[
+				"bord",
+				"border-bottom"
+			],
+			[
+				"row",
+				"row_total"
+			],
+			[
+				"pref",
+				"pref_arr"
+			],
+			[
+				"prefre",
+				"preferencesArray"
+			],
+			[
+				"prefer",
+				"preferences"
+			],
+			[
+				"direc",
+				"directives"
+			],
+			[
+				"pre",
+				"preferenceTag"
+			],
+			[
+				"res",
+				"restrict"
+			],
+			[
+				"wind",
+				"window_width"
+			],
+			[
+				"show",
+				"showContact"
+			],
+			[
+				"num",
+				"numOfCom"
+			],
+			[
+				"order",
+				"order_items"
+			],
+			[
+				"new",
+				"new_item"
+			],
+			[
+				"vew",
+				"viewPortHeight"
+			],
+			[
+				"nu",
+				"numOfCom"
+			],
+			[
+				"ing",
+				"ingredients"
+			],
+			[
+				"con",
+				"controller"
+			],
+			[
+				"cno",
+				"controller"
+			],
+			[
+				"fonts",
+				"font-size"
+			],
+			[
+				"padd",
+				"padding"
+			],
+			[
+				"tex",
+				"text-align"
+			],
+			[
+				"cons",
+				"console"
+			],
+			[
+				"mar",
+				"margin"
+			],
+			[
+				"bo",
+				"border"
+			],
+			[
+				"wid",
+				"width"
+			],
+			[
+				"in",
+				"inline-block"
+			],
+			[
+				"l",
+				"li	Tag"
+			],
+			[
+				"ng-re",
+				"ng-repeat	AngularJS"
+			],
+			[
+				"java",
+				"javascripts"
+			],
+			[
+				"fon",
+				"font-weight"
+			],
+			[
+				"text-",
+				"text-align"
+			],
+			[
+				"req",
+				"requires"
+			],
+			[
+				"item",
+				"item_name"
+			],
+			[
+				"it",
+				"item_num"
+			],
+			[
+				"form",
+				"from	(keyword)"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "templates/app/login.html",
+			"settings":
+			{
+				"buffer_size": 3680,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "templates/app/compose.html",
+			"settings":
+			{
+				"buffer_size": 1710,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "static/app/directives/item-detail.html",
+			"settings":
+			{
+				"buffer_size": 1477,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "templates/app/logout.html",
+			"settings":
+			{
+				"buffer_size": 469,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "static/app/style/main.css",
+			"settings":
+			{
+				"buffer_size": 3679,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "static/app/scripts/login.js",
+			"settings":
+			{
+				"buffer_size": 2232,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "views.py",
+			"settings":
+			{
+				"buffer_size": 6379,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 209.0,
+		"selected_items":
+		[
+			[
+				"runser",
+				"Django: Run Server"
+			],
+			[
+				"shell",
+				"Django: Shell"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"preview",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"python",
+				"SublimeREPL: Python"
+			],
+			[
+				"laun",
+				"LaTeXTools: Reconfigure and migrate settings"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"",
+				"About"
+			],
+			[
+				" preview",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"repl",
+				"SublimeREPL: PowerShell"
+			],
+			[
+				"llau",
+				"Glue - Launch"
+			],
+			[
+				"lau",
+				"Glue - Launch"
+			],
+			[
+				"glue",
+				"Set Syntax: Regular Expression"
+			],
+			[
+				"gule",
+				"Glue - Launch"
+			],
+			[
+				"package",
+				"Package Control: List Packages"
+			],
+			[
+				"list pack",
+				"Package Control: List Packages"
+			],
+			[
+				"prev",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"previews",
+				"Markdown Preview: Save to HTML"
+			],
+			[
+				"previe",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"PREVIEW",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"djan",
+				"Django: Migrate Database"
+			],
+			[
+				"django",
+				"Django: Migrate Database"
+			],
+			[
+				"MIGRA",
+				"Django: Migrate Database"
+			],
+			[
+				"pre",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"preve",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"prevei",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"mark",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"pac",
+				"Package Control: List Packages"
+			],
+			[
+				"git com",
+				"Git: Commit"
+			],
+			[
+				"git add",
+				"Git: Add..."
+			],
+			[
+				"git status",
+				"Git: Status"
+			],
+			[
+				"list",
+				"Themr: List themes"
+			],
+			[
+				"themr",
+				"Themr: List themes"
+			],
+			[
+				"them",
+				"Themr: List themes"
+			],
+			[
+				"theme",
+				"Themr: Next theme"
+			],
+			[
+				"git c",
+				"Git: Commit"
+			],
+			[
+				"git stat",
+				"Git: Status"
+			],
+			[
+				"disa",
+				"Package Control: Disable Package"
+			]
+		],
+		"width": 516.0
+	},
+	"console":
+	{
+		"height": 208.0,
+		"history":
+		[
+			"glue path",
+			"import urllib.request,os,hashlib; h = '7183a2d3e96f11eeadd761d777e62404' + 'e330c659d4bb41d3bdf022e94cab3cd0'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/Lelouch/projects/PassOn",
+		"/Users/Lelouch/projects/PassOn/app",
+		"/Users/Lelouch/projects/PassOn/app/static",
+		"/Users/Lelouch/projects/PassOn/app/static/app",
+		"/Users/Lelouch/projects/PassOn/app/static/app/bower_components",
+		"/Users/Lelouch/projects/PassOn/app/static/app/bower_components/font-awesome",
+		"/Users/Lelouch/projects/PassOn/app/static/app/bower_components/font-awesome/css",
+		"/Users/Lelouch/projects/PassOn/app/static/app/directives",
+		"/Users/Lelouch/projects/PassOn/app/static/app/scripts",
+		"/Users/Lelouch/projects/PassOn/app/static/app/style",
+		"/Users/Lelouch/projects/PassOn/app/templates"
+	],
+	"file_history":
+	[
+		"/Users/Lelouch/Box Sync/Mathematics & Physics/Papers/My Note/Grant and Application/research interest/Research Interest.tex",
+		"/Users/Lelouch/Downloads/cv/cv.tex",
+		"/Users/Lelouch/projects/PassOn/app/static/app/scripts/main.js",
+		"/Users/Lelouch/projects/PassOn/app/static/app/style/main.css",
+		"/Users/Lelouch/projects/PassOn/Note/Learning Model.md",
+		"/Users/Lelouch/projects/PassOn/app/templates/layout.html",
+		"/Users/Lelouch/projects/PassOn/app/static/app/directives/item-detail.html",
+		"/Users/Lelouch/projects/PassOn/app/static/app/scripts/compose.js",
+		"/Users/Lelouch/projects/PassOn/app/static/app/style/compose.css",
+		"/Users/Lelouch/projects/PassOn/app/templates/app/compose.html",
+		"/Users/Lelouch/Desktop/a.py",
+		"/Users/Lelouch/projects/PassOn/app/urls.py",
+		"/Users/Lelouch/projects/PassOn/app/static/app/scripts/results.js",
+		"/Users/Lelouch/projects/PassOn/app/templates/app/results.html",
+		"/Users/Lelouch/projects/PassOn/app/static/app/directives/post-overview.html",
+		"/Users/Lelouch/projects/PassOn/app/templates/app/process.html",
+		"/Users/Lelouch/projects/PassOn/app/static/app/style/results.css",
+		"/Users/Lelouch/projects/PassOn/app/static/app/style/login.css",
+		"/Users/Lelouch/projects/PassOn/app/static/app/scripts/login.js",
+		"/Users/Lelouch/projects/PassOn/Note/Djangular.md",
+		"/Users/Lelouch/projects/PassOn/manage.py",
+		"/Users/Lelouch/projects/PassOn/app/models.py",
+		"/Users/Lelouch/projects/PassOn/app/templates/app/index.html",
+		"/Users/Lelouch/projects/PassOn/app/views.py",
+		"/Users/Lelouch/projects/PassOn/app/templates/app/user.html",
+		"/Users/Lelouch/projects/PassOn/app/static/app/style/user.css",
+		"/Users/Lelouch/projects/PassOn/app/templates/app/login.html",
+		"/Users/Lelouch/projects/PassOn/app/static/app/scripts/index.js",
+		"/Users/Lelouch/projects/PassOn/app/static/app/bower_components/bootstrap/less/mixins/text-emphasis.less",
+		"/Users/Lelouch/projects/PassOn/terminal.glue",
+		"/Users/Lelouch/projects/PassOn/app/static/app/scripts/user.js",
+		"/Users/Lelouch/projects/PassOn/app/static/app/directives/user-post-overview.html",
+		"/Users/Lelouch/projects/PassOn/app/static/app/directives/nav-bar.html",
+		"/Users/Lelouch/projects/PassOn/app/static/app/scripts/layout.js",
+		"/Users/Lelouch/projects/PassOn/app/migrations/0002_remove_reguser_name.py",
+		"/Users/Lelouch/projects/PassOn/app/admin.py",
+		"/Users/Lelouch/projects/PassOn/app/static/app/bower_components/bootstrap-ui/.editorconfig",
+		"/Users/Lelouch/projects/PassOn/app/static/app/scripts/navbar.js",
+		"/Users/Lelouch/projects/PassOn/app/static/app/bower_components/bootstrap/less/mixins/opacity.less",
+		"/Users/Lelouch/projects/PassOn/app/templates/app/logout.html",
+		"/Users/Lelouch/projects/PassOn/app/static/app/bower_components/bootstrap/less/navbar.less",
+		"/Users/Lelouch/projects/PassOn/PassOn/settings.py",
+		"/Users/Lelouch/Box Sync/Mathematics & Physics/Papers/My Note/5d Supersymmetry and Geometry/[draft] 5d Supersymmetry and CR geometry/To Schmude 4/To Johannes 4.tex",
+		"/Users/Lelouch/projects/PassOn/app/static/app/bower_components/jquery/src/css.js",
+		"/Users/Lelouch/projects/PassOn/README.md",
+		"/Users/Lelouch/projects/PassOn/app/static/app/bower_components/bootstrap/less/responsive-utilities.less",
+		"/Users/Lelouch/projects/PassOn/app/static/app/bower_components/bootstrap/less/mixins/nav-vertical-align.less",
+		"/Users/Lelouch/projects/PassOn/app/passon.sublime-project",
+		"/Users/Lelouch/projects/PassOn/app/static/app/bower_components/djangular/js/django-angular.js",
+		"/Users/Lelouch/projects/PassOn/Note/Learning.md",
+		"/Users/Lelouch/projects/PassOn/app/static/app/bower_components/bootstrap-ui/template/datepicker/year.html",
+		"/Users/Lelouch/projects/PassOn/app/static/app/bower_components/hammerjs/component.json",
+		"/Users/Lelouch/projects/PassOn/commands.py",
+		"/Users/Lelouch/projects/PassOn/app/static/app/bower_components/bootstrap/LICENSE",
+		"/Users/Lelouch/projects/PassOn/app/static/app/bower_components/bootstrap-ui/LICENSE",
+		"/Users/Lelouch/projects/PassOn/app/static/app/template/list.html",
+		"/Users/Lelouch/projects/PassOn/app/Templates/layout.html",
+		"/Users/Lelouch/projects/PassOn/app/static/app/bower_components/jquery/src/effects.js",
+		"/Users/Lelouch/projects/PassOn/app/static/app/bower_components/jquery/src/event/alias.js",
+		"/Users/Lelouch/projects/PassOn/app/static/app/bower_components/jquery/src/effects/animatedSelector.js",
+		"/Users/Lelouch/projects/PassOn/app/static/app/bower_components/bootstrap-ui/misc/demo/assets/demo.css",
+		"/Users/Lelouch/projects/PassOn/app/static/app/bower_components/bootstrap/less/mixins/nav-divider.less",
+		"/Users/Lelouch/projects/PassOn/app/static/app/bower_components/bootstrap-ui/src/modal/docs/demo.js",
+		"/Users/Lelouch/projects/PassOn/app/static/app/bower_components/bootstrap-ui/src/modal/docs/demo.html",
+		"/Users/Lelouch/projects/PassOn/app/static/app/bower_components/jquery/src/data/var/data_user.js",
+		"/Users/Lelouch/projects/PassOn/app/static/app/bower_components/jquery/src/offset.js",
+		"/Users/Lelouch/Box Sync/Mathematics & Physics/Papers/My Note/Higgs Branch Localization/4d N=2/Conventions/To Wolfger-01/Fierz and Twisting.tex",
+		"/Users/Lelouch/projects/PassOn/PassOn/urls.py",
+		"/Users/Lelouch/projects/PassOn/app/static/app/bower_components/bootstrap-ui/src/rating/rating.js",
+		"/Users/Lelouch/projects/PassOn/app/static/app/bower_components/bootstrap-ui/src/rating/docs/demo.html",
+		"/Users/Lelouch/projects/PassOn/app/Templates/app/list.html",
+		"/Users/Lelouch/projects/PassOn/db.sqlite3",
+		"/Users/Lelouch/projects/PassOn/app/Templates/app/layout.html",
+		"/Users/Lelouch/projects/PassOn/Djangular.md",
+		"/Users/Lelouch/Library/Application Support/Sublime Text 3/Packages/User/Markdown.sublime-settings",
+		"/Users/Lelouch/projects/PassOn/Learning.md",
+		"/Users/Lelouch/projects/PassOn/Learning Model.md",
+		"/Users/Lelouch/projects/PassOn/app/Templates/app/index.html",
+		"/Users/Lelouch/projects/PassOn/app/static/app/style/index.css",
+		"/Users/Lelouch/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/Users/Lelouch/Box Sync/Mathematics & Physics/Papers/My Note/Higgs Branch Localization/4d N=2/Conventions/To Wolfger-01/Update Log.md",
+		"/Users/Lelouch/Library/Application Support/Sublime Text 3/Packages/User/LaTeXTools.sublime-settings",
+		"/Users/Lelouch/Library/Application Support/Sublime Text 3/Packages/User/Glue.sublime-settings",
+		"/Users/Lelouch/projects/PassOn/app/static/app/bower_components/bootstrap/less/responsive-embed.less",
+		"/Users/Lelouch/Library/Application Support/Sublime Text 3/Packages/User/MarkdownPreview.sublime-settings",
+		"/Users/Lelouch/Box Sync/Mathematics & Physics/Papers/My Note/Talks/Localization/Localization.tex",
+		"/Users/Lelouch/Box Sync/Mathematics & Physics/Papers/My Note/Grant and Application/Postdoc/postdoc.tex",
+		"/Users/Lelouch/Box Sync/Mathematics & Physics/Papers/My Note/Higgs Branch Localization/4d N=2/Conventions/Conventions.tex",
+		"/Users/Lelouch/Library/Application Support/Sublime Text 3/Packages/Markdown Preview/MarkdownPreview.sublime-settings",
+		"/Users/Lelouch/projects/PassOn/README.html",
+		"/Users/Lelouch/projects/PassOn/app/static/app/bower.json",
+		"/Users/Lelouch/projects/PassOn/app/__init__.py",
+		"/Users/Lelouch/projects/PassOn/app/forms.py",
+		"/Users/Lelouch/projects/PassOn/app/tests.py",
+		"/Users/Lelouch/projects/PassOn/app/migrations/0001_initial.py",
+		"/Users/Lelouch/projects/PassOn/app/migrations/0002_auto_20141010_0034.py",
+		"/Users/Lelouch/projects/PassOn/app/migrations/0003_auto_20141010_0250.py",
+		"/Users/Lelouch/projects/PassOn/app/migrations/0004_auto_20141013_0306.py",
+		"/Users/Lelouch/projects/PassOn/app/migrations/0005_auto_20141013_0312.py",
+		"/Users/Lelouch/projects/PassOn/app/migrations/0006_auto_20141013_0314.py",
+		"/Users/Lelouch/projects/PassOn/app/migrations/__init__.py",
+		"/Users/Lelouch/Music/iTunes/iTunes Media/Queue2/鄰居人妻淪陷史 6-7",
+		"/Users/Lelouch/Box Sync/Programing/Python/ex/Binary Tree.py",
+		"/Users/Lelouch/projects/PassOn/app/Templates/app/directives/item-detail.html",
+		"/Users/Lelouch/projects/PassOn/app/Templates/directives/item-detail.html",
+		"/Users/Lelouch/Library/Application Support/Sublime Text 3/Packages/User/JavaScript.sublime-settings",
+		"/Users/Lelouch/projects/PassOn/app/Templates/app/detail.html",
+		"/Users/Lelouch/Library/Application Support/Sublime Text 3/Packages/User/HTML (Django).sublime-settings",
+		"/Users/Lelouch/Box Sync/Mathematics & Physics/Papers/My Note/5d Supersymmetry and Geometry/[draft] 5d N = 1 Supersymmetry and Transversally Holomorphic Foliation/Computations/Computations.tex",
+		"/Users/Lelouch/Box Sync/Mathematics & Physics/Papers/My Note/.gitignore",
+		"/Users/Lelouch/Box Sync/Mathematics & Physics/Papers/My Note/.git/info/exclude",
+		"/Users/Lelouch/Box Sync/Mathematics & Physics/Papers/My Note/Higgs Branch Localization/4d N=2/Conventions/To Wolfger-01/Fierz and Twisting.bbl",
+		"/Users/Lelouch/projects/PassOn/app/static/scripts/index.js",
+		"/Users/Lelouch/projects/PassOn/app/Templates/app/index.js",
+		"/Users/Lelouch/Box Sync/Mathematics & Physics/Papers/My Note/Higgs Branch Localization/N=2/Conventions/Conventions.tex",
+		"/Users/Lelouch/Desktop/fee.md",
+		"/Users/Lelouch/projects/PassOn/PassOn/forms.py",
+		"/Users/Lelouch/projects/PassOn/PassOn/index.html",
+		"/Users/Lelouch/projects/grecycle/manage.py",
+		"/Users/Lelouch/projects/XchangeCoop.github.io/app/styles/stylesheet.scss",
+		"/Users/Lelouch/projects/lunchbox/app/scripts/controllers/order.coffee",
+		"/Users/Lelouch/projects/lunchbox/app/scripts/controllers/main.coffee",
+		"/Users/Lelouch/projects/lunchbox/app/views/navbar.html",
+		"/Users/Lelouch/projects/lunchbox/app/views/orders/show.html",
+		"/Users/Lelouch/projects/back up/app/index.html",
+		"/Users/Lelouch/projects/lunchbox/app/index.html",
+		"/Users/Lelouch/projects/lunchbox/app/views/orders/front.html",
+		"/Users/Lelouch/projects/lunchbox/app/views/directives/order-item.html"
+	],
+	"find":
+	{
+		"height": 47.0
+	},
+	"find_in_files":
+	{
+		"height": 125.0,
+		"where_history":
+		[
+			"/Users/Lelouch/projects/lunchbox/app/views/orders,<open files>",
+			"<open files>",
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"bullet",
+			"x",
+			"minlength",
+			"})\n",
+			"signup_",
+			"pic",
+			"result",
+			"user(",
+			"user（",
+			"Reg",
+			"RegUser",
+			"resultsP",
+			"username",
+			"password_input",
+			"username_input",
+			"login",
+			"username",
+			"is_anonymous",
+			"ng-show",
+			"ng-hide",
+			"username",
+			"0.2",
+			"json.loads",
+			"div",
+			"border",
+			"height",
+			"background",
+			"post",
+			"3",
+			"new_item",
+			"title",
+			"default",
+			"query",
+			"loc",
+			"list",
+			"red",
+			"to_user",
+			"    )",
+			"admin",
+			"\\tilde \\mathcal{M}",
+			"\\tilde \\mathcal{X}",
+			"\\tilde \\mathca{M}",
+			"\\tilde \\mathcal{X}",
+			"\\tilde \\chi",
+			"\\tilde \\mathcal{M}",
+			"euclidean",
+			"\\delta",
+			"footnotesize",
+			"history",
+			"NAME",
+			"post",
+			"set",
+			"font",
+			"EMAIL",
+			"    ",
+			"\\varepsilon",
+			"temp",
+			"polls",
+			"    ",
+			"left",
+			"tilde",
+			"STATIC",
+			"\\varepsilon",
+			"xi",
+			"\\varepsilon",
+			"STATICFILES_FINDERS",
+			"Finder",
+			"$",
+			"superdeterminant",
+			"span",
+			"cost",
+			"sectio",
+			"button",
+			"section-title",
+			"h3",
+			"input",
+			"welcome",
+			"can",
+			"order-items",
+			"contact",
+			".fa",
+			"fa",
+			"date",
+			"date-and-loc",
+			"isnt",
+			"role=\"menuitem\"",
+			"role=\"presentation\"",
+			"boxes",
+			"order",
+			"responce",
+			"message",
+			"\\~",
+			"王刚",
+			"order_items",
+			"\\delta",
+			"\\varepsilon",
+			"input",
+			"custom",
+			"times",
+			"flex=",
+			"fa",
+			"order-type",
+			"order-title",
+			"order",
+			"newComb",
+			"'",
+			"combination",
+			"combin",
+			"order_items",
+			"spec",
+			"order",
+			"orderItem",
+			"-sm",
+			"h4",
+			"spec",
+			"a'd'd",
+			"h3",
+			"font-size",
+			"fa",
+			"slider",
+			"h-pad",
+			"-border",
+			"black-border",
+			"red-border",
+			"blue-border",
+			"red-border",
+			"-border",
+			"toD"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"\\tilde{\\mathcal{M}}",
+			"\\tilde{\\mathcal{X}}",
+			"\\tilde{\\mathcal{M}}",
+			"\\tilde{\\mathcal{X}}",
+			"\\tilde{\\mathcal{M}}",
+			"Q",
+			"  ",
+			"\\epsilon",
+			"  ",
+			"\\epsilon",
+			"",
+			"epsilon",
+			"  ",
+			"<",
+			"    ",
+			"\\epsilon",
+			"}dark red",
+			"\\epsilon",
+			"\\sim",
+			"epsilon",
+			"blood",
+			"epsilon",
+			"{\\omega'}"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 2,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "templates/app/login.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3680,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2127,
+								2127
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content"
+							],
+							"syntax": "Packages/Djaneiro/Syntaxes/HTML (Django).tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1248.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "templates/app/compose.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1710,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1352,
+								1361
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content"
+							],
+							"syntax": "Packages/Djaneiro/Syntaxes/HTML (Django).tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 685.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "static/app/directives/item-detail.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1477,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								377,
+								377
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content"
+							],
+							"syntax": "Packages/Djaneiro/Syntaxes/HTML (Django).tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "templates/app/logout.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 469,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								245,
+								245
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content"
+							],
+							"syntax": "Packages/Djaneiro/Syntaxes/HTML (Django).tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "static/app/style/main.css",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3679,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3477,
+								3477
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content"
+							],
+							"syntax": "Packages/CSS/CSS.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 4535.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "static/app/scripts/login.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2232,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1901,
+								1901
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content"
+							],
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1589.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "views.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6379,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6348,
+								6352
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content"
+							],
+							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 6333.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 37.0
+	},
+	"input":
+	{
+		"height": 47.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 175.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.git":
+	{
+		"height": 186.0
+	},
+	"project": "passon.sublime-project",
+	"replace":
+	{
+		"height": 86.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"main.css",
+				"app/static/app/style/main.css"
+			],
+			[
+				"logou",
+				"app/templates/app/logout.html"
+			],
+			[
+				"logout",
+				"app/templates/app/logout.html"
+			],
+			[
+				"view",
+				"app/views.py"
+			],
+			[
+				"item",
+				"app/static/app/directives/item-detail.html"
+			],
+			[
+				"compose",
+				"app/templates/app/compose.html"
+			],
+			[
+				"",
+				"app/static/app/scripts/login.js"
+			],
+			[
+				"url",
+				"app/urls.py"
+			],
+			[
+				"resu",
+				"app/static/app/scripts/results.js"
+			],
+			[
+				"compos",
+				"app/static/app/scripts/compose.js"
+			],
+			[
+				"results",
+				"app/static/app/scripts/results.js"
+			],
+			[
+				"login",
+				"app/templates/app/login.html"
+			],
+			[
+				"com",
+				"app/templates/app/compose.html"
+			],
+			[
+				"model",
+				"app/models.py"
+			],
+			[
+				"main",
+				"app/static/app/style/main.css"
+			],
+			[
+				"index",
+				"app/templates/app/index.html"
+			],
+			[
+				"compo",
+				"app/templates/app/compose.html"
+			],
+			[
+				"user.html",
+				"app/templates/app/user.html"
+			],
+			[
+				"user",
+				"app/static/app/style/user.css"
+			],
+			[
+				"nav-",
+				"app/static/app/directives/nav-bar.html"
+			],
+			[
+				"main.cs",
+				"app/static/app/style/main.css"
+			],
+			[
+				"layout",
+				"app/templates/layout.html"
+			],
+			[
+				"result",
+				"app/static/app/style/results.css"
+			],
+			[
+				".css",
+				"app/static/app/style/main.css"
+			],
+			[
+				"log",
+				"app/static/app/scripts/login.js"
+			],
+			[
+				"admin",
+				"app/admin.py"
+			],
+			[
+				"navbar",
+				"app/static/app/directives/nav-bar.html"
+			],
+			[
+				"nav",
+				"app/static/app/directives/nav-bar.html"
+			],
+			[
+				"la",
+				"app/static/app/scripts/layout.js"
+			],
+			[
+				"nav-b",
+				"app/static/app/directives/nav-bar.html"
+			],
+			[
+				"main.js",
+				"app/static/app/scripts/main.js"
+			],
+			[
+				"layout.h",
+				"app/templates/layout.html"
+			],
+			[
+				"setting",
+				"PassOn/settings.py"
+			],
+			[
+				"result.css",
+				"app/static/app/style/results.css"
+			],
+			[
+				"djan",
+				"Note/Djangular.md"
+			],
+			[
+				"resul",
+				"app/templates/app/results.html"
+			],
+			[
+				"post",
+				"app/static/app/directives/post-overview.html"
+			],
+			[
+				"layou",
+				"app/templates/layout.html"
+			],
+			[
+				"nav-ba",
+				"app/static/app/directives/nav-bar.html"
+			],
+			[
+				"main.",
+				"app/static/app/scripts/main.js"
+			],
+			[
+				"process",
+				"app/templates/app/process.html"
+			],
+			[
+				"mod",
+				"app/models.py"
+			],
+			[
+				"djangu",
+				"Note/Djangular.md"
+			],
+			[
+				"lean",
+				"Note/Learning.md"
+			],
+			[
+				"ayout",
+				"app/templates/layout.html"
+			],
+			[
+				"l",
+				"app/templates/layout.html"
+			],
+			[
+				"list",
+				"app/static/app/template/list.html"
+			],
+			[
+				"md",
+				"Note/Learning Model.md"
+			],
+			[
+				".md",
+				"Note/Learning Model.md"
+			],
+			[
+				"learn",
+				"Note/Learning.md"
+			],
+			[
+				"sett",
+				"PassOn/settings.py"
+			],
+			[
+				"urls",
+				"app/urls.py"
+			],
+			[
+				"lear",
+				"Learning.md"
+			],
+			[
+				"index.js",
+				"app/static/app/scripts/index.js"
+			],
+			[
+				"read",
+				"README.md"
+			],
+			[
+				"set",
+				"PassOn/settings.py"
+			],
+			[
+				"settin",
+				"PassOn/settings.py"
+			],
+			[
+				"models",
+				"app/models.py"
+			],
+			[
+				"views",
+				"app/views.py"
+			],
+			[
+				"setting.",
+				"PassOn/settings.py"
+			],
+			[
+				"or",
+				"scripts/controllers/order.coffee"
+			],
+			[
+				"ind",
+				"index.html"
+			],
+			[
+				"order",
+				"views/order-lunchbox.html"
+			],
+			[
+				"o",
+				"scripts/controllers/order.coffee"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 377.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
