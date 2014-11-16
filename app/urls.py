@@ -1,12 +1,11 @@
-from django.conf.urls import patterns, url
-
-from app import views
+from django.conf.urls import patterns, url, include
+from app import views, controllers
 
 urlpatterns = patterns(
     '',
     # general URL that any one can access
     url(r'^$', views.index, name='index'),
-    url(r'^results/$', views.results, name='results'),
+    url(r'^results/$', views.results_view, name='results'),
     url(
         r'^results/process/$',
         views.results_process,
@@ -22,11 +21,7 @@ urlpatterns = patterns(
     ),
     # Only logged in user can access
     url(r'^user/$', views.user_view, name='user'),
+    url(r'^user/posts/$', views.user_posts, name='user_posts'),
     url(r'^logout/$', views.user_logout, name='user_logout'),
-    url(r'^user/compose/$', views.compose, name='compose'),
-    url(
-        r'^user/compose/process/$',
-        views.compose_process,
-        name='compose_process'
-    ),
+    (r'^accounts/', include('allauth.urls')),
 )

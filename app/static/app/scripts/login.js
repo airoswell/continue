@@ -84,8 +84,7 @@ app.controller('LoginCtrl', [
         }
       }
       // If input are all entered, submit data
-      console.log($scope.signup_data);
-      console.log("begin post");
+      console.log("begin signup");
       $http({
         method: "POST",
         url: '/app/signup/',

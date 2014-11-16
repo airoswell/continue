@@ -1,3 +1,11 @@
+body{
+    font-size: 15px;
+}
+
+a:hover{
+    cursor: pointer;
+}
+
 [black-bd]{
     border:1px solid black;
 }
@@ -126,7 +134,7 @@ input.incomplete.ng-invalid{
 /* Buttons */
 
 .button {
-    cursor:pointer;
+    cursor:pointer;text-align: center;
     -webkit-transition: all 0.2s ease-out;
     -moz-transition: all 0.2s ease-out;
     -ms-transition: all 0.2s ease-out; /* IE10 is actually unprefixed */
@@ -145,16 +153,27 @@ input.incomplete.ng-invalid{
 .btn-active{
     background: #098407;color: #eee;
 }
+/* .button-size */
 .button-default{
     font-size: 20px;padding: 10px 20px;border-radius: 5px;
     margin:10px 20px;
 }
-
+.button-small{
+    font-size: 16px;padding: 10px 20px;border-radius: 5px;
+    margin:10px 20px;
+}
+/* .button-color */
 .button-green{
     background: #666;color: #eee;
 }
 .button-green:hover{
     background: #0c9900;color: #eee;
+}
+.button-blue{
+    background: #666;color: #eee;
+}
+.button-blue:hover{
+    background: #098407;color: #eee;
 }
 
 .tag-default{
@@ -195,7 +214,7 @@ span, div{
 .text-small{
     font-style: 16px;color: #666;
 }
-
+.
 
 .helper-title{
     color: #999;font-size: 30px;

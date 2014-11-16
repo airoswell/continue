@@ -1,0 +1,1706 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"si",
+				"signup"
+			],
+			[
+				"itme",
+				"items"
+			],
+			[
+				"item",
+				"item_data"
+			],
+			[
+				"curr",
+				"current_item"
+			],
+			[
+				"succes",
+				"success_handler"
+			],
+			[
+				"hid",
+				"hide_modal"
+			],
+			[
+				"post",
+				"post_data	(statement)"
+			],
+			[
+				"succ",
+				"success_handler"
+			],
+			[
+				"cons",
+				"console"
+			],
+			[
+				"avai",
+				"availability_choices	(statement)"
+			],
+			[
+				"Item",
+				"ItemPostRelation	(class)"
+			],
+			[
+				"erro",
+				"error_type"
+			],
+			[
+				"msg",
+				"error_msgs"
+			],
+			[
+				"check",
+				"checks"
+			],
+			[
+				"submi",
+				"submitted"
+			],
+			[
+				"in",
+				"in_submission"
+			],
+			[
+				"sub",
+				"submitted"
+			],
+			[
+				"return",
+				"return_data"
+			],
+			[
+				"func",
+				"func_c"
+			],
+			[
+				"func_",
+				"func_B"
+			],
+			[
+				"pa",
+				"threshhold_pattern"
+			],
+			[
+				"has",
+				"hasEmptyOrder"
+			],
+			[
+				"th",
+				"threshhold"
+			],
+			[
+				"re",
+				"return"
+			],
+			[
+				"deliv",
+				"delivery_date"
+			],
+			[
+				"delive",
+				"delivered_at"
+			],
+			[
+				"getD",
+				"getDate"
+			],
+			[
+				"place",
+				"placeOrder"
+			],
+			[
+				"ms",
+				"msgHander"
+			],
+			[
+				"toat",
+				"totalCost"
+			],
+			[
+				"display",
+				"display_order"
+			],
+			[
+				"error",
+				"errorHandler"
+			],
+			[
+				"exceed",
+				"exceeded"
+			],
+			[
+				"excee",
+				"is_exceeded"
+			],
+			[
+				"tota",
+				"totalCost"
+			],
+			[
+				"to",
+				"total_cost"
+			],
+			[
+				"tao",
+				"totalCost"
+			],
+			[
+				"total",
+				"totalCost"
+			],
+			[
+				"border",
+				"border-bottom"
+			],
+			[
+				"add",
+				"addOrder"
+			],
+			[
+				"index",
+				"indexOf"
+			],
+			[
+				"time",
+				"timeout"
+			],
+			[
+				"order",
+				"order_placed"
+			],
+			[
+				"new",
+				"new_top"
+			],
+			[
+				"scro",
+				"scrollTop"
+			],
+			[
+				"set",
+				"setTimeout"
+			],
+			[
+				"input_is",
+				"input_is_error"
+			],
+			[
+				"margin",
+				"margin-bottom"
+			],
+			[
+				"rege",
+				"regexEmail"
+			],
+			[
+				"cus",
+				"customerInfoForm"
+			],
+			[
+				"paddi",
+				"padding"
+			],
+			[
+				"del",
+				"delivered_at"
+			],
+			[
+				"inline",
+				"inline-block"
+			],
+			[
+				"Http",
+				"HttpResponse	(class)"
+			],
+			[
+				"searh",
+				"search_string	(statement)"
+			],
+			[
+				"crea",
+				"create_user	(function)"
+			],
+			[
+				"sign",
+				"signup_data"
+			],
+			[
+				"inlin",
+				"inline-block"
+			],
+			[
+				"padding",
+				"padding-right"
+			],
+			[
+				"get",
+				"get_posts	(function)"
+			],
+			[
+				"Post",
+				"PostOverview	(class)"
+			],
+			[
+				"posts",
+				"posts_queryset	(statement)"
+			],
+			[
+				"Po",
+				"PostOverview	(class)"
+			],
+			[
+				"user",
+				"user_info"
+			],
+			[
+				"is",
+				"is_anonymous"
+			],
+			[
+				"log",
+				"login_is_show"
+			],
+			[
+				"glob",
+				"globals	(function)"
+			],
+			[
+				"paddin",
+				"padding-right"
+			],
+			[
+				"loa",
+				"load	(function)"
+			],
+			[
+				"h",
+				"HttpResponse	(class)"
+			],
+			[
+				"zip",
+				"zip_code	(param)"
+			],
+			[
+				"border-co",
+				"border-color"
+			],
+			[
+				"list",
+				"listview	ListView"
+			],
+			[
+				"current_",
+				"current_item	(statement)"
+			],
+			[
+				"curren",
+				"current_item	(statement)"
+			],
+			[
+				"new_",
+				"new_items"
+			],
+			[
+				"text",
+				"textarea	Tag"
+			],
+			[
+				"font-",
+				"font-size"
+			],
+			[
+				"sear",
+				"search_string	(statement)"
+			],
+			[
+				"search",
+				"search_string"
+			],
+			[
+				"Reg",
+				"RegUserAdmin	(class)"
+			],
+			[
+				"query",
+				"query_json	(statement)"
+			],
+			[
+				"date",
+				"dateutil	(module)"
+			],
+			[
+				"all_user",
+				"all_users_list	(statement)"
+			],
+			[
+				"all_",
+				"all_users_json	(statement)"
+			],
+			[
+				"marin",
+				"margin-bottom"
+			],
+			[
+				"events_as_",
+				"events_as_receiver"
+			],
+			[
+				"through",
+				"through_fields"
+			],
+			[
+				"throu",
+				"through_fields"
+			],
+			[
+				"blog",
+				"BlogAdmin	(class)"
+			],
+			[
+				"Model",
+				"ModelAdmin	(class)"
+			],
+			[
+				"v",
+				"views	(module)"
+			],
+			[
+				"all",
+				"all_users	(statement)"
+			],
+			[
+				"fields",
+				"fieldsets"
+			],
+			[
+				"model",
+				"ModelAdmin	(class)"
+			],
+			[
+				"field",
+				"fieldsets"
+			],
+			[
+				"Mod",
+				"ModelAdmin	(class)"
+			],
+			[
+				"ques",
+				"question	(function)"
+			],
+			[
+				"quesion",
+				"question_id	(param)"
+			],
+			[
+				"http",
+				"HttpResponseRedirect	(class)"
+			],
+			[
+				"question",
+				"question_id	(param)"
+			],
+			[
+				"djan",
+				"django	(module)"
+			],
+			[
+				"dj",
+				"django	(module)"
+			],
+			[
+				"Ng",
+				"NgModelFormMixin	(class)"
+			],
+			[
+				"angu",
+				"angular_model	(module)"
+			],
+			[
+				"Ques",
+				"QuestionAdmin	(class)"
+			],
+			[
+				"project",
+				"project-name"
+			],
+			[
+				"render",
+				"render_to_response	(function)"
+			],
+			[
+				"rend",
+				"render_to_response	(function)"
+			],
+			[
+				"mod",
+				"ModelAdmin	(class)"
+			],
+			[
+				"smar",
+				"smart_unicode	(statement)"
+			],
+			[
+				"aut",
+				"auto_now	(param)"
+			],
+			[
+				"auto",
+				"auto_now_add	(param)"
+			],
+			[
+				"auto_",
+				"auto_now_add	(param)"
+			],
+			[
+				"ch",
+				"CharField	(class)"
+			],
+			[
+				"marg",
+				"margin"
+			],
+			[
+				"max",
+				"max-width"
+			],
+			[
+				"font",
+				"font-size"
+			],
+			[
+				"or",
+				"order-confirm-wrapper"
+			],
+			[
+				"Dial",
+				"DialogController"
+			],
+			[
+				"bord",
+				"border-bottom"
+			],
+			[
+				"row",
+				"row_total"
+			],
+			[
+				"pref",
+				"pref_arr"
+			],
+			[
+				"prefre",
+				"preferencesArray"
+			],
+			[
+				"prefer",
+				"preferences"
+			],
+			[
+				"direc",
+				"directives"
+			],
+			[
+				"pre",
+				"preferenceTag"
+			],
+			[
+				"res",
+				"restrict"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 375.0,
+		"selected_items":
+		[
+			[
+				"shell",
+				"SublimeREPL: Shell"
+			],
+			[
+				"preview",
+				"OmniMarkupPreviewer: Preview Current Markup in Browser"
+			],
+			[
+				"preveiw",
+				"OmniMarkupPreviewer: Preview Current Markup in Browser"
+			],
+			[
+				"preve",
+				"Preferences: OmniMarkupPreviewer Settings – Default"
+			],
+			[
+				"html",
+				"Set Syntax: HTML"
+			],
+			[
+				"css",
+				"Set Syntax: CSS"
+			],
+			[
+				"repl:shel",
+				"SublimeREPL: Shell"
+			],
+			[
+				"repl:shell",
+				"SublimeREPL: Shell"
+			],
+			[
+				"lau",
+				"Glue - Launch"
+			],
+			[
+				"glue",
+				"Glue - Launch"
+			],
+			[
+				"syntax shell",
+				"Set Syntax: Shell Script (Bash)"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"repl",
+				"SublimeREPL: PowerShell"
+			],
+			[
+				"tex",
+				"Set Syntax: LaTeX"
+			],
+			[
+				"markdown",
+				"Set Syntax: MultiMarkdown"
+			],
+			[
+				"preiview",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"coff",
+				"Set Syntax: CoffeeScript"
+			],
+			[
+				"diff",
+				"Git: Diff Current File"
+			],
+			[
+				"priview",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"coffee",
+				"Set Syntax: CoffeeScript"
+			],
+			[
+				"coffie",
+				"Set Syntax: CoffeeScript (Literate)"
+			],
+			[
+				"Html",
+				"Set Syntax: HTML"
+			],
+			[
+				"commit",
+				"Git: Commit"
+			],
+			[
+				"preivew",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"python",
+				"SublimeREPL: Python"
+			],
+			[
+				"django",
+				"Set Syntax: HTML (Django)"
+			],
+			[
+				"runser",
+				"Django: Run Server"
+			],
+			[
+				"laun",
+				"LaTeXTools: Reconfigure and migrate settings"
+			],
+			[
+				"",
+				"About"
+			],
+			[
+				" preview",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"llau",
+				"Glue - Launch"
+			],
+			[
+				"gule",
+				"Glue - Launch"
+			],
+			[
+				"package",
+				"Package Control: List Packages"
+			],
+			[
+				"list pack",
+				"Package Control: List Packages"
+			],
+			[
+				"prev",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"previews",
+				"Markdown Preview: Save to HTML"
+			],
+			[
+				"previe",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"PREVIEW",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"djan",
+				"Django: Migrate Database"
+			],
+			[
+				"MIGRA",
+				"Django: Migrate Database"
+			],
+			[
+				"pre",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"prevei",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"mark",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"pac",
+				"Package Control: List Packages"
+			],
+			[
+				"git com",
+				"Git: Commit"
+			],
+			[
+				"git add",
+				"Git: Add..."
+			],
+			[
+				"git status",
+				"Git: Status"
+			],
+			[
+				"list",
+				"Themr: List themes"
+			],
+			[
+				"themr",
+				"Themr: List themes"
+			],
+			[
+				"them",
+				"Themr: List themes"
+			],
+			[
+				"theme",
+				"Themr: Next theme"
+			],
+			[
+				"git c",
+				"Git: Commit"
+			],
+			[
+				"git stat",
+				"Git: Status"
+			],
+			[
+				"disa",
+				"Package Control: Disable Package"
+			]
+		],
+		"width": 516.0
+	},
+	"console":
+	{
+		"height": 208.0,
+		"history":
+		[
+			"glue path",
+			"import urllib.request,os,hashlib; h = '7183a2d3e96f11eeadd761d777e62404' + 'e330c659d4bb41d3bdf022e94cab3cd0'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/Lelouch/projects/Continue"
+	],
+	"file_history":
+	[
+		"/Users/Lelouch/projects/Continue/app/static/app/scripts/user.js",
+		"/Users/Lelouch/projects/Continue/app/models.py",
+		"/Users/Lelouch/projects/Continue/app/views.py",
+		"/Users/Lelouch/projects/Continue/app/static/app/scripts/login.js",
+		"/Users/Lelouch/projects/Continue/app/urls.py",
+		"/Users/Lelouch/projects/Continue/app/static/app/directives/nav-bar.html",
+		"/Users/Lelouch/projects/Continue/continue/settings.py",
+		"/Users/Lelouch/projects/Continue/continue/urls.py",
+		"/Users/Lelouch/projects/Continue/site.log",
+		"/Users/Lelouch/projects/Continue/Note/Djangular.md",
+		"/Users/Lelouch/projects/Continue/app/templates/app/user.html",
+		"/Users/Lelouch/projects/Continue/app/static/app/bower_components/bootstrap-ui/src/rating/rating.js",
+		"/Users/Lelouch/projects/Continue/app/templates/layout.html",
+		"/Users/Lelouch/projects/Continue/app/static/app/scripts/layout.js",
+		"/Users/Lelouch/projects/Continue/app/templates/app/login.html",
+		"/Users/Lelouch/projects/Continue/app/static/app/bower_components/bootstrap/less/input-groups.less",
+		"/Users/Lelouch/projects/Continue/Note/Learning Model.md",
+		"/Users/Lelouch/projects/Continue/app/static/app/scripts/main.js",
+		"/Users/Lelouch/projects/Continue/app/static/app/directives/modal.html",
+		"/Users/Lelouch/projects/Continue/app/controllers.py",
+		"/Users/Lelouch/projects/Continue/app/static/app/directives/post-overview.html",
+		"/Users/Lelouch/projects/Continue/app/static/app/bower_components/bootstrap-ui/src/pagination/docs/demo.html",
+		"/Users/Lelouch/projects/Continue/app/static/app/bower_components/bootstrap/less/progress-bars.less",
+		"/Users/Lelouch/projects/Continue/manage.py",
+		"/Users/Lelouch/projects/continue/app/static/app/scripts/modal.js",
+		"/Users/Lelouch/projects/Continue/app/templates/app/compose.html",
+		"/Users/Lelouch/projects/Continue/app/static/app/bower_components/bootstrap/less/modals.less",
+		"/Users/Lelouch/projects/Continue/app/static/app/bower_components/bootstrap-ui/src/modal/docs/demo.html",
+		"/Users/Lelouch/projects/Continue/views and controllers.md",
+		"/Users/Lelouch/projects/Continue/PassOn/settings.py",
+		"/Users/Lelouch/projects/continue/app/templates/layout.html",
+		"/Users/Lelouch/projects/continue/manage.py",
+		"/Users/Lelouch/projects/continue/continue/wsgi.py",
+		"/Users/Lelouch/projects/continue/continue/urls.py",
+		"/Users/Lelouch/projects/continue/app/static/app/scripts/main.js",
+		"/Users/Lelouch/projects/continue/app/static/app/directives/nav-bar.html",
+		"/Users/Lelouch/projects/continue/app/static/app/bower.json",
+		"/Users/Lelouch/projects/continue/app/passon.sublime-project",
+		"/Users/Lelouch/Box Sync/Mathematics & Physics/Papers/My Note/5d Supersymmetry and Geometry/[draft] 5d N = 1 Supersymmetry and Transversally Holomorphic Foliation/Draft/5D_rigid_susy_and_thf_draft-v0.0.5.tex",
+		"/Users/Lelouch/Box Sync/Mathematics & Physics/Papers/My Note/5d Supersymmetry and Geometry/[draft] 5d N = 1 Supersymmetry and Transversally Holomorphic Foliation/Draft/5D_rigid_susy_and_thf_draft-v0.0.4.tex",
+		"/Users/Lelouch/projects/PassOn/app/admin.py",
+		"/Users/Lelouch/projects/PassOn/app/static/app/scripts/layout.js",
+		"/Users/Lelouch/projects/PassOn/app/static/app/scripts/user.js",
+		"/Users/Lelouch/projects/PassOn/commands.py",
+		"/Users/Lelouch/projects/PassOn/app/urls.py",
+		"/Users/Lelouch/projects/PassOn/app/models.py",
+		"/Users/Lelouch/projects/PassOn/to do.md",
+		"/Users/Lelouch/projects/PassOn/app/views.py",
+		"/Users/Lelouch/projects/PassOn/app/controllers.py",
+		"/Users/Lelouch/projects/PassOn/app/templates/layout.html",
+		"/Users/Lelouch/projects/PassOn/app/static/app/scripts/modal.js",
+		"/Users/Lelouch/projects/PassOn/app/static/app/scripts/main.js",
+		"/Users/Lelouch/projects/PassOn/Note/Learning Model.md",
+		"/Users/Lelouch/projects/PassOn/.gitignore",
+		"/Users/Lelouch/projects/PassOn/db.sqlite3",
+		"/Users/Lelouch/projects/PassOn/manage.py",
+		"/Users/Lelouch/projects/PassOn/mysite.log",
+		"/Users/Lelouch/projects/PassOn/README.md",
+		"/Users/Lelouch/projects/PassOn/site.log",
+		"/Users/Lelouch/projects/PassOn/views and controllers.md",
+		"/Users/Lelouch/projects/PassOn/app/static/app/directives/modal.html",
+		"/Users/Lelouch/projects/PassOn/app/static/app/bower_components/jquery/src/offset.js",
+		"/Users/Lelouch/projects/PassOn/app/static/app/directives/nav-bar.html",
+		"/Users/Lelouch/projects/PassOn/app/static/app/bower_components/bootstrap/less/scaffolding.less",
+		"/Users/Lelouch/projects/PassOn/app/static/app/bower_components/bootstrap/less/mixins/opacity.less",
+		"/Users/Lelouch/projects/PassOn/app/templates/app/user.html",
+		"/Users/Lelouch/projects/PassOn/app/static/app/bower_components/jquery/src/css/addGetHookIf.js",
+		"/Users/Lelouch/projects/PassOn/app/templates/app/compose.html",
+		"/Users/Lelouch/projects/PassOn/PassOn/__init__.py",
+		"/Users/Lelouch/Box Sync/Mathematics & Physics/Papers/My Note/Grant and Application/Postdoc/Additional Insititutes.md",
+		"/Users/Lelouch/Library/Application Support/Sublime Text 3/Packages/OmniMarkupPreviewer/OmniMarkupPreviewer.sublime-settings",
+		"/Users/Lelouch/projects/backend/lunchea-backend/app/views/order_mailer/summary.html.erb",
+		"/Users/Lelouch/projects/lunchbox/app/scripts/controllers/",
+		"/Users/Lelouch/projects/lunchbox/app/scripts/controllers/main.coffee",
+		"/Users/Lelouch/projects/lunchbox/app/scripts/app.coffee",
+		"/Users/Lelouch/projects/lunchbox/app/views/users/reset.html",
+		"/Users/Lelouch/projects/lunchbox/app/scripts/controllers/order.coffee",
+		"/Users/Lelouch/projects/lunchbox/app/views/directives/order.html",
+		"/Users/Lelouch/projects/lunchbox/app/views/order-success.html",
+		"/Users/Lelouch/projects/lunchbox/app/views/orders/confirmation.html",
+		"/Users/Lelouch/projects/lunchbox/app/styles/main.scss",
+		"/Users/Lelouch/projects/lunchbox/.git/MERGE_MSG",
+		"/Users/Lelouch/projects/lunchbox/app/views/order-lunchbox.html",
+		"/Users/Lelouch/projects/lunchbox/app/styles/lunchbox-style.scss",
+		"/Users/Lelouch/projects/lunchbox/app/scripts/decorators/ordersdecorator.coffee",
+		"/Users/Lelouch/projects/lunchbox/app/views/orders/front.html",
+		"/Users/Lelouch/Desktop/email.html",
+		"/Users/Lelouch/projects/lunchbox/app/styles/main-style.scss",
+		"/Users/Lelouch/projects/lunchbox/app/scripts/controllers/boxes.coffee",
+		"/Users/Lelouch/projects/lunchbox/app/.buildignore",
+		"/Users/Lelouch/projects/lunchbox/app/index.html",
+		"/Users/Lelouch/projects/lunchbox/app/views/alerts.html",
+		"/Users/Lelouch/projects/lunchbox/app/README.md",
+		"/Users/Lelouch/projects/lunchbox/app/views/order-summary.html",
+		"/Users/Lelouch/projects/lunchbox/app/scripts/decorators/test.js",
+		"/Users/Lelouch/Library/Application Support/Sublime Text 3/Packages/User/Node.sublime-build",
+		"/Users/Lelouch/projects/lunchbox/app/scripts/decorators/orderdecorator.coffee",
+		"/Users/Lelouch/projects/lunchbox/app/To-do-list.md",
+		"/Users/Lelouch/projects/lunchbox/app/views/directives/input-email.html",
+		"/Users/Lelouch/projects/lunchbox/app/views/directives/order-item.html",
+		"/Users/Lelouch/projects/lunchbox/app/views/directives/input-phone.html",
+		"/Users/Lelouch/projects/lunchbox/app/views/directives/preference-tag.html",
+		"/Users/Lelouch/projects/lunchbox/app/scripts/decorators/itempreferencedecorator.coffee",
+		"/Users/Lelouch/projects/lunchbox/app/.htaccess",
+		"/Users/Lelouch/projects/lunchbox/app/404.html",
+		"/Users/Lelouch/projects/lunchbox/app/CNAME",
+		"/Users/Lelouch/Box Sync/Mathematics & Physics/Papers/My Note/5d Supersymmetry and Geometry/[draft] 5d N = 1 Supersymmetry and Transversally Holomorphic Foliation/Draft/5D_rigid_susy_and_thf_draft-v0.0.1.tex",
+		"/Users/Lelouch/projects/lunchbox/app/documentation.md",
+		"/Users/Lelouch/projects/lunchbox/app/styles/index-style.scss",
+		"/Users/Lelouch/projects/lunchbox/.git/COMMIT_EDITMSG",
+		"/Users/Lelouch/projects/lunchbox/app/scripts/decorators/orderitemdecorator.coffee",
+		"/Users/Lelouch/projects/lunchbox/app/robots.txt",
+		"/Users/Lelouch/projects/lunchbox/app/styles/order-confirm-style.scss",
+		"/Users/Lelouch/projects/lunchbox/app/scripts/services/auth.coffee",
+		"/Users/Lelouch/projects/lunchbox/app/styles/untitled",
+		"/Users/Lelouch/projects/lunchbox/app/views/navbar.html",
+		"/Users/Lelouch/projects/lunchbox/bower.json",
+		"/Users/Lelouch/projects/lunchbox/app/scripts/decorators/boxdecorator.coffee",
+		"/Users/Lelouch/projects/lunchbox/app/nortonsw_f46f9d40-46a5-0.html",
+		"/Users/Lelouch/projects/lunchbox/app/scripts/decorators/boxpreferencedecorator.coffee",
+		"/Users/Lelouch/projects/lunchbox/app/styles/css.md",
+		"/Users/Lelouch/projects/lunchbox/app/scripts/directives/alerts.coffee",
+		"/Users/Lelouch/projects/lunchbox/app/scripts/services/alerts.coffee",
+		"/Users/Lelouch/projects/lunchbox/app/scripts/controllers/meals.coffee",
+		"/Users/Lelouch/projects/lunchbox/app/views/boxes/index.html",
+		"/Users/Lelouch/projects/lunchbox/app/test.html",
+		"/Users/Lelouch/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/Users/Lelouch/projects/lunchbox/app/views/order-dishes.html"
+	],
+	"find":
+	{
+		"height": 47.0
+	},
+	"find_in_files":
+	{
+		"height": 125.0,
+		"where_history":
+		[
+			"/Users/Lelouch/projects/continue",
+			"/Users/Lelouch/projects/PassOn",
+			"<open folders>",
+			"/Users/Lelouch/projects/lunchbox/,",
+			"/Users/Lelouch/projects/lunchbox/app/,",
+			"/Users/Lelouch/projects/lunchbox/app/,<open files>",
+			"/Users/Lelouch/projects/lunchbox/app/views/orders,<open files>",
+			"<open files>",
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"user/",
+			"pdb",
+			"new Item(",
+			"data",
+			"HttpRequest",
+			"PassOn",
+			"passon",
+			"dot",
+			"\\mathcal{F}",
+			"\\dot \\mathcal{F}",
+			".get(",
+			"status",
+			".get",
+			"item",
+			"new_item",
+			"pdb",
+			"addItem",
+			"create",
+			"modal",
+			"item",
+			"item_data",
+			"ItemStatus",
+			"Status",
+			"ItemStatus",
+			"create",
+			"dc",
+			"check_deadline",
+			"10pm",
+			"check_deadline",
+			"place",
+			"'>\n",
+			"20",
+			"return_data",
+			"'deadline'",
+			"deadline",
+			"dateInit",
+			"placeOrder",
+			"log \"error\"",
+			"log",
+			"delivered",
+			"toString",
+			"log",
+			"check_late_time",
+			"check_late_order",
+			"headers",
+			"pickd",
+			"text-small",
+			"alert",
+			"boxes",
+			"?box",
+			"box",
+			"http://lunchbox.scixiv.com/",
+			"http://lunchbox.scixiv.com/api/v1/boxes?",
+			"msgHander",
+			"data",
+			"left",
+			"class=\"summary\"",
+			"summary",
+			"dropdown-left",
+			"$.",
+			"drop",
+			"summary",
+			"input",
+			"place",
+			"blue",
+			"cash",
+			"Please",
+			"date",
+			"$scope.orders",
+			"cancel",
+			"drop",
+			"dropdown",
+			"Choose",
+			"choose",
+			"order.",
+			"text-",
+			"warning_is_show",
+			"Choose",
+			"choose",
+			"getBoxes",
+			"error_handler",
+			"date_init",
+			"switch_to_order",
+			"error_",
+			"$scope.order",
+			"button",
+			"ui",
+			"SAC",
+			"setTimeout",
+			"alert",
+			"place",
+			"summary",
+			"msg",
+			".navbar",
+			"highlight",
+			"order_success",
+			"getArray",
+			"scrollIncrement",
+			"date_init",
+			"email",
+			"dateInit",
+			"media",
+			"@",
+			"padding",
+			"350px",
+			"bottom",
+			"margin-bottom",
+			"weight",
+			".css-form",
+			"wrapper",
+			"input",
+			"text-de",
+			"text",
+			"email",
+			"log",
+			"inline",
+			"add",
+			"tag",
+			"email",
+			"deliver",
+			"email",
+			"customerInfo",
+			"knif",
+			"knife_is_show",
+			"text",
+			"666",
+			"000000",
+			"p"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"dilatino-eq",
+			"\\tilde{\\mathcal{M}}",
+			"\\tilde{\\mathcal{X}}",
+			"\\tilde{\\mathcal{M}}",
+			"\\tilde{\\mathcal{X}}",
+			"\\tilde{\\mathcal{M}}",
+			"Q",
+			"  ",
+			"\\epsilon",
+			"  ",
+			"\\epsilon",
+			"",
+			"epsilon",
+			"  ",
+			"<",
+			"    ",
+			"\\epsilon",
+			"}dark red",
+			"\\epsilon",
+			"\\sim",
+			"epsilon",
+			"blood",
+			"epsilon",
+			"{\\omega'}"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 37.0
+	},
+	"input":
+	{
+		"height": 47.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 175.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.git":
+	{
+		"height": 186.0
+	},
+	"project": "continue.sublime-project",
+	"replace":
+	{
+		"height": 70.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"setting",
+				"continue/settings.py"
+			],
+			[
+				"sett",
+				"continue/settings.py"
+			],
+			[
+				"url",
+				"continue/urls.py"
+			],
+			[
+				"",
+				"app/static/app/directives/nav-bar.html"
+			],
+			[
+				"usre",
+				"app/static/app/scripts/user.js"
+			],
+			[
+				"nav",
+				"app/static/app/directives/nav-bar.html"
+			],
+			[
+				"ur",
+				"app/urls.py"
+			],
+			[
+				"login",
+				"app/static/app/scripts/login.js"
+			],
+			[
+				"views",
+				"app/views.py"
+			],
+			[
+				"models",
+				"app/models.py"
+			],
+			[
+				"main",
+				"app/static/app/scripts/main.js"
+			],
+			[
+				"layout",
+				"app/static/app/scripts/layout.js"
+			],
+			[
+				"user.j",
+				"app/static/app/scripts/user.js"
+			],
+			[
+				"con",
+				"app/controllers.py"
+			],
+			[
+				"user",
+				"app/static/app/scripts/user.js"
+			],
+			[
+				"modal",
+				"app/static/app/directives/modal.html"
+			],
+			[
+				"main.",
+				"app/static/app/scripts/main.js"
+			],
+			[
+				"user.js",
+				"app/static/app/scripts/user.js"
+			],
+			[
+				"mode",
+				"app/models.py"
+			],
+			[
+				"contro",
+				"app/controllers.py"
+			],
+			[
+				"view",
+				"app/views.py"
+			],
+			[
+				"layout.js",
+				"app/static/app/scripts/layout.js"
+			],
+			[
+				"admin",
+				"app/admin.py"
+			],
+			[
+				"mai",
+				"app/static/app/scripts/main.js"
+			],
+			[
+				"main.js",
+				"app/static/app/scripts/main.js"
+			],
+			[
+				"navb",
+				"app/static/app/directives/nav-bar.html"
+			],
+			[
+				".md",
+				"views and controllers.md"
+			],
+			[
+				"model",
+				"app/models.py"
+			],
+			[
+				"order.co",
+				"scripts/controllers/order.coffee"
+			],
+			[
+				"main.co",
+				"scripts/controllers/main.coffee"
+			],
+			[
+				"app.",
+				"scripts/app.coffee"
+			],
+			[
+				"front",
+				"views/orders/front.html"
+			],
+			[
+				"rep",
+				"*REPL* [shell]"
+			],
+			[
+				"order.html",
+				"views/directives/order.html"
+			],
+			[
+				"main-",
+				"styles/main-style.scss"
+			],
+			[
+				"alerts",
+				"views/alerts.html"
+			],
+			[
+				"order-su",
+				"views/order-success.html"
+			],
+			[
+				"s",
+				"views/order-success.html"
+			],
+			[
+				"lunch",
+				"styles/lunchbox-style.scss"
+			],
+			[
+				"suc",
+				"views/order-success.html"
+			],
+			[
+				"order",
+				"views/order-success.html"
+			],
+			[
+				"app",
+				"scripts/app.coffee"
+			],
+			[
+				"index",
+				"index.html"
+			],
+			[
+				"orders",
+				"scripts/decorators/ordersdecorator.coffee"
+			],
+			[
+				"order.",
+				"views/directives/order.html"
+			],
+			[
+				"order.c",
+				"scripts/controllers/order.coffee"
+			],
+			[
+				"orderde",
+				"scripts/decorators/orderdecorator.coffee"
+			],
+			[
+				"input",
+				"views/directives/input-email.html"
+			],
+			[
+				"order-sum",
+				"views/order-summary.html"
+			],
+			[
+				"order.ht",
+				"views/directives/order.html"
+			],
+			[
+				"orderdeco",
+				"scripts/decorators/orderdecorator.coffee"
+			],
+			[
+				"read",
+				"README.md"
+			],
+			[
+				"or",
+				"scripts/controllers/order.coffee"
+			],
+			[
+				"lun",
+				"views/order-lunchbox.html"
+			],
+			[
+				"order-lunc",
+				"views/order-lunchbox.html"
+			],
+			[
+				"input-e",
+				"views/directives/input-email.html"
+			],
+			[
+				"phon",
+				"views/directives/input-phone.html"
+			],
+			[
+				"alert",
+				"views/alerts.html"
+			],
+			[
+				"order-lun",
+				"views/order-lunchbox.html"
+			],
+			[
+				"confir",
+				"views/orders/confirmation.html"
+			],
+			[
+				"order-l",
+				"views/order-lunchbox.html"
+			],
+			[
+				"unti",
+				"styles/untitled"
+			],
+			[
+				"main.coff",
+				"scripts/controllers/main.coffee"
+			],
+			[
+				"item",
+				"views/directives/order-item.html"
+			],
+			[
+				"order-lunch",
+				"views/order-lunchbox.html"
+			],
+			[
+				"order-item",
+				"views/directives/order-item.html"
+			],
+			[
+				"fr",
+				"views/orders/front.html"
+			],
+			[
+				"style",
+				"styles/lunchbox-style.scss"
+			],
+			[
+				"order.coff",
+				"scripts/controllers/order.coffee"
+			],
+			[
+				"order.cof",
+				"scripts/controllers/order.coffee"
+			],
+			[
+				"confi",
+				"views/orders/confirmation.html"
+			],
+			[
+				".scss",
+				"styles/lunchbox-style.scss"
+			],
+			[
+				"order-s",
+				"views/order-success.html"
+			],
+			[
+				"aler",
+				"views/alerts.html"
+			],
+			[
+				"main.s",
+				"styles/main.scss"
+			],
+			[
+				"orderd",
+				"scripts/decorators/orderdecorator.coffee"
+			],
+			[
+				"ind",
+				"index.html"
+			],
+			[
+				"order-con",
+				"styles/order-confirm-style.scss"
+			],
+			[
+				"order-confir",
+				"styles/order-confirm-style.scss"
+			],
+			[
+				"scss",
+				"styles/lunchbox-style.scss"
+			],
+			[
+				"or.",
+				"scripts/controllers/order.coffee"
+			],
+			[
+				"iteem",
+				"views/directives/order-item.html"
+			],
+			[
+				"order.coffee",
+				"scripts/controllers/order.coffee"
+			],
+			[
+				"pre",
+				"views/directives/preference-tag.html"
+			],
+			[
+				"main.scs",
+				"styles/main.scss"
+			],
+			[
+				"index.",
+				"styles/index-style.scss"
+			],
+			[
+				"nav-",
+				"app/static/app/directives/nav-bar.html"
+			],
+			[
+				"compos",
+				"app/templates/app/compose.html"
+			],
+			[
+				"compose",
+				"app/static/app/scripts/compose.js"
+			],
+			[
+				"user.",
+				"app/static/app/scripts/user.js"
+			],
+			[
+				"na",
+				"app/static/app/directives/nav-bar.html"
+			],
+			[
+				"user-",
+				"app/static/app/directives/user-post-overview.html"
+			],
+			[
+				"layou",
+				"app/templates/layout.html"
+			],
+			[
+				"signup",
+				"scripts/controllers/sign_up.coffee"
+			],
+			[
+				"user-pos",
+				"app/static/app/directives/user-post-overview.html"
+			],
+			[
+				"result",
+				"app/templates/app/results.html"
+			],
+			[
+				"results",
+				"app/static/app/scripts/results.js"
+			],
+			[
+				"main.css",
+				"app/static/app/style/main.css"
+			],
+			[
+				"logou",
+				"app/templates/app/logout.html"
+			],
+			[
+				"logout",
+				"app/templates/app/logout.html"
+			],
+			[
+				"resu",
+				"app/static/app/scripts/results.js"
+			],
+			[
+				"com",
+				"app/templates/app/compose.html"
+			],
+			[
+				"compo",
+				"app/templates/app/compose.html"
+			],
+			[
+				"user.html",
+				"app/templates/app/user.html"
+			],
+			[
+				"main.cs",
+				"app/static/app/style/main.css"
+			],
+			[
+				".css",
+				"app/static/app/style/main.css"
+			],
+			[
+				"log",
+				"app/static/app/scripts/login.js"
+			],
+			[
+				"navbar",
+				"app/static/app/directives/nav-bar.html"
+			],
+			[
+				"la",
+				"app/static/app/scripts/layout.js"
+			],
+			[
+				"nav-b",
+				"app/static/app/directives/nav-bar.html"
+			],
+			[
+				"layout.h",
+				"app/templates/layout.html"
+			],
+			[
+				"result.css",
+				"app/static/app/style/results.css"
+			],
+			[
+				"djan",
+				"Note/Djangular.md"
+			],
+			[
+				"resul",
+				"app/templates/app/results.html"
+			],
+			[
+				"post",
+				"app/static/app/directives/post-overview.html"
+			],
+			[
+				"nav-ba",
+				"app/static/app/directives/nav-bar.html"
+			],
+			[
+				"process",
+				"app/templates/app/process.html"
+			],
+			[
+				"mod",
+				"app/models.py"
+			],
+			[
+				"djangu",
+				"Note/Djangular.md"
+			],
+			[
+				"lean",
+				"Note/Learning.md"
+			],
+			[
+				"ayout",
+				"app/templates/layout.html"
+			],
+			[
+				"l",
+				"app/templates/layout.html"
+			],
+			[
+				"list",
+				"app/static/app/template/list.html"
+			],
+			[
+				"md",
+				"Note/Learning Model.md"
+			],
+			[
+				"learn",
+				"Note/Learning.md"
+			],
+			[
+				"urls",
+				"app/urls.py"
+			],
+			[
+				"lear",
+				"Learning.md"
+			],
+			[
+				"index.js",
+				"app/static/app/scripts/index.js"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 375.0,
+		"selected_items":
+		[
+		],
+		"width": 378.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 245.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

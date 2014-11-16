@@ -4,6 +4,13 @@
 {% verbatim %}
   <div id='user-wrapper'
       ng-controller="UserCtrl">
+
+    <div class="modal fade" id="modal-edit-post" tabindex="-1" role="dialog"
+      aria-labelledby="myModalLabel" aria-hidden="true"
+      ng-include="'/static/app/directives/modal.html'">
+    </div>
+
+    <!-- Main interface -->
     <div layout='vertical' layout-md='horizontal' layout-align='start center'>
       <div class='section-title section-title-exlarge'>Welcome, <b>{{ user_info.user_name }}</b>
       </div>

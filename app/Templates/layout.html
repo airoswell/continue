@@ -20,7 +20,7 @@
   {% endif %}
 </head>
 
-<body ng-app="PassOn" style="background:#eee">
+<body ng-app="Continue" style="background:#eee">
   <div ng-controller="LayoutCtrl">
     <nav ng-include="'/static/app/directives/nav-bar.html'"></nav>
     <div id='content-wrapper'>
@@ -44,6 +44,7 @@
   <script type="text/javascript" src="{% static 'app/scripts/main.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/scripts/layout.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/scripts/navbar.js'%}"></script>
+  <script type="text/javascript" src="{% static 'app/scripts/modal.js'%}"></script>
   {% if view == 'index' %}
   <script type="text/javascript" src="{% static 'app/scripts/index.js'%}"></script>
   {% elif view == 'results' %}

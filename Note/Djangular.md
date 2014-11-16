@@ -53,4 +53,4 @@ If the data posted are **form** data, then in the view function just user `reque
           method: 'GET',
           url: 'url/?para1=val1&para2=val2&...',
         })
-and in the corresponding view function, use `request.GET['']`
+and in the corresponding view function, use `request.GET.get(<para-name>)`.

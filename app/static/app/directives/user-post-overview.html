@@ -2,10 +2,9 @@
 
   <div mg-lr-20 layout='horizontal' layout-align='space-between center'>
     <div class='user-post-title' layout='vertical' layout-align='center'>{{ post.title }}</div>
-    <div>
-      <a href="">
-        <i class="fa fa-pencil-square-o" style='font-size:20px'></i>
-      </a>
+    <div data-toggle="modal" data-target="#modal-edit-post" style='cursor:pointer;'
+        ng-click='set_modal_edit(post, $index)'>
+       <i class="fa fa-pencil-square-o" style='font-size:20px;padding-top:5px;padding-left:10px;'></i>
     </div>
   </div>
   <div layout='vertical' layout-lg='horizontal'>

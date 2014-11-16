@@ -2,30 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 import datetime
 from dateutil.relativedelta import relativedelta
+import pdb
 
 # Create your models here.
-
-
-class Item(models.Model):
-    title = models.CharField(max_length=144, blank=False, null=False)
-    quantity = models.IntegerField(default=1)
-    condition_choices = (
-        ('nw', 'New'),
-        ('Ln', 'Like new'),
-        ('Gd', 'Good'),
-        ('Fl', 'Functional'),
-    )
-    condition = models.CharField(
-        max_length=2,
-        choices=condition_choices,
-        default='Gd'
-    )
-    detail = models.TextField(default='')
-    link = models.URLField()
-    time_created = models.DateTimeField(auto_now_add=True)
-
-    def __unicode__(self):
-        return self.title
 
 
 class RegUser(User):
@@ -41,12 +20,62 @@ class RegUser(User):
         return self.username
 
 
+class Item(models.Model):
+    title = models.CharField(max_length=144, blank=False, null=False)
+    current_owner = models.ForeignKey(RegUser, null=True)
+    quantity = models.IntegerField(default=1)
+    condition_choices = (
+        ('nw', 'New'),
+        ('Ln', 'Like new'),
+        ('Gd', 'Good'),
+        ('Fl', 'Functional'),
+    )
+    condition = models.CharField(
+        max_length=2,
+        choices=condition_choices,
+        default='Gd'
+    )
+    short_description = models.CharField(max_length=140, blank=True, null=True)
+    detail = models.TextField(default='')
+    utilization_choices = (
+        ('fr', 'Frequent'),
+        ('st', 'Sometimes'),
+        ('rr', 'Rare'),
+        ('nv', 'Never'),
+    )
+    utilization = models.CharField(
+        max_length=2,
+        choices=utilization_choices,
+        default='st',
+    )
+    availability_choices = (
+        ('av', 'Available'),
+        ('iu', 'In use'),
+        ('hd', 'Hidden')
+    )
+    availability = models.CharField(
+        max_length=2,
+        choices=availability_choices,
+        default='hd'
+    )
+    link = models.URLField(default='')
+    time_created = models.DateTimeField(auto_now_add=True)
+
+    def has_owner(self):
+        if self.current_owner.id:
+            return True
+        return False
+
+    def __unicode__(self):
+        return self.title
+
+
 class Post(models.Model):
     title = models.CharField(max_length=144, blank=False, null=False)
     owner = models.ForeignKey(RegUser)
     item = models.ManyToManyField(
         Item,
-        through='ItemStatus',
+        through='ItemPostRelation',
         through_fields=('post', 'item'),
     )
     zip_code = models.CharField(
@@ -60,6 +89,28 @@ class Post(models.Model):
     day = today + relativedelta(months=1)
     expiration_date = models.DateField(default=day)
     time_posted = models.DateTimeField(auto_now_add=True)
+
+    def some_method(self):
+        return self
+
+    def add_item(self, item_data):
+        owner = RegUser.objects.get(id=item_data['owner_id'])
+        # pdb.set_trace()
+        item = Item(
+            title=item_data['title'],
+            current_owner=owner,
+            quantity=item_data['quantity'],
+            condition=item_data['condition'],
+            detail=item_data['detail'],
+            link=item_data['link'],
+        )
+        # pdb.set_trace()
+        item.save()
+        ItemPostRelation.objects.create(
+            item=item,
+            post=self,
+        )
+        return True
 
     def __unicode__(self):
         return self.title
@@ -82,12 +133,12 @@ class PassEvent(models.Model):
         return self.item
 
 
-class ItemStatus(models.Model):
+class ItemPostRelation(models.Model):
     item = models.ForeignKey(Item, related_name='related_status')
     post = models.ForeignKey(Post, related_name='related_status')
     status_choices = (
         ('av', 'Available'),
-        ('po', 'Possed on'),
+        ('po', 'Passed on'),
         ('dp', 'Disposed'),
         ('dl', 'Deleted'),
     )

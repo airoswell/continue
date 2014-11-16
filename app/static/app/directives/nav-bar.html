@@ -33,7 +33,7 @@
 </style>
 
 <nav class="navbar navbar-default" role="navigation"
-    ng-app="PassOn">
+    ng-app="Continue">
   <div class="container-fluid" ng-controller='NavbarCtrl'>
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -52,8 +52,10 @@
           <li ng-show='user_info.is_anonymous'>
             <a href="/app/login/">Log in</a>
           </li>
-          <li ng-hide='user_info.is_anonymous'>
-            <a href="/app/user/compose/">Post</a>
+          <li ng-hide='user_info.is_anonymous'
+              ng-click='set_modal_create()'
+              data-toggle='modal' data-target="#modal-create-post">
+            <a>Post</a>
           </li>
           <li ng-hide='user_info.is_anonymous'>
             <a href="/app/logout/">Log out</a>
@@ -71,4 +73,7 @@
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
+  <div class="modal fade" id="modal-create-post" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true"
+    ng-include="'/static/app/directives/modal.html'">
 </nav>

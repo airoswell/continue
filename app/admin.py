@@ -1,5 +1,5 @@
 from django.contrib import admin
-from app.models import RegUser, Item, Post, PassEvent, ItemStatus
+from app.models import RegUser, Item, Post, PassEvent, ItemPostRelation
 # Register your models here.
 
 
@@ -13,7 +13,7 @@ class ItemAdmin(admin.ModelAdmin):
         (
             "Basic Info",
             {
-                "fields": ['title', 'quantity', 'condition']
+                "fields": ['title', 'quantity', 'condition', 'current_owner']
             }
         ),
         (
@@ -43,7 +43,7 @@ class PostAdmin(admin.ModelAdmin):
     )
 
 
-class ItemStatusAdmin(admin.ModelAdmin):
+class ItemPostRelationAdmin(admin.ModelAdmin):
     list_display = ('item', 'post', 'item_status')
     fieldset = (
         (
@@ -63,4 +63,4 @@ class ItemStatusAdmin(admin.ModelAdmin):
 admin.site.register(RegUser, RegUserAdmin)
 admin.site.register(Item, ItemAdmin)
 admin.site.register(Post, PostAdmin)
-admin.site.register(ItemStatus, ItemStatusAdmin)
+admin.site.register(ItemPostRelation, ItemPostRelationAdmin)

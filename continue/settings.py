@@ -1,5 +1,5 @@
 """
-Django settings for PassOn project.
+Django settings for continue project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.7/topics/settings/
@@ -14,7 +14,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # = /Users/Lelouch/projects/PassON
 
-STATIC_ROOT = "/Users/Lelouch/projects/PassOn/PassOn/sitestatic"
+STATIC_ROOT = "/Users/Lelouch/projects/continue/continue/sitestatic"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
@@ -41,6 +41,32 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'app',
     'djangular',
+    'django.contrib.sites',
+    # allauth components
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+)
+
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    "django.contrib.auth.backends.ModelBackend",
+    # `allauth` specific authentication methods, such as login by e-mail
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
+
+SITE_ID = 1
+
+# The email backend for allauth
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    # Required by allauth template tags
+    "django.core.context_processors.request",
+    # allauth specific context processors
+    "allauth.account.context_processors.account",
+    "allauth.socialaccount.context_processors.socialaccount",
+    'django.contrib.auth.context_processors.auth',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -53,9 +79,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'PassOn.urls'
+ROOT_URLCONF = 'continue.urls'
 
-WSGI_APPLICATION = 'PassOn.wsgi.application'
+WSGI_APPLICATION = 'continue.wsgi.application'
 
 
 # Database
@@ -94,4 +120,3 @@ TEMPLATE_DIRS = {
         'templates',
     ).replace('\\', '/'),
 }
-

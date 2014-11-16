@@ -1,3 +1,4 @@
+
 console.log("This is results.js")
 
 app
@@ -8,28 +9,29 @@ app
     function($scope, $http, Item, ItemSet){
       // Process data passed from Django via ng-init
       $scope.$watch('search_string', function(){
-        console.log("search_loc = ", $scope.search_loc)
-        console.log("search_string = ", $scope.search_string)
         data = {
           'search_string': $scope.search_string,
           'search_loc': $scope.search_loc
         }
         $http({ 
           method: 'GET', 
-          url: 'process/?search_string=iPad&search_loc=11790',
-          // data: data,
-        }).success(function(data, status, headers, config){
+          url: 'process/?search_string=' + $scope.search_string + '&search_loc=' + $scope.search_loc,
+        })
+        .success(function(data, status, headers, config){
           console.log(data);
           $scope.posts = data;
         });
       });
-
-      $scope.modal = {
+      // Initialize variables for modal
+      $scope.modal_result = {
         post:{
+          id: undefined,
           title: "",
           detail: "",
           owner: "",
           zip_code: "",
+          date_posted: "",
+          time_posted: "",
           items: [],
         }
       }
@@ -44,7 +46,7 @@ app
         return array
       }
 
-      condition_generator = function(condition){
+      condition_writer = function(condition){
         if (condition == 'Nw'){
           return 'New';
         }
@@ -59,22 +61,42 @@ app
         }
       }
 
-      $scope.setModal = function(post){
-        modal = $scope.modal;
+      status_writer = function(status){
+        if (status == 'av'){
+          return 'Available';
+        }
+        else if (status == 'po'){
+          return 'Passed on';
+        }
+        else if (status == 'dp'){
+          return 'Disposed';
+        }
+        else if (status == 'dl'){
+          return 'Deleted';
+        }
+      }
+
+      $scope.set_modal_result = function(post){
+        modal = $scope.modal_result;
         modal.post = {
+          id: post.id,
           title: post.title,
           detail: post.detail,
           owner: post.owner,
           zip_code: post.zip_code,
           items: [],
+          date_posted: post.date_posted,
+          time_posted: post.time_posted,
         }
         for (i=0; i<post.items.length; i++){
           item = post.items[i];
           current_item = {
+            id: item.id,
             title: item.title,
             quantity: item.quantity,
-            condition: condition_generator(item.condition),
+            condition: condition_writer(item.condition),
             detail: item.detail,
+            status: status_writer(item.status),
           };
           modal.post.items.push(current_item);
         }

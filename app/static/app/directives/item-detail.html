@@ -1,12 +1,14 @@
 <div layout='vertical' layout-align='center' style='background:#eee;margin-bottom:10px;padding: 10px 20px;'>
-  <div layout='horizontal' layout-align='start center'>
-    <div class='tag-default tag-blue'>
-      {{ item.title }} x <span>{{ item.quantity }}</span>
+  <div layout='horizontal' layout-align='space-between center'>
+    <div layout='horizontal' layout-align='start center'>
+      <div class='tag-default tag-blue'>
+        {{ item.title }} x <span>{{ item.quantity }}</span><span>
+      </div>
+      <div class='text-default'>{{ item.condition }}</div>
     </div>
-    <div class='text-default'>{{ item.condition }}</div>
+    <div class='text-default'>{{ item.status }}</span></div>
   </div>
   <div class='text-small' style='padding:5px 10px;'>
     {{ item.detail }}
   </div>
-
 </div>

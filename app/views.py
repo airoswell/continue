@@ -1,60 +1,60 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from app.models import RegUser, Item, Post, PassEvent, ItemStatus
+from app.models import RegUser, Item, Post, PassEvent, ItemPostRelation
 from django.core import serializers
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.db import IntegrityError
 import json
+import pdb
+from controllers import *
+
 # Create your views here.
 
 
-class ItemOverview:
-    def __init__(self, item_id, title, quantity, condition, detail):
-        self.item_id = item_id
-        self.title = title
-        self.quantity = quantity
-        self.condition = condition
-        self.detail = detail
-
-
-class PostOverview:
-    def __init__(self, post_id, title, zip_code, owner, detail):
-        self.post_id = post_id
-        self.title = title
-        self.zip_code = zip_code
-        self.owner = owner
-        self.items = []
-        self.detail = detail
-
-    def addItem(self, item):
-        self.items.append(item)
-
-
-def get_posts(posts_queryset):
-    """
-    A global function: turn a queryset of post to
-    simple JSON serializable objects
-    """
-    posts = []
-    for post in posts_queryset:
-        post_overview = PostOverview(
-            post_id=post.id,
-            title=post.title,
-            zip_code=post.zip_code,
-            owner=post.owner.username,
-            detail=post.detail
-        )
-        for item in post.item.all():
-            new_item = ItemOverview(
-                item_id=item.id,
-                title=item.title,
-                quantity=item.quantity,
-                condition=item.condition,
-                detail=item.detail
-            )
-            post_overview.addItem(new_item.__dict__)
-        posts.append(post_overview.__dict__)
-    return posts
+# Handel all user-related posts request
+def user_posts(request):
+    data = json.loads(request.body)
+    user = request.user
+    # return all posts by the user
+    if data['type'] == 'get':
+        posts = user_get_posts(user)
+        return HttpResponse(json.dumps(posts))
+    # Create new post
+    elif data['type'] == 'create':
+        post_data = data['post']
+        success, msg, post = user_create_post(post_data, request.user)
+        post = posts_writer([post])
+        # pdb.set_trace()
+        return HttpResponse(json.dumps(
+            {
+                'incoming': post_data,
+                'success': success,
+                'msg': msg,
+                'new_post': post[0],
+            }
+        ))
+    # Edit existed post
+    elif data['type'] == 'edit':
+        post_data = data['post']
+        success, msg, post = user_edit_post(post_data, request.user)
+        post = posts_writer([post])
+        return HttpResponse(json.dumps(
+            {
+                'success': success,
+                'msg': msg,
+                'post': post[0],
+            }
+        ))
+    elif data['type'] == 'delete':
+        post_data = data['post']
+        success, msg = user_delete_post(post_data, request.user)
+        if success:
+            return HttpResponse(json.dumps(
+                {
+                    'success': success,
+                }
+            ))
 
 
 def index(request):
@@ -69,52 +69,7 @@ def index(request):
     )
 
 
-def compose(request):
-    return render(
-        request,
-        'app/compose.html',
-        {
-            'view': 'compose',
-        }
-    )
-
-
-def compose_process(request):
-    if request.method == 'POST':
-        current_user = RegUser.objects.get(username=request.user.username)
-        data = json.loads(request.body)
-        post = data['post']
-        response = {
-            'msg': 'I received your new post!!',
-            'posted_by': current_user.username,
-            'received_title': post['title']
-        }
-        new_post = Post(
-            title=post['title'],
-            owner=current_user,
-            zip_code=post['zip_code'],
-            detail=post['detail'],
-        )
-        new_post.save()
-        # Build all Item and ItemStatus objects
-        for item in data['items']:
-            current_item = Item(
-                title=item['title'],
-                quantity=item['quantity'],
-                condition=item['condition'],
-                detail=item['detail'],
-            )
-            current_item.save()
-            item_status = ItemStatus(
-                item=current_item,
-                post=new_post,
-                item_status='av',
-            )
-            item_status.save()
-        return HttpResponse(json.dumps(response))
-
-
-def results(request):
+def results_view(request):
     # Initialize date passed from search input
     if request.GET:
         data = request.GET
@@ -123,13 +78,11 @@ def results(request):
     else:
         search_loc = ""
         search_string = ""
-
     return render(
         request,
         'app/results.html',
         {
             'view': 'results',
-            'listvar': 'this is results view',
             'search_loc': search_loc,
             'search_string': search_string,
         }
@@ -139,17 +92,23 @@ def results(request):
 def results_process(request):
     search_string = request.GET.get("search_string")
     search_loc = request.GET.get("search_loc")
-
-    if len(search_string) > 0:
+    # If user only specified both the location and item name,
+    # search the intersecting results;
+    # otherwise, search all posts in the location.
+    if len(search_string) > 3:
         posts_queryset = Post.objects.filter(
             zip_code=search_loc,
             item__title__icontains=search_string
         )
-    elif len(search_string) == 0:
+    else:
         posts_queryset = Post.objects.filter(
             zip_code=search_loc,
         )
-    posts = get_posts(posts_queryset)
+    posts = posts_writer(posts_queryset)
+    response = {
+        'string': search_string,
+        'loc': search_loc,
+    }
     return HttpResponse(json.dumps(posts))
 
 
@@ -251,12 +210,22 @@ def login_view(request):
 
 
 def signup(request):
+    pdb.set_trace()
     data = json.loads(request.body)
-    new_user = RegUser.objects.create_user(
-        username=data['user_name'],
-        email=data['email'],
-        password=data['password']
-    )
+    try:
+        new_user = RegUser.objects.create_user(
+            username=data['user_name'],
+            email=data['email'],
+            password=data['password']
+        )
+    except IntegrityError:
+        pdb.set_trace()
+        return HttpResponse(json.dumps(
+            {
+                'success': False,
+                "msg": "Username is already taken!",
+            }
+        ))
     if True:
         # If signup is successful
         user, response = login_handler(

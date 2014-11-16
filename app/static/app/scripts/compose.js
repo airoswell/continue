@@ -19,6 +19,7 @@ app
         title: "",
         detail: "",
         zip_code: "",
+        items: [],
       };  
       console.log(item_set);
       
@@ -34,12 +35,13 @@ app
       $scope.publish = function(){
         // Package user input
         data = {
+          type: 'create',
           post: $scope.post,
-          items: $scope.items
-        }
+        };
+        data.post.items = $scope.items;
         $http({ 
           method: 'POST', 
-          url: 'process/',
+          url: '/app/user/posts/',
           data: data
         }).success(function(data, status, headers, config){
           console.log(data);
@@ -48,7 +50,6 @@ app
           $scope.success_is_show = true;
         });
       };
-
   }])
 
   .directive('itemEditDetail', function(){

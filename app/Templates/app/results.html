@@ -15,29 +15,33 @@
 
   <!-- Modal -->
   {% verbatim %}
-  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-          <h4 class="text-title" id="myModalLabel">
-            {{ modal.post.title }}
-          </h4>
-        </div>
-        <div class="modal-body">
-          {{ modal.post.detail }}
-        </div>
-        <div ng-repeat="item in modal.post.items">
-          <item-detail></item-detail>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+  <div ng-controller="ModalCtrl">
+    <div class="modal fade" id="modal-result" tabindex="-1" role="dialog" aria-labelledby="modal-result" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="text-title" id="myModalLabel">
+              {{ modal_result.post.title }}
+            </h4>
+            <div class='text-small'>by <b>{{ modal_result.post.owner }}</b> at {{ modal_result.post.time_posted}} on {{ modal_result.post.date_posted }}</div>
+          </div>
+          <div class="modal-body">
+            {{ modal_result.post.detail }}
+          </div>
+          <div ng-repeat="item in modal_result.post.items">
+            <item-detail></item-detail>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
   {% endverbatim %}
 
+  <!-- List of search results -->
   <div id='result-wrapper'>
     <div layout='vertical' layout-align='center center'>
       {% verbatim %}
