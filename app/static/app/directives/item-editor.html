@@ -1,0 +1,185 @@
+<style type="text/css">
+  
+  .dashboard-item-overview{
+      padding: 10px 15px;
+      box-shadow: 0px 3px 5px #ddd;
+  }
+
+
+  /* =========================== item list =========================== */
+  .dashboard-item-overview-basics, .dashboard-item-overview-details{
+      padding:0px 10px 10px 10px;
+  }
+  .dashboard-item-overview textarea{
+      height:80px;padding: 10px 12px;margin-top: 5px;
+  }
+
+  .button.pagination{
+      font-size: 14px;padding: 5px 10px;
+      background: #f4f4f4;border: 1px solid #eee;
+      margin: 10px;
+  }
+  .button.pagination:hover{
+      background: #eee;
+  }
+
+  .post-item{
+      padding: 5px 5px 5px 10px;background: #00b411;margin-bottom: 5px;
+  }
+  .post-item input{
+      color: #fff;font-size: 16px;padding: 0px;line-height: 20px;
+  }
+  .item-status{
+      margin-bottom: 5px;
+  }
+
+
+  .choices-list{
+      background: #fff;box-shadow: 0px 3px 6px #ccc;
+      position:absolute;margin-left: -10px;
+      z-index:1;
+  }
+  .choice-result{
+      font-size:14px;cursor: pointer;
+      border: 2px;font-weight: 600;padding: 0px 10px 5px 10px;
+  }
+  .choice-option {
+      padding: 10px 15px;font-size: 14px;cursor: pointer;
+      background: #fff;
+  }
+  .choice-option:hover{
+      background-color:#eee;
+  }
+  .choice-option.active{
+      background-color:#eee;
+  }
+
+  .hide {
+      display: none;
+  }
+
+  /* Because the #f4f4f4 background of Bottom Sheet */
+  input-dropdown>div:hover{
+      background: #eee;
+  }
+  input-num>div:hover, [input-num]>div:hover{
+    background: #eee;
+  }
+</style>
+
+<form item-editor transition class='dashboard-item-overview' name='{{"item-form-" + item["id"]}}' flex>
+
+  <div layout='row'>
+    <div ng-if='item.pic'>
+      <img ng-src="{{item.pic}}" style='margin:10px;width:80%'>
+    </div>
+    <!-- ================================== -->
+    <!-- ======== Left basic panel ======== -->
+    <div flex style='margin:20px 10px 10px;'>
+      <!-- Title & quantity -->
+      <div layout='row' layout-align='space-between center'>
+        <div layout='row'>
+          <div class='post-item'>
+            <div layout='row' layout-align='space-between center' flex>
+              <auto-expand short-title data='item.title'>
+                <input type='text' style='border:none'
+                    ng-model="item.title" placeholder="Item title">
+              </auto-expand>
+              <div>
+                <input type='text' ng-model="item.quantity" style='width: 35px;
+    border: none;background: #fff;text-align: center;padding: 5px;color: #00B411;font-weight: 600;'>
+              </div>
+            </div>
+          </div>
+          <div>
+            <a href="/app/item/{{ item.id }}/timeline/">
+            <div class='button button-small button-gray'>
+            <i class='fa fa-pencil-square' style='font-size:26px;'></i>
+            </div></a>
+          </div>
+        </div>
+        
+        <div layout='row' ng-switch on="item.visibility">
+          <i class="fa fa-globe" style='font-size:20px;' ng-switch-when="Public"></i>
+          <i class="fa fa-lock" style='font-size:20px;' ng-switch-when="Private"></i>
+          <i class="fa fa-users" style='font-size:20px;' ng-switch-when="Ex-owners"></i>
+        </div>
+      </div>
+
+      <!-- status input area -->
+      <div class='text-default item-status' style='line-height:22px;color:#666;' ng-bind="item.status"></div>
+      <textarea
+          placeholder="What's new with it? (up to 300 characters ...)"
+          rows='3'
+          ng-model="item.new_status">
+      </textarea>
+    </div>
+
+    <!-- ================================== -->
+    <!-- ======== Right detail panel ======== -->
+    <div class="dashboard-item-overview-details" flex>
+      <br/>
+      <div layout='row'>
+        <input-dropdown label="'condition'" flex
+            choices="item.condition_choices" data='item.condition'>
+        </input-dropdown>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <input-dropdown label="'availability'" flex
+            choices="item.availability_choices" data="item.availability">
+        </input-dropdown>
+        <input-dropdown label="'visibility'" flex
+            choices="item.visibility_choices" data='item.visibility'>
+        </input-dropdown>
+        <input-dropdown label="'utilization'" flex
+            choices="item.utilization_choices" data='item.utilization'>
+        </input-dropdown>
+      </div>
+      <br/>
+      <div layout="row">
+        <div layout='row' layout='center' flex>
+          <input-date label="Acquired on" date="item.acquiring_date">
+          </input-date>
+        </div>
+
+        <div auto-expand data="item.original_value"
+            init-width="60px" min-size="10" flex>
+          <input-num label='Original $' num='item.original_value'>
+          </input-num>
+        </div>
+
+        <div flex data="item.estimated_value" auto-expand init-width="60px"
+            min-size="10">
+          <input-num label='Estimated $' num='item.estimated_value'>
+          </input-num>
+        </div>
+      </div>
+      <br/>
+      <br/>
+      <input-text label="'Intented use'"
+          place-holder="'e.g. to read e-books ...'"
+          container-class="'input-container-mid'"
+          input-class="'input-default'"
+          data="item.intented_use">
+      </input-text>
+      <input-text label="'Model'" place-holder="'e.g. Ultra sharp 2312..'"
+          container-class="'input-container-mid'"
+          input-class="'input-default'"
+          data="item.model">
+      </input-text>
+      <input-text label="'Description'" place-holder="'helps you and others search for this item.'"
+          container-class="'input-container-mid'"
+          input-class="'input-default'"
+          data="item.description">
+      </input-text>
+    </div>
+  </div>
+
+  <div layout='row' layout-align='end'>
+    <md-button ng-show="!item.is_new" type='button' ng-click="item.save(item_update_successHandler)">
+      update
+    </md-button>
+    <md-button ng-show='item.is_new' type='button' ng-click="add_to_post()">
+      OK
+    </md-button>
+  </div>
+</form>

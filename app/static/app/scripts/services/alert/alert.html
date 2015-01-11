@@ -1,0 +1,63 @@
+<style type="text/css">
+  .alert-msg-wrapper, .alert-error-wrapper{
+    -webkit-transition:all 0.4s;
+    transition:all 0.4s;
+    position:fixed;
+    left:20px;
+    z-index:1;
+    box-shadow: 0px 2px 5px #aaa;
+  }
+  .alert-msg-wrapper{
+    bottom: 50px;
+  }
+  
+  .alert-msg-wrapper.slide-up.ng-show{
+      opacity: 1;
+      bottom:50px;
+  }
+  .alert-msg-wrapper.slide-up.ng-hide{
+      opacity: 0;
+      bottom:-50px;
+  }
+
+  .alert-error-wrapper{
+    bottom: 120px;
+  }
+  
+  .alert-error-wrapper.slide-up.ng-show{
+      opacity: 1;
+      bottom:120px;
+  }
+  .alert-error-wrapper.slide-up.ng-hide{
+      opacity: 0;
+      bottom:-50px;
+  }
+  
+  .alert{
+      display: inline-block;
+      opacity: 0.8;border-radius: 2px;
+      color: #fff;padding: 20px 20px;
+      cursor: pointer;opacity: 0.8;
+      margin-bottom: 0px;
+  }
+  .alert-msg{
+      background: black;font-weight: 600;
+  }
+  .alert-error{
+      background: red;font-weight: 600;
+  }
+</style>
+
+<div class="alert-msg-wrapper slide-up"
+  ng-show='alert.is_show_msg()'>
+  <div layout='row' layout='center center'>
+    <div class='alert alert-msg'> <i class="fa fa-exclamation-circle fa-lg"></i> &nbsp; {{ alert.get_msg() }}</div>
+  </div>
+</div>
+
+<div class="alert-error-wrapper slide-up"
+  ng-show='alert.is_show_error()'>
+  <div layout='row' layout='center center'>
+    <div class='alert alert-error'> <i class="fa fa-exclamation-circle fa-lg"></i> &nbsp; {{ alert.get_error() }}</div>
+  </div>
+</div>

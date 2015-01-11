@@ -1,0 +1,104 @@
+<style type="text/css">
+  .event-header{
+    padding: 10px 10px;
+  }
+
+  .event-header.time{
+    color: #999;
+  }
+
+  .event-body{
+    padding: 20px 40px;
+  }
+  .event-body.status, .event-body.description{
+    background: #f4f4f4;
+  }
+
+</style>
+
+{% load filters %}
+<div class="event">
+  
+  <div layout='row'>
+    <!-- Header -->
+    <div style='border-right:2px solid #ccc;' class="event-header time"
+      layout='row' layout-align='end'
+      flex='20'>{{ event.time_updated }}
+    </div>
+
+    {% if event|model_name == 'ItemEditRecord' %}
+    <div style='border-left:2px solid #ccc;' class="event-header" flex>
+
+      {% if event.field == "pic" %}
+      <span> Item {{event.item}}</span> has a new photo.
+
+      {% elif event.field == "status"%}
+      <span> Item {{event.item}} updated its status </span>
+
+      {% elif event.field == "creation" %}
+      <span>{{ event.item }}</span> is created.
+
+      {% elif event.field == "description" %}
+      <span>{{ event.item }}</span> has a new description.
+
+      {% else %}
+      <span> {{ event.item }} updated its {{ event.field }}</span>: <span>{{ event.new_value }}.</span>
+
+      {% endif %}
+    </div>
+    {% endif %}
+
+    {% if event|model_name == "ItemTransactionRecord" %}
+        <div style='border-left:2px solid #ccc;' class="event-header">
+          {% if event.status == "Sent"%}
+
+            {% if event.giver == request.user %}
+            <span>You have sent item {{ event.item }}</span> to {{ event.receiver }}
+
+            {% elif event.receiver == request.user %}
+            <span>
+             {{ event.giver }} has sent you an item {{ event.item }}
+            </span>
+            {% endif %}
+
+          {% elif event.status == "Received" or event.status == "Rejected" %}
+            {% if event.giver == request.user %}
+            <span>{{event.receiver}} has {{event.status}} item {{ event.item}} from you. </span>
+            {% elif event.receiver == request.user %}
+            <span>You {{event.status}} item {{event.item}} from {{ event.giver }}</span>
+            {% endif %}
+
+          {% elif event.status == "Revoked" %}
+            {% if event.giver == request.user %}
+            <span>You have revoked item {{ event.item}} that were sent to {{ event.receiver }}. </span>
+            {% elif event.receiver == request.user %}
+            <span>Item {{event.item}} from {{ event.giver }} has been revoked.</span>
+          {% endif %}
+        {% endif %}
+      </div>
+
+    {% endif %}
+
+  </div>
+
+  <div layout='row'>
+    <div style="border-right:2px solid #ccc;" flex='20'></div>
+    <div style='border-left:2px solid #ccc;' flex>
+    {% if event|model_name == "ItemEditRecord" %}
+      {% if event.field == "pic" %}
+      <div class='event-body'><img src="{{ event.new_value }}">
+      </div>
+      {% elif event.field == "status" %}
+      <div class='event-body status'>
+       <i class="fa fa-quote-left"></i>&nbsp;&nbsp;{{ event.new_value }}
+      </div>
+      {% elif event.field == "description" %}
+      <div class='event-body description'>
+      {{ event.new_value }}
+      </div>
+     {% endif %}
+    {% endif %}
+    </div>
+  </div>
+ 
+</div>

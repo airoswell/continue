@@ -1,0 +1,46 @@
+<div ng-class='{active: dropdown}'
+    layout='row' layout-align='center'>
+  <div trigger>
+    <div ng-show="!label==''" class='input-label'>
+      <bind ng-bind="::label"></bind>
+    </div>
+
+    <!-- For simple dropdown menu -->
+    <div ng-if="!transfer">
+      <div layout>
+        <div class='choice-result' layout='row' ng-bind='data'></div>
+      </div>
+      <div class='choices-list fade-in' ng-show='dropdown'
+          layout='column'>
+        <div class='choice-option' ng-repeat='option in choices'
+            ng-class="{active: data == option}"
+            ng-click="select(option)">
+          <span ng-bind="::option"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- For item transfer menu -->
+    <div ng-if='transfer'>
+      <div layout>
+        <div class='choice-result' layout='row' ng-class='{active: dropdown}' ng-bind='data.username || "Choose a user" '></div>
+      </div>
+      <div class='choices-list fade-in' ng-show='dropdown'
+          layout='column' style='min-width:100px;'>
+        <div class='choice-option' ng-click="select(undefined)" layout>
+          <img height=20 src="{{::user.social_account_photo }}">
+          &nbsp;&nbsp;I'll keep it ...
+        </div>
+        <div class='choice-option' ng-repeat='option in choices'
+            ng-class="{active: data.id == option.id}"
+            ng-click="select(option)"
+            layout='row'>
+          <span ng-if="false"><img height=20 src="{{ ::option.profile[0].social_account_photo}}"></span>
+          &nbsp;&nbsp;
+          <b><span ng-bind="::option.username"></span></b>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

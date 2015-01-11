@@ -1,0 +1,27 @@
+<style type="text/css" scoped>
+  .grey-cover{
+    position: fixed;
+    top:0px;left:0px;
+    width: 100%;height: 100%;
+    background: #000;opacity: 0.2;
+    color: #fff;
+    z-index:1;
+  }
+  .bottom-sheet-wrapper{
+    position: fixed;bottom:0px;left:0px;
+    background: #f4f4f4;padding: 10px 20px;
+    border-top:1px solid #bbbbbb;
+    width: 100%;
+    box-shadow: 0px -4px 15px #999;
+    z-index: 1;
+  }
+  .selected{
+    max-width: 40%;
+  }
+</style>
+<div ng-show='BS.is_show'>
+  <div class='grey-cover' ng-click='BS.close()'></div>
+  <div class='bottom-sheet-wrapper'>
+    <div ng-include='contentUrl'></div>
+  </div>
+</div>

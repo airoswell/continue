@@ -1,0 +1,24 @@
+<style type="text/css">
+  item-title{
+    cursor: pointer;
+  }
+  item-title>div:hover{
+    background: #eee;
+  }
+</style>
+
+<div item-selector>
+  <div style='display:inline-block' ng-repeat="item in items">
+    <item-title ng-show='!item.duplicated' item="item" ng-click="select(item)"></item-title>
+  </div>
+  <div layout='row' layout-align='center'>
+    <div class='button button-small button-gray'
+        ng-click="::items.prev_page()"
+        ng-show="items.page > 1">
+      Prev Page
+    </div>
+    <div class='button button-small button-gray' ng-click="::items.next_page()">
+      Next Page
+    </div>
+  </div>
+</div>

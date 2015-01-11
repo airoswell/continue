@@ -1,27 +1,70 @@
 from django.conf.urls import patterns, url, include
-from app import views, controllers
+# ======== Postman ========
+from postman.views import InboxView, ReplyView, MessageView, ConversationView
+from postman import OPTIONS
+from app import views, api
 
 urlpatterns = patterns(
-    '',
-    # general URL that any one can access
+    'page',
+    # URL for pages
     url(r'^$', views.index, name='index'),
-    url(r'^results/$', views.results_view, name='results'),
-    url(
-        r'^results/process/$',
-        views.results_process,
-        name='results_process'
-    ),
-    url(r'^post/(?P<post_id>\d*)/$', views.post, name='post'),
-    url(r'^get_user/$', views.get_user, name='get_user'),
-    url(r'^login/$', views.login_view, name='user_login'),
-    url(
-        r'^signup/$',
-        views.signup,
-        name='user_signup',
-    ),
-    # Only logged in user can access
-    url(r'^user/$', views.user_view, name='user'),
-    url(r'^user/posts/$', views.user_posts, name='user_posts'),
-    url(r'^logout/$', views.user_logout, name='user_logout'),
-    (r'^accounts/', include('allauth.urls')),
+    url(r'^search/$', views.search, name='search'),
+    url(r'^user/dashboard/$', views.dashboard, name='dashboard'),
+    url(r'^post/(?P<pk>\d+)/$',
+        views.post_edit, name='post_edit'),
+    url(r'^post/$',
+        views.post_create, name='post_create'),
+    url(r'^item/(?P<pk>\d+)/timeline/$',
+        views.item_timeline, name='item_timeline'),
+    url(r'^user/(?P<pk>\d+)/timeline/$',
+        views.user_timeline, name='user_timeline'),
+)
+
+# Django-allauth
+urlpatterns += patterns(
+    "",
+    (r'^user/logout/$', 'django.contrib.auth.views.logout',
+     {'next_page': '/'}),
+)
+# ====================================================================
+# =================== Django-Rest-Framework API ======================
+urlpatterns += patterns(
+    "api",
+    url(r'^posts/?$', api.PostList.as_view(), name='post_list'),
+    url(r'^posts/(?P<pk>\d*)/$',
+        api.PostDetail.as_view(), name='post_detail'),
+    url(r'^posts/(?P<post_id>\d*)/items/?$',
+        api.ItemList.as_view(), name='post_items'),
+    url(r'^items/(?P<item_id>[0-9]+)/histories/?$',
+        api.HistoryList.as_view(),
+        name='item_histories'),
+    url(r'^items/?$', api.ItemList.as_view(), name='item_list'),
+    url(r'^items/(?P<pk>[0-9]+)/$',
+        api.ItemDetail.as_view(),
+        name='item_datail'),
+    url(r'^histories/$', api.HistoryList.as_view(), name='history_list'),
+    url(r'^user/$', api.UserDetails.as_view(), name='user_detail'),
+    url(r'^user/messages/$',
+        api.MessageList.as_view(),
+        name='message_list'),
+    url(r'^transactions/$',
+        api.TransactionList.as_view(),
+        name='transaction_list'),
+    url(r'^transactions/(?P<pk>[0-9]+)/$',
+        api.TransactionDetail.as_view(),
+        name='transaction_Detail'),
+)
+
+# postman URL
+urlpatterns += patterns(
+    "postman",
+    url(r'^user/inbox/(?:(?P<option>'+OPTIONS+')/)?$',
+        InboxView.as_view(), name='inbox'),
+    url(r'^user/reply/(?P<message_id>[\d]+)/$',
+        ReplyView.as_view(), name='reply'),
+    url(r'^user/view/(?P<message_id>[\d]+)/$',
+        MessageView.as_view(), name='view'),
+    url(r'^user/view/t/(?P<thread_id>[\d]+)/$',
+        ConversationView.as_view(), name='view_conversation'),
+    (r'^user/', include('allauth.urls')),
 )

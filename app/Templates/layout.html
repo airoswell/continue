@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title></title>
+  <meta property="wb:webmaster" content="b4dbe55cf560c334" />
+  <title>Continue</title>
   {% load staticfiles %}
   <link rel="stylesheet" type="text/css" href="{% static 'app/bower_components/angular-material/angular-material.css'%}">
-  <link rel="stylesheet" type="text/css" href="{% static 'app/bower_components/bootstrap/dist/css/bootstrap.css'%}">
   <link rel="stylesheet" type="text/css" href="{% static 'app/bower_components/font-awesome/css/font-awesome.css'%}">
   <link rel="stylesheet" type="text/css" href="{% static 'app/style/main.css'%}">
+  <link rel="stylesheet" type="text/css" href="{% static 'app/style/search.css'%}">
   {% if view == 'index' %}
   <link rel="stylesheet" type="text/css" href="{% static 'app/style/index.css'%}">
   {% elif view == 'results' %}
@@ -15,21 +16,29 @@
   <link rel="stylesheet" type="text/css" href="{% static 'app/style/compose.css'%}">
   {% elif view == 'login' %}
   <link rel="stylesheet" type="text/css" href="{% static 'app/style/login.css'%}">
-  {% elif view == 'user' %}
-  <link rel="stylesheet" type="text/css" href="{% static 'app/style/user.css'%}">
+  {% elif view == 'dashboard' %}
+  <link rel="stylesheet" type="text/css" href="{% static 'app/style/dashboard.css'%}">
   {% endif %}
 </head>
 
-<body ng-app="Continue" style="background:#eee">
+<body ng-app="continue">
+  <div id="fb-root"></div>
+  
+
   <div ng-controller="LayoutCtrl">
-    <nav ng-include="'/static/app/directives/nav-bar.html'"></nav>
+    {% include "navbar.html" %}
+    {% block navbar %}
+    {% endblock navbar %}
+    <bottom-sheet></bottom-sheet>
+    <b-s></b-s>
+    <div test style='height:80px;'></div>
     <div id='content-wrapper'>
       {% block content %}
       {% endblock %}
     </div>
+    <alert></alert>
   </div>
 
-  
 
   {% load staticfiles %}
 
@@ -37,25 +46,55 @@
   <script type="text/javascript" src="{% static 'app/bower_components/jQuery/dist/jquery.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/bower_components/angular/angular.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/bower_components/djangular/js/django-angular.js'%}"></script>
+  <script type="text/javascript" src="{% static 'app/bower_components/angular-animate/angular-animate.js'%}"></script>
+  <script type="text/javascript" src="{% static 'app/bower_components/angular-aria/angular-aria.min.js'%}"></script>
+  <script type="text/javascript" src="{% static 'app/bower_components/hammerjs/hammer.min.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/bower_components/angular-material/angular-material.js'%}"></script>
-  <script type="text/javascript" src="{% static 'app/bower_components/bootstrap/dist/js/bootstrap.js'%}"></script>
+  <script type="text/javascript" src="{% static 'app/bower_components/angular-resource/angular-resource.js'%}"></script>
+  <script type="text/javascript" src="{% static 'app/bower_components/angular-restmod/dist/angular-restmod-bundle.min.js'%}"></script>
+  <script type="text/javascript" src="{% static 'app/bower_components/angular-restmod/dist/styles/ams.min.js'%}"></script>
   {# End: Bower #}
-
-  <script type="text/javascript" src="{% static 'app/scripts/main.js'%}"></script>
+  <script type="text/javascript" src="{% static 'app/scripts/components/auto-resize.js'%}"></script>
+  <script type="text/javascript" src="{% static 'app/scripts/app.js'%}"></script>
+  <script type="text/javascript" src="{% static 'app/scripts/modules/auth.js'%}"></script>
+  <script type="text/javascript" src="{% static 'app/scripts/modules/social-accounts.js'%}"></script>
+  <script type="text/javascript" src="{% static 'app/scripts/modules/models.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/scripts/layout.js'%}"></script>
-  <script type="text/javascript" src="{% static 'app/scripts/navbar.js'%}"></script>
-  <script type="text/javascript" src="{% static 'app/scripts/modal.js'%}"></script>
+  <script type="text/javascript" src="{% static 'app/scripts/services/alert/alert.js'%}"></script>
+  <script type="text/javascript" src="{% static 'app/scripts/services/private-message/private-message.js'%}"></script>
+  <script type="text/javascript" src="{% static 'app/scripts/services/BS/BS.js'%}"></script>
+  <script type="text/javascript" src="{% static 'app/scripts/services/album/album.js'%}"></script>
+  <script type="text/javascript" src="{% static 'app/scripts/components/messages/messages.js'%}"></script>
+  <script type="text/javascript" src="{% static 'app/scripts/components/search/search.js'%}"></script>
+  <script type="text/javascript" src="{% static 'app/scripts/components/dashboard.js'%}"></script>
+  <script type="text/javascript" src="{% static 'app/scripts/components/dashboard-directives.js'%}"></script>
   {% if view == 'index' %}
   <script type="text/javascript" src="{% static 'app/scripts/index.js'%}"></script>
-  {% elif view == 'results' %}
-  <script type="text/javascript" src="{% static 'app/scripts/results.js'%}"></script>
-  {% elif view == 'compose' %}
-  <script type="text/javascript" src="{% static 'app/scripts/compose.js'%}"></script>
-  {% elif view == 'login' %}
-  <script type="text/javascript" src="{% static 'app/scripts/login.js'%}"></script>
-  {% elif view == 'user' %}
-  <script type="text/javascript" src="{% static 'app/scripts/user.js'%}"></script>
+  
+  {% elif view == "post" %}
+  <script type="text/javascript" src="{% static 'app/scripts/components/post/post.js'%}"></script>
   {% endif %}
+
+  {% load compile_static %}
+  <!-- {% compile "app/scripts/posts.coffee" %} -->
+  <!-- {% compile "app/scripts/app.coffee" %} -->
+  <!-- {% compile "app/scripts/layout.coffee" %} -->
+  <!-- {% compile "app/scripts/components/dashboard.coffee" %} -->
+  <!-- {% compile "app/scripts/components/dashboard-directives.coffee" %} -->
+  <!-- {% compile "app/scripts/components/search/search.coffee" %} -->
+  <!-- {% compile "app/scripts/components/messages/messages.coffee" %} -->
+  <!-- {% compile "app/scripts/components/post/post.coffee" %} -->
+  <!-- {% compile "app/scripts/modules/models.coffee" %} -->
+  <!-- {% compile "app/scripts/modules/auth.coffee" %} -->
+  <!-- {% compile "app/scripts/modules/social-accounts.coffee" %} -->
+  <!-- {% compile "app/scripts/services/alert/alert.coffee" %} -->
+  <!-- {% compile "app/scripts/services/bottom-sheet/bottom-sheet.coffee" %} -->
+  <!-- {% compile "app/scripts/services/album/album.coffee" %} -->
+  <!-- {% compile "app/scripts/services/private-message/private-message.coffee" %} -->
+  <!-- {% compile "app/scripts/services/BS/BS.coffee" %} -->
+
+
+
 
   <!-- Alternatively, use absolute path relative to the app folder
   <script type="text/javascript" src='/static/app/scripts/index.js'></script>-->

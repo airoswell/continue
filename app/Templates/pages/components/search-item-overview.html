@@ -1,0 +1,106 @@
+{% block item_overview %}
+<div search-item-overview item-id="{{ item.id }}">
+  <div layout='row' layout-align='end'>
+
+    <div click-to-show-trigger class='item-container' flex>
+
+      <!-- Item title & quantity & Basic conditions-->
+      {% include "pages/components/search-item-overview-header.html" %}
+      {% block item_overview_header %}
+      {% endblock item_overview_header %}
+
+      <!-- Item description there is any -->
+      {% if item.description %}
+      <div style="margin-top: 10px;padding-top:4px;padding-bottom:4px;">
+        &nbsp;&nbsp;<i class="fa fa-quote-left"></i>&nbsp;&nbsp;{{ item.description }}
+      </div>
+      {% endif %}
+
+      <!-- Item thumbnail -->
+      {% if item.pic %}
+      <div click-to-show style='display:none'>
+        <br/>
+        <img click-to-show src="{{ item.pic }}" style='width:100%;'>
+      </div>
+      {% endif %}
+
+    </div>
+
+    {% load filters %}
+
+    <!-- Request Button -->
+    <!-- Only the third party (neither the owner of the post nor the item) -->
+    <!-- can see the following components                     -->
+    {% if post.owner != request.user and item.owner != request.user %}
+      <!-- If the post owner still owns the item -->
+      {% if item.owner == post.owner %}
+
+        <!-- ===================================== -->
+        <!-- If the user has requested the item -->
+        {% if request.user in item|find_requester_in_post:post %}
+        <div layout='column'>
+          <div item-id="{{ item.id }}" class="add-item disabled">
+            <i class="fa fa-check"></i>
+          </div>
+        </div>
+        <!-- If the user has NOT requested the item, then show the -->
+        <!-- add item button                                       -->
+        {% else %}
+        <div layout='column'>
+          <div item-id="{{ item.id }}" class="add-item"
+              ng-click="add_item()"
+              ng-class="{'active': items.indexOf(item_id) > -1}">
+            <i class='fa fa-circle-o'></i>
+          </div>
+        </div>
+        {% endif %}
+        <!-- ===================================== -->
+
+      <!-- If the post owner does not own the item, show nothing -->
+      {% else %}
+      <!-- NOTHING HERE -->
+      {% endif %}
+
+    <!-- Transfer button -->
+    <!-- The buttons might show in messages, dashboard,
+          and post search list -->
+    <!-- If the user is  -->
+    <!-- - owner of the post -->
+    <!-- - owner of the item -->
+    <!-- and -->
+    <!-- - there are requesters of the (item in the post) -->
+    <!-- - and the item is transferrable -->
+    <!-- show the transfer menu -->
+    {% elif post.owner == request.user and item.owner == request.user %}
+    <div layout='column' layout-align='space-between'>
+
+      {% if item|find_requester_in_post:post and item.transferrable %}
+      {% include 'pages/components/transfer-menu.html' %}
+      {% endif %}
+
+      {% include 'pages/components/item-edit-menu.html' %}
+    </div>
+
+    {% elif pm_messages and request.user == item.owner %}
+    <div>
+    {% include 'pages/components/item-edit-menu.html' %}
+
+    {%    if item.requesters.all|length > 1 and item.transferrable %}
+      {% include 'pages/components/transfer-menu.html' %}
+    {%    endif %}
+    </div>
+
+    {% elif view == 'timeline' and request.user == item.owner %}
+    <div>
+    {% include 'pages/components/item-edit-menu.html' %}
+
+    {%    if item.requesters.all|length > 1 and item.transferrable %}
+      {% include 'pages/components/transfer-menu.html' %}
+    {%    endif %}
+    </div>
+
+    {% endif %}
+
+  </div>
+</div>
+{% endblock item_overview %}

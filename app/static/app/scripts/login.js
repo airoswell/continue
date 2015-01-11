@@ -1,6 +1,7 @@
 console.log("this is login.js")
 
-app.controller('LoginCtrl', [
+angular.module("continue")
+.controller('LoginCtrl', [
   '$scope',
   '$http',
   function($scope, $http){

@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+  <div layout='column'>
+    <div layout='column'>
+      <div style='height:200px'></div>
+
+      <form class="search-form search-form-large" name='search-form'
+          action="/app/search/">
+          <input class='input-default' type='text' name='q' placeholder='What are you looking for?'>
+          <input class='input-default' type='text' name='zip_code' placeholder='zip_code'>
+          <input class='button button-default button-green' type='submit' value='Find'>
+      </form>
+    </div>
+  </div>
+{% endblock %}

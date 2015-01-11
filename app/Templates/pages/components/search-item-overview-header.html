@@ -1,0 +1,56 @@
+{% block item_overview_header %}
+
+{% if item.title|length < 30 %}
+<div layout='row'>
+{% else %}
+<div layout='column'>
+{% endif %}
+  <div layout>
+    <div class='item-overview-title'>
+      <div layout='row'>
+        <div layout='column' layout-align='center'>
+          <div>{{ item.title }}</div>
+        </div>
+        <div class='item-overview-quantity'>{{ item.quantity }}</div>
+      </div>
+    </div>
+    {% if item.pic %}
+    &nbsp;&nbsp;
+    <img height=35 src="{{item.pic}}">
+    {% endif %}
+  </div>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <div layout='row'>
+    <div>
+      <div style='color: #999'><i class="fa fa-usd"> Value</i></div>
+      <div style='font-weight:600'>6</div>
+    </div>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <div>
+      <div style='color: #999'>Condition</div>
+      <div style='font-weight:600'>{{ item.condition }}</div>
+    </div>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <div>
+      <div style='color: #999'>Size</div>
+      {% if item.size %}
+      <div style='font-weight:600'>{{ item.size }}</div>
+      {% else %}
+      <div style='font-weight:600'>Small</div>
+      {% endif %}
+    </div>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+  {% if post %}
+    <!-- In a post, if the item has a different owner than the post -->
+    <!-- that means the item has been transferred. -->
+    {% if item.owner != post.owner %}
+    <div>
+      <div style='color: #666;'>Out</div>
+      <div style='font-weight:600;color:#ff5858'>Unavailable</div>
+    </div>
+    {% endif %}
+  {% endif %}
+  </div>
+</div>
+
+{% endblock item_overview_header %}

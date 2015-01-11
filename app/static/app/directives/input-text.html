@@ -1,0 +1,14 @@
+<div class="{{ ::containerClass }}" layout='row'>
+  <div ng-if="!label==''" layout='column' layout-align='center'>
+    <div class='text-default input-label'>
+      <bind ng-bind="label"></bind> &nbsp;&nbsp;
+    </div>
+  </div>
+  <div flex>
+    <input type='text'
+        label="{{ label }}"
+        placeholder="{{ placeHolder }}"
+        class="{{ ::inputClass }}"
+        ng-model="data">
+  </div>
+</div>

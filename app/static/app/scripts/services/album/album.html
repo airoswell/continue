@@ -1,0 +1,47 @@
+<style type="text/css">
+  .thumbnail{
+    cursor: pointer;margin: 5px;
+  }
+</style>
+
+<div ng-controller="albumCtrl">
+  <div>
+    <div ng-show='layout.album_list_is_show'>
+      <div class='text-large'>Albums</div>
+      <div layout='row' layout-align='center'>
+        <div class="thumbnail" 
+            ng-repeat="album in pagination(Album.albums)"
+            ng-click="select_album(album.id)">
+          <img height="120" ng-src="{{:: album.cover_photo.images[1].source}}">
+        </div>
+      </div>
+    </div>
+
+    <div ng-show='!layout.album_list_is_show'>
+      <div class='text-large'>Photos</div>
+      <div layout='row' layout-align='center'>
+        <div class='thumbnail'
+            ng-repeat="photo in pagination(Album.photos)"
+            ng-click='select_photo(photo)'>
+          <img height="120" ng-src="{{photo.images[2].source}}">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div layout='row' layout-align='center'>
+    <div class='button button-small button-gray'
+        ng-show='!layout.album_list_is_show'
+        ng-click="back_to_albums()">
+      Back to albums
+    </div>
+    <div class='button button-small button-gray'
+      ng-click="prev_page()">
+      Previous
+    </div>
+    <div class='button button-small button-gray'
+        ng-click="next_page()">
+      Next
+    </div>
+  </div>
+</div>

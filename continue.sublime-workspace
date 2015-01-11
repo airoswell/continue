@@ -523,16 +523,16 @@
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 375.0,
+		"height": 143.0,
 		"selected_items":
 		[
 			[
-				"shell",
-				"SublimeREPL: Shell"
-			],
-			[
 				"preview",
 				"OmniMarkupPreviewer: Preview Current Markup in Browser"
+			],
+			[
+				"shell",
+				"SublimeREPL: Shell"
 			],
 			[
 				"preveiw",
@@ -773,27 +773,36 @@
 	},
 	"expanded_folders":
 	[
-		"/Users/Lelouch/projects/Continue"
+		"/Users/Lelouch/projects/Continue",
+		"/Users/Lelouch/projects/Continue/Note"
 	],
 	"file_history":
 	[
-		"/Users/Lelouch/projects/Continue/app/static/app/scripts/user.js",
-		"/Users/Lelouch/projects/Continue/app/models.py",
-		"/Users/Lelouch/projects/Continue/app/views.py",
+		"/Users/Lelouch/projects/Continue/app/templates/layout.html",
 		"/Users/Lelouch/projects/Continue/app/static/app/scripts/login.js",
+		"/Users/Lelouch/projects/Continue/app/templates/app/login.html",
+		"/Users/Lelouch/projects/Continue/app/templates/account/login.html",
+		"/Users/Lelouch/projects/Continue/app/views.py",
 		"/Users/Lelouch/projects/Continue/app/urls.py",
-		"/Users/Lelouch/projects/Continue/app/static/app/directives/nav-bar.html",
 		"/Users/Lelouch/projects/Continue/continue/settings.py",
+		"/Users/Lelouch/projects/Continue/Note/user.md",
+		"/Users/Lelouch/projects/Continue/views and controllers.md",
+		"/Users/Lelouch/projects/Continue/Note/Learning Model.md",
+		"/Users/Lelouch/projects/Continue/.gitignore",
+		"/Users/Lelouch/projects/Continue/app/templates/login.html",
+		"/Users/Lelouch/projects/Continue/app/static/app/bower_components/jquery/src/offset.js",
+		"/Users/Lelouch/projects/Continue/app/static/app/scripts/layout.js",
+		"/Users/Lelouch/projects/Continue/app/templates/app/user.html",
+		"/Users/Lelouch/projects/Continue/app/static/app/scripts/user.js",
+		"/Users/Lelouch/projects/Continue/app/static/app/bower_components/bootstrap-ui/.gitattributes",
+		"/Users/Lelouch/projects/Continue/continue.sublime-project",
 		"/Users/Lelouch/projects/Continue/continue/urls.py",
+		"/Users/Lelouch/projects/Continue/app/models.py",
+		"/Users/Lelouch/projects/Continue/app/static/app/directives/nav-bar.html",
 		"/Users/Lelouch/projects/Continue/site.log",
 		"/Users/Lelouch/projects/Continue/Note/Djangular.md",
-		"/Users/Lelouch/projects/Continue/app/templates/app/user.html",
 		"/Users/Lelouch/projects/Continue/app/static/app/bower_components/bootstrap-ui/src/rating/rating.js",
-		"/Users/Lelouch/projects/Continue/app/templates/layout.html",
-		"/Users/Lelouch/projects/Continue/app/static/app/scripts/layout.js",
-		"/Users/Lelouch/projects/Continue/app/templates/app/login.html",
 		"/Users/Lelouch/projects/Continue/app/static/app/bower_components/bootstrap/less/input-groups.less",
-		"/Users/Lelouch/projects/Continue/Note/Learning Model.md",
 		"/Users/Lelouch/projects/Continue/app/static/app/scripts/main.js",
 		"/Users/Lelouch/projects/Continue/app/static/app/directives/modal.html",
 		"/Users/Lelouch/projects/Continue/app/controllers.py",
@@ -805,7 +814,6 @@
 		"/Users/Lelouch/projects/Continue/app/templates/app/compose.html",
 		"/Users/Lelouch/projects/Continue/app/static/app/bower_components/bootstrap/less/modals.less",
 		"/Users/Lelouch/projects/Continue/app/static/app/bower_components/bootstrap-ui/src/modal/docs/demo.html",
-		"/Users/Lelouch/projects/Continue/views and controllers.md",
 		"/Users/Lelouch/projects/Continue/PassOn/settings.py",
 		"/Users/Lelouch/projects/continue/app/templates/layout.html",
 		"/Users/Lelouch/projects/continue/manage.py",
@@ -897,14 +905,7 @@
 		"/Users/Lelouch/projects/lunchbox/app/scripts/decorators/boxdecorator.coffee",
 		"/Users/Lelouch/projects/lunchbox/app/nortonsw_f46f9d40-46a5-0.html",
 		"/Users/Lelouch/projects/lunchbox/app/scripts/decorators/boxpreferencedecorator.coffee",
-		"/Users/Lelouch/projects/lunchbox/app/styles/css.md",
-		"/Users/Lelouch/projects/lunchbox/app/scripts/directives/alerts.coffee",
-		"/Users/Lelouch/projects/lunchbox/app/scripts/services/alerts.coffee",
-		"/Users/Lelouch/projects/lunchbox/app/scripts/controllers/meals.coffee",
-		"/Users/Lelouch/projects/lunchbox/app/views/boxes/index.html",
-		"/Users/Lelouch/projects/lunchbox/app/test.html",
-		"/Users/Lelouch/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings",
-		"/Users/Lelouch/projects/lunchbox/app/views/order-dishes.html"
+		"/Users/Lelouch/projects/lunchbox/app/styles/css.md"
 	],
 	"find":
 	{
@@ -931,6 +932,9 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"returned_data",
+			"login",
+			"LOGIN",
 			"user/",
 			"pdb",
 			"new Item(",
@@ -1055,10 +1059,7 @@
 			"customerInfo",
 			"knif",
 			"knife_is_show",
-			"text",
-			"666",
-			"000000",
-			"p"
+			"text"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1160,16 +1161,40 @@
 		"selected_items":
 		[
 			[
+				"login.js",
+				"app/static/app/scripts/login.js"
+			],
+			[
+				"login",
+				"app/templates/app/login.html"
+			],
+			[
+				"layout",
+				"app/templates/layout.html"
+			],
+			[
+				"user.ht",
+				"app/templates/app/user.html"
+			],
+			[
+				".html",
+				"app/templates/layout.html"
+			],
+			[
+				"view",
+				"app/views.py"
+			],
+			[
 				"setting",
 				"continue/settings.py"
 			],
 			[
-				"sett",
-				"continue/settings.py"
+				"url",
+				"app/urls.py"
 			],
 			[
-				"url",
-				"continue/urls.py"
+				"sett",
+				"continue/settings.py"
 			],
 			[
 				"",
@@ -1188,10 +1213,6 @@
 				"app/urls.py"
 			],
 			[
-				"login",
-				"app/static/app/scripts/login.js"
-			],
-			[
 				"views",
 				"app/views.py"
 			],
@@ -1202,10 +1223,6 @@
 			[
 				"main",
 				"app/static/app/scripts/main.js"
-			],
-			[
-				"layout",
-				"app/static/app/scripts/layout.js"
 			],
 			[
 				"user.j",
@@ -1238,10 +1255,6 @@
 			[
 				"contro",
 				"app/controllers.py"
-			],
-			[
-				"view",
-				"app/views.py"
 			],
 			[
 				"layout.js",
@@ -1658,18 +1671,6 @@
 			[
 				"learn",
 				"Note/Learning.md"
-			],
-			[
-				"urls",
-				"app/urls.py"
-			],
-			[
-				"lear",
-				"Learning.md"
-			],
-			[
-				"index.js",
-				"app/static/app/scripts/index.js"
 			]
 		],
 		"width": 0.0

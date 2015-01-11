@@ -1,0 +1,31 @@
+{% load filters %}
+<div ng-cloak class='sidebar' style='position:fixed;left:0px;top:60px;width:250px'>
+  <div class="sidebar-title text-large" style='background:#eee;padding:5px 10px;'>
+    <i class='fa fa-list'></i>&nbsp;Navigation
+  </div>
+  <div class='sidebar-body' style='padding-left:20px;margin-top:10px;'>
+    <div ng-click="display_tab('updates')">
+      <div class='text-default sidebar-item'>
+        <i class="fa fa-rss"></i>&nbsp;Updates
+      </div>
+    </div>
+    <div ng-click="display_tab('posts')" click-to-show>
+      <div click-to-show-trigger class="text-default sidebar-item">
+        <i class="fa fa-newspaper-o"></i>&nbsp;Posts&nbsp;<i class="fa fa-caret-down"></i>
+      </div>
+      <div click-to-show-target>
+        {% for post in posts %}
+        <div class='text-small sidebar-item'
+            ng-click="scroll_to_post({{post.id}})">
+          {{ post.title|truncate:38 }}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <div ng-click='display_tab("items")'>
+      <div class="text-default sidebar-item">
+        Items
+      </div>
+    </div>
+  </div>
+</div>

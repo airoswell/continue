@@ -1,0 +1,28 @@
+<div ng-cloak drop-down-menu>
+  <div drop-down-menu-trigger class='button button-small button-white'>
+    <i class='fa fa-pencil-square' style='font-size:16px;'></i>
+  </div>
+  <div drop-down-menu-target>
+    <div item-edit-button ng-click="show_editor()" item-id={{ item.id }}>
+      <div class='option'>
+        <i class='fa fa-pencil-square' style='font-size:16px;'></i> &nbsp;Edit the item
+      </div>
+    </div>
+    <div post-item-delete-button ng-click="double_check()"
+        post-id={{ post.id }} item-id={{ item.id }}>
+      <div class='option'>
+        <i class='fa fa-trash' style='font-size:16px;'></i> &nbsp;Remove from this post
+      </div>
+      <div ng-show='show_double_check' class='text-small'
+          style='padding:5px 15px;background:#f4f4f4;text-align:center'>
+        <i class="fa fa-question"></i> &nbsp;Are you Sure?
+      </div>
+      <div class='option'
+          ng-show="show_double_check"
+          ng-click="del()">
+        <i class='fa fa-trash' style='font-size:16px;'></i>&nbsp;&nbsp;Yes, REMOVE it.
+      </div>
+    </div>
+    
+  </div>
+</div>

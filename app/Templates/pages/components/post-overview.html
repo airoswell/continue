@@ -1,0 +1,73 @@
+<div id='post-{{ post.id }}' class='post-container'
+    search-post-overview ng-cloak
+    owner-id="{{ post.owner.id }}" post-id="{{ post.id }}">
+
+  <!-- Post header (title, zip_code, owner, etc.) -->
+  <div class='post-header' layout='row' layout-align='space-between'>
+    <div layout='row'>
+      <div>
+        <a href="{{ post.owner.socialaccount_set.all.0.get_profile_url }}">
+          <img height=50 src="{{ post.owner.profile.all.0.social_account_photo }}">
+        </a>&nbsp;&nbsp;&nbsp;
+      </div>
+      <div>
+        <div class="username"><b>{{ post.owner.username }}</b></div>
+        <div class="time-posted">{{ post.time_posted }}</div>
+      </div>
+    </div>
+    <div>
+      <div class='expiration'>
+        {% if post.remaining_time > 0%}
+        Expiring in {{ post.remaining_time|floatformat:"0" }} days
+        {% else %}
+        Probably expired
+        {% endif %}
+      </div>
+      {% if request.user == post.owner %}
+      <div layout='row' layout-align='end' mg-tb-10>
+        <a href="/app/post/{{post.id}}">
+        <div class='button button-small button-white'>
+          <i class='fa fa-pencil'></i>Edit
+        </div>
+        </a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Post detail & item-list -->
+  <div class='post-body'>
+    <div class="text-large">{{ post.title }}</div>
+    <div> Location: {{ post.zip_code }}</div>
+    {% load markdown_deux_tags %}
+    <div click-to-expand max-height='125px'>
+      <div click-to-expand-target class="text-default" style='background: #f9f9f9;padding:5px 20px;margin-top:10px;
+      max-height:125px;overflow:hidden'>
+        {{ post.detail | markdown}}
+      </div>
+      <div click-to-expand-trigger class='button button-small button-gray' style='border-radius:0px;margin-top:0px;'>
+         <i class="fa fa-arrows-v"></i>&nbsp; toggle detail
+       </div>
+    </div>
+
+    <!-- item list of the post -->
+    {% for item in post.items.all %}
+      <!-- Transferring an item will by default make the item -->
+      <!-- visible in Ex-owners's page, and therefore viewable -->
+      <!-- in the post. -->
+      {% if item.visibility == 'Public' or item.visibility == 'Ex-owners' %}
+      {% include "components/search-item-overview.html" %}
+      {% block item_overview %}
+      {% endblock item_overview %}
+      {% endif %}
+    {% endfor %} {# items iteration end #}
+  </div> <!-- post body end -->
+
+  <!-- [contact-me] button for each post -->
+  <div layout='row' layout-align='end'>
+    <div style='display:none' contact-button class='button button-small button-gray'
+        ng-click="contact()" ng-show="items.length > 0">
+      <i class="fa fa-weixin"></i>&nbsp;&nbsp;Contact me
+    </div>
+  </div>
+</div>

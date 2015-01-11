@@ -1,0 +1,60 @@
+{% block navbar %}
+
+<style type="text/css">
+  .navbar input{
+      padding-left:0px;padding-bottom:0px;line-height:22px;border-color: transparent;
+  }
+  .navbar input:focus{
+    border-bottom: 2px solid #eee;
+  }
+  .navbar .fa.fa-search{
+    color: #999;
+  }
+
+</style>
+<div class='navbar' layout='row' layout-align='space-between center'>
+  <a href="/app/">
+    <div class="logo text-large">Continue</div>
+  </a>
+  <div class='menu text-default' layout='row' layout-align='end center'>
+    <div auto-expand data="search" min-size="15" init-width="140px">
+      <form name='search-form' action="/app/search/" layout='row' layout-align='center center'>
+        <i class='fa fa-search'></i>&nbsp;&nbsp;&nbsp;
+        <input type='text' placeholder='Search and hit enter.'
+            ng-model="search" name='q'>
+      </form>
+    </div>
+    &nbsp;&nbsp;
+    {% if user.is_anonymous %}
+    <a href="/app/user/login/">
+      <div class='menu-item'>Log in</div>
+    </a>
+    <a href="/app/user/signup/"><div class='menu-item'>Sign up</div></a>
+    {% else %}
+    <a href="/app/user/inbox/">
+      {% load filters %}
+      <div class='menu-item'>
+        {% if request.user.received_messages.all|unread_count > 0 %}
+        <i class='fa fa-envelope'></i>&nbsp;<b>Messages</b>&nbsp;
+        <b style="padding: 3px 8px;border: 2px solid #999;border-radius: 20px;text-align: center;">{{ request.user.received_messages.all|unread_count}}</b>
+        {% else %}
+        <i class='fa fa-envelope'></i>&nbsp;Messages
+        {% endif %}
+      </div>
+    </a>
+    <a href="/app/user/dashboard/">
+      <div class='menu-item'>
+        <i class="fa fa-tachometer"></i>&nbsp;Dashboard
+      </div>
+    </a>
+    <a href="/app/user/logout/">
+      <div class='menu-item'>
+        <i class="fa fa-sign-out"></i>&nbsp;Log out
+      </div>
+    </a>
+    &nbsp;&nbsp;<img style="border-radius:2px" height="40"
+        src={{request.user.profile.all.0.social_account_photo}} >
+    {% endif %}
+  </div>
+</div>
+{% endblock navbar %}

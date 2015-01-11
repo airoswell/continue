@@ -1,0 +1,7 @@
+{{ object.title }}
+{{ object.detail }}
+{{ object.zip_code }}
+{{ object.owner }}
+{% for item in object.items.all %}
+  {{ item.title }}
+{% endfor %}

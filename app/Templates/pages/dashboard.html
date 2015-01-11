@@ -1,0 +1,145 @@
+{% extends 'layout.html'%}
+
+{% block content %}
+
+<div id='dashboard-wrapper' ng-controller="DashBoardCtrl" layout='row' layout-align='end'>
+  
+  <!-- Side navigation bar -->
+  {% include 'pages/components/sidebar.html'%}
+  <!-- END: Side navigation bar -->
+  
+  <div flex-gt-md="80">
+    <!-- Main interface -->
+    <!-- Create item and post button -->
+    <div trigger style='position:fixed;top:100px;right:20px;z-index:1'>
+      <md-button class="md-fab" aria-label="New document"
+          ng-click="create_item()">
+        <i class="fa fa-plus" style='font-size:20px;line-height:50px;'></i>
+      </md-button>
+      &nbsp;
+      <a href="/app/post/">
+        <md-button class="md-fab" aria-label="New document">
+          <i class="fa fa-align-left" style='font-size:20px;line-height:50px;'></i>
+        </md-button>
+      </a>
+    </div>
+
+    <!-- Welcome message -->
+    <div layout='row' layout-sm='column' layout-align='start center'>
+      <div class='section-title section-title-exlarge'>Welcome,
+      {{ request.user.profile.all.last.name }}
+      </div>
+    </div>
+
+    <!-- timeline -->
+    <div ng-show='layout.display_tab == "updates" '>
+      {% for event in timeline %}
+        <div>
+          {% include 'pages/components/timeline.html' %}
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- Transactions section -->
+    <div ng-show="layout.display_tab == 'updates'">
+      <div class="section-title section-title-large">
+        Recent transactions
+      </div>
+      <!-- Transaction list -->
+      <div style='background:#f4f4f4;padding:20px;font-size:18px;'>
+        {% for transaction in transactions %}
+        <!-- A transaction record -->
+        <div style='margin:10px;'>
+          {% if transaction.status == "Sent" %}
+
+          {%   if transaction.giver.id == request.user.id %}
+          You have <span>{{transaction.status}}</span> <span>{{transaction.giver.username}}</span> the item <span>{{transaction.item.title}}</span>
+          <span class='button button-small button-gray'
+              ng-click="transaction.revoke()">
+            Revoke
+          </span>
+
+          {%   else %}
+          <span>{{transaction.giver.username}}</span> has <span>{{transaction.status|lower}}</span> you
+          an item <span>{{transaction.item.title}}</span>
+          <span class='button button-small button-gray'
+              ng-click="transaction.reject()">
+            Reject
+          </span>
+          &nbsp;
+          <span class='button button-small button-gray'
+              ng-click="transaction.receive()">
+            Receive
+          </span>
+          {%   endif %}
+
+          {% elif transaction.status == "Received" %}
+          {%   if transaction.giver.id == request.user.id %}
+          <span>{{transaction.giver.username}}</span> has <span>{{transaction.status|lower}}</span> the item <span>{{transaction.item.title}}</span>
+          {%   else %}
+          You <span>{{transaction.status|lower}}</span> an item <span>{{transaction.item.title}}</span> from <span>{{transaction.giver.username}}</span>
+          {% endif %}
+
+          {% elif transaction.status == "Rejected" %}
+          {%   if transaction.giver.id == request.user.id %}
+          <span>{{transaction.giver.username}}</span> has <span>{{transaction.status|lower}}</span> the item <span>{{transaction.item.title}}</span>
+          </span>
+          {% else %}
+          You received an item <span>{{transaction.item.title}}</span> from <span>{{transaction.giver.username}}</span>
+          {% endif %}
+
+          {% elif transaction.status == "Revoked" %}
+          {%   if transaction.giver.id == request.user.id %}
+          You have  <span>{{transaction.status|lower}}</span> the item <span>{{transaction.item.title}}</span> that were sent to <span>{{transaction.giver.username}}</span>.
+            </span>
+          {%   else %} 
+          The item <span>{{transaction.item.title}}</span> from <span>{{transaction.giver.username}}</span> has been <span>{{transaction.status|lower}}</span>
+          {%   endif %}
+          {% endif %}
+
+        </div><!-- END A transaction record -->
+
+        {% endfor %}
+      </div><!-- END Transaction list -->
+    </div><!-- END Transactions section -->
+    
+
+    <!-- Post list -->
+    <div ng-show="layout.display_tab == 'posts'" layout='row'>
+      <div  flex-gt-md="80" flex>
+      {% for post in posts %}
+        <div>
+        {% include 'pages/components/post-overview.html'%}
+        </div>
+      {% endfor %}
+      </div>
+    </div>
+
+    <!-- Item list -->
+    <div ng-show='layout.display_tab == "items" '>
+      <div class="section-title-large">
+        Your inventory
+      </div>
+      <div id='items-display' layout='column' layout-gt-md='row'>
+        <div flex-gt-md="50" flex='100'>
+          <dashboard-item-overview
+            item="item"
+            ng-repeat='item in items' ng-show="$even"></dashboard-item-overview>
+        </div>
+        <div flex-gt-md="50" flex='100'>
+          <dashboard-item-overview
+            item="item"
+            ng-repeat='item in items' ng-show="$odd"></dashboard-item-overview>
+        </div>
+      </div>
+      <div layout='row' layout-align='center'>
+        <div class="button pagination" ng-click="items.prev_page()">Previous</div>
+        <div class="button pagination" ng-click="items.next_page()">Next</div>
+      </div>
+    </div>
+
+    
+  </div>
+</div>
+
+{% endblock %}

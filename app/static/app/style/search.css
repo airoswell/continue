@@ -1,0 +1,67 @@
+.sidebar-item{
+    padding:5px 10px;
+    font-weight:600;
+    cursor:pointer;
+}
+.sidebar-item:hover{
+    background: #eee;
+}
+
+
+.post-container{
+    padding:20px;margin:20px 10px;box-shadow: 0px 2px 5px #ddd;
+}
+.post-header{
+    margin-top:5px;margin-bottom:5px;
+}
+.post-header .username{
+    padding-top:0px;padding-bottom:2px;font-size:18px;
+}
+.post-header .time-posted{
+    padding-bottom:5px;
+}
+.post-header .expiration{
+    color: #666;
+}
+
+.post-body{
+    margin-top: 10px;
+}
+
+.item-container{
+    width:100%;
+    cursor: pointer;
+    padding:15px;
+}
+.item-container:hover{
+    background: #f9f9f9;
+}
+
+.item-overview-title{
+    background:#00B411;color:#fff;
+    padding:5px 5px 5px 15px;font-weight:600
+}
+.item-overview-quantity{
+    background:#fff;color:#00B411;
+    padding:4px 10px;margin-left:10px;
+}
+.transfer-button{
+    padding: 10px;
+}
+.transfer-button:hover{
+    background: #eee;
+}
+
+
+.add-item{
+    cursor: pointer;padding: 25px 10px;margin-top: 5px;
+}
+.add-item:hover{
+    background: #eee; 
+}
+.add-item.active{
+    background: #00B411;color: #fff
+}
+.add-item.disabled:hover{
+    background: #fff;
+}

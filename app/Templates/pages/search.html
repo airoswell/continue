@@ -1,0 +1,62 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div id='search-results-wrapper'
+    layout='column' layout-align='start center'
+    ng-controller="SearchResultsCtrl">
+  
+  <!-- Side navigation bar -->
+  <div hide-sm hide-md style='position: fixed;left:0px;top:80px;box-shadow:-2px 0px 3px #eee;background:#fff;opacity:0.8;z-index:0'>
+    <div class="text-large" style='padding:10px;background:#eee'>
+      <i class="fa fa-list"></i>&nbsp;Posts list
+    </div>
+    {% for post in posts %}
+      <div class='text-default sidebar-item'
+          ng-click="scroll_to_post({{post.id}})">
+          {% load filters %}
+        <i class='fa fa-circle-o'></i>&nbsp;&nbsp;{{ post.title|truncate:40 }}
+      </div>
+    {% endfor %}
+  </div>
+
+  <div layout='row' layout-align='center'>
+    <div>
+      <form action="/app/search/">
+        <div layout='row' layout-align='center center'>
+          <div class='text-default'>Search: &nbsp;&nbsp;</div>
+          <div>
+            <input type='text' name='q' placeholder="by owner, title, content, ...">
+          </div>
+        </div>
+        <div layout='row' layout-align='center center'>
+          <div class='text-default'>Zip code: &nbsp;&nbsp;</div>
+          <div><input type='text' name='zip_code'></div>
+        </div>
+        <button type='submit' class='button button-default'>Search</button>
+      </form>
+    </div>
+  </div>
+
+  {% if not posts %}
+  <div layout='row' layout-align='center'>
+    <div class='text-large'>
+      Oops, it seems there is no posts matches your search criteria.
+    </div>
+  </div>
+  {% else %}
+
+  <!-- When there are returned results -->
+  <div class='search-results-list' style='width:700px;'>
+
+    {% for post in posts %}
+
+      {% include 'pages/components/post-overview.html' %}
+
+    {% endfor %} {# posts iteration end #}
+  </div>
+
+  {% endif %}
+</div>
+
+
+{% endblock %}

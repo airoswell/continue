@@ -1,15 +1,21 @@
-from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
-from app.models import RegUser, Item, Post, PassEvent, ItemPostRelation
-from django.core import serializers
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
-from django.db import IntegrityError
-import json
-import pdb
-from controllers import *
+# Models and serializers
+from app.models import Item, Post
+from app.models import ItemEditRecord, PostItemStatus, ItemTransactionRecord
+from app.api import S
+from app.GenericAPI import *
+from app.serializers import *
+from app.CRUD import *
+from app.errors import *
+#
+# Django Core
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
 
-# Create your views here.
+# =======Should be removed in production========
+# ================================
+# Other Python module
+import json
+from controllers import *
 
 
 # Handel all user-related posts request
@@ -25,7 +31,6 @@ def user_posts(request):
         post_data = data['post']
         success, msg, post = user_create_post(post_data, request.user)
         post = posts_writer([post])
-        # pdb.set_trace()
         return HttpResponse(json.dumps(
             {
                 'incoming': post_data,
@@ -34,7 +39,7 @@ def user_posts(request):
                 'new_post': post[0],
             }
         ))
-    # Edit existed post
+    # Edit existing post
     elif data['type'] == 'edit':
         post_data = data['post']
         success, msg, post = user_edit_post(post_data, request.user)
@@ -57,77 +62,239 @@ def user_posts(request):
             ))
 
 
+def user_info_generator(user):
+    """
+    Take in a User object, return a simple objects containing
+    basic information about the User.
+    """
+    user_info = {
+        'name': '',
+        'id': '',
+        'is_anonymous': True,
+        'social_account_provider': ""
+    }
+    if not user.is_anonymous():
+        user_info['name'] = user.username
+        user_info['id'] = user.id
+        user_info["is_anonymous"] = False
+        if user.socialaccount_set.all():
+            provider = user.socialaccount_set.all()[0]
+            user_info['social_account_provider'] = provider.get_provider().name
+            user_info['social_account_photo'] = provider.get_avatar_url()
+    return user_info
+
+
+# All pages
 def index(request):
     return render(
         request,
-        'app/index.html',
+        # 'app/index.html',
+        'index.html',
         {
             'view': 'index',
-            'user_id': request.user.id,
-            'is_anonymous': request.user.is_anonymous(),
+            "user": user_info_generator(request.user)
         }
     )
 
 
-def results_view(request):
+def search(request):
     # Initialize date passed from search input
-    if request.GET:
-        data = request.GET
-        search_loc = data['search-loc']
-        search_string = data['search-string']
-    else:
-        search_loc = ""
-        search_string = ""
+    params = request.GET
+    s = S(Post)
+    posts = s.search(params)
     return render(
         request,
-        'app/results.html',
+        'pages/search.html',
         {
-            'view': 'results',
-            'search_loc': search_loc,
-            'search_string': search_string,
+            'view': 'search',
+            "posts": posts,
+            "user": user_info_generator(request.user)
         }
     )
 
 
-def results_process(request):
-    search_string = request.GET.get("search_string")
-    search_loc = request.GET.get("search_loc")
-    # If user only specified both the location and item name,
-    # search the intersecting results;
-    # otherwise, search all posts in the location.
-    if len(search_string) > 3:
-        posts_queryset = Post.objects.filter(
-            zip_code=search_loc,
-            item__title__icontains=search_string
+def post_edit(request, pk):
+    queryset = Post.objects.filter(pk=pk)
+    if not queryset:
+        return Response(
+            data={"error": "item with pk value %s Not found" % (pk)},
+            status=st.HTTP_404_NOT_FOUND
         )
-    else:
-        posts_queryset = Post.objects.filter(
-            zip_code=search_loc,
-        )
-    posts = posts_writer(posts_queryset)
-    response = {
-        'string': search_string,
-        'loc': search_loc,
-    }
-    return HttpResponse(json.dumps(posts))
-
-
-def get_user(request):
-    """
-    return basic infomation about the current user; requested by 'layout.html'
-    to set global $scope.user_info variable.
-    """
-    response = {
-        "user_info": {
-            'is_anonymous': request.user.is_anonymous(),
-            'user_id': request.user.id,
-            'username': request.user.username,
+    post = queryset[0]
+    items = post.items.all()
+    return render(
+        request,
+        'pages/post.html',
+        {
+            'view': 'post',
+            'post': post,
+            "items": items,
         }
-    }
-    return HttpResponse(json.dumps(response))
+    )
 
 
-def user_view(request):
+def post_create(request):
+    if request.user.is_anonymous():
+        return redirect("index")
+    return render(
+        request,
+        'pages/post.html',
+        {
+            'view': 'post',
+        }
+    )
+
+
+class Timeline:
+    def __init__(self, *models):
+        """
+        arguments <models> should take in several models, based on which
+        one build a timeline array.
+        """
+        self.models = models
+        self.starts = [0] * len(models)
+        self.order_by = ["-time_updated"] * len(models)
+        self.interval = 8
+        self.filter_type = ["and"] * len(models)
+        self.common_filter = None
+
+    def config(self, **kwargs):
+        """
+        configure <starts>, <order_by> and <interval> properties.
+        order_by and starts should be of type list, matching the <models>.
+        """
+        for arg in kwargs:
+            setattr(self, arg, kwargs[arg])
+
+    def field(self, index):
+        import re
+        minus = re.compile("^-")
+        if minus.match(self.order_by[index]):
+            field = self.order_by[index][1:]
+        return field
+
+    def merge(self, *args):
+        num_of_arrays = len(args)
+        result = []
+        if num_of_arrays == 1:
+            return args[0]
+        if num_of_arrays == 2:
+            a = args[0]
+            b = args[1]
+            while a and b:
+                if getattr(a[0], self.field(0)) > getattr(b[0], self.field(1)):
+                    result.append(a.pop(0))
+                else:
+                    result.append(b.pop(0))
+            if a:
+                result = result + a
+            else:
+                result = result + b
+            return result
+        else:
+            for step in range(0, num_of_arrays - 1):
+                result = self.mergesort(args[step], args[step + 1])
+        return result
+
+    def get(self, *args, **kwargs):
+        """
+        Take in either an array of kwargs for filtering, e.g.
+        get(
+            {"item": item, {item__owner: request.user}},
+            {"item__owner": user}
+        ), matching each of the <models>,
+        or a common **kwargs to search,
+        e.g. get(item=item, item__owner=request.user).
+        Return:
+            - list (mergesorted)
+        """
+        querysets = []
+        if self.filter_type:
+            from django.db.models import Q
+        for model in self.models:
+            index = self.models.index(model)
+            start = self.starts[index]
+            if not kwargs:
+                temp_kwargs = args[index]
+            if self.filter_type[index] == "or":
+                Q_list = []
+                for kwarg in temp_kwargs:
+                    Q_list.append(Q(**{kwarg: temp_kwargs[kwarg]}))
+                import operator
+                queryset = model.objects.filter(reduce(operator.or_, Q_list))
+            else:
+                queryset = (model.objects.filter(**kwargs)
+                            .order_by(self.order_by[index])
+                            [start: start + self.interval + 1])
+            if self.common_filter:
+                queryset = queryset.filter(**self.common_filter)
+            queryset = [r for r in queryset]
+            querysets.append(queryset)
+        # Begin constructing the timeline
+        timeline = []
+        # Merge sort
+        timeline = self.merge(*querysets)
+        return timeline
+
+
+def item_timeline(request, pk):
+    params = request.GET
+    if 'edit_start' in params:
+        edit_start = params['edit_start']
+    else:
+        edit_start = 0
+    if 'transaction_start' in params:
+        transaction_start = params['transaction_start']
+    else:
+        transaction_start = 0
+    if "items_per_page" in params:
+        items_per_page = params['items_per_page']
+    else:
+        items_per_page = 8
+
+    queryset = Item.objects.filter(pk=pk)
+    if not queryset:
+        return Response(
+            data={"error": "item with pk value %s Not found" % (pk)},
+            status=st.HTTP_404_NOT_FOUND
+        )
+    item = queryset[0]
+
+    tl = Timeline(ItemEditRecord, ItemTransactionRecord)
+    tl.config(
+        interval=items_per_page,
+        starts=(edit_start, transaction_start)
+    )
+    timeline = tl.get(item=item)[0: tl.interval]
+    return render(
+        request,
+        'pages/item-timeline.html',
+        {
+            'view': 'timeline',
+            'timeline': timeline,
+            "item": item,
+        }
+    )
+
+
+def user_timeline(request, pk):
+    tl = Timeline(ItemEditRecord, ItemTransactionRecord)
+    tl.config(
+        interval=16,
+    )
+    timeline = tl.get(item__owner=request.user)
+    timeline.reverse()
+    return render(
+        request,
+        'pages/user-timeline.html',
+        {
+            'view': 'timeline',
+            'timeline': timeline,
+        }
+    )
+
+
+def dashboard(request):
     """
     A view function that respond to URL '/app/user/', which display
     the admin page of the current user.
@@ -135,126 +302,30 @@ def user_view(request):
     If the current user is not logged in, redirect to '/app/login/'
     page
     """
-    if request.method == 'POST':
-        posts_queryset = Post.objects.filter(owner__id=request.user.id).all()
-        posts = get_posts(posts_queryset)
-        return HttpResponse(json.dumps(posts))
-    elif request.user.is_anonymous():
-        return HttpResponseRedirect("/app/login/")
+    user = request.user
+    if user.is_anonymous():
+        return redirect('/app/user/login/')
+    posts = Post.objects.filter(owner=user)
+    tl = Timeline(ItemTransactionRecord)
+    tl.config(interval=16, filter_type=["or"],
+              common_filter={"status": "Sent"})
+    transactions = tl.get({"receiver": user, "giver": user})
+    for transaction in transactions:
+        if transaction.status != "Sent":
+            transactions.remove(transaction)
+    tl = Timeline(ItemEditRecord, ItemTransactionRecord)
+    tl.config(interval=16, filter_type=["and", "or"])
+    timeline = tl.get(
+        {"item__owner": user},
+        {"giver": user, "receiver": user},
+    )[0: tl.interval]
     return render(
         request,
-        'app/user.html',
+        'pages/dashboard.html',
         {
-            'view': 'user',
+            'view': 'dashboard',
+            'posts': posts,
+            'timeline': timeline,
+            'transactions': transactions,
         }
     )
-
-
-def user_info_generator(user):
-    """
-    Take in a User object, return a simple objects containing
-    basic information about the User.
-    """
-    user_info = {
-        'user_name': '',
-        'user_id': '',
-        'is_anonymous': True,
-    }
-    if user.is_anonymous() is False:
-        user_info['user_name'] = user.username
-        user_info['user_id'] = user.id
-        user_info["is_anonymous"] = False
-    return user_info
-
-
-def login_handler(request, username, password):
-    user = authenticate(username=username, password=password)
-    if user is not None:
-        if user.is_active:
-            login(request, user)
-            user_info = user_info_generator(user)
-            request_status = "Logged in"
-        else:
-            request_status = "Disabled"
-    else:
-        request_status = "Invalid"
-    response = {
-        'user_info': user_info,
-        'request_status': request_status,
-    }
-    return user, response
-
-
-def login_view(request):
-    # If the user has not logged in
-    if request.method == 'POST':
-        data = json.loads(request.body)
-        user_name_input = data['user_name']
-        password_input = data['password']
-        user, response = login_handler(request, user_name_input, password_input)
-        return HttpResponse(json.dumps(response))
-    is_anonymous = True
-    if request.user.is_anonymous():
-        is_anonymous = True
-    else:
-        is_anonymous = False
-    return render(
-        request,
-        'app/login.html',
-        {
-            'view': 'login',
-            'is_anonymous': is_anonymous,
-            'username': request.user.username,
-        }
-    )
-
-
-def signup(request):
-    pdb.set_trace()
-    data = json.loads(request.body)
-    try:
-        new_user = RegUser.objects.create_user(
-            username=data['user_name'],
-            email=data['email'],
-            password=data['password']
-        )
-    except IntegrityError:
-        pdb.set_trace()
-        return HttpResponse(json.dumps(
-            {
-                'success': False,
-                "msg": "Username is already taken!",
-            }
-        ))
-    if True:
-        # If signup is successful
-        user, response = login_handler(
-            request,
-            data['user_name'],
-            data['password']
-        )
-        response['signup_is_success'] = True
-    else:
-        response['signup_is_success'] = False
-    return HttpResponse(json.dumps(response))
-
-
-def user_logout(request):
-    logout(request)
-    response = {
-        'a': 'b'
-    }
-    return render(
-        request,
-        'app/logout.html',
-        response,
-    )
-
-
-def post(request, post_id):
-    post_queryset = Post.objects.filter(id=post_id)
-    response = {
-        'var_post': "variable from post()",
-        'post_id': post_id,
-    }
-    return HttpResponse(json.dumps(response))

@@ -1,10 +1,6 @@
 from django.contrib import admin
-from app.models import RegUser, Item, Post, PassEvent, ItemPostRelation
+from app.models import Item, Post, ItemTransactionRecord, PostItemStatus
 # Register your models here.
-
-
-class RegUserAdmin(admin.ModelAdmin):
-    fields = ['username', 'password', 'email']
 
 
 class ItemAdmin(admin.ModelAdmin):
@@ -13,7 +9,7 @@ class ItemAdmin(admin.ModelAdmin):
         (
             "Basic Info",
             {
-                "fields": ['title', 'quantity', 'condition', 'current_owner']
+                "fields": ['title', 'quantity', 'condition', 'owner']
             }
         ),
         (
@@ -37,14 +33,14 @@ class PostAdmin(admin.ModelAdmin):
         (
             "Detail",
             {
-                "fields": ['item', "expiration_date"]
+                "fields": ['item', "expiration_date", "items"]
             }
         )
     )
 
 
-class ItemPostRelationAdmin(admin.ModelAdmin):
-    list_display = ('item', 'post', 'item_status')
+class PostItemStatusAdmin(admin.ModelAdmin):
+    list_display = ('item', 'post')
     fieldset = (
         (
             "Basic",
@@ -55,12 +51,11 @@ class ItemPostRelationAdmin(admin.ModelAdmin):
         (
             "Detail",
             {
-                "fields": ['item_status', 'item_request'],
+                "fields": ['item_requesters'],
             }
         )
     )
 
-admin.site.register(RegUser, RegUserAdmin)
 admin.site.register(Item, ItemAdmin)
 admin.site.register(Post, PostAdmin)
-admin.site.register(ItemPostRelation, ItemPostRelationAdmin)
+admin.site.register(PostItemStatus, PostItemStatusAdmin)

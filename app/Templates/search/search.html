@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form type="get" action=".">
+    <input type="text" name="q">
+    <button type="submit">Search</button>
+</form>
+
+{% for result in page.object_list %}
+   <p>{{ result.object.title }}</p>
+{% empty %}
+   <p>No results found.</p>
+{% endfor %}
+{% endblock %}

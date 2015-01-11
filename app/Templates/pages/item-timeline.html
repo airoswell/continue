@@ -1,0 +1,38 @@
+{% extends 'layout.html'%}
+
+{% block content %}
+
+<div style="position:fixed;left:20px;max-width:256px;">
+  <div reduced-padding>
+    <div style="color:#999;font-size:18px"><i class="fa fa-clock-o"></i>&nbsp;Timeline</div>
+    <div class='section-title section-title-large'>{{ item.title }}</div>
+  </div>
+  <div>
+    <img width="100%" src="{{ item.pic }}">
+  </div>
+</div>
+<div layout='row' layout-align='center' style='padding:20px;'>
+  <div flex-gt-md="20"></div>
+  <div class='timeline' flex-gt-md="80" flex>
+    <div layout='row'>
+      <div style='border-right:2px solid #ccc;font-size:30px;font-weight:600;
+                  color:#666;'
+          class="event-header"
+          layout='row' layout-align='end'
+          flex='20'>
+        Now
+      </div>
+      <div style='border-left:2px solid #ccc;' flex-gt-md="60">
+        {% include 'pages/components/search-item-overview.html'%}
+      </div>
+    </div>
+    {% load filters %}
+    {% for event in timeline %}
+
+    {% include 'pages/components/timeline.html'%}
+
+
+   {% endfor %}
+  </div>
+</div>
+{% endblock content %}

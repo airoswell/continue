@@ -1,0 +1,42 @@
+<style type="text/css" scoped>
+  .grey-cover{
+    position: fixed;
+    top:0px;left:0px;
+    width: 100%;height: 100%;
+    background: #000;opacity: 0.5;
+    color: #fff;
+  }
+  .bottom-sheet-wrapper{
+    position: fixed;bottom:0px;
+    background: #f4f4f4;padding: 10px 20px;
+    border-top:1px solid #bbbbbb;
+    width: 100%;
+    box-shadow: 0px 4px 8px #ccc;
+    z-index: 1;
+  }
+  .selected{
+    max-width: 40%;
+  }
+</style>
+<div ng-show='BottomSheet.is_show'>
+  <div class='grey-cover' ng-click='BottomSheet.close()'></div>
+  <div class='bottom-sheet-wrapper'>
+    <div layout='column' layout-gt-md="row" layout-align='center'>
+      <div ng-class='{selected: layout.selected}'>
+        <div ng-repeat="existing_item in items" style='display:inline-block'
+            ng-click="select(item, existing_item)">
+          <item-title item="existing_item"></item-title>
+        </div>
+        <div ng-show="items" layout='row' layout-align='center center'>
+          <div class="button pagination" ng-click='items.next_page()'>Next</div>
+          <div class="button pagination" ng-click="items.prev_page()">
+            Prev
+          </div>
+        </div>
+      </div>
+      <div ng-if='item.id' layout='row' layout-align='center' flex-gt-md="50">
+        <dashboard-item-overview flex></dashboard-item-overview>
+      </div>
+    </div>
+  </div>
+</div>
