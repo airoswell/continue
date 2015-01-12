@@ -73,16 +73,16 @@ class XDetailAPIView(APIView):
         # Perform update
         crud = Crud(request.user, self.model)
         from django.db.models.fields import FieldDoesNotExist
-        return Response(data="here")
         try:
             # If the model has 'owner' field
             # only the object that is owned by the user can be updated
             self.model._meta.get_field("owner")
-            instance = crud.update(data, owner=request.user)
+            instance, errors = crud.update(data, owner=request.user)
+            return Response(data=errors)
         except FieldDoesNotExist:
             # If the model does not have 'owner' field
             # pass in <user> to the model methods, let them decide
-            instance = crud.update(data, user=request.user)
+            instance, errors = crud.update(data, user=request.user)
         # ============================================================
         if instance:    # if the item is owned by the user
             data = self.serializer(instance).data
