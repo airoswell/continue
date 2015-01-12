@@ -66,11 +66,6 @@ class XDetailAPIView(APIView):
             handler = ErrorHandler(self.deSerializer)
         else:
             handler = ErrorHandler(self.serializer)
-        # a
-        data_serilized = self.serializer(data=request.data)
-        if data_serilized.is_valid():
-            return Response(data=data_serilized.validated_data)
-        # b
         data = handler.validate(request.data)
         errors = handler.errors
         data['id'] = pk         # If the data contains id, should preserve it
@@ -78,6 +73,7 @@ class XDetailAPIView(APIView):
         # Perform update
         crud = Crud(request.user, self.model)
         from django.db.models.fields import FieldDoesNotExist
+        return Response(data="here")
         try:
             # If the model has 'owner' field
             # only the object that is owned by the user can be updated
