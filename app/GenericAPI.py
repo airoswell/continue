@@ -66,7 +66,7 @@ class XDetailAPIView(APIView):
             handler = ErrorHandler(self.deSerializer)
         else:
             handler = ErrorHandler(self.serializer)
-        return Response(data=request.data)
+        # return Response(data=request.data)
         data = handler.validate(request.data)
         errors = handler.errors
         data['id'] = pk         # If the data contains id, should preserve it
@@ -79,7 +79,7 @@ class XDetailAPIView(APIView):
             # only the object that is owned by the user can be updated
             self.model._meta.get_field("owner")
             instance, errors = crud.update(data, owner=request.user)
-            return Response(data=self.serializer(instance).data)
+            return Response(data=instance)
         except FieldDoesNotExist:
             # If the model does not have 'owner' field
             # pass in <user> to the model methods, let them decide
