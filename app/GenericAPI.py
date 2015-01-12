@@ -67,7 +67,7 @@ class XDetailAPIView(APIView):
         else:
             handler = ErrorHandler(self.serializer)
         # a
-        data_serilized = self.serializer(data=data)
+        data_serilized = self.serializer(data=request.data)
         return Response(data=data_serilized.is_valid())
         # b
         data = handler.validate(request.data)
