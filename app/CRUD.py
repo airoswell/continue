@@ -52,9 +52,9 @@ class Crud:
         try:
             instance, errors = self.model.update(validated_data, **kwargs)
             print "\t\t CRUD.update ==> errors %s" % (errors)
-            return instance
+            return instance, errors
         except:
-            return False
+            return False, ["Unknown errors"]
 
     def delete(self):
         return
