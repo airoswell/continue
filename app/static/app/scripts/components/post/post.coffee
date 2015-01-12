@@ -25,6 +25,6 @@ angular.module "continue"
   $scope.save = ()->
     console.log "In postCtrl $scope.post.owner", $scope.post.owner
     $scope.post.save().$then (response)->
-      window.location.replace("/app/post/#{response.id}/");
+    #   # window.location.replace("/app/post/#{response.id}/");
 
 ]

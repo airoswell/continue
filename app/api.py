@@ -168,7 +168,7 @@ class PostDetail(XDetailAPIView):
             crud = Crud(request.user, Post)
             # Pass in keyword argument owner=request.user
             # will further authenticate user at the model.update() level
-            post = crud.update(data, owner=request.user)
+            post, errors = crud.update(data, owner=request.user)
             data = self.serializer(post).data
             data["errors"] = errors
             return Response(data=data, status=status)

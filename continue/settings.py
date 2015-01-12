@@ -37,7 +37,7 @@ TEMPLATE_DIRS = {
     ).replace('\\', '/'),
 }
 print(TEMPLATE_DIRS)
-STATIC_ROOT = os.path.join(PROJECT_DIR, 'public/')
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'app/static/')
 # STATIC_ROOT = os.path.join(PROJECT_DIR, 'public/static/')
 STATIC_PRECOMPILER_OUTPUT_DIR = "../static/"
 
@@ -98,7 +98,6 @@ INSTALLED_APPS = (
     'postman',      # mailing app
     'markdown_deux',
     'compressor',
-    'djangular',    # Django-AngularJS integration
     'app',          # the app name
 )
 

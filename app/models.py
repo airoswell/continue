@@ -188,7 +188,6 @@ class Item(models.Model):
         Update using <update, method of Queryset>.
         """
         queryset = cls.objects.filter(id=validated_data["id"])
-        return "queryset", None
         # kwargs can contain [owner=request.user] to impose
         # permission check
         if kwargs:
@@ -200,6 +199,8 @@ class Item(models.Model):
         owner_changed = False
         errors = []
         for field in item.tracked_fields:
+            print("\t\tfield = %s" % (field))
+            import pdb; pdb.set_trace()
             if not field in validated_data:
                 continue
             original_value = getattr(item, field)
@@ -233,6 +234,7 @@ class Item(models.Model):
                         record.save()
                     except IntegrityError, e:
                         errors.push(e.message)
+        import pdb; pdb.set_trace()
         # Owner change will propagate through here
         queryset.update(**validated_data)
         # A newly created transaction should render the item NOT-transferrable
