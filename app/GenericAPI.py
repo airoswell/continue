@@ -66,7 +66,10 @@ class XDetailAPIView(APIView):
             handler = ErrorHandler(self.deSerializer)
         else:
             handler = ErrorHandler(self.serializer)
-        return Response(data=request.data)
+        # a
+        data_serilized = self.serializer(data=data)
+        return Response(data=data_serilized.is_valid())
+        # b
         data = handler.validate(request.data)
         errors = handler.errors
         data['id'] = pk         # If the data contains id, should preserve it
