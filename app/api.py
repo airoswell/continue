@@ -70,9 +70,9 @@ class PostList(XListAPIView):
         data['owner'] = request.user.id
         # ============================================================
         # First process and validate and rearrange the data
+        items_data = []
+        items_errors = []
         if "items" in data:
-            items_data = []
-            items_errors = []
             for item_data in data.pop("items"):
                 if not "owner" in item_data:
                     item_data["owner"] = request.user.id
@@ -94,7 +94,7 @@ class PostList(XListAPIView):
         post_error_handler = ErrorHandler(PostSerializer)
         data = post_error_handler.validate(data)
         post_data_errors = post_error_handler.errors
-        if items_data:
+        if "items" in data:
             data['items'] = items_data
         errors = post_data_errors
         errors['items_errors'] = items_errors

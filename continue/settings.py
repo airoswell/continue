@@ -31,9 +31,14 @@ TEMPLATE_DIRS = {
         PROJECT_DIR,
         'app/templates/pages/components',
     ).replace('\\', '/'),
+    os.path.join(
+        PROJECT_DIR,
+        '',
+    ).replace('\\', '/'),
 }
-print(PROJECT_DIR)
-STATIC_ROOT = os.path.join(PROJECT_DIR, 'app/static/')
+print(TEMPLATE_DIRS)
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'public/')
+# STATIC_ROOT = os.path.join(PROJECT_DIR, 'public/static/')
 STATIC_PRECOMPILER_OUTPUT_DIR = "../static/"
 
 # Quick-start development settings - unsuitable for production
@@ -57,6 +62,14 @@ ROOT_URLCONF = 'continue.urls'
 STATIC_URL = '/static/'
 
 # ====================== Path settings END ===========================
+
+import socket
+if socket.gethostname().startswith('FBI-SVL-666.home'):
+    LIVEHOST = False
+else:
+    LIVEHOST = True
+
+
 
 # =====================
 # Django core settings
@@ -104,12 +117,24 @@ WSGI_APPLICATION = 'continue.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(PROJECT_DIR, 'db.sqlite3'),
+if LIVEHOST:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'db_continue',
+            'USER': 'airoswell',
+            'PASSWORD': '299792458',
+            'HOST': '104.237.144.150',
+            'PORT': '3306',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(PROJECT_DIR, 'db.sqlite3'),
+        }
+    }
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/

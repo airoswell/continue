@@ -100,7 +100,7 @@ class Item(models.Model):
     )
     visibility = models.CharField(
         choices=visibility_choices,
-        max_length=2,
+        max_length=10,
         default="Private",
     )
     condition_choices = (
