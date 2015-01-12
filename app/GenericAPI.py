@@ -78,7 +78,7 @@ class XDetailAPIView(APIView):
             # only the object that is owned by the user can be updated
             self.model._meta.get_field("owner")
             instance, errors = crud.update(data, owner=request.user)
-            return Response(data=errors)
+            return Response(data=self.serializer(instance).data)
         except FieldDoesNotExist:
             # If the model does not have 'owner' field
             # pass in <user> to the model methods, let them decide
