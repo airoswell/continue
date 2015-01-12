@@ -188,6 +188,7 @@ class Item(models.Model):
         Update using <update, method of Queryset>.
         """
         queryset = cls.objects.filter(id=validated_data["id"])
+        return queryset, None
         # kwargs can contain [owner=request.user] to impose
         # permission check
         if kwargs:
