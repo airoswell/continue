@@ -1,57 +1,150 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-  <div layout='column'>
-    <div layout='column'>
-      {% load staticfiles %}
-      <div style='background-image: url("{% static "app/images/bg.jpg" %}");width:100%;height:600px;'>
-        <div layout='row'>
-          <div flex-gt-md='10'></div>
-          <div style='color:#aaa' flex>
-            <div style='height:200px;'></div>
-            <div style='font-size:18px;text-shadow: 0px 0px 10px #000;'>
-              Purchased, put aside, forgotten, disappear
+  {% load staticfiles %}
+  <div style='background-image: url("{% static "app/images/bg.jpg" %}");width:100%;height:750px;'>
+    <div layout='row'>
+      <div flex-gt-md='10'></div>
+      <div style='color:#aaa' flex>
+        <div style='height:200px;'></div>
+        <div style='font-size:18px;text-shadow: 0px 0px 10px #000;'>
+          Purchased, put aside, forgotten and gone forever?
+        </div>
+        <div style='font-size: 35px;text-shadow: 0px 0px 10px #000;'>
+          No. They might deserve better
+        </div>
+        <div style='font-size: 50px;border-top: 2px solid #aaa;color:#fff;margin-top:20px;padding-top:10px;text-shadow: 0px 0px 10px #000;'>
+          Document, review, share and trade your belongings
+        </div>
+        <div style='font-size:18px;text-align:center;margin-top:10px;text-shadow: 0px 0px 8px #000;'>
+          as they accompany you through time and space.
+        </div>
+      </div>
+      <div flex-gt-md="10">
+      </div>
+    </div>
+    <br/>
+    <div layout='row' layout-align='center'>
+      <form enter-to-submit id='index-search-form'
+          class="search-form search-form-large" name='search-form'
+          action="/app/search/"
+          style=' padding:30px;background-color:rgba(0,0,0,0.4);'>
+          <div style='color: #ccc;'><a href="/app/user/signup/"><b>Sign up</b></a> now, or start searching</div>
+          <br/>
+          <div layout='column' layout-gt-md='row' layout-align='center'>
+            <div layout>
+              <input enter-to-submit-input type='text' name='q' placeholder='Search items, posts, owner, areas, etc.' style='width:500px;'>
             </div>
-            <div style='font-size: 35px;text-shadow: 0px 0px 10px #000;'>
-              No. They might deserve better
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <div layout>
+              <input enter-to-submit-input class='input-short' type='text' name='area' placeholder='Area zip code' style='width:100px;'>
             </div>
-            <div style='font-size: 50px;border-top: 2px solid #aaa;color:#fff;margin-top:20px;padding-top:10px;text-shadow: 0px 0px 10px #000;'>
-              Document, review, share and trade your belongings
-            </div>
-            <div style='font-size:18px;text-align:center;margin-top:10px;text-shadow: 0px 0px 8px #000;'>
-              as they accompany you through time and space.
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <div layout>
+              <div class='button button-small button-gray' type="submit"
+                  onclick="document.getElementById('index-search-form').submit()">
+                Go
+              </div>
             </div>
           </div>
-          <div flex-gt-md="10">
-          </div>
+          <br/><br/>
+          <div style='color: #ccc;text-align:center'>or just &nbsp;&nbsp;<a href="/app/search/?q="><span class='button button-small' style='border:1px solid #ddd;background:rgba(255,255,255,0.2)'><b>browse all recent posts.</b></span></a> </div>
+      </form>
+    </div>
+  </div>
+
+
+  <div style='padding:20px 0px;font-size: 16px;line-height:24px;'>
+    <div layout='row' layout-align='center'>
+      <div class='section-title section-title-xlarge'
+          style='padding-bottom:10px;'>
+        How it works
+      </div>
+    </div>
+    <br/>
+    <div layout-gt-md="row" layout='column' layout-align='center'
+        style='background: #f4f4f4;padding:20px;'>
+      <div flex="40" layout='column' layout-align='center center'>
+        <img src="{% static 'app/images/intro-search.png'%}" style='width:470px;'>
+      </div>
+      <div flex-gt-md="40" flex="100">
+        <div class='section-title section-title-large'>
+          Search and discover
+        </div>
+        <div class='text-light-gray'>
+          Just search for stuffs that you are interested in. Discover posts for sale or free stuffs, reviews of products, check out the timeline of each items that are publicly viewable set by their owners.
         </div>
         <br/>
-        <div layout='row' layout-align='center'>
-          <form enter-to-submit id='index-search-form'
-              class="search-form search-form-large" name='search-form'
-              action="/app/search/"
-              style=' padding:30px;background-color:rgba(0,0,0,0.4);'>
-              <div style='color: #ccc;'><a href="/app/user/signup/"><b>Sign up</b></a> now, or start searching</div>
-              <br/>
-              <div layout='column' layout-gt-md='row' layout-align='center'>
-                <div layout>
-                  <input enter-to-submit-input type='text' name='q' placeholder='Search items, posts, owner, areas, etc.' style='width:500px;'>
-                </div>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <div layout>
-                  <input enter-to-submit-input class='input-short' type='text' name='area' placeholder='Area zip code' style='width:100px;'>
-                </div>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <div layout>
-                  <div class='button button-small button-gray' type="submit"
-                      onclick="document.getElementById('index-search-form').submit()">
-                    Go
-                  </div>
-                </div>
-              </div>
-              <br/><br/>
-              <div style='color: #ccc;text-align:center'>or just &nbsp;&nbsp;<a href="/app/search/?q="><span class='button button-small' style='border:1px solid #ddd'><b>browse all recent posts.</b></span></a> </div>
-          </form>
+        <div class="text-light-gray">
+          Discover sharable stuffs in your neighborhood. You might some day need a barbecue set and on <b>Continue</b> you discover that your friendly neighbor has one ready for share.
+        </div>
+      </div>
+    </div>
+    <br/>
+    <div layout-gt-md="row" layout='column' layout-align='center'
+        style='padding:20px'>
+      <div flex-gt-md="40" flex="100" layout="column" layout-align='center'>
+        <div class='section-title section-title-large'>
+          <i class="fa fa-book"></i> &nbsp;Document your item
+        </div>
+        <div class='text-light-gray'>
+          Add a record of your stuffs in the system, either for <b>sale</b>, <b>sharing with friends and neighbors</b>, or just being <b>self-organized</b>.
+        </div>
+        <br/>
+        <div class='text-light-gray'>
+          Update the records if you like. Each item will have its <span style='font-size:22px;font-weight:600'>individual timeline</span> for you to browse, where you can trace back in time and remind yourself how you have interacted with it, and the people involved...
+        </div>
+      </div>
+      <div flex-gt-md="40" flex="100">
+        <div layout="column" layout-align="center center">
+          <img src="{% static 'app/images/intro-document.jpg'%}">
+        </div>
+      </div>
+    </div>
+    <br/>
+    <br/>
+    <div layout-gt-md="row" layout='column' layout-align='center'
+        style='background: #f4f4f4;padding:20px;'>
+      <div flex-gt-md="40" flex="100" layout='column' layout-align='start center' style="padding-right:50px;">
+        <img style='box-shadow: 0px 2px 8px #ccc;' src="{% static 'app/images/intro-write.jpg'%}" style='width:400px;'>
+      </div>
+      <div flex-gt-md="40" flex="100">
+        <div class='section-title section-title-large'>
+          Write about it
+        </div>
+        <div class='text-light-gray'>
+          Share with others your review and personal experiences with products you have. Combining with the <span style='font-size:22px;font-weight:600'>timeline</span>, people can get more sense on how well the product does, how endurable it is, as time goes by.
+        </div>
+        <br/>
+        <div class='text-light-gray'>
+          Needless to say, your experiences are <span style='font-size:22px;font-weight:600'>important</span> to the community.
+        </div>
+      </div>
+    </div>
+    <div layout-gt-md="row" layout='column' layout-align='center'
+        style='padding:20px'>
+      <div flex-gt-md="40" flex="100" layout="column" layout-align='center'>
+        <div class='section-title section-title-large'>
+          <i class="fa fa-book"></i> &nbsp;Share, transfer your item
+        </div>
+        <div class='text-light-gray'>
+          The age of Internet is the age of <span style='font-size:22px;font-weight:600;'>sharing</span>.
+        </div>
+        <br/>
+        <div class='text-light-gray'>
+          Items that are set to be <b>public viewable</b> and <b>available</b> can be searched by other users. We encourage to <span style='font-size:22px;font-weight:600;'>share</span> or (even more generously) <span style='font-size:22px;font-weight:600;'>give</span> your idle or no-longer-needed items to people in need. But of course you are also welcome to post items for <span style='font-size:22px;font-weight:600;'>sale</span> too.
+        </div>
+        <br/>
+        <div class='text-light-gray'>
+          Send <span style="font-size:22px;font-weight:600;">requests</span> to the owners when you see <b>available</b> items you need in public posts by the owners. We encourage you to also keep track of item transfer using the <span style="font-size:22px;font-weight:600;">transfer button <i class='fa fa-refresh'></i></span>.
+        </div>
+        <div layout='row' layout-align='end'>
+          <img src="{% static 'app/images/intro-transfer.jpg' %}">
+        </div>
+      </div>
+      <div flex-gt-md="40" flex="100">
+        <div layout="column" layout-align="center center">
+          <img src="{% static 'app/images/intro-document.jpg'%}">
         </div>
       </div>
     </div>

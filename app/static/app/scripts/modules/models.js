@@ -21,7 +21,7 @@
         if ("process_data" in self) {
           self.process_data();
         }
-        Alert.show_msg("Saving your data ...");
+        Alert.show_msg("Saving your data to database ...");
         return self.$save().$then(function(response) {
           Alert.show_msg("Your data is saved! You may need to refresh ...");
           self.loading = false;

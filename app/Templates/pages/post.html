@@ -50,6 +50,13 @@
         </textarea>
       </div>
     </div>
+    <!-- ======== Tags ======== -->
+
+    <div flex>
+      <tags-input class="custom" ng-model='tags_input'
+          placeholder='Tag your post!'>
+      </tags-input>
+    </div>
     <div>
       {% for item in items%}
       <div style='display:inline-block;margin-top:5px;margin-bottom:5px;'>
@@ -63,13 +70,7 @@
         <item-edit-menu></item-edit-menu>
       </div>
     </div>
-    <!-- ======== Tags ======== -->
 
-    <div flex>
-      <tags-input class="custom" ng-model='tags_input'
-          placeholder='Tag your post!'>
-      </tags-input>
-    </div>
     <!-- ======== Buttons ======== -->
     <div layout='row' layout-align='end'>
       <div class='button button-small button-gray'

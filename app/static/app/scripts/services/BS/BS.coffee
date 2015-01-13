@@ -15,7 +15,7 @@ angular.module "continue"
     contentUrl: ""
     monitor: 0
     promise: undefined
-    deferred: undefined
+    deferred: undefined   # waiting to be resolved and close the BottomSheet.
     output: undefined
     input: undefined
     bringUp: (content_type)->
@@ -75,6 +75,7 @@ angular.module "continue"
           # the item should be Public
           # since the bottom sheet is called in post editor
           self.item.visibility = "Public"
+          # Copy the deferred object from the BottomSheet
           self.deferred = BS.bringUp("item-editor")
           self.monitor += 1
           self.deferred.promise
@@ -100,6 +101,13 @@ angular.module "continue"
       ItemEditor.deferred.resolve(scope.item)
       ItemEditor.item = {}
       scope.item = {}
+    scope.update_item = (item)->
+      # resolve the previous Item.$find(), otherwise
+      # it will not run the new save() request.
+      ItemEditor.deferred.resolve(item)
+      item.save().$then (response)->
+        console.log "B"
+        scope.item = {}
 ]
 
 .factory "ItemSelector", ["Item", "BS", (Item, BS)->

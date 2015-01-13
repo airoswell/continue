@@ -23,7 +23,7 @@ angular.module 'continue.models', [
     # name
     if "process_data" of self
       self.process_data()
-    Alert.show_msg("Saving your data ...")
+    Alert.show_msg("Saving your data to database ...")
     self.$save().$then (response) ->
       Alert.show_msg("Your data is saved! You may need to refresh ...")
       self.loading = false

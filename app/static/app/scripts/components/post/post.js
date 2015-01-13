@@ -14,19 +14,21 @@
             var tag, tags;
             tags = response.tags.split(",");
             $('textarea').val($scope.post.detail).trigger('autosize.resize');
-            return $scope.tags_input = [
-              (function() {
-                var _i, _len, _results;
-                _results = [];
-                for (_i = 0, _len = tags.length; _i < _len; _i++) {
-                  tag = tags[_i];
-                  _results.push({
-                    "text": tag
-                  });
-                }
-                return _results;
-              })()
-            ][0];
+            if ($scope.post.tags) {
+              return $scope.tags_input = [
+                (function() {
+                  var _i, _len, _results;
+                  _results = [];
+                  for (_i = 0, _len = tags.length; _i < _len; _i++) {
+                    tag = tags[_i];
+                    _results.push({
+                      "text": tag
+                    });
+                  }
+                  return _results;
+                })()
+              ][0];
+            }
           });
         }
       });

@@ -39,7 +39,7 @@ class ItemSerializer(serializers.ModelSerializer):
                   "visibility", "detail", 'status', "utilization",
                   "availability", "link", "pic", "time_created", 'owner',
                   "acquiring_date", "original_value", "estimated_value",
-                  "requesters", "transferrable", "tags",
+                  "requesters", "transferrable", "tags", "tags_private",
                   )
 
 

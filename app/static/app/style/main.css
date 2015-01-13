@@ -106,7 +106,7 @@ em{
 .section-title{
     color: #666;font-weight: 500;
 }
-.section-title-exlarge{
+.section-title-xlarge{
     font-size: 40px;padding: 0px 10px;margin: 0px 10px;
 }
 .section-title-large{
@@ -290,6 +290,9 @@ input-dropdown[reduced-padding] .input-label{
 }
 .text-blue{
     color: #0f78ff;
+}
+.text-light-gray{
+    color: #888;
 }
 
 /* ================================================================= */

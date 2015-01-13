@@ -175,7 +175,8 @@
   </div>
 
   <div layout='row' layout-align='end'>
-    <md-button ng-show="!item.is_new" type='button' ng-click="item.save(item_update_successHandler)">
+    <md-button ng-show="!item.is_new" type='button'
+        ng-click="update_item(item)">
       update
     </md-button>
     <md-button ng-show='item.is_new' type='button' ng-click="add_to_post()">

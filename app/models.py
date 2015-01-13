@@ -113,6 +113,9 @@ class Item(models.Model):
     quantity = models.IntegerField(default=1)
     model = models.CharField(max_length=200, default="", blank=True, null=True)
     tags = models.CharField(max_length=500, blank=True, null=True, default="")
+    tags_private = models.CharField(
+        max_length=500, blank=True, null=True, default=""
+    )
     visibility_choices = (
         ('Private', "Private"),
         ('Ex-owners', "Ex-owners"),

@@ -96,10 +96,17 @@
           scope.$watch("ItemEditor.monitor", function() {
             return scope.item = ItemEditor.item;
           });
-          return scope.add_to_post = function() {
+          scope.add_to_post = function() {
             ItemEditor.deferred.resolve(scope.item);
             ItemEditor.item = {};
             return scope.item = {};
+          };
+          return scope.update_item = function(item) {
+            ItemEditor.deferred.resolve(item);
+            return item.save().$then(function(response) {
+              console.log("B");
+              return scope.item = {};
+            });
           };
         }
       };

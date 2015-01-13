@@ -2,6 +2,8 @@
 {{ object.detail }}
 {{ object.area }}
 {{ object.owner }}
+{{ object.tags }}
 {% for item in object.items.all %}
   {{ item.title }}
+  {{ item.tags }}
 {% endfor %}

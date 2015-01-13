@@ -13,7 +13,8 @@ angular.module "continue"
       $scope.post.$then (response)->
         tags = response.tags.split(",")
         $('textarea').val($scope.post.detail).trigger('autosize.resize')
-        $scope.tags_input = [{"text": tag} for tag in tags][0]
+        if $scope.post.tags
+          $scope.tags_input = [{"text": tag} for tag in tags][0]
 
   $scope.show_detail_editor = ()->
     $scope.layout.detail_input = true
