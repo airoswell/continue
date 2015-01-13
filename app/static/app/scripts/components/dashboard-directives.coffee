@@ -96,21 +96,3 @@ angular.module("continue")
       element.find("input").focus()
       true
 
-
-.directive "contenteditable", ->
-  restrict: "A"
-  require: "ngModel"
-  link: (scope, element, attrs, ngModel) ->
-    read = ->
-      ngModel.$setViewValue element.html()
-      return
-    ngModel.$render = ->
-      element.html ngModel.$viewValue or ""
-      return
-
-    element.bind "blur keyup change", ->
-      scope.$apply read
-      return
-
-    return
-

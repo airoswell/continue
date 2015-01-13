@@ -20,3 +20,6 @@ for profile in UserProfile.objects.all():
 
 for item in Item.objects.all():
     print("item %(item)s has owner %(owner)s with id %(owner_id)s" % {"item": item, "owner": item.owner, "owner_id": item.owner.id})
+
+me = User.objects.all()[1]
+Post.objects.create(title='\xE4\xB8\xAD\xE6\x96\x87', area="11790", owner=me)

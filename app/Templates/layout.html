@@ -73,14 +73,11 @@
   <script type="text/javascript" src="{% static 'app/scripts/components/search/search.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/scripts/components/dashboard.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/scripts/components/dashboard-directives.js'%}"></script>
-  {% if view == 'index' %}
-  <script type="text/javascript" src="{% static 'app/scripts/index.js'%}"></script>
-  {% elif view == "post" %}
+  {% if view == 'post' %}
   <script type="text/javascript" src="{% static 'app/scripts/components/post/post.js'%}"></script>
   {% endif %}
 
   {% load compile_static %}
-  <!-- {% compile "app/scripts/posts.coffee" %} -->
   <!-- {% compile "app/scripts/app.coffee" %} -->
   <!-- {% compile "app/scripts/layout.coffee" %} -->
   <!-- {% compile "app/scripts/components/dashboard.coffee" %} -->

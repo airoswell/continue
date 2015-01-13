@@ -9,7 +9,6 @@ from rest_framework import status as st
 from rest_framework.parsers import JSONParser
 # ================================
 import json
-from StringIO import StringIO
 
 
 class XListAPIView(APIView):
@@ -19,7 +18,6 @@ class XListAPIView(APIView):
         if "__copy__" in dir(request.data):
             data = request.data.items()[0][0]
             data = json.loads(data)
-            # data = JSONParser().parse(stream)
         return data
 
     def paginator(self, request):

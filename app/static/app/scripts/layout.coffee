@@ -66,6 +66,16 @@ angular.module("continue")
 ]
 
 
+.directive "enterToSubmit", ()->
+  restrict: "A"
+  link: (scope, element, attrs)->
+    console.log "enterToSubmit"
+    input = element.find("[enter-to-submit-input]")
+    input.keypress  (e)->
+      if e.which == 13
+        element.submit()
+
+
 .directive "autoExpand", ->
   """
   <div auto-expand data="<the input variable>" init-width="100px"

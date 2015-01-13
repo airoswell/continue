@@ -112,7 +112,7 @@ class Item(models.Model):
     requesters = models.ManyToManyField(User, related_name="items_requested")
     quantity = models.IntegerField(default=1)
     model = models.CharField(max_length=200, default="", blank=True, null=True)
-    tags = models.CharField(max_length=200, blank=True, null=True, default="")
+    tags = models.CharField(max_length=500, blank=True, null=True, default="")
     visibility_choices = (
         ('Private', "Private"),
         ('Ex-owners', "Ex-owners"),
@@ -280,7 +280,7 @@ class Post(models.Model):
         blank=False,
         default=''
     )
-    tags = models.CharField(max_length=200, blank=True, null=True, default="")
+    tags = models.CharField(max_length=500, blank=True, null=True, default="")
     detail = models.TextField(default='', blank=True)
     today = datetime.date.today()
     day = today + relativedelta(months=1)

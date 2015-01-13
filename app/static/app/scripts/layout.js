@@ -80,7 +80,21 @@
         }
       };
     }
-  ]).directive("autoExpand", function() {
+  ]).directive("enterToSubmit", function() {
+    return {
+      restrict: "A",
+      link: function(scope, element, attrs) {
+        var input;
+        console.log("enterToSubmit");
+        input = element.find("[enter-to-submit-input]");
+        return input.keypress(function(e) {
+          if (e.which === 13) {
+            return element.submit();
+          }
+        });
+      }
+    };
+  }).directive("autoExpand", function() {
     "<div auto-expand data=\"<the input variable>\" init-width=\"100px\"\n    min-size=\"20\">\n    ...\n    <input tyle='text' ng-model=\"<the input variable>\">\n</div>";
     return {
       restrict: "AE",

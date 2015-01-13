@@ -27,7 +27,7 @@
         </div>
         <br/>
         <div layout='row' layout-align='center'>
-          <form id='index-search-form'
+          <form enter-to-submit id='index-search-form'
               class="search-form search-form-large" name='search-form'
               action="/app/search/"
               style=' padding:30px;background-color:rgba(0,0,0,0.4);'>
@@ -35,20 +35,22 @@
               <br/>
               <div layout='column' layout-gt-md='row' layout-align='center'>
                 <div layout>
-                  <input type='text' name='q' placeholder='What are you looking for?' style='width:500px;'>
+                  <input enter-to-submit-input type='text' name='q' placeholder='Search items, posts, owner, areas, etc.' style='width:500px;'>
                 </div>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <div layout>
-                  <input class='input-short' type='text' name='area' placeholder='Area zip code' style='width:100px;'>
+                  <input enter-to-submit-input class='input-short' type='text' name='area' placeholder='Area zip code' style='width:100px;'>
                 </div>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <div layout>
-                  <div class='button button-small button-gray'
+                  <div class='button button-small button-gray' type="submit"
                       onclick="document.getElementById('index-search-form').submit()">
                     Go
                   </div>
                 </div>
               </div>
+              <br/><br/>
+              <div style='color: #ccc;text-align:center'>or just &nbsp;&nbsp;<a href="/app/search/?q="><span class='button button-small' style='border:1px solid #ddd'><b>browse all recent posts.</b></span></a> </div>
           </form>
         </div>
       </div>
