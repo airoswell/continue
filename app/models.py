@@ -15,7 +15,9 @@ import datetime
 class UserProfile(models.Model):
     user = models.ForeignKey(User, related_name='profile')
     name = models.CharField(max_length=100, default="", blank=True)
-    zip_code = models.CharField(max_length=5, default="", blank=True)
+    primary_area = models.CharField(max_length=5, default="", blank=True)
+    interested_areas = models.CharField(
+        max_length=1000, default="", blank=True)
     email = models.EmailField(
         blank=True, null=True, max_length=500)
     social_account_provider = models.CharField(
@@ -26,7 +28,20 @@ class UserProfile(models.Model):
     social_account_url = models.EmailField(blank=True, null=True,
                                            max_length=500)
     social_account_photo = models.URLField(default="", blank=True)
+    already_set = models.BooleanField(default=False)
     time_created = models.DateTimeField(auto_now_add=True)
+
+    @classmethod
+    def update(cls, validated_data, **kwargs):
+        queryset = cls.objects.filter(id=validated_data['id'])
+        if kwargs:  # further filter for permission purpose
+            queryset = queryset.filter(**kwargs)
+        if not queryset:
+            return None, "profile specified by %s not fould." % (kwargs)
+        print("\tvalidated_data %s" % (validated_data))
+        queryset.update(**validated_data)
+        profile = queryset[0]
+        return profile, []
 
 from django.dispatch import receiver
 from allauth.account.signals import user_signed_up
@@ -60,6 +75,10 @@ def CreateProfile(sender, **kwargs):
 
 @receiver(user_logged_in)
 def CheckAndUpdateProfile(sender, **kwargs):
+    """
+    Every time the user logs in, check check and update user's profile
+    if the user is registered using a social account.
+    """
     user = kwargs['user']
     queryset = UserProfile.objects.filter(id=user.id)
     if not queryset:
@@ -200,7 +219,6 @@ class Item(models.Model):
         errors = []
         for field in item.tracked_fields:
             print("\t\tfield = %s" % (field))
-            import pdb; pdb.set_trace()
             if not field in validated_data:
                 continue
             original_value = getattr(item, field)
@@ -234,8 +252,11 @@ class Item(models.Model):
                         record.save()
                     except IntegrityError, e:
                         errors.push(e.message)
-        import pdb; pdb.set_trace()
+                        errors.push(field)
+                        errors.push(original_value)
+                        errors.push(new_value)
         # Owner change will propagate through here
+        print("\t\t validated_data %s" % (validated_data))
         queryset.update(**validated_data)
         # A newly created transaction should render the item NOT-transferrable
         if owner_changed:
@@ -253,7 +274,7 @@ class Post(models.Model):
         through='PostItemStatus',
         through_fields=('post', 'item'),
     )
-    zip_code = models.CharField(
+    area = models.CharField(
         max_length=5,
         blank=False,
         default=''
@@ -269,12 +290,12 @@ class Post(models.Model):
         ordering = ['-time_posted']
 
     def remaining_time(self):
-        import datetime
-        import math
-        now = datetime.datetime.now()
-        d = now - self.time_posted.replace(tzinfo=None)
-        days = math.floor(d.seconds/86400)
-        return days
+        from datetime import datetime
+        now = datetime.now()
+        exp = self.expiration_date
+        exp = datetime.combine(exp, datetime.min.time())
+        d = exp - now
+        return d.days
 
     @classmethod
     def update(cls, validated_data, **kwargs):
@@ -337,6 +358,7 @@ class Post(models.Model):
             items_data = validated_data.pop("items")
         post_data = validated_data
         post = cls.objects.create(**post_data)
+        print("\t\tvalidated_data = %s" % (validated_data))
         if items_data:
             for item_data in items_data:
                 if not "id" in item_data:
@@ -431,9 +453,9 @@ class PostItemStatus(models.Model):
 class ItemEditRecord(models.Model):
     item = models.ForeignKey(Item, related_name='history_event')
     field = models.CharField(max_length=100)
-    original_value = models.CharField(max_length=100, blank=True, null=True)
-    new_value = models.CharField(max_length=100)
-    note = models.CharField(max_length=140, default="")
+    original_value = models.CharField(max_length=500, blank=True, null=True)
+    new_value = models.CharField(max_length=500)
+    note = models.CharField(max_length=500, default="", blank=True, null=True)
     time_updated = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):

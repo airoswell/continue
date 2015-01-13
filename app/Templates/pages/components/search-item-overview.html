@@ -2,13 +2,14 @@
 <div search-item-overview item-id="{{ item.id }}">
   <div layout='row' layout-align='end'>
 
-    <div click-to-show-trigger class='item-container' flex>
+    <div click-to-show class='item-container' flex>
 
       <!-- Item title & quantity & Basic conditions-->
+      <div click-to-show-trigger>
       {% include "pages/components/search-item-overview-header.html" %}
       {% block item_overview_header %}
       {% endblock item_overview_header %}
-
+      </div>
       <!-- Item description there is any -->
       {% if item.description %}
       <div style="margin-top: 10px;padding-top:4px;padding-bottom:4px;">
@@ -18,9 +19,12 @@
 
       <!-- Item thumbnail -->
       {% if item.pic %}
-      <div click-to-show style='display:none'>
+      <div click-to-show-target>
         <br/>
-        <img click-to-show src="{{ item.pic }}" style='width:100%;'>
+        <div class='picture-container'
+            style="background: url({{item.pic}});background-size:100%">
+          <img src="{{item.pic}}" style='width:98%;opacity:0'>
+        </div>
       </div>
       {% endif %}
 

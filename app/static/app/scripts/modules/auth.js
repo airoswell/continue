@@ -3,7 +3,7 @@
   angular.module("continue.auth", ["restmod"]).factory("Auth", [
     "restmod", function(restmod) {
       var User, user;
-      User = restmod.model("/user/");
+      User = restmod.model("/users/");
       user = {};
       return {
         get_user_profile: function() {

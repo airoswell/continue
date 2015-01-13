@@ -1,21 +1,3 @@
-<style type="text/css">
-  .event-header{
-    padding: 10px 10px;
-  }
-
-  .event-header.time{
-    color: #999;
-  }
-
-  .event-body{
-    padding: 20px 40px;
-  }
-  .event-body.status, .event-body.description{
-    background: #f4f4f4;
-  }
-
-</style>
-
 {% load filters %}
 <div class="event">
   
@@ -83,10 +65,12 @@
 
   <div layout='row'>
     <div style="border-right:2px solid #ccc;" flex='20'></div>
-    <div style='border-left:2px solid #ccc;' flex>
+    <div style='border-left:2px solid #ccc;' flex layout>
     {% if event|model_name == "ItemEditRecord" %}
       {% if event.field == "pic" %}
-      <div class='event-body'><img src="{{ event.new_value }}">
+      <div class='picture-container'
+          style="background-image: url({{ event.new_value }});">
+        <img src="{{ event.new_value }}">
       </div>
       {% elif event.field == "status" %}
       <div class='event-body status'>

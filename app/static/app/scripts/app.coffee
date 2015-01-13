@@ -7,6 +7,7 @@ app = angular.module("continue", [
   "continue.auth"
   "continue.models"
   "continue.social_accounts"
+  "ngTagsInput"
 ])
 
 app.config [

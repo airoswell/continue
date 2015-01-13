@@ -18,9 +18,6 @@
           return false;
         }
         self.loading = true;
-        console.log(Auth.get_user().id);
-        self.owner = Auth.get_user().id;
-        console.log("self.owner", self.owner);
         if ("process_data" in self) {
           self.process_data();
         }
@@ -127,7 +124,7 @@
       condition_choices = ["New", "Like new", "Good", "Functional", "Broken"];
       init = {
         title: "",
-        zip_code: "",
+        area: "",
         detail: "",
         items: [],
         is_new: true
@@ -136,7 +133,7 @@
         var item;
         if ('items' in self) {
           item = Item.$build(Item.init);
-          item.owner = Auth.get_user().id;
+          item.owner = Auth.get_user().user_id;
           item.is_new = true;
           self['items'].push(item);
           return item;
@@ -144,7 +141,7 @@
       };
       is_valid = function(self) {
         var item, _i, _len, _ref;
-        if (!self.title || !self.zip_code) {
+        if (!self.title || !self.area) {
           return false;
         }
         _ref = self.items;

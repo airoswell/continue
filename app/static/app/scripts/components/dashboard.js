@@ -41,12 +41,12 @@
       };
       $scope.create_post = function() {
         var post;
-        if (layout.creating_new_post) {
+        if ($scope.layout.creating_new_post) {
           return;
         }
         layout.creating_new_post = true;
         post = Post.$build(Post.init);
-        post.owner = Auth.get_user().id;
+        post.owner = Auth.get_user().user_id;
         $scope.posts.splice(0, 0, post);
         $("html, body").animate({
           scrollTop: $("#posts-display").offset().top - 100

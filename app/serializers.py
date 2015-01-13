@@ -6,17 +6,18 @@ from postman.models import Message
 from rest_framework import serializers
 
 
-class ProfileSerializer(serializers.ModelSerializer):
+class UserProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserProfile
-        fields = ("id", "social_account_photo", )
+        fields = ("id", "name", "social_account_photo", "email",
+                  "primary_area", "interested_areas", "already_set", )
 
 
 class UserSerializer(serializers.ModelSerializer):
 
     # expect to have several profiles in rare cases
-    profile = ProfileSerializer(many=True)
+    profile = UserProfileSerializer(many=True)
 
     class Meta:
         model = User
@@ -91,7 +92,7 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ('id', 'title', 'owner', 'zip_code', 'detail',
+        fields = ('id', 'title', 'owner', 'area', 'detail',
                   'time_posted', 'expiration_date', 'items',
                   )
 
@@ -105,7 +106,7 @@ class PostSerializerLite(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ('id', 'title', 'owner', 'zip_code', 'detail',
+        fields = ('id', 'title', 'owner', 'area', 'detail',
                   'time_posted', 'expiration_date', 'items', 'owner'
                   )
 

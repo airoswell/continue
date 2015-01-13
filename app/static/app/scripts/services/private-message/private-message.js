@@ -25,7 +25,7 @@
           self.pm.items = items;
           user = Auth.get_user();
           if (!user.is_anonymous) {
-            self.pm.sender = user.id;
+            self.pm.sender = user.user_id;
           } else {
             self.pm.sender = "ai.roswell@gmail.com";
           }

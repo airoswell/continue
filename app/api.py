@@ -45,12 +45,12 @@ class PostList(XListAPIView):
                 owner__id=params["user_id"]
             )
         # Display list of posts of a location
-        elif "zip_code" in params:
+        elif "area" in params:
             return run_and_respond(
                 retrieve_records,
                 Post, PostSerializerLite,
                 page, items_per_page,
-                zip_code=params['zip_code']
+                area=params['area']
             )
         # Display all posts of the current user
         return run_and_respond(
@@ -94,7 +94,7 @@ class PostList(XListAPIView):
         post_error_handler = ErrorHandler(PostSerializer)
         data = post_error_handler.validate(data)
         post_data_errors = post_error_handler.errors
-        if "items" in data:
+        if items_data:
             data['items'] = items_data
         errors = post_data_errors
         errors['items_errors'] = items_errors
@@ -275,30 +275,22 @@ class ItemDetail(XDetailAPIView):
 class UserDetails(XDetailAPIView):
 
     permission_classes = (
-        perms.IsOwnerOrNoPermission,
+        perms.IsSelfOrNoPermission,
+        # permissions.IsAuthenticated
     )
 
-    def get(self, request):
-        user = request.user
-        if user.is_anonymous():
-            return Response(data=[], status=st.HTTP_401_UNAUTHORIZED)
-        if user.socialaccount_set.all():
-            provider = user.socialaccount_set.all()[0]
-            provider_name = provider.get_provider().name
-            social_account_uid = provider.uid
-            social_account_photo = provider.get_avatar_url()
-            access_token = SocialToken.objects.filter(
-                account__user=user,
-                account__provider=provider.provider
-            )[0].token
-        else:
-            provider_name = ""
-            social_account_uid = ""
-            social_account_photo = ""
-            access_token = ""
+    model = UserProfile
+    serializer = UserProfileSerializer
+
+    def get(self, request, pk=None):
+        if request.user.is_anonymous():
+            return Response(
+                data=[{"is_anonymous": True}], status=st.HTTP_200_OK)
+        profile = None
+        from django.core.exceptions import MultipleObjectsReturned
         # In case multiple user profiles were created,
         # choose the latest one
-        from django.core.exceptions import MultipleObjectsReturned
+        user = request.user
         try:
             profile = UserProfile.objects.get(user__id=user.id)
         except AssertionError:
@@ -307,20 +299,19 @@ class UserDetails(XDetailAPIView):
         except MultipleObjectsReturned:
             profile = (UserProfile.objects.filter(user__id=user.id)
                                   .order_by('time_created')[0])
-        user_info = {
-            "name": profile.name,
-            "id": user.id or None,
-            "is_anonymous": user.is_anonymous(),
-            "zip_code": profile.zip_code,
-            "email": profile.email,
-            "social_account_provider": provider_name or "",
-            "social_account_uid": social_account_uid or "",
-            "social_account_photo": social_account_photo or "",
-            "social_account_access_token": access_token,
-        }
-        return Response(
-            data=[user_info], status=st.HTTP_200_OK
-        )
+        if profile:
+            data = self.serializer(profile).data
+            data['user_id'] = request.user.id
+            data["is_anonymous"] = user.is_anonymous()
+            if user.socialaccount_set.all():
+                provider = user.socialaccount_set.all()[0]
+                data['access_token'] = SocialToken.objects.filter(
+                    account__user=user,
+                    account__provider=provider.provider
+                )[0].token
+            return Response(data=[data], status=st.HTTP_200_OK)
+        else:
+            return Response(status=st.HTTP_404_NOT_FOUND)
 
 
 from haystack.query import SearchQuerySet
@@ -331,17 +322,17 @@ class S:
         self.model = model
 
     def search(self, params):
-        zip_code = ""
-        if "zip_code" in params:
-            zip_code = params['zip_code']
+        area = ""
+        if "area" in params:
+            area = params['area']
         # Note that the default ordering of models are not respected here
         if params["q"] != "":
             sqs = (SearchQuerySet().models(Post).filter(content=params['q'])
                    .order_by("-time_posted"))
         else:
             sqs = SearchQuerySet().models(Post).all().order_by("-time_posted")
-        if zip_code != "":
-            sqs = sqs.filter(zip_code=zip_code)
+        if area != "":
+            sqs = sqs.filter(area=area)
         results = [sq.object for sq in sqs]
         return results
 

@@ -1,3 +1,4 @@
+# Enable [tab] to indent
 textareas = document.getElementsByTagName("textarea")
 count = textareas.length
 i = 0
@@ -12,6 +13,10 @@ while i < count
     return
   i++
 
+# Auto resize all textarea
+$(document).ready ()->
+  $('textarea').autosize()
+# ============================
 angular.module("continue")
 
 .controller "LayoutCtrl", [
@@ -25,9 +30,39 @@ angular.module("continue")
     # Initialize user_info and modal data
     Auth.get_user_profile().then (response)->
       Auth.store_user(response[0])
+      console.log response
       $scope.user = Auth.get_user()
       $scope.photo = Auth.get_user().social_account_photo
       
+]
+
+.directive "areaSettingForm", ["Auth", "Alert", (Auth, Alert)->
+  restrict: "A"
+  scope: true
+  link: (scope, element, attrs)->
+
+    validate = ()->
+      for tag in scope.interested_areas_tags
+        if not /^\d{5}$/.test(tag.text)
+          return false
+      return  true
+    scope.submit = ()->
+      if not validate()
+        Alert.show_error("Zip code can only contain 5 numeric digits.", 2000)
+        return
+      zip_codes = []
+      for tag in scope.interested_areas_tags
+        zip_codes.push(tag.text)
+      scope.interested_areas = zip_codes.join() 
+      console.log scope.interested_areas
+      Alert.show_msg("Submitting ...")
+      profile = Auth.get_user()
+      profile.primary_area = scope.primary_area
+      profile.interested_areas = scope.interested_areas
+      profile.already_set = true
+      profile.$save().$then (response)->
+        scope.hide_area_setting = true
+        Alert.show_msg("Your data is saved.")
 ]
 
 

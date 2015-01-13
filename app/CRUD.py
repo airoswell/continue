@@ -20,7 +20,7 @@ class Crud:
     def get(self, **kwargs):
         try:
             insatnce = self.model.objects.get(**kwargs)
-            return insatnce
+            return insatnce, []
         except model.DoesNotExist, e:
             errors = [e.message]
             return None, errors
@@ -49,6 +49,9 @@ class Crud:
         Return:
         - instance
         """
+        # instance, errors = self.model.update(validated_data, **kwargs)
+        # print "\t\t CRUD.update ==> errors %s" % (errors)
+        # return instance, errors
         try:
             instance, errors = self.model.update(validated_data, **kwargs)
             print "\t\t CRUD.update ==> errors %s" % (errors)

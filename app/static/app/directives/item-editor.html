@@ -70,7 +70,7 @@
 <form item-editor transition class='dashboard-item-overview' name='{{"item-form-" + item["id"]}}' flex>
 
   <div layout='row'>
-    <div ng-if='item.pic'>
+    <div layout='column' layout-align='center' ng-if='item.pic' flex>
       <img ng-src="{{item.pic}}" style='margin:10px;width:80%'>
     </div>
     <!-- ================================== -->

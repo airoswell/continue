@@ -3,14 +3,52 @@
 {% block content %}
   <div layout='column'>
     <div layout='column'>
-      <div style='height:200px'></div>
-
-      <form class="search-form search-form-large" name='search-form'
-          action="/app/search/">
-          <input class='input-default' type='text' name='q' placeholder='What are you looking for?'>
-          <input class='input-default' type='text' name='zip_code' placeholder='zip_code'>
-          <input class='button button-default button-green' type='submit' value='Find'>
-      </form>
+      {% load staticfiles %}
+      <div style='background-image: url("{% static "app/images/bg.jpg" %}");width:100%;height:600px;'>
+        <div layout='row'>
+          <div flex-gt-md='10'></div>
+          <div style='color:#aaa' flex>
+            <div style='height:200px;'></div>
+            <div style='font-size:18px;text-shadow: 0px 0px 10px #000;'>
+              Purchased, put aside, forgotten, disappear
+            </div>
+            <div style='font-size: 35px;text-shadow: 0px 0px 10px #000;'>
+              No. They might deserve better
+            </div>
+            <div style='font-size: 50px;border-top: 2px solid #aaa;color:#fff;margin-top:20px;padding-top:10px;text-shadow: 0px 0px 10px #000;'>
+              Document, review, share and trade your belongings
+            </div>
+            <div style='font-size:18px;text-align:center;margin-top:10px;'>
+              as they accompany you through time and space.
+            </div>
+          </div>
+          <div flex-gt-md="10">
+          </div>
+        </div>
+        <br/>
+        <div layout='row' layout-align='center'>
+          <form id='index-search-form' layout='column' layout-gt-md='row' layout-align='center'
+              class="search-form search-form-large" name='search-form'
+              action="/app/search/"
+              style=' padding:40px;background-color:rgba(0,0,0,0.4);'>
+              <div layout>
+                <input type='text' name='q' placeholder='What are you looking for?' style='width:500px;'>
+              </div>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <div layout>
+                <input class='input-short' type='text' name='area' placeholder='Area zip code' style='width:100px;'>
+              </div>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <div layout>
+                <div class='button button-small button-gray'
+                    onclick="document.getElementById('index-search-form').submit()">
+                  Go
+                </div>
+              </div>
+          </form>
+        </div>
+      </div>
+      
     </div>
   </div>
 {% endblock %}

@@ -21,14 +21,64 @@
     i++;
   }
 
+  $(document).ready(function() {
+    return $('textarea').autosize();
+  });
+
   angular.module("continue").controller("LayoutCtrl", [
     "$scope", "Auth", "Alert", function($scope, Auth, Alert) {
       $scope.user = {};
       return Auth.get_user_profile().then(function(response) {
         Auth.store_user(response[0]);
+        console.log(response);
         $scope.user = Auth.get_user();
         return $scope.photo = Auth.get_user().social_account_photo;
       });
+    }
+  ]).directive("areaSettingForm", [
+    "Auth", "Alert", function(Auth, Alert) {
+      return {
+        restrict: "A",
+        scope: true,
+        link: function(scope, element, attrs) {
+          var validate;
+          validate = function() {
+            var tag, _i, _len, _ref;
+            _ref = scope.interested_areas_tags;
+            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+              tag = _ref[_i];
+              if (!/^\d{5}$/.test(tag.text)) {
+                return false;
+              }
+            }
+            return true;
+          };
+          return scope.submit = function() {
+            var profile, tag, zip_codes, _i, _len, _ref;
+            if (!validate()) {
+              Alert.show_error("Zip code can only contain 5 numeric digits.", 2000);
+              return;
+            }
+            zip_codes = [];
+            _ref = scope.interested_areas_tags;
+            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+              tag = _ref[_i];
+              zip_codes.push(tag.text);
+            }
+            scope.interested_areas = zip_codes.join();
+            console.log(scope.interested_areas);
+            Alert.show_msg("Submitting ...");
+            profile = Auth.get_user();
+            profile.primary_area = scope.primary_area;
+            profile.interested_areas = scope.interested_areas;
+            profile.already_set = true;
+            return profile.$save().$then(function(response) {
+              scope.hide_area_setting = true;
+              return Alert.show_msg("Your data is saved.");
+            });
+          };
+        }
+      };
     }
   ]).directive("autoExpand", function() {
     "<div auto-expand data=\"<the input variable>\" init-width=\"100px\"\n    min-size=\"20\">\n    ...\n    <input tyle='text' ng-model=\"<the input variable>\">\n</div>";

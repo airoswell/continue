@@ -84,9 +84,9 @@ class XDetailAPIView(APIView):
             # pass in <user> to the model methods, let them decide
             instance, errors = crud.update(data, user=request.user)
         # ============================================================
-        if instance:    # if the item is owned by the user
+        if instance:    # Update was successful
             data = self.serializer(instance).data
-        else:
+        else:           # Update failed
             return Response(data={
                 "errors": """Unable to update the instance:
                 crud.update(data, owner=request.user) does not return

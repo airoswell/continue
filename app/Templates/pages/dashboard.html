@@ -120,16 +120,18 @@
       <div class="section-title-large">
         Your inventory
       </div>
+
       <div id='items-display' layout='column' layout-gt-md='row'>
         <div flex-gt-md="50" flex='100'>
           <dashboard-item-overview
-            item="item"
-            ng-repeat='item in items' ng-show="$even"></dashboard-item-overview>
+            ng-repeat='item in items' ng-show="$even">
+          </dashboard-item-overview>
         </div>
         <div flex-gt-md="50" flex='100'>
-          <dashboard-item-overview
-            item="item"
-            ng-repeat='item in items' ng-show="$odd"></dashboard-item-overview>
+          <div ng-repeat='item in items' ng-show="$odd">
+            <div ng-bind="item.title"></div>
+            <dashboard-item-overview></dashboard-item-overview>
+          </div>
         </div>
       </div>
       <div layout='row' layout-align='center'>

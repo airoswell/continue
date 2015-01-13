@@ -37,7 +37,7 @@
           <!-- - The item is in pending transaction -->
           <!-- - There are no request on the item -->
           &nbsp;&nbsp;&nbsp;
-          <div ng-if="item.owner == user.id && item.requesters.length > 0
+          <div ng-if="item.owner == user.user_id && item.requesters.length > 0
                       && item.transferrable ">
             <input-dropdown reduced-padding label="'Transfer to'"
                 data="item.new_owner" transfer='true'

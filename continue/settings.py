@@ -64,10 +64,11 @@ STATIC_URL = '/static/'
 # ====================== Path settings END ===========================
 
 import socket
-if socket.gethostname().startswith('FBI-SVL-666.home'):
-    LIVEHOST = False
-else:
+if socket.gethostname().startswith('airoswell'):
     LIVEHOST = True
+else:
+    LIVEHOST = False
+print("\t\t socket.gethostname() = %s" % (socket.gethostname()))
 
 
 

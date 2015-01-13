@@ -22,12 +22,12 @@ class ItemAdmin(admin.ModelAdmin):
 
 
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'owner', 'zip_code', 'time_posted')
+    list_display = ('id', 'title', 'owner', 'area', 'time_posted')
     fieldset = (
         (
             "Basic info",
             {
-                "fields": ["id", "title", 'owner', 'zip_code']
+                "fields": ["id", "title", 'owner', 'area']
             }
         ),
         (

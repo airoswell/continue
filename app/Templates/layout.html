@@ -8,6 +8,8 @@
   <link rel="stylesheet" type="text/css" href="{% static 'app/bower_components/font-awesome/css/font-awesome.css'%}">
   <link rel="stylesheet" type="text/css" href="{% static 'app/style/main.css'%}">
   <link rel="stylesheet" type="text/css" href="{% static 'app/style/search.css'%}">
+  <link rel="stylesheet" type="text/css" href="{% static 'app/style/search.css'%}">
+  <link rel="stylesheet" type="text/css" href="{% static 'app/bower_components/ng-tags-input/ng-tags-input.css'%}">
   {% if view == 'index' %}
   <link rel="stylesheet" type="text/css" href="{% static 'app/style/index.css'%}">
   {% elif view == 'results' %}
@@ -31,7 +33,10 @@
     {% endblock navbar %}
     <bottom-sheet></bottom-sheet>
     <b-s></b-s>
-    <div test style='height:80px;'></div>
+    <div test style='height:40px;'></div>
+    {% if request.user.profile.all.0.primary_area == "" and not request.user.profile.all.0.already_set %}
+    {% include 'pages/components/area-setting.html'%}
+    {% endif %}
     <div id='content-wrapper'>
       {% block content %}
       {% endblock %}
@@ -52,6 +57,7 @@
   <script type="text/javascript" src="{% static 'app/bower_components/angular-resource/angular-resource.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/bower_components/angular-restmod/dist/angular-restmod-bundle.min.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/bower_components/angular-restmod/dist/styles/ams.min.js'%}"></script>
+  <script type="text/javascript" src="{% static 'app/bower_components/ng-tags-input/ng-tags-input.min.js'%}"></script>
   {# End: Bower #}
   <script type="text/javascript" src="{% static 'app/scripts/components/auto-resize.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/scripts/app.js'%}"></script>
@@ -67,9 +73,9 @@
   <script type="text/javascript" src="{% static 'app/scripts/components/search/search.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/scripts/components/dashboard.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/scripts/components/dashboard-directives.js'%}"></script>
+  <script type="text/javascript" src="{% static 'app/scripts/components/ng-tags-input/ng-tags-input.min.js'%}"></script>  
   {% if view == 'index' %}
   <script type="text/javascript" src="{% static 'app/scripts/index.js'%}"></script>
-  
   {% elif view == "post" %}
   <script type="text/javascript" src="{% static 'app/scripts/components/post/post.js'%}"></script>
   {% endif %}

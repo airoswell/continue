@@ -7,7 +7,7 @@ from haystack.query import SearchQuerySet
 
 from app.serializers import ItemSerializer, PostSerializer, UserSerializer
 from app.serializers import PostItemStatusSerializer, TransactionSerializer
-from app.serializers import ProfileSerializer
+from app.serializers import UserProfileSerializer
 
 from django.utils.six import BytesIO
 
@@ -15,8 +15,8 @@ from rest_framework import serializers
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 
-item = Item.objects.filter(title__icontains="Apple wireless")[0]
+for profile in UserProfile.objects.all():
+    print("user = %s, id = %s" % (profile.user, profile.id))
 
-records = item.history_event.all()
-
-ItemEditRecord.objects.filter(item=item)
+for item in Item.objects.all():
+    print("item %(item)s has owner %(owner)s with id %(owner_id)s" % {"item": item, "owner": item.owner, "owner_id": item.owner.id})

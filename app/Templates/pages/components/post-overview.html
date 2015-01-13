@@ -2,7 +2,7 @@
     search-post-overview ng-cloak
     owner-id="{{ post.owner.id }}" post-id="{{ post.id }}">
 
-  <!-- Post header (title, zip_code, owner, etc.) -->
+  <!-- Post header (title, area, owner, etc.) -->
   <div class='post-header' layout='row' layout-align='space-between'>
     <div layout='row'>
       <div>
@@ -38,7 +38,7 @@
   <!-- Post detail & item-list -->
   <div class='post-body'>
     <div class="text-large">{{ post.title }}</div>
-    <div> Location: {{ post.zip_code }}</div>
+    <div> Location: {{ post.area }}</div>
     {% load markdown_deux_tags %}
     <div click-to-expand max-height='125px'>
       <div click-to-expand-target class="text-default" style='background: #f9f9f9;padding:5px 20px;margin-top:10px;

@@ -17,6 +17,17 @@ class IsOwnerOrNoPermission(permissions.BasePermission):
             return
 
 
+class IsSelfOrNoPermission(permissions.BasePermission):
+    """
+        Only the user himself can retrieve the his own user profile.
+    """
+    def has_object_permission(self, request, view, instance=None):
+        try:
+            return instance.user == request.user
+        except AttributeError:
+            return False
+
+
 class IsGiverOrReceiverOrNoPermission(permissions.BasePermission):
     """
     Only the two parties of a transaction can view the detail

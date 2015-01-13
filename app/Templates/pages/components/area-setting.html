@@ -1,0 +1,36 @@
+<form area-setting-form ng-hide="hide_area_setting" name='area-setting-form' action='/app/user/setting/'
+    style='width:100%;padding:40px 20px 20px 20px;background: #f4f4f4' layout='row' layout-align='center'>
+  <div style=''>
+    <div class='text-small'>Welcome to the community! To begin,</div>
+    <div class='text-large'>set up your primary and interested areas</div>
+    <div layout='column' layout-gt-md='row'>
+      <div class='text-default' style='margin: 20px 20px 20px 0px;'>
+        <div layout layout-align='start center'>
+          <b>Primary area</b>:&nbsp;&nbsp;
+        </div>
+        <div mg-tb-10 class='text-small' style='max-width:400px;'> A primary area will be used to pre-specified the area of your post. You can of course set different area for each post manually.</div>
+        <div>
+          Area zip code: 
+          <input type='text'style='width:60px;text-align:center'
+              name='primary-area' placeholder='XXXXX' ng-model="primary_area">
+        </div>
+        
+      </div>
+      <div class='text-default' style='margin: 20px 20px 20px 0px;'>
+        <div><b>Interested areas</b></div>
+        <div mg-tb-10 class='text-small' style='max-width:400px;'>Articles from interested areas will automatically show on your news feeds.</div>
+        <div area-validation>
+          <tags-input class='custom' ng-model="interested_areas_tags"
+              allowed-tags-pattern="^\d{5}$">
+          </tags-input>
+        </div>
+      </div>
+    </div>
+    <div class='button button-small button-gray' ng-click="submit()">
+      OK
+    </div>
+    <div class='button button-small button-gray' ng-click="validate()">
+      test
+    </div>
+  </div>
+</form>

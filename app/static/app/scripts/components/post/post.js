@@ -30,7 +30,9 @@
       };
       return $scope.save = function() {
         console.log("In postCtrl $scope.post.owner", $scope.post.owner);
-        return $scope.post.save().$then(function(response) {});
+        return $scope.post.save().$then(function(response) {
+          return window.location.replace("/app/post/" + response.id + "/");
+        });
       };
     }
   ]);

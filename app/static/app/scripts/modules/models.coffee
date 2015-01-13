@@ -21,9 +21,6 @@ angular.module 'continue.models', [
     self.loading = true
     # By default, saving the object should be under the current user's
     # name
-    console.log Auth.get_user().id
-    self.owner = Auth.get_user().id
-    console.log "self.owner", self.owner
     if "process_data" of self
       self.process_data()
     Alert.show_msg("Saving your data ...")
@@ -110,7 +107,7 @@ angular.module 'continue.models', [
 
   init = {
     title: ""
-    zip_code: ""
+    area: ""
     detail: ""
     items: []
     is_new: true
@@ -120,13 +117,13 @@ angular.module 'continue.models', [
   add_item = (self) ->
     if 'items' of self
       item = Item.$build(Item.init)
-      item.owner = Auth.get_user().id
+      item.owner = Auth.get_user().user_id
       item.is_new = true
       self['items'].push(item)
       return item
 
   is_valid = (self) ->
-    if not self.title or not self.zip_code
+    if not self.title or not self.area
       return false
     for item in self.items
       if item.title.length == 0
