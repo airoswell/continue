@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from app.models import Item, Post, UserProfile
 from app.models import ItemEditRecord, PostItemStatus, ItemTransactionRecord
 from django.contrib.auth.models import User

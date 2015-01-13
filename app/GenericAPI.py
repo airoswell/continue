@@ -2,12 +2,14 @@ from errors import ErrorHandler
 from app.CRUD import *
 from django.utils.six import BytesIO
 # ======== Django Rest Framework ========
+# -*- coding: utf-8 -*-
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status as st
 from rest_framework.parsers import JSONParser
 # ================================
-from controllers import *
+import json
+from StringIO import StringIO
 
 
 class XListAPIView(APIView):
@@ -16,8 +18,8 @@ class XListAPIView(APIView):
         data = request.data
         if "__copy__" in dir(request.data):
             data = request.data.items()[0][0]
-            stream = BytesIO(data)
-            data = JSONParser().parse(stream)
+            data = json.loads(data)
+            # data = JSONParser().parse(stream)
         return data
 
     def paginator(self, request):

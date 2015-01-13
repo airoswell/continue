@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Models and serializers
 from app.models import Item, Post, UserProfile
 from app.models import ItemEditRecord, ItemTransactionRecord, PostItemStatus
@@ -329,6 +330,7 @@ class S:
         if params["q"] != "":
             sqs = (SearchQuerySet().models(Post).filter(content=params['q'])
                    .order_by("-time_posted"))
+        # If no parameter is specified, make a full data search
         else:
             sqs = SearchQuerySet().models(Post).all().order_by("-time_posted")
         if area != "":

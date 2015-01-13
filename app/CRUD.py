@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Models and serializers
 from app.serializers import *
 from app.errors import *
