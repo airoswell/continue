@@ -1,2 +1,3 @@
 /app/static/app/bower_components
+/app/migrations
 *.pyc
