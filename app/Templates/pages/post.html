@@ -24,7 +24,7 @@
       </div>
       <div>
         Area (zip code) &nbsp;
-        <input type='text' ng-model="post.area"
+        <input type='text' ng-model="post.area" ng-init="post.area='{{ request.user.profile.all.0.primary_area}}'"
             style='width:44px;padding:0px;'>
       </div>
     </div>

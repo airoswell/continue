@@ -8,9 +8,9 @@
         <div class='item-overview-quantity' ng-bind="::item.quantity"></div>
       </div>
     </div>
-    <div>
+    <div ng-if='item.pic'>
       &nbsp;&nbsp;
-      <img ng-if='item.pic' height=35 src="{{::item.pic}}">
+      <img height=35 ng-src="{{::item.pic}}">
     </div>
   </div>
   &nbsp;&nbsp;&nbsp;&nbsp;

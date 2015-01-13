@@ -30,6 +30,21 @@
       {{ request.user.profile.all.last.name }}
       </div>
     </div>
+    
+
+    <!-- News Feed section -->
+    <div ng-show="layout.display_tab == 'feeds'" layout='row'>
+      <div  flex-gt-md="80" flex>
+      {% for post in feeds %}
+        <div>
+        {% include 'pages/components/post-overview.html'%}
+        </div>
+      {% endfor %}
+      </div>
+    </div>
+
+
+
 
     <!-- timeline -->
     <div ng-show='layout.display_tab == "updates" '>

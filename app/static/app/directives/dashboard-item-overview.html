@@ -63,7 +63,7 @@
       </textarea>
       <div ng-if="item.pic" class='picture-container'
         ng-style="{'background': 'url({{item.pic}})', 'background-size': '100%' }">
-        <img src="{{item.pic}}" style='width:100%;opacity:0'>
+        <img ng-src="{{item.pic}}" style='width:100%;opacity:0'>
       </div>
 
     </div>

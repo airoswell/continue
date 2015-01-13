@@ -193,14 +193,14 @@ class Timeline:
             return result
         else:
             for step in range(0, num_of_arrays - 1):
-                result = self.mergesort(args[step], args[step + 1])
+                result = self.merge(args[step], args[step + 1])
         return result
 
     def get(self, *args, **kwargs):
         """
         Take in either an array of kwargs for filtering, e.g.
         get(
-            {"item": item, {item__owner: request.user}},
+            {"item": item, item__owner: request.user},
             {"item__owner": user}
         ), matching each of the <models>,
         or a common **kwargs to search,
@@ -209,19 +209,24 @@ class Timeline:
             - list (mergesorted)
         """
         querysets = []
-        if self.filter_type:
-            from django.db.models import Q
-        for model in self.models:
-            index = self.models.index(model)
+        from django.db.models import Q
+        for index in range(0, len(self.models)):
             start = self.starts[index]
+            model = self.models[index]
             if not kwargs:
                 temp_kwargs = args[index]
-            if self.filter_type[index] == "or":
-                Q_list = []
-                for kwarg in temp_kwargs:
-                    Q_list.append(Q(**{kwarg: temp_kwargs[kwarg]}))
-                import operator
-                queryset = model.objects.filter(reduce(operator.or_, Q_list))
+                if self.filter_type[index] == "or":
+                    Q_list = []
+                    for kwarg in temp_kwargs:
+                        Q_list.append(Q(**{kwarg: temp_kwargs[kwarg]}))
+                    import operator
+                    queryset = model.objects.filter(
+                        reduce(operator.or_, Q_list)
+                    )
+                elif self.filter_type[index] == "and":
+                    queryset = (model.objects.filter(**temp_kwargs)
+                                .order_by(self.order_by[index])
+                                [start: start + self.interval + 1])
             else:
                 queryset = (model.objects.filter(**kwargs)
                             .order_by(self.order_by[index])
@@ -230,10 +235,9 @@ class Timeline:
                 queryset = queryset.filter(**self.common_filter)
             queryset = [r for r in queryset]
             querysets.append(queryset)
-        # Begin constructing the timeline
-        timeline = []
         # Merge sort
         timeline = self.merge(*querysets)
+        print(timeline)
         return timeline
 
 
@@ -306,13 +310,33 @@ def dashboard(request):
     if user.is_anonymous():
         return redirect('/app/user/login/')
     posts = Post.objects.filter(owner=user)
+    interested_areas = user.profile.all()[0].interested_areas
+    areas = interested_areas.split(",")
+    num = len(areas)
+    models = [Post] * num
+    print("\tareas = %s" %(areas))
+    print("\tmodels = %s" %(models))
+    tl = Timeline(*models)
+    query_args = []
+    for area in areas:
+        print(area)
+        query_args.append({"area": area})
+    print(query_args)
+    tl.config(
+        interval=8, order_by=["-time_posted"] * num,
+    )
+    feeds = tl.get(*query_args)
+    # load pending transactions
     tl = Timeline(ItemTransactionRecord)
-    tl.config(interval=16, filter_type=["or"],
-              common_filter={"status": "Sent"})
+    tl.config(
+        interval=16, filter_type=["or"],
+        common_filter={"status": "Sent"}
+    )
     transactions = tl.get({"receiver": user, "giver": user})
     for transaction in transactions:
         if transaction.status != "Sent":
             transactions.remove(transaction)
+    # Build a combined timeline of ItemEditRecord and ItemTransactionRecord
     tl = Timeline(ItemEditRecord, ItemTransactionRecord)
     tl.config(interval=16, filter_type=["and", "or"])
     timeline = tl.get(
@@ -324,6 +348,7 @@ def dashboard(request):
         'pages/dashboard.html',
         {
             'view': 'dashboard',
+            'feeds': feeds,
             'posts': posts,
             'timeline': timeline,
             'transactions': transactions,

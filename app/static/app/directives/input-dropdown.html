@@ -28,14 +28,14 @@
       <div class='choices-list fade-in' ng-show='dropdown'
           layout='column' style='min-width:100px;'>
         <div class='choice-option' ng-click="select(undefined)" layout>
-          <img height=20 src="{{::user.social_account_photo }}">
+          <img height=20 ng-src="{{::user.social_account_photo }}">
           &nbsp;&nbsp;I'll keep it ...
         </div>
         <div class='choice-option' ng-repeat='option in choices'
             ng-class="{active: data.id == option.id}"
             ng-click="select(option)"
             layout='row'>
-          <span ng-if="false"><img height=20 src="{{ ::option.profile[0].social_account_photo}}"></span>
+          <span ng-if="false"><img height=20 ng-src="{{::option.profile[0].social_account_photo}}"></span>
           &nbsp;&nbsp;
           <b><span ng-bind="::option.username"></span></b>
         </div>
