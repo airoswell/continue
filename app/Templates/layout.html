@@ -33,7 +33,7 @@
     {% endblock navbar %}
     <bottom-sheet></bottom-sheet>
     <b-s></b-s>
-    <div test style='height:40px;'></div>
+    <div test style='height:60px;'></div>
     {% if request.user.profile.all.0.primary_area == "" and not request.user.profile.all.0.already_set %}
     {% include 'pages/components/area-setting.html'%}
     {% endif %}
@@ -73,7 +73,6 @@
   <script type="text/javascript" src="{% static 'app/scripts/components/search/search.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/scripts/components/dashboard.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/scripts/components/dashboard-directives.js'%}"></script>
-  <script type="text/javascript" src="{% static 'app/scripts/components/ng-tags-input/ng-tags-input.min.js'%}"></script>  
   {% if view == 'index' %}
   <script type="text/javascript" src="{% static 'app/scripts/index.js'%}"></script>
   {% elif view == "post" %}
