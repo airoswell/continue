@@ -4,14 +4,35 @@
     "$scope", "Post", "ItemSelector", "ItemEditor", function($scope, Post, ItemSelector, ItemEditor) {
       $scope.new_items = [];
       $scope.post = Post.$build(Post.init);
+      $scope.layout = {
+        detail_input: false
+      };
       $scope.$watch("id", function() {
         if ($scope.id != null) {
           $scope.post = Post.$find($scope.id);
           return $scope.post.$then(function(response) {
-            return console.log($scope.post = response);
+            var tag, tags;
+            tags = response.tags.split(",");
+            $('textarea').val($scope.post.detail).trigger('autosize.resize');
+            return $scope.tags_input = [
+              (function() {
+                var _i, _len, _results;
+                _results = [];
+                for (_i = 0, _len = tags.length; _i < _len; _i++) {
+                  tag = tags[_i];
+                  _results.push({
+                    "text": tag
+                  });
+                }
+                return _results;
+              })()
+            ][0];
           });
         }
       });
+      $scope.show_detail_editor = function() {
+        return $scope.layout.detail_input = true;
+      };
       $scope.select_item = function() {
         return ItemSelector.begin($scope.post.items).then(function(response) {
           if (response) {
@@ -29,8 +50,26 @@
         });
       };
       return $scope.save = function() {
-        console.log("In postCtrl $scope.post.owner", $scope.post.owner);
-        return $scope.post.save().$then(function(response) {});
+        var tag, tags, tags_array;
+        tags_array = [
+          (function() {
+            var _i, _len, _ref, _results;
+            _ref = $scope.tags_input;
+            _results = [];
+            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+              tag = _ref[_i];
+              _results.push(tag.text);
+            }
+            return _results;
+          })()
+        ];
+        tags = tags_array.join(",");
+        $scope.post.tags = tags;
+        return $scope.post.save().$then(function(response) {
+          if ("id" in response) {
+            return window.location.replace("/app/post/" + response.id + "/");
+          }
+        });
       };
     }
   ]);

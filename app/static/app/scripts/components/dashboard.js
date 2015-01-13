@@ -6,6 +6,27 @@
       $scope.items = Item.$search({
         items_per_page: 8
       }).$then(function() {
+        var item, tag, _i, _len, _ref;
+        _ref = $scope.items;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          item = _ref[_i];
+          if (item.tags) {
+            item.tags_input = [
+              (function() {
+                var _j, _len1, _ref1, _results;
+                _ref1 = item.tags.split(",");
+                _results = [];
+                for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+                  tag = _ref1[_j];
+                  _results.push({
+                    "text": tag
+                  });
+                }
+                return _results;
+              })()
+            ][0];
+          }
+        }
         return Alert.show_msg("Download is finished.");
       });
       $scope.layout = {

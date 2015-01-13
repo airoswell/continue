@@ -180,8 +180,8 @@ textarea:focus{
     width: 150px;margin-top: 10px;margin-bottom: 10px;
 }
 .input-label{
-    color:#999;padding-left: 5px;
-    padding: 5px 5px 5px 10px;
+    color:#999;
+    padding: 5px 5px 5px 0px;
 }
 
 input-dropdown[reduced-padding] .choice-result{
@@ -235,6 +235,16 @@ input-dropdown[reduced-padding] .input-label{
     background: #eee;
 }
 
+
+.tag{
+    font-size: 13px;cursor: pointer;margin: 5px;
+}
+.tag-small{
+    padding: 5px 10px;border: 1px solid #ddd;
+}
+.tag-gray{
+    background: #f4f4f4;color: #666;
+}
 .tag-default{
     font-size: 14px;
     padding: 5px 15px;
@@ -431,7 +441,7 @@ input-num>div:hover, [input-num]>div:hover {
     background-color:#eee;
 }
 
-tags-input {
+tags-input.custom {
     cursor: pointer;
 }
 tags-input.custom .tags{
@@ -440,4 +450,13 @@ tags-input.custom .tags{
 }
 tags-input.custom .host{
     border: 1px solid #ddd;max-width: 500px;
+}
+tags-input.custom .tags .tag-item{
+    background: #f4f4f4;border-radius: 0px;
+    border: 1px solid #ddd;
+    font: inherit;
+    line-height: 24px;
+}
+tags-input.custom input {
+    width: auto;
 }

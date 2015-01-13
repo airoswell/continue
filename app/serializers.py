@@ -39,7 +39,7 @@ class ItemSerializer(serializers.ModelSerializer):
                   "visibility", "detail", 'status', "utilization",
                   "availability", "link", "pic", "time_created", 'owner',
                   "acquiring_date", "original_value", "estimated_value",
-                  "requesters", "transferrable",
+                  "requesters", "transferrable", "tags",
                   )
 
 
@@ -60,7 +60,7 @@ class ItemSerializerLite(serializers.ModelSerializer):
     class Meta:
         model = Item
         fields = ("id", "title", "quantity", "condition",
-                  "description", "availability", )
+                  "description", "availability", "tags", )
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -94,7 +94,7 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ('id', 'title', 'owner', 'area', 'detail',
-                  'time_posted', 'expiration_date', 'items',
+                  'time_posted', 'expiration_date', 'items', "tags",
                   )
 
 
@@ -108,7 +108,7 @@ class PostSerializerLite(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ('id', 'title', 'owner', 'area', 'detail',
-                  'time_posted', 'expiration_date', 'items', 'owner'
+                  'time_posted', 'expiration_date', 'items', 'owner', "tags",
                   )
 
 

@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<div ng-controller="postCtrl" ng-cloak
+<div class='post-editor' ng-controller="postCtrl" ng-cloak
     style='padding:20px;'
     {% if post.id %} ng-init="id={{ post.id }}" {% endif %}
     layout='row' layout-align='center'>
@@ -30,13 +30,20 @@
     </div>
     {% load markdown_deux_tags %}
     <br/>
+    <!-- ======== Tags ======== -->
+
+    <div flex>
+      <tags-input class="custom" ng-model='tags_input'
+          placeholder='Tag your post!'>
+      </tags-input>
+    </div>
     <div>
-      <div ng-show="!layout.detail_input" ng-click="layout.detail_input=!layout.detail_input"
+      <div ng-show="!layout.detail_input" ng-click="show_detail_editor()"
           style='background:#f9f9f9;padding:20px;cursor:pointer'>
         {{ post.detail|markdown }}
       </div>
       <div ng-show="layout.detail_input">
-        <textarea ng-model='post.detail' style='height:250px;'
+        <textarea ng-model='post.detail'
             placeholder="Post body goes here ... You can use the [ TAB ] key to indent.">
         </textarea>
       </div>
@@ -54,6 +61,14 @@
         <item-edit-menu></item-edit-menu>
       </div>
     </div>
+    <!-- ======== Tags ======== -->
+
+    <div flex>
+      <tags-input class="custom" ng-model='tags_input'
+          placeholder='Tag your post!'>
+      </tags-input>
+    </div>
+    <!-- ======== Buttons ======== -->
     <div layout='row' layout-align='end'>
       <div class='button button-small button-gray'
           ng-click="add_new_item()">Add new item</div>

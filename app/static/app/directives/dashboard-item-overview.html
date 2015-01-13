@@ -106,7 +106,8 @@
         </div>
       </div>
       <br/>
-      <br/>
+      <tags-input ng-model='item.tags_input' class='custom' placeholder="Tag you item">
+      </tags-input>
       <input-text label="'Intented use'"
           place-holder="'e.g. to read e-books ...'"
           container-class="'input-container-mid'"
@@ -127,10 +128,12 @@
   </div>
 
   <div layout='row' layout-align='end'>
-    <md-button ng-show="!item.is_new" type='button' ng-click="item.save(item_update_successHandler)">
+    <md-button ng-show="!item.is_new" type='button'
+        ng-click="save(item, item_update_successHandler)">
       update
     </md-button>
-    <md-button ng-show='item.is_new' type='button' ng-click="item.save(item_create_successHandler)">
+    <md-button ng-show='item.is_new' type='button'
+        ng-click="save(item, item_create_successHandler)">
       create
     </md-button>
   </div>

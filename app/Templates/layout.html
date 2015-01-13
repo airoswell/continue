@@ -10,16 +10,10 @@
   <link rel="stylesheet" type="text/css" href="{% static 'app/style/search.css'%}">
   <link rel="stylesheet" type="text/css" href="{% static 'app/style/search.css'%}">
   <link rel="stylesheet" type="text/css" href="{% static 'app/bower_components/ng-tags-input/ng-tags-input.css'%}">
-  {% if view == 'index' %}
-  <link rel="stylesheet" type="text/css" href="{% static 'app/style/index.css'%}">
-  {% elif view == 'results' %}
-  <link rel="stylesheet" type="text/css" href="{% static 'app/style/results.css'%}">
-  {% elif view == 'compose' %}
-  <link rel="stylesheet" type="text/css" href="{% static 'app/style/compose.css'%}">
-  {% elif view == 'login' %}
-  <link rel="stylesheet" type="text/css" href="{% static 'app/style/login.css'%}">
-  {% elif view == 'dashboard' %}
+  {% if view == 'dashboard' %}
   <link rel="stylesheet" type="text/css" href="{% static 'app/style/dashboard.css'%}">
+  {% elif view == 'post' %}
+  <link rel="stylesheet" type="text/css" href="{% static 'app/style/post.css'%}">
   {% endif %}
 </head>
 

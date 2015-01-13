@@ -10,8 +10,27 @@
     "History", "Album", "Alert", function(History, Album, Alert) {
       return {
         restrict: "E",
+        scope: true,
         templateUrl: "/static/app/directives/dashboard-item-overview.html",
         link: function(scope, element, attrs) {
+          scope.save = function(item, handler) {
+            var tag, tags;
+            console.log(item.tags_input);
+            tags = [
+              (function() {
+                var _i, _len, _ref, _results;
+                _ref = item.tags_input;
+                _results = [];
+                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                  tag = _ref[_i];
+                  _results.push(tag.text);
+                }
+                return _results;
+              })()
+            ][0].join(",");
+            item.tags = tags;
+            return item.save(handler);
+          };
           scope.expand = function(item) {
             console.log("item.expanded isnt true", item.expanded !== true);
             if (item.expanded !== true) {

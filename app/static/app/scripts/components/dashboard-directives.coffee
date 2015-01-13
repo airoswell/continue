@@ -8,8 +8,14 @@ angular.module("continue")
 
 .directive "dashboardItemOverview", ["History", "Album", "Alert", (History, Album, Alert)->
   restrict: "E"
+  scope: true
   templateUrl: "/static/app/directives/dashboard-item-overview.html"
   link: (scope, element, attrs) ->
+    scope.save = (item, handler)->
+      console.log item.tags_input
+      tags = [tag.text for tag in item.tags_input][0].join(",")
+      item.tags = tags
+      item.save(handler)
     scope.expand = (item) ->
       console.log "item.expanded isnt true", item.expanded isnt true
       if item.expanded isnt true

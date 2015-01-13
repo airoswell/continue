@@ -9,6 +9,9 @@ angular.module("continue")
     # Load in items and posts of the current user
     Alert.show_msg("Downloading your data.")
     $scope.items = Item.$search({items_per_page: 8}).$then ()->
+      for item in $scope.items
+        if item.tags
+          item.tags_input = [{"text": tag} for tag in item.tags.split(",")][0]
       Alert.show_msg("Download is finished.")
 
     $scope.layout = {

@@ -33,3 +33,10 @@ def unread_count(queryset):
 @register.filter(name='model_name')
 def model_name(record):
     return record.__class__.__name__
+
+
+@register.filter(name='split')
+def filter(string, delimiter):
+    if not string:
+        return []
+    return string.split(delimiter)
