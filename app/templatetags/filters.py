@@ -6,10 +6,6 @@ from app.models import ItemTransactionRecord
 register = Library()
 
 
-def test():
-    return ""
-
-
 @register.filter_function
 def order_by(queryset, args):
     args = [x.strip() for x in args.split(',')]
