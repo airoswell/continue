@@ -2,7 +2,12 @@ from django.template import Library
 from app.views import Timeline
 from app.models import ItemTransactionRecord
 
+
 register = Library()
+
+
+def test():
+    return ""
 
 
 @register.filter_function
