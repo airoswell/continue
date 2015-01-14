@@ -160,5 +160,5 @@ class TransactionSerializerLite(serializers.ModelSerializer):
 
     class Meta:
         model = ItemTransactionRecord
-        fields = ("id", "item", "post", "giver", "receiver", "status",
+        fields = ("id", "item", "giver", "receiver", "status",
                   "time_updated", "time_sent")

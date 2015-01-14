@@ -207,9 +207,10 @@
             "display": "none"
           });
           trigger.on("click", function(e) {
-            return target.css({
+            target.css({
               "display": ""
             });
+            return console.log("clicked!");
           });
           return $("html").click(function(a) {
             if (!$.contains(element[0], a.target)) {
@@ -245,6 +246,20 @@
               return item.save();
             });
           };
+        }
+      };
+    }
+  ]).directive("transaction", [
+    "Transaction", function(Transaction) {
+      return {
+        restrict: "A",
+        scope: true,
+        link: function(scope, element, attrs) {
+          var transaction_id;
+          console.log("transaction");
+          console.log(attrs["transactionId"]);
+          transaction_id = attrs["transactionId"];
+          return scope.transaction = Transaction.$find(transaction_id);
         }
       };
     }

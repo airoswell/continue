@@ -1,0 +1,57 @@
+<!-- A transaction record -->
+{% load filters %}
+<div transaction transaction-id={{ transaction.id }}>
+  {% if transaction.status == "Sent" %}
+
+  {%   if transaction.giver.id == request.user.id %}
+  <span layout='row' layout-align='start center'>
+    <img height=20 src="{{transaction.receiver|photo}}" style='vertical-align:center'>
+    &nbsp;&nbsp;You have <span>{{transaction.status}}</span> <span>{{transaction.receiver.username}}</span> the item <span>{{transaction.item.title}}</span>
+    <span class='button button-small button-gray'
+        ng-click="transaction.revoke()">
+      Revoke
+    </span>
+  </span>
+
+  {%   else %}
+  <span layout='row' layout-align='start center'>
+    <img height=20 src="{{transaction.giver|photo}}" style='vertical-align:center'>
+    <span>{{transaction.giver.username}}</span> has <span>{{transaction.status|lower}}</span> you
+    an item <span>{{transaction.item.title}}</span>
+    <span class='button button-small button-gray'
+        ng-click="transaction.reject()">
+      Reject
+    </span>
+    &nbsp;
+    <span class='button button-small button-gray'
+        ng-click="transaction.receive()">
+      Receive
+    </span>
+  </span>
+  {%   endif %}
+
+  {% elif transaction.status == "Received" %}
+  {%   if transaction.giver.id == request.user.id %}
+  <span>{{transaction.giver.username}}</span> has <span>{{transaction.status|lower}}</span> the item <span>{{transaction.item.title}}</span>
+  {%   else %}
+  You <span>{{transaction.status|lower}}</span> an item <span>{{transaction.item.title}}</span> from <span>{{transaction.giver.username}}</span>
+  {% endif %}
+
+  {% elif transaction.status == "Rejected" %}
+  {%   if transaction.giver.id == request.user.id %}
+  <span>{{transaction.giver.username}}</span> has <span>{{transaction.status|lower}}</span> the item <span>{{transaction.item.title}}</span>
+  </span>
+  {% else %}
+  You received an item <span>{{transaction.item.title}}</span> from <span>{{transaction.giver.username}}</span>
+  {% endif %}
+
+  {% elif transaction.status == "Revoked" %}
+  {%   if transaction.giver.id == request.user.id %}
+  You have  <span>{{transaction.status|lower}}</span> the item <span>{{transaction.item.title}}</span> that were sent to <span>{{transaction.giver.username}}</span>.
+    </span>
+  {%   else %} 
+  The item <span>{{transaction.item.title}}</span> from <span>{{transaction.giver.username}}</span> has been <span>{{transaction.status|lower}}</span>
+  {%   endif %}
+  {% endif %}
+
+</div><!-- END A transaction record -->

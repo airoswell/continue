@@ -39,7 +39,6 @@ class UserProfile(models.Model):
             queryset = queryset.filter(**kwargs)
         if not queryset:
             return None, "profile specified by %s not fould." % (kwargs)
-        print("\tvalidated_data %s" % (validated_data))
         queryset.update(**validated_data)
         profile = queryset[0]
         return profile, []
@@ -81,7 +80,7 @@ def CheckAndUpdateProfile(sender, **kwargs):
     if the user is registered using a social account.
     """
     user = kwargs['user']
-    queryset = UserProfile.objects.filter(id=user.id)
+    queryset = UserProfile.objects.filter(user__id=user.id)
     if not queryset:
         CreateProfile(sender, **kwargs)
         return

@@ -168,6 +168,7 @@ angular.module("continue")
 
     trigger.on "click", (e)->
       target.css({"display": ""})
+      console.log "clicked!"
     $("html").click (a)->
       if not $.contains(element[0], a.target)
         target.css({"display": "none"})
@@ -190,4 +191,14 @@ angular.module("continue")
       item = Item.$find(item_id).$then (response)->
         item.remove_from_post = post_id
         item.save()
+]
+
+.directive "transaction", ["Transaction", (Transaction)->
+  restrict: "A"
+  scope: true
+  link: (scope, element, attrs)->
+    console.log "transaction"
+    console.log attrs["transactionId"]
+    transaction_id = attrs["transactionId"]
+    scope.transaction = Transaction.$find(transaction_id)
 ]

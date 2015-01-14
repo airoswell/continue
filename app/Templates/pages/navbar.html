@@ -10,7 +10,10 @@
   .navbar .fa.fa-search{
     color: #999;
   }
-
+  .navbar .transaction-button:hover{
+    background: #f4f4f4;
+  }
+{% load filters %}
 </style>
 <div class='navbar' layout='row' layout-align='space-between center'>
   <a href="/app/">
@@ -31,8 +34,27 @@
     </a>
     <a href="/app/user/signup/"><div class='menu-item'>Sign up</div></a>
     {% else %}
+
+    {%   if request.user|pending_transactions %}
+    <div drop-down-menu>
+      <div drop-down-menu-trigger class="transaction-button menu-item">
+        Pending Requests &nbsp; 
+        <b style="padding: 3px 8px;border: 2px solid #999;border-radius: 20px;text-align: center;">{{ request.user|pending_transactions_count}}</b>
+      </div>
+      <div ng-cloak drop-down-menu-target style='margin-top:5px'>
+        <div class='text-small option'
+            style='background:#f4f4f4'>
+          Pending:
+        </div>
+        {% for transaction in request.user|pending_transactions %}
+        <div class='menu-item option'>
+          {% include "pages/components/transaction.html" %}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {%   endif %}
     <a href="/app/user/inbox/">
-      {% load filters %}
       <div class='menu-item'>
         {% if request.user.received_messages.all|unread_count > 0 %}
         <i class='fa fa-envelope'></i>&nbsp;<b>Messages</b>&nbsp;

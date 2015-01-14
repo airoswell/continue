@@ -29,10 +29,12 @@
       {% if item.pic %}
       <div click-to-show-target>
         <br/>
-        <div class='picture-container'
-            style="background: url({{item.pic}});background-size:100%">
-          <img src="{{item.pic}}" style='width:98%;opacity:0'>
-        </div>
+        <a href="/app/item/{{item.id}}/timeline/">
+          <div class='picture-container'
+              style="background: url({{item.pic}});background-size:100%">
+            <img src="{{item.pic}}" style='width:98%;opacity:0'>
+          </div>
+        </a>
       </div>
       {% endif %}
 
@@ -95,7 +97,7 @@
     <div>
     {% include 'pages/components/item-edit-menu.html' %}
 
-    {%    if item.requesters.all|length > 1 and item.transferrable %}
+    {%    if item.requesters.all|length > 0 and item.transferrable %}
       {% include 'pages/components/transfer-menu.html' %}
     {%    endif %}
     </div>

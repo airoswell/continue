@@ -61,6 +61,7 @@ class XDetailAPIView(APIView):
         instance, status = self.get_object(pk=pk)  # Object permission purpose
         if status is st.HTTP_404_NOT_FOUND:
             return Response(data=instance, status=status)
+        import pdb; pdb.set_trace()
         # Filter the data
         if hasattr(self, "deSerializer"):
             handler = ErrorHandler(self.deSerializer)

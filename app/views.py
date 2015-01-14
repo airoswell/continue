@@ -314,8 +314,6 @@ def dashboard(request):
     areas = interested_areas.split(",")
     num = len(areas)
     models = [Post] * num
-    print("\tareas = %s" %(areas))
-    print("\tmodels = %s" %(models))
     tl = Timeline(*models)
     query_args = []
     for area in areas:

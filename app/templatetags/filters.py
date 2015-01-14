@@ -1,4 +1,6 @@
 from django.template import Library
+from app.views import Timeline
+from app.models import ItemTransactionRecord
 
 register = Library()
 
@@ -40,3 +42,27 @@ def filter(string, delimiter):
     if not string:
         return []
     return string.split(delimiter)
+
+
+@register.filter(name='pending_transactions')
+def pending_transactions(user):
+    tl = Timeline(ItemTransactionRecord)
+    tl.config(
+        order_by=["-time_sent"],
+        filter_type=["or"],
+        common_filter={"status": "Sent"}
+    )
+    transactions = tl.get(*[{"giver": user, "receiver": user}])
+    return transactions
+
+
+@register.filter(name='pending_transactions_count')
+def pending_transactions_count(user):
+    transactions = pending_transactions(user)
+    return len(transactions)
+
+
+@register.filter(name="photo")
+def photo(user):
+    return (user.profile.all().order_by("-time_created")
+            .first().social_account_photo)
