@@ -124,7 +124,7 @@
           self.existed_items = existed_items;
           self.items = Item.$search({
             page: 1,
-            items_per_page: 8
+            num_of_records: 8
           });
           return self.items.$asPromise().then(function(response) {
             var existed, item, _i, _j, _len, _len1, _ref;
@@ -158,22 +158,11 @@
           };
           return scope.$watch("ItemSelector.monitor", function() {
             scope.items = ItemSelector.items;
-            return scope.items.items_per_page = 8;
+            return scope.items.num_of_records = 8;
           });
         }
       };
     }
-  ]).directive("itemTitle", function() {
-    return {
-      restrct: "E",
-      scope: {
-        item: "="
-      },
-      templateUrl: "/static/app/directives/item-title.html",
-      link: function(scope, element, attrs) {
-        return console.log("itemTitle");
-      }
-    };
-  });
+  ]);
 
 }).call(this);

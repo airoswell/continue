@@ -41,7 +41,7 @@
         Alert.show_msg("Loading ...");
         refresh = self.$refresh({
           page: self.page + 1,
-          items_per_page: self.items_per_page
+          num_of_records: self.num_of_records
         });
         return refresh.$asPromise().then(function(response) {
           self.page += 1;
@@ -56,7 +56,7 @@
         if (self.page > 1) {
           refresh = self.$refresh({
             page: self.page - 1,
-            items_per_page: self.items_per_page
+            num_of_records: self.num_of_records
           });
           return refresh.$then(function(response) {
             return self.page -= 1;
@@ -98,12 +98,19 @@
                 path: path,
                 loading: false,
                 page: 1,
-                items_per_page: 2,
+                start: 0,
+                num_of_records: 2,
                 next_page: function() {
                   return next_page(this);
                 },
                 prev_page: function() {
                   return prev_page(this);
+                },
+                fetch: function(params) {
+                  var self;
+                  self = this;
+                  this.loading = true;
+                  return this.$fetch(params);
                 }
               },
               Model: {
@@ -154,23 +161,17 @@
         return true;
       };
       search = function(self, params) {
-        var $then, a, i, posts, _i, _ref;
-        a = [1, 2, 3, 4];
-        console.log("a = ", a);
-        for (i = _i = 0, _ref = a.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
-          a[i] = 0;
-        }
-        console.log(a);
+        var $then, posts;
         posts = self.$search(params);
         return $then = posts.$then(function(response) {
-          var item, post, _j, _len, _results;
+          var i, item, post, _i, _len, _results;
           _results = [];
-          for (_j = 0, _len = posts.length; _j < _len; _j++) {
-            post = posts[_j];
+          for (_i = 0, _len = posts.length; _i < _len; _i++) {
+            post = posts[_i];
             _results.push((function() {
-              var _k, _ref1, _results1;
+              var _j, _ref, _results1;
               _results1 = [];
-              for (i = _k = 0, _ref1 = post.items.length; 0 <= _ref1 ? _k < _ref1 : _k > _ref1; i = 0 <= _ref1 ? ++_k : --_k) {
+              for (i = _j = 0, _ref = post.items.length; 0 <= _ref ? _j < _ref : _j > _ref; i = 0 <= _ref ? ++_j : --_j) {
                 item = post.items[i];
                 _results1.push(post.items[i] = Item.transform(item));
               }
@@ -264,6 +265,14 @@
   ]).factory("History", [
     "Model", function(Model) {
       return Model.create("/histories/");
+    }
+  ]).factory("Feed", [
+    "Model", function(Model) {
+      return Model.create("/feeds/").mix({
+        $extend: {
+          record: ""
+        }
+      });
     }
   ]).factory("Transaction", [
     "Model", function(Model) {

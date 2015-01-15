@@ -17,9 +17,9 @@ angular.module "continue"
       self.pm.recipient = owner_id
       self.pm.post_id = post_id
       self.pm.items = items     # only store id of items
-      user = Auth.get_user()
-      if not user.is_anonymous
-        self.pm.sender = user.user_id
+      profile = Auth.get_profile()
+      if not profile.is_anonymous
+        self.pm.sender = profile.user_id
       else
         self.pm.sender = "ai.roswell@gmail.com"
       self.deferred = BS.bringUp("private-message")

@@ -2,7 +2,7 @@
 (function() {
   var app;
 
-  app = angular.module("continue", ["ngResource", "ngAria", "ngAnimate", "ngMaterial", "restmod", "continue.auth", "continue.models", "continue.social_accounts", "ngTagsInput"]);
+  app = angular.module("continue", ["ngResource", "ngAria", "ngAnimate", "ngMaterial", "restmod", "continue.auth", "continue.models", "continue.social_accounts", "ngTagsInput", "infinite-scroll"]);
 
   app.config([
     "$httpProvider", function($httpProvider) {

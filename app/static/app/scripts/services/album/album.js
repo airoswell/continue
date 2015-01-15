@@ -66,19 +66,19 @@
       $scope.layout = {
         album_list_is_show: true,
         page: 1,
-        items_per_page: 8
+        num_of_records: 8
       };
       $scope.Album = Album;
       $scope.photos_to_display = function() {
         var end, start;
-        start = ($scope.layout.page - 1) * $scope.layout.items_per_page;
-        end = Math.min($scope.layout.page * $scope.layout.items_per_page, Album.photos.length - 1);
+        start = ($scope.layout.page - 1) * $scope.layout.num_of_records;
+        end = Math.min($scope.layout.page * $scope.layout.num_of_records, Album.photos.length - 1);
         return Album.photos.slice(start, +end + 1 || 9e9);
       };
       $scope.pagination = function(array) {
         var end, start;
-        start = ($scope.layout.page - 1) * $scope.layout.items_per_page;
-        end = Math.min($scope.layout.page * $scope.layout.items_per_page - 1, array.length - 1);
+        start = ($scope.layout.page - 1) * $scope.layout.num_of_records;
+        end = Math.min($scope.layout.page * $scope.layout.num_of_records - 1, array.length - 1);
         return array.slice(start, +end + 1 || 9e9);
       };
       $scope.back_to_albums = function() {
@@ -91,7 +91,7 @@
         } else {
           array = Album.photos;
         }
-        if ($scope.layout.page * $scope.layout.items_per_page < array.length) {
+        if ($scope.layout.page * $scope.layout.num_of_records < array.length) {
           return $scope.layout.page += 1;
         }
       };

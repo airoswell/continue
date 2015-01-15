@@ -2,15 +2,55 @@ angular.module "continue"
 
 
 .controller "SearchResultsCtrl", [
-  "$scope", ($scope)->
+  "$scope", "Post", "Alert", ($scope, Post, Alert)->
 
     $scope.scroll_to_post = (id)->
       top = $("#post-#{id}").offset().top
       $("html, body").animate scrollTop: top - 100
       true
+
+    $scope.layout = {
+      loading:
+        posts: false
+        feeds: false
+    }
+
+    $scope.load_posts = ()->
+      $scope.layout.loading.posts = true
+      if not $scope.posts
+        console.log "loading posts starting from #{$scope.init_post_num}"
+        $scope.posts = Post.search(
+          "start": $scope.init_post_num
+          "q": $scope.q
+          "area": $scope.area
+        )
+      else
+        console.log "loading posts starting from #{$scope.posts.start}"
+        $scope.posts = $scope.posts.fetch(
+          "start": $scope.posts.start
+          "q": $scope.q
+          "area": $scope.area
+        )
+      $scope.posts.$then (response)->
+        # store the next [start] param; it will propagate to
+        # queryset[start:end]65
+        if $scope.posts.start == 0
+          $scope.posts.start = parseInt($scope.init_post_num) + response.length
+        else
+          $scope.posts.start = parseInt($scope.posts.start) + response.length
+        # Deal with the tags
+        for post in response
+          console.log "type of tags is #{typeof(post.tags)}"
+          if post.tags
+            if typeof(post.tags) == "string"
+              post.tags = post.tags.split(",")
+          else
+            post.tags = []
+      .$asPromise().then ()->
+        $scope.layout.loading.posts = false
+      , ()->
+        Alert.show_msg("You have reach the end of the post list")
 ]
-
-
 
 .directive "searchPostOverview", ["PrivateMessage", (PrivateMessage)->
   restrict: "A"

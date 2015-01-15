@@ -14,7 +14,7 @@
           } else {
             this.items = Item.$search({
               page: 1,
-              items_per_page: 10
+              num_of_records: 10
             });
             return this;
           }

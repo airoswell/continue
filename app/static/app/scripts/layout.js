@@ -27,12 +27,16 @@
 
   angular.module("continue").controller("LayoutCtrl", [
     "$scope", "Auth", "Alert", function($scope, Auth, Alert) {
-      $scope.user = {};
-      return Auth.get_user_profile().then(function(response) {
-        Auth.store_user(response[0]);
-        console.log(response);
-        $scope.user = Auth.get_user();
-        return $scope.photo = Auth.get_user().social_account_photo;
+      $scope.profile = {};
+      $scope.scrollTop = 0;
+      angular.element($(window)).bind("scroll", function() {
+        $scope.scrollTop = $(window).scrollTop();
+        return $scope.$apply();
+      });
+      return Auth.fetch_profile().then(function(response) {
+        Auth.store_profile(response[0]);
+        $scope.profile = Auth.get_profile();
+        return $scope.photo = Auth.get_profile().social_account_photo;
       });
     }
   ]).directive("areaSettingForm", [
@@ -68,7 +72,7 @@
             scope.interested_areas = zip_codes.join();
             console.log(scope.interested_areas);
             Alert.show_msg("Submitting ...");
-            profile = Auth.get_user();
+            profile = Auth.get_profile();
             profile.primary_area = scope.primary_area;
             profile.interested_areas = scope.interested_areas;
             profile.already_set = true;
@@ -80,184 +84,17 @@
         }
       };
     }
-  ]).directive("enterToSubmit", function() {
-    return {
-      restrict: "A",
-      link: function(scope, element, attrs) {
-        var input;
-        console.log("enterToSubmit");
-        input = element.find("[enter-to-submit-input]");
-        return input.keypress(function(e) {
-          if (e.which === 13) {
-            return element.submit();
-          }
-        });
-      }
+  ]).filter("truncate", function() {
+    return function(input, max) {
+      return input.slice(0, max);
     };
-  }).directive("autoExpand", function() {
-    "<div auto-expand data=\"<the input variable>\" init-width=\"100px\"\n    min-size=\"20\">\n    ...\n    <input tyle='text' ng-model=\"<the input variable>\">\n</div>";
-    return {
-      restrict: "AE",
-      scope: {
-        data: "=",
-        minSize: "@",
-        initWidth: "@"
-      },
-      link: function(scope, element, attrs) {
-        var auto_expand, input;
-        if (scope.minSize === void 0) {
-          scope.minSize = 7;
-        }
-        if (scope.initWidth === void 0) {
-          scope.initWidth = "80px";
-        }
-        auto_expand = function(data) {
-          var size;
-          size = Math.floor(data.toString().length / 5) * 5 + 6;
-          if (size > scope.minSize) {
-            input.attr({
-              "size": size
-            });
-            return input.css({
-              "width": "auto"
-            });
-          }
-        };
-        input = element.find("input");
-        return scope.$watch("data", function() {
-          if (input.length === 0) {
-            input = element.find("input");
-          }
-          if (!scope.data) {
-            input.css({
-              "width": scope.initWidth
-            });
-          }
-          if (scope.data) {
-            return auto_expand(scope.data);
-          }
-        });
-      }
-    };
-  }).directive("clickToShow", function() {
-    " template\n<div click-to-show>\n  <div click-to-show-trigger></div>\n  <div click-to-show-target></div>\n</div>\nclicking the '[click-to-show-trigger]' will show and hide\n'[click-to-show-trigger]'.";
-    return {
-      restrict: "A",
-      scope: {},
-      link: function(scope, element, attrs) {
-        var target, trigger;
-        scope.expanded = false;
-        trigger = element.find("[click-to-show-trigger]");
-        target = element.find("[click-to-show-target]");
-        target.css({
-          "display": "none"
-        });
-        return trigger.on("click", function(e) {
-          if (!scope.expanded) {
-            target.css({
-              "display": ""
-            });
-          } else if (scope.expanded) {
-            target.css({
-              "display": "none"
-            });
-          }
-          scope.expanded = !scope.expanded;
-          return scope.$apply();
-        });
-      }
-    };
-  }).directive("itemEditMenu", function(ItemEditor) {
-    return {
-      restrict: "E",
-      templateUrl: "/static/app/directives/item-edit-menu.html"
-    };
-  }).directive("itemEditButton", [
-    "ItemEditor", function(ItemEditor) {
-      return {
-        restrict: "A",
-        link: function(scope, element, attrs) {
-          var item_id;
-          if ("itemId" in attrs) {
-            item_id = attrs['itemId'];
-          }
-          return scope.show_editor = function() {
-            console.log("show_editor");
-            if (item_id !== "{{") {
-              return ItemEditor.begin(item_id);
-            } else {
-              scope.item.is_new = false;
-              return ItemEditor.begin(scope.item);
-            }
-          };
-        }
-      };
-    }
-  ]).directive("dropDownMenu", [
-    "$timeout", function($timeout) {
-      return {
-        restrict: "A",
-        scope: true,
-        link: function(scope, element, attrs) {
-          var target, trigger;
-          trigger = element.find("[drop-down-menu-trigger]");
-          target = element.find("[drop-down-menu-target]");
-          target.css({
-            "position": "absolute",
-            "display": "none"
-          });
-          trigger.on("click", function(e) {
-            target.css({
-              "display": ""
-            });
-            return console.log("clicked!");
-          });
-          return $("html").click(function(a) {
-            if (!$.contains(element[0], a.target)) {
-              return target.css({
-                "display": "none"
-              });
-            }
-          });
-        }
-      };
-    }
-  ]).directive("postItemDeleteButton", [
-    "Item", function(Item) {
-      return {
-        restrict: "A",
-        scope: true,
-        link: function(scope, element, attrs) {
-          var item_id, post_id;
-          item_id = attrs["itemId"];
-          post_id = attrs["postId"];
-          scope.show_double_check = false;
-          scope.double_check = function() {
-            console.log("double_check scope", scope);
-            return scope.show_double_check = true;
-          };
-          return scope.del = function() {
-            var item;
-            console.log("del");
-            console.log("del scope", scope);
-            scope.show_double_check = false;
-            return item = Item.$find(item_id).$then(function(response) {
-              item.remove_from_post = post_id;
-              return item.save();
-            });
-          };
-        }
-      };
-    }
-  ]).directive("transaction", [
+  }).directive("transaction", [
     "Transaction", function(Transaction) {
       return {
         restrict: "A",
         scope: true,
         link: function(scope, element, attrs) {
           var transaction_id;
-          console.log("transaction");
-          console.log(attrs["transactionId"]);
           transaction_id = attrs["transactionId"];
           return scope.transaction = Transaction.$find(transaction_id);
         }

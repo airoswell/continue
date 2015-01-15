@@ -2,18 +2,18 @@
 (function() {
   angular.module("continue.auth", ["restmod"]).factory("Auth", [
     "restmod", function(restmod) {
-      var User, user;
-      User = restmod.model("/users/");
-      user = {};
+      var Profile, profile;
+      Profile = restmod.model("/profiles/");
+      profile = {};
       return {
-        get_user_profile: function() {
-          return User.$search().$asPromise();
+        fetch_profile: function() {
+          return Profile.$search().$asPromise();
         },
-        store_user: function(response) {
-          return user = response;
+        store_profile: function(response) {
+          return profile = response;
         },
-        get_user: function() {
-          return user;
+        get_profile: function() {
+          return profile;
         }
       };
     }

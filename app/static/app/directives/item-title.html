@@ -1,4 +1,4 @@
-<div layout='row' style='box-shadow:0px 1px 3px #ccc;padding:10px'>
+<div layout='row'>
   <div layout>
     <div class='item-overview-title'>
       <div layout='row'>
@@ -25,7 +25,7 @@
     &nbsp;&nbsp;&nbsp;&nbsp;
     <div>
       <div style='color: #999'>Condition</div>
-      <div style='font-weight:600'>{{ item.condition }}</div>
+      <div style='font-weight:600' ng-bind="item.condition"></div>
     </div>
     &nbsp;&nbsp;&nbsp;&nbsp;
     <div ng-if="item.size">

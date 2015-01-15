@@ -17,15 +17,15 @@
         monitor: 0,
         deferred: {},
         compose: function(owner_id, post_id, items) {
-          var self, user;
+          var profile, self;
           self = this;
           self.monitor += 1;
           self.pm.recipient = owner_id;
           self.pm.post_id = post_id;
           self.pm.items = items;
-          user = Auth.get_user();
-          if (!user.is_anonymous) {
-            self.pm.sender = user.user_id;
+          profile = Auth.get_profile();
+          if (!profile.is_anonymous) {
+            self.pm.sender = profile.user_id;
           } else {
             self.pm.sender = "ai.roswell@gmail.com";
           }

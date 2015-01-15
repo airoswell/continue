@@ -6,6 +6,10 @@ angular.module("continue")
   link: (scope, element, attrs) ->
       return
 
+.directive "postOverview", ->
+  restrict: "E"
+  templateUrl: "/static/app/directives/post-overview.html"
+
 .directive "dashboardItemOverview", ["History", "Album", "Alert", (History, Album, Alert)->
   restrict: "E"
   scope: true
@@ -21,7 +25,7 @@ angular.module("continue")
       if item.expanded isnt true
         console.log "expand"
         item.expanded = true
-        item.histories = item.histories.$search({items_per_page: 8})
+        item.histories = item.histories.$search({num_of_records: 8})
       else
         console.log "fold"
         item.expanded = false

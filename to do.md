@@ -3,9 +3,14 @@
     - Search items by title, tags, description
     - <s>Search posts by title, zip code, detail, items sub info</s>
 - ### Weibo and Instagram integration
+- ### On site photo upload
 - ### User profile
-
-[[https://graph.facebook.com/v2.2/10205648441356242/picture?type=square&height=600&width=600&return_ssl_resources=1 | height = 100px]]
+- ### API:
+    - Feeds, Timeline(user, item, area)[Post, Item, ItemEditRecord]
+    - DonatedItem(condition, size, ), related API should have general permission,
+- ### Search:
+    - Geo-infomation
+    - Level up
 
 ## Front End
 - ### Dashboard
@@ -25,5 +30,5 @@
 
 ## Domain
 - ### Buy a domain
-- ### Configure a Django server
-- ### Store database and static content server
+- ### <s>Configure a Django server</s>
+- ### <s>Store database and static content server</s>

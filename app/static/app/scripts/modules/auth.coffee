@@ -1,15 +1,15 @@
 angular.module "continue.auth", ["restmod"]
 
 .factory "Auth", ["restmod", (restmod)->
-  User = restmod.model("/users/")
-  user = {}
+  Profile = restmod.model("/profiles/")
+  profile = {}
   return{
-    get_user_profile: () ->
-      User.$search().$asPromise()
-    store_user: (response)->
-      user = response
-    get_user: ()->
-      user
+    fetch_profile: () ->
+      Profile.$search().$asPromise()
+    store_profile: (response)->
+      profile = response
+    get_profile: ()->
+      profile
   }
 ]
 

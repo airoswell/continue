@@ -3,20 +3,28 @@
 {% block content %}
 <div id='search-results-wrapper'
     layout='column' layout-align='start center'
+    ng-init="q='{{q}}'; init_post_num={{init_post_num}}"
     ng-controller="SearchResultsCtrl">
   
   <!-- Side navigation bar -->
-  <div hide-sm hide-md style='position: fixed;left:0px;top:80px;box-shadow:-2px 0px 3px #eee;background:#fff;opacity:0.8;z-index:0'>
+  <div hide-sm hide-md style='position: fixed;left:0px;top:60px;box-shadow:-2px 0px 3px #eee;background:#fff;opacity:0.8;z-index:0;'>
     <div class="text-large" style='padding:10px;background:#eee'>
       <i class="fa fa-list"></i>&nbsp;Posts list
     </div>
-    {% for post in posts %}
+    <div style='max-height:650px;overflow:scroll'>
+      {% for post in posts %}
       <div class='text-default sidebar-item'
           ng-click="scroll_to_post({{post.id}})">
           {% load filters %}
         <i class='fa fa-circle-o'></i>&nbsp;&nbsp;{{ post.title|truncate:40 }}
       </div>
-    {% endfor %}
+      {% endfor %}
+      <div ng-cloak ng-repeat="post in posts"
+          class='text-default sidebar-item'
+          ng-click="scroll_to_post(post.id)">
+        <i class="fa fa-circle-o"></i>&nbsp;&nbsp;<bind ng-bind="post.title|truncate:40"></bind>
+      </div>
+    </div>
   </div>
 
   <div layout='row' layout-align='center'>
@@ -45,14 +53,18 @@
   </div>
   {% else %}
 
-  <!-- When there are returned results -->
-  <div class='search-results-list' style='width:700px;'>
+  <div class='search-results-list' style='width:700px;'
+      infinite-scroll="load_posts()" infinite-scroll-distance="1"
+      infinite-scroll-disabled="layout.loading.posts || scrollTop < 600">
 
     {% for post in posts %}
 
       {% include 'pages/components/post-overview.html' %}
 
     {% endfor %} {# posts iteration end #}
+    <div ng-repeat="post in posts">
+      <post-overview></post-overview>
+    </div>
   </div>
 
   {% endif %}

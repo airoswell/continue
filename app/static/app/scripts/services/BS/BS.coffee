@@ -121,7 +121,7 @@ angular.module "continue"
       self.existed_items = existed_items
       self.items = Item.$search(
         page:1
-        items_per_page: 8
+        num_of_records: 8
       )
       self.items.$asPromise().then (response)->
         self.deferred = BS.bringUp("item-selector")
@@ -145,13 +145,5 @@ angular.module "continue"
       ItemSelector.deferred.resolve(item)
     scope.$watch "ItemSelector.monitor", ()->
       scope.items = ItemSelector.items
-      scope.items.items_per_page = 8
+      scope.items.num_of_records = 8
 ]
-
-.directive "itemTitle", ()->
-  restrct: "E"
-  scope:
-    item: "="
-  templateUrl: "/static/app/directives/item-title.html"
-  link: (scope, element, attrs)->
-    console.log "itemTitle"

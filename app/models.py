@@ -8,9 +8,39 @@ from dateutil.relativedelta import relativedelta
 
 from allauth.account.signals import user_logged_in
 
+from django.db.models import Q
+import operator
 import datetime
 
 # Create your models here.
+
+
+# ======== Modifying User class ========
+def photo(self):
+    return self.profile.all()[0].social_account_photo
+
+User.photo = photo
+
+
+def pending_transactions(self):
+    transactions = ItemTransactionRecord.objects.filter(
+        (Q(giver=self) | Q(receiver=self)) & Q(status="Sent")
+    )
+    return transactions
+
+User.pending_transactions = pending_transactions
+
+
+def name(self):
+    return self.profile.all()[0].name
+
+
+def interested_areas(self):
+    return self.profile.all()[0].interested_areas
+
+User.interested_areas = interested_areas
+
+User.name = name
 
 
 class UserProfile(models.Model):
@@ -373,6 +403,23 @@ class Post(models.Model):
                 )
         post.save()         # trigger update_index
         return post
+
+    @classmethod
+    def in_areas(cls, *areas):
+        """
+        <areas> should be a list of zip_codes, and in_areas will return
+        all posts in either of the areas.
+        Can be used for searching posts from multiple areas
+        """
+        Q_list = [Q(area=area) for area in areas]
+        return (cls.objects.filter(reduce(operator.or_, Q_list))
+                .order_by("-time_posted"))
+
+    def owner_photo(self):
+        return self.owner.photo()
+
+    def owner_name(self):
+        return self.owner.name()
 
     def __unicode__(self):
         return unicode(self.title)

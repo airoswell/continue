@@ -6,6 +6,10 @@ from app.models import ItemTransactionRecord
 register = Library()
 
 
+def test():
+    return ""
+
+
 @register.filter_function
 def order_by(queryset, args):
     args = [x.strip() for x in args.split(',')]
@@ -26,6 +30,11 @@ def truncate(string, limit):
         return string
     else:
         return string[0:limit] + " ..."
+
+
+@register.filter(name='count')
+def count(queryset):
+    return queryset.count()
 
 
 @register.filter(name='unread_count')
@@ -57,13 +66,9 @@ def pending_transactions(user):
     return transactions
 
 
-@register.filter(name='pending_transactions_count')
-def pending_transactions_count(user):
-    transactions = pending_transactions(user)
-    return len(transactions)
-
-
-@register.filter(name="photo")
-def photo(user):
-    return (user.profile.all().order_by("-time_created")
-            .first().social_account_photo)
+@register.filter(name='proper_case')
+def proper_case(name):
+    if name == "You":
+        return "you"
+    else:
+        return name

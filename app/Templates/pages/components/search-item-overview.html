@@ -45,7 +45,7 @@
     <!-- can see the following components                     -->
     {% if post.owner != request.user and item.owner != request.user %}
       <!-- If the post owner still owns the item -->
-      {% if item.owner == post.owner %}
+      {% if item.owner == post.owner and item.transferrable %}
 
         <!-- ===================================== -->
         <!-- If the user has requested the item -->

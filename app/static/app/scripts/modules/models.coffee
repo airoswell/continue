@@ -40,7 +40,7 @@ angular.module 'continue.models', [
 
     refresh = self.$refresh(
       page: self.page + 1
-      items_per_page: self.items_per_page
+      num_of_records: self.num_of_records
     )
     refresh.$asPromise().then (response)->
       self.page += 1
@@ -54,7 +54,7 @@ angular.module 'continue.models', [
     if self.page > 1
       refresh = self.$refresh(
         page: self.page - 1
-        items_per_page: self.items_per_page
+        num_of_records: self.num_of_records
       )
       refresh.$then (response) ->
         self.page -= 1
@@ -88,11 +88,16 @@ angular.module 'continue.models', [
             path: path
             loading: false
             page: 1
-            items_per_page: 2
+            start: 0
+            num_of_records: 2
             next_page: () ->
               next_page(this)
             prev_page: () ->
               prev_page(this)
+            fetch: (params)->
+              self = this
+              this.loading = true
+              this.$fetch(params)
           Model:
             transform: (obj) ->
               record = this.$build(this.init)
@@ -130,13 +135,8 @@ angular.module 'continue.models', [
         return false
     return true
 
-  # Model method
+  # <Post, Model> method
   search = (self, params) ->
-    a = [1,2,3,4]
-    console.log "a = ", a
-    for i in [0...a.length]
-      a[i] = 0
-    console.log a
     posts = self.$search(params)
     $then = posts.$then (response) ->
       for post in posts
@@ -146,8 +146,6 @@ angular.module 'continue.models', [
           # With all possible mod-choices
           item = post.items[i]
           post.items[i] = Item.transform(item)
-
-  
 
   return Model.create('/posts/').mix({
     $extend:
@@ -218,6 +216,13 @@ angular.module 'continue.models', [
 
 .factory "History", ["Model", (Model) ->
   return Model.create("/histories/")
+]
+
+.factory "Feed", ["Model", (Model) ->
+  return Model.create("/feeds/").mix(
+    $extend:
+      record:""
+  )
 ]
 
 .factory "Transaction", ["Model", (Model)->

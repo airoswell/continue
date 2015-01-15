@@ -95,6 +95,7 @@ class PostSerializer(serializers.ModelSerializer):
         model = Post
         fields = ('id', 'title', 'owner', 'area', 'detail',
                   'time_posted', 'expiration_date', 'items', "tags",
+                  'remaining_time', 'owner_photo', 'owner_name',
                   )
 
 
@@ -109,6 +110,7 @@ class PostSerializerLite(serializers.ModelSerializer):
         model = Post
         fields = ('id', 'title', 'owner', 'area', 'detail',
                   'time_posted', 'expiration_date', 'items', 'owner', "tags",
+                  'remaining_time',
                   )
 
 

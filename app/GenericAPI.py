@@ -21,14 +21,14 @@ class XListAPIView(APIView):
         return data
 
     def paginator(self, request):
-        page = 1
-        items_per_page = self.items_per_page
+        start = 0
+        num_of_records = self.num_of_records
         params = request.query_params
-        if "page" in params:
-            page = int(params['page'])
-        if "items_per_page" in params:
-            items_per_page = int(params["items_per_page"])
-        return page, items_per_page
+        if "start" in params:
+            start = int(params['start'])
+        if "num_of_records" in params:
+            num_of_records = int(params["num_of_records"])
+        return start, num_of_records
 
     def get_object(self, **search_kwargs):
         queryset = self.model.objects.filter(**search_kwargs)

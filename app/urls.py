@@ -30,21 +30,22 @@ urlpatterns += patterns(
 # =================== Django-Rest-Framework API ======================
 urlpatterns += patterns(
     "api",
+    url(r'^test/?$', api.test.as_view(), name='post_list'),
     url(r'^posts/?$', api.PostList.as_view(), name='post_list'),
     url(r'^posts/(?P<pk>\d*)/$',
         api.PostDetail.as_view(), name='post_detail'),
     url(r'^posts/(?P<post_id>\d*)/items/?$',
         api.ItemList.as_view(), name='post_items'),
-    url(r'^items/(?P<item_id>[0-9]+)/histories/?$',
-        api.HistoryList.as_view(),
-        name='item_histories'),
     url(r'^items/?$', api.ItemList.as_view(), name='item_list'),
     url(r'^items/(?P<pk>[0-9]+)/$',
         api.ItemDetail.as_view(),
         name='item_datail'),
+    url(r'^items/(?P<item_id>[0-9]+)/histories/?$',
+        api.HistoryList.as_view(),
+        name='item_histories'),
     url(r'^histories/$', api.HistoryList.as_view(), name='history_list'),
-    url(r'^users/$', api.UserDetails.as_view(), name='user_detail'),
-    url(r'^users/(?P<pk>[0-9]+)/$',
+    url(r'^profiles/$', api.UserDetails.as_view(), name='user_detail'),
+    url(r'^profiles/(?P<pk>[0-9]+)/$',
         api.UserDetails.as_view(), name='user_detail'),
     url(r'^user/messages/$',
         api.MessageList.as_view(),
@@ -55,6 +56,9 @@ urlpatterns += patterns(
     url(r'^transactions/(?P<pk>[0-9]+)/$',
         api.TransactionDetail.as_view(),
         name='transaction_Detail'),
+    url(r'^feeds/$',
+        api.FeedList.as_view(),
+        name='feed_list'),
 )
 
 # postman URL

@@ -8,6 +8,7 @@ app = angular.module("continue", [
   "continue.models"
   "continue.social_accounts"
   "ngTagsInput"
+  "infinite-scroll"
 ])
 
 app.config [

@@ -39,14 +39,14 @@
     <div drop-down-menu>
       <div drop-down-menu-trigger class="transaction-button menu-item">
         Pending Requests &nbsp; 
-        <b style="padding: 3px 8px;border: 2px solid #999;border-radius: 20px;text-align: center;">{{ request.user|pending_transactions_count}}</b>
+        <b style="padding: 3px 8px;border: 2px solid #999;border-radius: 20px;text-align: center;">{{ request.user.pending_transactions|count}}</b>
       </div>
       <div ng-cloak drop-down-menu-target style='margin-top:5px'>
         <div class='text-small option'
             style='background:#f4f4f4'>
           Pending:
         </div>
-        {% for transaction in request.user|pending_transactions %}
+        {% for transaction in request.user.pending_transactions %}
         <div class='menu-item option'>
           {% include "pages/components/transaction.html" %}
         </div>

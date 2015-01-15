@@ -2,13 +2,12 @@
 angular.module("continue")
 
 .controller("DashBoardCtrl", [
-  "$scope", "Post", "Item", "History", "Transaction"
-  "Alert", "Auth", "Album", "BS"
-  ($scope, Post, Item, History, Transaction, Alert, Auth, Album, BS) ->
+  "$scope", "Post", "Item", "Feed", "Alert", "Auth",
+  ($scope, Post, Item, Feed, Alert, Auth) ->
 
     # Load in items and posts of the current user
     Alert.show_msg("Downloading your data.")
-    $scope.items = Item.$search({items_per_page: 8}).$then ()->
+    $scope.items = Item.$search({num_of_records: 8}).$then ()->
       for item in $scope.items
         if item.tags
           item.tags_input = [{"text": tag} for tag in item.tags.split(",")][0]
@@ -17,10 +16,47 @@ angular.module("continue")
     $scope.layout = {
       creating_new_item: false
       display_tab: "updates"
+      loading:
+        "posts": false
+        "feeds": false
     }
 
+    $scope.load_posts = ()->
+      $scope.layout.loading.posts = true
+      if not $scope.posts
+        $scope.posts = Post.search({"start": $scope.numOfPosts})
+      else
+        $scope.posts = $scope.posts.fetch({"start": $scope.posts.start})
+
+      $scope.posts.$then (response)->
+        # store the next [start] param; it will propagate to
+        # queryset[start:end]
+        if $scope.posts.start == 0
+          $scope.posts.start = parseInt($scope.numOfPosts) + $scope.posts.length
+        else
+          $scope.posts.start = parseInt($scope.posts.start) + $scope.posts.length
+        # Deal with the tags
+        for post in $scope.posts
+          if post.tags
+            if typeof(post.tags) == "string"
+              post.tags = post.tags.split(",")
+          else
+            post.tags = []
+        $scope.layout.loading.posts = false
+
+    $scope.load_feeds = ()->
+      console.log "loading feeds"
+      $scope.layout.loading.feeds = true
+      if not $scope.feeds
+        $scope.feeds = Feed.$search({"start": $scope.numOfPosts})
+      else
+        $scope.feeds = $scope.feeds.$fetch({"start": $scope.feeds.start})
+
+      $scope.feeds.$then (response)->
+        console.log response
+
+
     $scope.display_tab = (tab_name)->
-      console.log "display_tab"
       $scope.layout.display_tab = tab_name
 
     $scope.scroll_to_post = (id)->

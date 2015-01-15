@@ -11,7 +11,7 @@ angular.module "continue"
       if "id" of item
         return this
       else
-        this.items = Item.$search({page: 1, items_per_page: 10})
+        this.items = Item.$search({page: 1, num_of_records: 10})
         return this
 
     close: ()->

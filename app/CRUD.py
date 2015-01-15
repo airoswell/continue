@@ -36,9 +36,8 @@ class Crud:
             return
         return queryset
 
-    def retrieve(self, page, items_per_page, **search_kwargs):
-        start = (page - 1) * items_per_page
-        end = page * items_per_page
+    def retrieve(self, start, num_of_records, **search_kwargs):
+        end = start + num_of_records
         queryset = (self.model.objects.filter(**search_kwargs)
                     .order_by('-pk')[start: end])
         if not queryset:
@@ -64,7 +63,7 @@ class Crud:
         return
 
 
-def retrieve_records(model, serializer, page, items_per_page, **search_kwargs):
+def retrieve_records(model, serializer, start, num_of_records, **search_kwargs):
     """
         Retrieve records.
         Return:
@@ -72,8 +71,9 @@ def retrieve_records(model, serializer, page, items_per_page, **search_kwargs):
         - (empty list, if no record is found, status),
         - (error object, status)
     """
-    start = (page - 1) * items_per_page
-    end = page * items_per_page
+    # start = (page - 1) * num_of_records
+    # end = page * num_of_records
+    end = start + num_of_records
     queryset = (model.objects.filter(**search_kwargs)
                 .order_by('-pk')[start: end]
                 )
@@ -97,7 +97,7 @@ def retrieve_records(model, serializer, page, items_per_page, **search_kwargs):
 def retrieve_a_record(model, model_serializer, **search_kwargs):
     data, status = retrieve_records(
         model, model_serializer,
-        page=1, items_per_page=1,
+        page=1, num_of_records=1,
         **search_kwargs)
     if status is st.HTTP_200_OK and data:
         data = data[0]

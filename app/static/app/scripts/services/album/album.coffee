@@ -64,18 +64,18 @@ angular.module "continue"
   $scope.layout = {
     album_list_is_show: true
     page: 1
-    items_per_page: 8
+    num_of_records: 8
   }
   $scope.Album = Album
 
   $scope.photos_to_display = ()->
-    start = ($scope.layout.page - 1) * $scope.layout.items_per_page
-    end = Math.min($scope.layout.page * $scope.layout.items_per_page, Album.photos.length - 1)
+    start = ($scope.layout.page - 1) * $scope.layout.num_of_records
+    end = Math.min($scope.layout.page * $scope.layout.num_of_records, Album.photos.length - 1)
     Album.photos[start..end]
 
   $scope.pagination = (array)->
-    start = ($scope.layout.page - 1) * $scope.layout.items_per_page
-    end = Math.min($scope.layout.page * $scope.layout.items_per_page - 1, array.length - 1)
+    start = ($scope.layout.page - 1) * $scope.layout.num_of_records
+    end = Math.min($scope.layout.page * $scope.layout.num_of_records - 1, array.length - 1)
     array[start..end]
 
   $scope.back_to_albums = ()->
@@ -86,7 +86,7 @@ angular.module "continue"
       array = Album.albums
     else
       array = Album.photos
-    if $scope.layout.page * $scope.layout.items_per_page < array.length
+    if $scope.layout.page * $scope.layout.num_of_records < array.length
       $scope.layout.page += 1
 
   $scope.prev_page = ()->

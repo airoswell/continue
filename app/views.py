@@ -1,7 +1,7 @@
 # Models and serializers
 from app.models import Item, Post
 from app.models import ItemEditRecord, PostItemStatus, ItemTransactionRecord
-from app.api import S
+from app.api import S, Timeline
 from app.GenericAPI import *
 from app.serializers import *
 from app.CRUD import *
@@ -102,18 +102,30 @@ def search(request):
     params = request.GET
     s = S(Post)
     posts = s.search(params)
+    area = ""
+    q = ""
+    if "area" in params:
+        area = params["area"]
+    if "q" in params:
+        q = params['q']
     return render(
         request,
         'pages/search.html',
         {
             'view': 'search',
             "posts": posts,
-            "user": user_info_generator(request.user)
+            "user": user_info_generator(request.user),
+            "q": q,
+            "area": area,
+            "init_post_num": len(posts),
         }
     )
 
 
 def post_edit(request, pk):
+    user = request.user
+    if user.is_anonymous():
+        return redirect("index")
     queryset = Post.objects.filter(pk=pk)
     if not queryset:
         return Response(
@@ -121,6 +133,8 @@ def post_edit(request, pk):
             status=st.HTTP_404_NOT_FOUND
         )
     post = queryset[0]
+    if user != post.owner:
+        return redirect("index")
     items = post.items.all()
     return render(
         request,
@@ -145,102 +159,6 @@ def post_create(request):
     )
 
 
-class Timeline:
-    def __init__(self, *models):
-        """
-        arguments <models> should take in several models, based on which
-        one build a timeline array.
-        """
-        self.models = models
-        self.starts = [0] * len(models)
-        self.order_by = ["-time_updated"] * len(models)
-        self.interval = 8
-        self.filter_type = ["and"] * len(models)
-        self.common_filter = None
-
-    def config(self, **kwargs):
-        """
-        configure <starts>, <order_by> and <interval> properties.
-        order_by and starts should be of type list, matching the <models>.
-        """
-        for arg in kwargs:
-            setattr(self, arg, kwargs[arg])
-
-    def field(self, index):
-        import re
-        minus = re.compile("^-")
-        if minus.match(self.order_by[index]):
-            field = self.order_by[index][1:]
-        return field
-
-    def merge(self, *args):
-        num_of_arrays = len(args)
-        result = []
-        if num_of_arrays == 1:
-            return args[0]
-        if num_of_arrays == 2:
-            a = args[0]
-            b = args[1]
-            while a and b:
-                if getattr(a[0], self.field(0)) > getattr(b[0], self.field(1)):
-                    result.append(a.pop(0))
-                else:
-                    result.append(b.pop(0))
-            if a:
-                result = result + a
-            else:
-                result = result + b
-            return result
-        else:
-            for step in range(0, num_of_arrays - 1):
-                result = self.merge(args[step], args[step + 1])
-        return result
-
-    def get(self, *args, **kwargs):
-        """
-        Take in either an array of kwargs for filtering, e.g.
-        get(
-            {"item": item, item__owner: request.user},
-            {"item__owner": user}
-        ), matching each of the <models>,
-        or a common **kwargs to search,
-        e.g. get(item=item, item__owner=request.user).
-        Return:
-            - list (mergesorted)
-        """
-        querysets = []
-        from django.db.models import Q
-        for index in range(0, len(self.models)):
-            start = self.starts[index]
-            model = self.models[index]
-            if not kwargs:
-                temp_kwargs = args[index]
-                if self.filter_type[index] == "or":
-                    Q_list = []
-                    for kwarg in temp_kwargs:
-                        Q_list.append(Q(**{kwarg: temp_kwargs[kwarg]}))
-                    import operator
-                    queryset = model.objects.filter(
-                        reduce(operator.or_, Q_list)
-                    )
-                elif self.filter_type[index] == "and":
-                    queryset = (model.objects.filter(**temp_kwargs)
-                                .order_by(self.order_by[index])
-                                [start: start + self.interval + 1])
-            else:
-                queryset = (model.objects.filter(**kwargs)
-                            .order_by(self.order_by[index])
-                            [start: start + self.interval + 1])
-            if self.common_filter:
-                queryset = queryset.filter(**self.common_filter)
-            queryset = [r for r in queryset]
-            querysets.append(queryset)
-        # Merge sort
-        timeline = self.merge(*querysets)
-        print(timeline)
-        return timeline
-
-
 def item_timeline(request, pk):
     params = request.GET
     if 'edit_start' in params:
@@ -251,10 +169,10 @@ def item_timeline(request, pk):
         transaction_start = params['transaction_start']
     else:
         transaction_start = 0
-    if "items_per_page" in params:
-        items_per_page = params['items_per_page']
+    if "num_of_records" in params:
+        num_of_records = params['num_of_records']
     else:
-        items_per_page = 8
+        num_of_records = 8
 
     queryset = Item.objects.filter(pk=pk)
     if not queryset:
@@ -266,10 +184,14 @@ def item_timeline(request, pk):
 
     tl = Timeline(ItemEditRecord, ItemTransactionRecord)
     tl.config(
-        interval=items_per_page,
+        interval=num_of_records,
         starts=(edit_start, transaction_start)
     )
     timeline = tl.get(item=item)[0: tl.interval]
+    if request.user == item.owner:
+        subject = "You"
+    else:
+        subject = request.user.name()
     return render(
         request,
         'pages/item-timeline.html',
@@ -277,6 +199,7 @@ def item_timeline(request, pk):
             'view': 'timeline',
             'timeline': timeline,
             "item": item,
+            'subject': subject
         }
     )
 
@@ -309,31 +232,39 @@ def dashboard(request):
     user = request.user
     if user.is_anonymous():
         return redirect('/app/user/login/')
-    posts = Post.objects.filter(owner=user)
+
+    params = request.GET
+    numOfPosts = 10
+    if "numOfPosts" in params:
+        numOfPosts = params["numOfPosts"]
+    posts = Post.objects.filter(owner=user)[:numOfPosts]
+
     interested_areas = user.profile.all()[0].interested_areas
-    areas = interested_areas.split(",")
-    num = len(areas)
-    models = [Post] * num
-    tl = Timeline(*models)
-    query_args = []
-    for area in areas:
-        print(area)
-        query_args.append({"area": area})
-    print(query_args)
+    tl = Timeline(Post, Item, ItemEditRecord, )
     tl.config(
-        interval=8, order_by=["-time_posted"] * num,
+        order_by=("-time_posted", "-time_created", "-time_updated", ),
+        filter_type = ["or", "or", "or"],
     )
+    interested_areas = user.interested_areas().split(",")
+    query_args = [
+        {"area": interested_areas},
+        {"owner": user},
+        {"item__owner": user},
+    ]
     feeds = tl.get(*query_args)
-    # load pending transactions
-    tl = Timeline(ItemTransactionRecord)
-    tl.config(
-        interval=16, filter_type=["or"],
-        common_filter={"status": "Sent"}
-    )
-    transactions = tl.get({"receiver": user, "giver": user})
-    for transaction in transactions:
-        if transaction.status != "Sent":
-            transactions.remove(transaction)
+    # num = len(areas)
+
+    # models = [Post] * num
+    # tl = Timeline(*models)
+    # # Get feeds
+    # query_args = []
+    # for area in areas:
+    #     query_args.append({"area": area})
+    # tl.config(
+    #     interval=8, order_by=["-time_posted"] * num,
+    # )
+    # feeds = tl.get(*query_args)
+
     # Build a combined timeline of ItemEditRecord and ItemTransactionRecord
     tl = Timeline(ItemEditRecord, ItemTransactionRecord)
     tl.config(interval=16, filter_type=["and", "or"])
@@ -348,7 +279,8 @@ def dashboard(request):
             'view': 'dashboard',
             'feeds': feeds,
             'posts': posts,
+            'numOfPosts': numOfPosts,
             'timeline': timeline,
-            'transactions': transactions,
+            "subject": "You",
         }
     )

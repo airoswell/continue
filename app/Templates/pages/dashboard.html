@@ -1,8 +1,10 @@
 {% extends 'layout.html'%}
 
 {% block content %}
-
-<div id='dashboard-wrapper' ng-controller="DashBoardCtrl" layout='row' layout-align='end'>
+{% load filters %}
+<div id='dashboard-wrapper' ng-controller="DashBoardCtrl"
+    ng-init="numOfPosts='{{ numOfPosts }}'"
+    layout='row' layout-align='end'>
   
   <!-- Side navigation bar -->
   {% include 'pages/components/sidebar.html'%}
@@ -33,17 +35,19 @@
     
 
     <!-- News Feed section -->
-    <div ng-show="layout.display_tab == 'feeds'" layout='row'>
-      <div  flex-gt-md="80" flex>
+    <div ng-show="layout.display_tab == 'feeds'" layout='row'
+        infinite-scroll="load_feeds()" infinite-scroll-distance="1"
+        infinite-scroll-disabled="layout.display_tab !='feeds' || layout.loading.feeds || scrollTop < 600">
+      <div infinit  flex-gt-md="80" flex>
       {% for post in feeds %}
-        <div>
+      {%    if post|model_name == 'Post' %}
         {% include 'pages/components/post-overview.html'%}
-        </div>
+      {%   elif post|model_name == 'ItemEditRecord' %}
+        {% include 'pages/components/item-update.html' %}
+      {%    endif %}
       {% endfor %}
       </div>
     </div>
-
-
 
     <!-- timeline -->
     <div ng-show='layout.display_tab == "updates" '>
@@ -54,15 +58,19 @@
       {% endfor %}
     </div>
 
-
     <!-- Post list -->
-    <div ng-show="layout.display_tab == 'posts'" layout='row'>
-      <div  flex-gt-md="80" flex>
+    <div infinite-scroll="load_posts()" infinite-scroll-distance="1"
+        infinite-scroll-disabled="layout.display_tab !='posts' || layout.loading.posts || scrollTop < 600"
+        ng-show="layout.display_tab == 'posts'" layout='row'>
+      <div flex-gt-md="80" flex>
       {% for post in posts %}
         <div>
         {% include 'pages/components/post-overview.html'%}
         </div>
       {% endfor %}
+        <div ng-repeat="post in posts">
+          <post-overview></post-overview>
+        </div>
       </div>
     </div>
 

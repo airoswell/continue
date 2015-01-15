@@ -8,7 +8,6 @@ from app.errors import *
 from GenericAPI import *
 from app.CRUD import *
 # Django Core
-from django.shortcuts import redirect
 # Django Rest Framework
 from rest_framework.response import Response
 from rest_framework import status as st
@@ -18,6 +17,12 @@ from rest_framework import permissions
 from allauth.socialaccount.models import SocialToken
 # Other Python module
 from controllers import *
+
+
+class test(XListAPIView):
+
+    def get(self, request):
+        return Response(data=request.query_params)
 
 
 class PostList(XListAPIView):
@@ -31,18 +36,32 @@ class PostList(XListAPIView):
 
     model = Post
     serializer = PostSerializer
-    items_per_page = 20
+    num_of_records = 10
 
     def get(self, request, format=None):
         self.get_object()
         params = request.query_params
-        page, items_per_page = self.paginator(request)
+        start, num_of_records = self.paginator(request)
+        print "start = %s." % (start)
+        if "q" in params:
+            s = S(Post)
+            s.config(
+                num_of_records=num_of_records,
+                start=start,
+            )
+            posts = s.search(params)
+            if posts:
+                return Response(
+                    data=self.serializer(posts, many=True).data,
+                )
+            else:
+                return Response(status=st.HTTP_404_NOT_FOUND)
         # Display list of posts of a specified user
-        if "user_id" in params:
+        elif "user_id" in params:
             return run_and_respond(
                 retrieve_records,
                 Post, PostSerializerLite,
-                page, items_per_page,
+                start, num_of_records,
                 owner__id=params["user_id"]
             )
         # Display list of posts of a location
@@ -50,16 +69,16 @@ class PostList(XListAPIView):
             return run_and_respond(
                 retrieve_records,
                 Post, PostSerializerLite,
-                page, items_per_page,
+                start, num_of_records,
                 area=params['area']
             )
         # Display all posts of the current user
-        return run_and_respond(
-            retrieve_records,
+        data, status = retrieve_records(
             Post, PostSerializer,
-            page, items_per_page,
+            start, num_of_records,
             owner__id=request.user.id
         )
+        return Response(data=data, status=status)
 
     def post(self, request, format=None):
         """
@@ -133,7 +152,6 @@ class PostDetail(XDetailAPIView):
         if "id" in request.data:
             post_id = request.data['id']
         data = post_error_handler.validate(request.data)
-        print("\tpost_error_handler.errors = %s" % (post_error_handler.errors))
         data['id'] = post_id
         post_data_errors = post_error_handler.errors
         # - 2. Extract valid items data
@@ -194,17 +212,17 @@ class ItemList(XListAPIView):
     """
     model = Item
     serializer = ItemSerializer
-    items_per_page = 20
+    num_of_records = 20
 
     def get(self, request, post_id=None, format=None):
-        page, items_per_page = self.paginator(request)
+        start, num_of_records = self.paginator(request)
         # get list of items owned by a specific user
         # Don't need any authentication
         if request.GET.get("user_id"):
             return run_and_respond(
                 retrieve_records,
                 Item, ItemSerializer,
-                page, items_per_page,
+                start, num_of_records,
                 owner__id=request.GET.get("user_id"),
                 visibility="Public",
             )
@@ -214,7 +232,7 @@ class ItemList(XListAPIView):
             return run_and_respond(
                 retrieve_records,
                 Item, ItemSerializer,
-                page, items_per_page,
+                start, num_of_records,
                 status_in_post__post__id=post_id,
             )
         # get list of items of the current authenticated user
@@ -222,7 +240,7 @@ class ItemList(XListAPIView):
             return run_and_respond(
                 retrieve_records,
                 Item, ItemSerializer,
-                page, items_per_page,
+                start, num_of_records,
                 owner__id=request.user.id,
             )
         # unauthenticated user cannot get any item list
@@ -321,21 +339,32 @@ from haystack.query import SearchQuerySet
 class S:
     def __init__(self, model):
         self.model = model
+        self.start = 0
+        self.num_of_records = 10
+
+    def config(self, **kwargs):
+        for kwarg in kwargs:
+            setattr(self, kwarg, kwargs[kwarg])
 
     def search(self, params):
+        start = self.start
+        end = self.start + self.num_of_records
         area = ""
         if "area" in params:
             area = params['area']
+        if not ("q" in params) and area:
+            return self.model.in_areas(area)[start:end]
         # Note that the default ordering of models are not respected here
         if params["q"] != "":
             sqs = (SearchQuerySet().models(Post).filter(content=params['q'])
                    .order_by("-time_posted"))
         # If no parameter is specified, make a full data search
         else:
-            sqs = SearchQuerySet().models(Post).all().order_by("-time_posted")
+            sqs = (SearchQuerySet().models(Post).all()
+                   .order_by("-time_posted"))
         if area != "":
             sqs = sqs.filter(area=area)
-        results = [sq.object for sq in sqs]
+        results = [sq.object for sq in sqs][start:end]
         return results
 
 
@@ -425,12 +454,12 @@ class HistoryList(XListAPIView):
 
     model = ItemEditRecord
     serializer = ItemEditRecordSerializer
-    items_per_page = 20
+    num_of_records = 20
 
     permission_classes = (perms.IsOwnerOrNoPermission,)
 
     def get(self, request, pk=None, item_id=None):
-        page, items_per_page = self.paginator(request)
+        start, num_of_records = self.paginator(request)
         if request.user.is_anonymous():
             return Response(
                 data={"error": "Unauthorized",
@@ -441,14 +470,14 @@ class HistoryList(XListAPIView):
             return run_and_respond(
                 retrieve_records,
                 self.model, self.serializer,
-                page, items_per_page,
+                start, num_of_records,
                 pk=pk,
             )
         elif item_id:
             return run_and_respond(
                 retrieve_records,
                 self.model, self.serializer,
-                page, items_per_page,
+                start, num_of_records,
                 item__id=item_id,
             )
         else:
@@ -456,7 +485,7 @@ class HistoryList(XListAPIView):
                 return run_and_respond(
                     retrieve_records,
                     self.model, self.serializer,
-                    page, items_per_page,
+                    start, num_of_records,
                     item__owner__id=request.user.id,
                 )
 
@@ -467,19 +496,19 @@ class TransactionList(XListAPIView):
     # For serialization
     serializer = TransactionSerializer
 
-    items_per_page = 8
+    num_of_records = 8
 
     def get(self, request):
-        page, items_per_page = self.paginator(request)
+        start, num_of_records = self.paginator(request)
         user = request.user
         data, status = retrieve_records(
             ItemTransactionRecord, TransactionSerializer,
-            page, items_per_page,
+            start, num_of_records,
             giver=user,
         )
         data_2, status_2 = retrieve_records(
             ItemTransactionRecord, TransactionSerializer,
-            page, items_per_page,
+            start, num_of_records,
             receiver=user,
         )
         # Future: use better algorithm to merge and sort
@@ -503,3 +532,143 @@ class TransactionDetail(XDetailAPIView):
     deSerializer = TransactionSerializerLite
     # For serialization
     serializer = TransactionSerializer
+
+
+class Timeline:
+    def __init__(self, *models):
+        """
+        arguments <models> should take in several models, based on which
+        one build a timeline array.
+        """
+        self.models = models
+        self.interval = 8
+        self.common_filter = None
+        self.starts = [0] * len(models)
+        self.order_by = ["-time_updated"] * len(models)
+        self.filter_type = ["and"] * len(models)
+
+    def config(self, **kwargs):
+        """
+        configure <starts>, <order_by> and <interval> properties.
+        order_by and starts should be of type list, matching the <models>.
+        """
+        for arg in kwargs:
+            setattr(self, arg, kwargs[arg])
+
+    def ordering_field(self, queryset):
+        import re
+        if not queryset:
+            return None
+        instance = queryset[0]
+        index = self.models.index(type(instance))
+        # remove "-""
+        minus = re.compile("^-")
+        if minus.match(self.order_by[index]):
+            ordering_field = self.order_by[index][1:]
+        return ordering_field
+
+    def merge(self, *args):
+        num_of_arrays = len(args)
+        result = []
+        if num_of_arrays == 1:
+            return args[0]
+        if num_of_arrays == 2:
+            a, b = args
+            while a and b:
+                if getattr(a[0], self.ordering_field(a)) > getattr(b[0], self.ordering_field(b)):
+                    result.append(a.pop(0))
+                else:
+                    result.append(b.pop(0))
+            if a:
+                result = result + a
+            else:
+                result = result + b
+            return result
+        else:
+            for step in range(0, num_of_arrays - 1):
+                result = self.merge(args[step], args[step + 1])
+        return result
+
+    def get(self, *args, **kwargs):
+        """
+        Take in either an array of kwargs for filtering, e.g.
+        get(
+            {"item": item, "item__owner": request.user},
+            {"item__owner": user}
+        ), matching each of the <models>,
+        or a common **kwargs to search,
+        e.g. get(item=item, item__owner=request.user).
+        Return:
+            - list (mergesorted)
+        """
+        querysets = []
+        from django.db.models import Q
+        for index in range(0, len(self.models)):
+            start = self.starts[index]
+            model = self.models[index]
+            if not kwargs:
+                temp_kwargs = args[index]
+                if self.filter_type[index] == "or":
+                    Q_list = []
+                    for field in temp_kwargs:
+                        print("field = %s;" % (field))
+                        value = temp_kwargs[field]
+                        if type(value) is list:
+                            for sub_value in value:
+                                Q_list.append(Q(**{field: sub_value}))
+                        else:
+                            Q_list.append(Q(**{field: value}))
+                    print(Q_list)
+                    import operator
+                    queryset = model.objects.filter(
+                        reduce(operator.or_, Q_list)
+                    )
+                elif self.filter_type[index] == "and":
+                    queryset = (model.objects.filter(**temp_kwargs)
+                                .order_by(self.order_by[index])
+                                [start: start + self.interval + 1])
+            else:
+                queryset = (model.objects.filter(**kwargs)
+                            .order_by(self.order_by[index])
+                            [start: start + self.interval + 1])
+            if self.common_filter:
+                queryset = queryset.filter(**self.common_filter)
+            queryset = [r for r in queryset]
+            querysets.append(queryset)
+        # Merge sort
+        timeline = self.merge(*querysets)
+        return timeline
+
+
+class FeedList(XListAPIView):
+
+    models = (Post, Item, ItemEditRecord, )
+    serializer = (PostSerializer, ItemSerializer, ItemEditRecordSerializer, )
+    order_by = ("-time_posted", "-time_created", "-time_updated", )
+    filter_type = ["or", "or", "or"]
+
+    def get(self, request):
+        user = request.user
+        params = request.query_params
+        starts = [0] * len(self.models)
+        if "starts" in params:
+            starts = params['starts'].split(",")
+        tl = Timeline(*self.models)
+        tl.config(
+            order_by=self.order_by,
+            filter_type=self.filter_type,
+            starts=starts,
+        )
+        interested_areas = user.interested_areas().split(",")
+        query_args = [
+            {"area": interested_areas},
+            {"owner": user},
+            {"item__owner": user},
+        ]
+        feeds = tl.get(*query_args)
+        data = []
+        for record in feeds:
+            index = self.models.index(type(record))
+            serializer = self.serializer[index]
+            data.append(serializer(record).data)
+        return Response(data=data)

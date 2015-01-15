@@ -6,6 +6,11 @@
       templateUrl: "/static/app/directives/dashboard-history-overview.html",
       link: function(scope, element, attrs) {}
     };
+  }).directive("postOverview", function() {
+    return {
+      restrict: "E",
+      templateUrl: "/static/app/directives/post-overview.html"
+    };
   }).directive("dashboardItemOverview", [
     "History", "Album", "Alert", function(History, Album, Alert) {
       return {
@@ -37,7 +42,7 @@
               console.log("expand");
               item.expanded = true;
               item.histories = item.histories.$search({
-                items_per_page: 8
+                num_of_records: 8
               });
             } else {
               console.log("fold");

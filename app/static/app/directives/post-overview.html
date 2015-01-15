@@ -1,0 +1,93 @@
+<div id='post-{{ ::post.id }}' class='post-container'
+    search-post-overview ng-cloak
+    owner-id="{{ ::post.owner }}" post-id="{{::post.id }}">
+
+  <!-- Post header (title, area, owner, etc.) -->
+  <div class='post-header' layout='row' layout-align='space-between'>
+
+    <div layout='row'>
+      <!-- User photo -->
+      <div>
+        <a ng-href="">
+          <img height=50 ng-src="{{::post.owner_photo}}">
+        </a>&nbsp;&nbsp;&nbsp;
+      </div>
+      <!-- User's name and time posted -->
+      <div>
+        <div class="username"><b ng-bind="post.owner_name"></b></div>
+        <div class="time-posted" ng-bind="post.time_posted"></div>
+      </div>
+    </div>
+    <!-- Expiration time -->
+    <div reduced-padding>
+      <div class='expiration'>
+        <switch ng-switch on="post.remaining_time > 0">
+          <when ng-switch-when="true">
+            Expiring in {{ post.remaining_time }} days
+          </when>
+          <when ng-switch-when="false">Probably expired</when>
+        </switch>
+      </div>
+      <div ng-if="profile.user_id == post.owner" layout='row' layout-align='end' mg-tb-10>
+        <a href="/app/post/{{::post.id}}">
+        <div class='button button-small button-white'>
+          <i class='fa fa-pencil'></i>&nbsp;Edit
+        </div>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Post detail & item-list -->
+  <div class='post-body'>
+    <div layout='column' layout-gt-md='row' layout-align='space-between center'>
+      <div>
+        <div class="text-large" ng-bind="post.title"></div>
+        <div> Location: <bind ng-bind="post.area"></bind></div>
+      </div>
+      <div>
+        <span ng-repeat="tag in post.tags" class='tag tag-small tag-gray'>
+          #<bind ng-bind="tag"></bind>
+        </span>
+      </div>
+    </div>
+    <div click-to-expand max-height='125px'>
+      <div click-to-expand-target class="text-default" style='background: #f9f9f9;padding:5px 20px;margin-top:10px;
+      max-height:125px;overflow:hidden'
+      ng-bind='post.detail'>
+      </div>
+      <div click-to-expand-trigger class='button button-small button-gray' style='border-radius:0px;margin-top:0px;'>
+         <i class="fa fa-arrows-v"></i>&nbsp; toggle detail
+       </div>
+    </div>
+
+    <!-- item list of the post -->
+    <div ng-repeat="item in post.items"
+         ng-if="item.visibility == 'Public' || item.visibility == 'Ex-owners' "layout='row' flex>
+      <div click-to-show class='item-container' flex>
+        <item-title click-to-show-trigger item='item'></item-title>
+          <div click-to-show-target>
+            <if ng-if="::item.pic">
+              <br/>
+              <a href="/app/item/{{::item.id}}/timeline/">
+                <div class='picture-container'
+                    style="background: url({{::item.pic}});background-size:100%">
+                  <img ng-src="{{::item.pic}}" style='width:98%;opacity:0'>
+                </div>
+              </a>
+            </if>
+          </div>
+      </div>
+      <item-edit-menu></item-edit-menu>
+    </div>
+  </div> <!-- post body end -->
+
+  <!-- [contact-me] button for each post -->
+  <div layout='row' layout-align='end'>
+    <div style='display:none' contact-button class='button button-small button-gray'
+        ng-click="contact()" ng-show="items.length > 0">
+      <i class="fa fa-weixin"></i>&nbsp;&nbsp;Contact me
+    </div>
+  </div>
+</div>
