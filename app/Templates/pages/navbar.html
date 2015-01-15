@@ -35,7 +35,7 @@
     <a href="/app/user/signup/"><div class='menu-item'>Sign up</div></a>
     {% else %}
 
-    {%   if request.user|pending_transactions %}
+    {%   if request.user.pending_transactions %}
     <div drop-down-menu>
       <div drop-down-menu-trigger class="transaction-button menu-item">
         Pending Requests &nbsp; 

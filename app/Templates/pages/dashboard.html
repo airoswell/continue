@@ -32,19 +32,50 @@
       {{ request.user.profile.all.last.name }}
       </div>
     </div>
-    
 
     <!-- News Feed section -->
-    <div ng-show="layout.display_tab == 'feeds'" layout='row'
+    <div ng-show="layout.display_tab == 'feeds'"
         infinite-scroll="load_feeds()" infinite-scroll-distance="1"
         infinite-scroll-disabled="layout.display_tab !='feeds' || layout.loading.feeds || scrollTop < 600">
-      <div infinit  flex-gt-md="80" flex>
-      {% for post in feeds %}
-      {%    if post|model_name == 'Post' %}
-        {% include 'pages/components/post-overview.html'%}
-      {%   elif post|model_name == 'ItemEditRecord' %}
-        {% include 'pages/components/item-update.html' %}
-      {%    endif %}
+      <div infinit  flex-gt-md="90" flex>
+      {% for record in feeds %}
+      {%   with post=record%}
+      {%     if post|model_name == 'Post' %}
+        <div layout='row' class="event">
+          <div class="event-header time"
+              layout='row' layout-align='end'
+              flex='20'>
+            {{ post.time_posted }}
+          </div>
+          <div class="event-header content" flex>
+      {%       include 'pages/components/post-overview.html'%}
+          </div>
+        </div>
+      {%     endif %}
+      {%   endwith %}
+      {%   with event=record %}
+      {%     if event|model_name == 'ItemEditRecord' %}
+      {%       include 'pages/components/item-update.html' %}
+      {%     endif %}
+      {%   endwith%}
+      {%   with item=record %}
+      {%     if item|model_name == "Item" %}
+        <div class='event' layout='row'>
+          <div class='event-header time'
+              layout='row' layout-align='end'
+              flex='20'>
+            {{ item.time_updated }}
+          </div>
+          <div class='event-header content' flex>
+            <div class='text-bold'>
+              <img height=40 src="{{ item.owner.photo }}" style='vertical-align:middle'>
+              &nbsp;&nbsp;{{ item.owner }} added a new item
+            </div>
+      {%       include 'pages/components/search-item-overview.html' %}
+          </div>
+        </div>
+      {%     endif %}
+      {%   endwith %}
       {% endfor %}
       </div>
     </div>

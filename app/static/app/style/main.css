@@ -359,7 +359,10 @@ a {
 }
 
 .event-header.time{
-  color: #999;
+  color: #999;border-right:2px solid #ccc;
+}
+.event-header.content{
+    border-left:2px solid #ccc;
 }
 
 .event-body{

@@ -54,18 +54,6 @@ def filter(string, delimiter):
     return string.split(delimiter)
 
 
-@register.filter(name='pending_transactions')
-def pending_transactions(user):
-    tl = Timeline(ItemTransactionRecord)
-    tl.config(
-        order_by=["-time_sent"],
-        filter_type=["or"],
-        common_filter={"status": "Sent"}
-    )
-    transactions = tl.get(*[{"giver": user, "receiver": user}])
-    return transactions
-
-
 @register.filter(name='proper_case')
 def proper_case(name):
     if name == "You":

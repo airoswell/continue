@@ -184,10 +184,10 @@ def item_timeline(request, pk):
 
     tl = Timeline(ItemEditRecord, ItemTransactionRecord)
     tl.config(
-        interval=num_of_records,
+        num_of_records=num_of_records,
         starts=(edit_start, transaction_start)
     )
-    timeline = tl.get(item=item)[0: tl.interval]
+    timeline = tl.get(item=item)[0: tl.num_of_records]
     if request.user == item.owner:
         subject = "You"
     else:
@@ -207,7 +207,7 @@ def item_timeline(request, pk):
 def user_timeline(request, pk):
     tl = Timeline(ItemEditRecord, ItemTransactionRecord)
     tl.config(
-        interval=16,
+        num_of_records=16,
     )
     timeline = tl.get(item__owner=request.user)
     timeline.reverse()
@@ -252,26 +252,14 @@ def dashboard(request):
         {"item__owner": user},
     ]
     feeds = tl.get(*query_args)
-    # num = len(areas)
-
-    # models = [Post] * num
-    # tl = Timeline(*models)
-    # # Get feeds
-    # query_args = []
-    # for area in areas:
-    #     query_args.append({"area": area})
-    # tl.config(
-    #     interval=8, order_by=["-time_posted"] * num,
-    # )
-    # feeds = tl.get(*query_args)
 
     # Build a combined timeline of ItemEditRecord and ItemTransactionRecord
     tl = Timeline(ItemEditRecord, ItemTransactionRecord)
-    tl.config(interval=16, filter_type=["and", "or"])
+    tl.config(num_of_records=16, filter_type=["and", "or"])
     timeline = tl.get(
         {"item__owner": user},
         {"giver": user, "receiver": user},
-    )[0: tl.interval]
+    )[0: tl.num_of_records]
     return render(
         request,
         'pages/dashboard.html',

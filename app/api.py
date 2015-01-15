@@ -540,16 +540,26 @@ class Timeline:
         arguments <models> should take in several models, based on which
         one build a timeline array.
         """
-        self.models = models
-        self.interval = 8
+        self.models = models    # the models you want to query to
+        self.num_of_records = 10      # number of final records displayed
+        # A common filter <dict> that will apply to all querysets
+        # from all models.
+        # For instance, self.common_filter = {"owner": request.user}
+        # will do a final filter to select only Posts or Items that belong to
+        # the owner
         self.common_filter = None
         self.starts = [0] * len(models)
         self.order_by = ["-time_updated"] * len(models)
         self.filter_type = ["and"] * len(models)
+        # record the final count of records in each model that get into
+        # the result; for instance,
+        # when self.num_of_records = 10, one might have
+        # 3 posts, 4 items and 3 item-edit-records.
+        self.final_content_counts = [0] * len(models)
 
     def config(self, **kwargs):
         """
-        configure <starts>, <order_by> and <interval> properties.
+        configure <starts>, <order_by> and <num_of_records>, etc, properties.
         order_by and starts should be of type list, matching the <models>.
         """
         for arg in kwargs:
@@ -567,13 +577,13 @@ class Timeline:
             ordering_field = self.order_by[index][1:]
         return ordering_field
 
-    def merge(self, *args):
-        num_of_arrays = len(args)
+    def merge(self, *querysets):
+        num_of_arrays = len(querysets)
         result = []
         if num_of_arrays == 1:
-            return args[0]
+            return querysets[0]
         if num_of_arrays == 2:
-            a, b = args
+            a, b = querysets
             while a and b:
                 if getattr(a[0], self.ordering_field(a)) > getattr(b[0], self.ordering_field(b)):
                     result.append(a.pop(0))
@@ -585,8 +595,13 @@ class Timeline:
                 result = result + b
             return result
         else:
+            prev_results = [querysets[0]]
             for step in range(0, num_of_arrays - 1):
-                result = self.merge(args[step], args[step + 1])
+                sub_result = self.merge(
+                    prev_results[step], querysets[step+1]
+                )
+                prev_results.append(sub_result)
+            result = prev_results[num_of_arrays - 1]
         return result
 
     def get(self, *args, **kwargs):
@@ -606,6 +621,7 @@ class Timeline:
         for index in range(0, len(self.models)):
             start = self.starts[index]
             model = self.models[index]
+            print("\t index = %s, model = %s " % (index, model))
             if not kwargs:
                 temp_kwargs = args[index]
                 if self.filter_type[index] == "or":
@@ -620,23 +636,28 @@ class Timeline:
                             Q_list.append(Q(**{field: value}))
                     print(Q_list)
                     import operator
-                    queryset = model.objects.filter(
-                        reduce(operator.or_, Q_list)
-                    )
+                    queryset = (model.objects
+                                .filter(
+                                    reduce(operator.or_, Q_list)
+                                )
+                                .order_by(self.order_by[index])
+                                [start: start + self.num_of_records + 1])
                 elif self.filter_type[index] == "and":
                     queryset = (model.objects.filter(**temp_kwargs)
                                 .order_by(self.order_by[index])
-                                [start: start + self.interval + 1])
+                                [start: start + self.num_of_records + 1])
             else:
                 queryset = (model.objects.filter(**kwargs)
                             .order_by(self.order_by[index])
-                            [start: start + self.interval + 1])
+                            [start: start + self.num_of_records + 1])
             if self.common_filter:
                 queryset = queryset.filter(**self.common_filter)
+            print("\n\tqueryset for model %s is %s" % (model, queryset))
             queryset = [r for r in queryset]
             querysets.append(queryset)
         # Merge sort
-        timeline = self.merge(*querysets)
+        print("\n\tquerysets = %s" % (querysets))
+        timeline = self.merge(*querysets)[0:self.num_of_records]
         return timeline
 
 
