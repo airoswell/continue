@@ -143,11 +143,14 @@
         infinite-scroll-disabled="layout.display_tab !='posts' || layout.loading.posts || scrollTop < 600"
         ng-show="layout.display_tab == 'posts'" layout='row'>
       <div flex-gt-md="80" flex>
-      {% for post in posts %}
+        {% for post in posts %}
         <div>
-        {% include 'pages/components/post-overview.html'%}
+        {%   include 'pages/components/post-overview.html'%}
         </div>
-      {% endfor %}
+        {% endfor %}
+        <div ng-repeat="post in posts">
+          <post-overview></post-overview>
+        </div>
       </div>
     </div>
 

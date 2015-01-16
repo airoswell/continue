@@ -9,6 +9,7 @@ app = angular.module("continue", [
   "continue.social_accounts"
   "ngTagsInput"
   "infinite-scroll"
+  "hc.marked"
 ])
 
 app.config [
@@ -18,4 +19,9 @@ app.config [
     $httpProvider.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded"
     $httpProvider.defaults.xsrfCookieName = "csrftoken"
     $httpProvider.defaults.xsrfHeaderName = "X-CSRFToken"
+]
+app.config [
+  'markedProvider'
+  (markedProvider)->
+    markedProvider.setOptions({gfm: true});
 ]

@@ -52,10 +52,10 @@
         </span>
       </div>
     </div>
-    <div click-to-expand max-height='125px'>
+    <div ng-if="post.detail" click-to-expand max-height='125px'>
       <div click-to-expand-target class="text-default" style='background: #f9f9f9;padding:5px 20px;margin-top:10px;
       max-height:125px;overflow:hidden'
-      ng-bind='post.detail'>
+      marked="post.detail">
       </div>
       <div click-to-expand-trigger class='button button-small button-gray' style='border-radius:0px;margin-top:0px;'>
          <i class="fa fa-arrows-v"></i>&nbsp; toggle detail

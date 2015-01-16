@@ -2,7 +2,7 @@
 (function() {
   var app;
 
-  app = angular.module("continue", ["ngResource", "ngAria", "ngAnimate", "ngMaterial", "restmod", "continue.auth", "continue.models", "continue.social_accounts", "ngTagsInput", "infinite-scroll"]);
+  app = angular.module("continue", ["ngResource", "ngAria", "ngAnimate", "ngMaterial", "restmod", "continue.auth", "continue.models", "continue.social_accounts", "ngTagsInput", "infinite-scroll", "hc.marked"]);
 
   app.config([
     "$httpProvider", function($httpProvider) {
@@ -10,6 +10,14 @@
       $httpProvider.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
       $httpProvider.defaults.xsrfCookieName = "csrftoken";
       return $httpProvider.defaults.xsrfHeaderName = "X-CSRFToken";
+    }
+  ]);
+
+  app.config([
+    'markedProvider', function(markedProvider) {
+      return markedProvider.setOptions({
+        gfm: true
+      });
     }
   ]);
 
