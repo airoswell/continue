@@ -101,27 +101,40 @@
         });
       }
     };
-  }).directive("itemEditMenu", function(ItemEditor) {
+  }).directive("itemEditMenu", function() {
     return {
       restrict: "E",
-      templateUrl: "/static/app/directives/item-edit-menu.html"
+      templateUrl: "/static/app/directives/item-edit-menu.html",
+      scope: true,
+      link: function(scope, element, attrs) {
+        scope.refresh = false;
+        if (__indexOf.call(attrs, "refresh") >= 0) {
+          return scope.refresh = attrs["refresh"];
+        }
+      }
     };
   }).directive("itemEditButton", [
     "ItemEditor", function(ItemEditor) {
       return {
         restrict: "A",
         link: function(scope, element, attrs) {
-          var item_id;
+          var item_id, refresh;
           if ("itemId" in attrs) {
             item_id = attrs['itemId'];
           }
+          refresh = false;
+          if ("refresh" in attrs) {
+            refresh = attrs['refresh'];
+          }
           return scope.show_editor = function() {
-            console.log("show_editor");
             if (item_id !== "{{") {
-              return ItemEditor.begin(item_id);
+              console.log(scope);
+              console.log("scope.refresh", refresh);
+              return ItemEditor.begin(item_id, refresh);
             } else {
               scope.item.is_new = false;
-              return ItemEditor.begin(scope.item);
+              console.log("refresh", refresh);
+              return ItemEditor.begin(scope.item, refresh);
             }
           };
         }

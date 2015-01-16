@@ -15,10 +15,11 @@ angular.module("continue")
 
     $scope.layout = {
       creating_new_item: false
-      display_tab: "updates"
+      display_tab: "timeline"
       loading:
         "posts": false
         "feeds": false
+        "timeline": false
     }
 
     $scope.load_posts = ()->
@@ -65,14 +66,49 @@ angular.module("continue")
         # Begin processing the returned data
         for feed in $scope.feeds
           # Process the post.tags
-          if feed.type == "Post"
+          if feed.model_name == "Post"
             post = feed
             if post.tags
               if typeof(post.tags) == "string"
                 post.tags = post.tags.split(",")
             else
               post.tags = []
-          if feed.type == "Item"
+          if feed.model_name == "Item"
+            item = feed
+            if item.tags
+              if typeof(item.tags) == "string"
+                item.tags = item.tags.split(",")
+            else
+              item.tags = []
+
+
+    $scope.load_timeline = ()->
+      console.log "loading timeline"
+      $scope.layout.loading.timeline = true
+      if not $scope.timeline
+        $scope.timeline = Feed.$search(
+          # $scope.feed_starts are the initial starts passed from views.py
+          {"timeline_starts": $scope.timeline_starts}
+        )
+      else
+        $scope.timeline = $scope.timeline.$fetch(
+          {"timeline_starts": $scope.timeline.timeline_starts}
+        )
+
+      $scope.timeline.$then (response)->
+        console.log response
+        timeline_starts = response.pop()
+        # Begin processing the returned data
+        for feed in $scope.timeline
+          # Process the post.tags
+          if feed.model_name == "Post"
+            post = feed
+            if post.tags
+              if typeof(post.tags) == "string"
+                post.tags = post.tags.split(",")
+            else
+              post.tags = []
+          if feed.model_name == "Item"
             item = feed
             if item.tags
               if typeof(item.tags) == "string"

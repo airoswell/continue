@@ -18,7 +18,7 @@
       <span> Item {{event.item}} updated its status </span>
 
       {% elif event.field == "creation" %}
-      <span>{{ event.item }}</span> is created.
+      <span>You have added {{ event.item }}</span>.
 
       {% elif event.field == "description" %}
       <span>{{ event.item }}</span> has a new description.
@@ -72,6 +72,12 @@
           style="background-image: url({{ event.new_value }});">
         <img src="{{ event.new_value }}">
       </div>
+      {% elif event.field == "creation" %}
+      {%   with item=event.item %}
+      <div class='event-body status'>
+        {% include 'pages/components/search-item-overview.html' %}
+      </div>
+      {% endwith %}
       {% elif event.field == "status" %}
       <div class='event-body status'>
        <i class="fa fa-quote-left"></i>&nbsp;&nbsp;{{ event.new_value }}

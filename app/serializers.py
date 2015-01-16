@@ -40,9 +40,10 @@ class ItemSerializer(serializers.ModelSerializer):
                   "availability", "link", "pic", "time_created", 'owner',
                   "acquiring_date", "original_value", "estimated_value",
                   "requesters", "transferrable", "tags", "tags_private",
-                  "previous_owners",
+                  "previous_owners", 'model_name', 'owner_profile',
                   )
-        read_only_fields = ('previous_owners', "time_created", "requesters", )
+        read_only_fields = ('previous_owners', "time_created", "requesters",
+                            "owner_profile")
 
 
 class ItemSerializerLite(serializers.ModelSerializer):
@@ -62,7 +63,7 @@ class ItemSerializerLite(serializers.ModelSerializer):
     class Meta:
         model = Item
         fields = ("id", "title", "quantity", "condition",
-                  "description", "availability", "tags", )
+                  "description", "availability", "tags", 'model_name')
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -97,7 +98,7 @@ class PostSerializer(serializers.ModelSerializer):
         model = Post
         fields = ('id', 'title', 'owner', 'area', 'detail',
                   'time_posted', 'expiration_date', 'items', "tags",
-                  'remaining_time', 'owner_photo', 'owner_name',
+                  'remaining_time', 'owner_photo', 'owner_name', "model_name",
                   )
 
 
@@ -112,7 +113,7 @@ class PostSerializerLite(serializers.ModelSerializer):
         model = Post
         fields = ('id', 'title', 'owner', 'area', 'detail',
                   'time_posted', 'expiration_date', 'items', 'owner', "tags",
-                  'remaining_time',
+                  'remaining_time', 'model_name',
                   )
 
 
@@ -135,7 +136,7 @@ class ItemEditRecordSerializer(serializers.ModelSerializer):
     class Meta:
         model = ItemEditRecord
         fields = ('id', 'item', 'field',
-                  'original_value', 'new_value', 'time_updated')
+                  'original_value', 'new_value', 'time_updated', 'model_name')
 
 
 class MessageSerializer(serializers.ModelSerializer):

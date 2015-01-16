@@ -256,7 +256,7 @@ def dashboard(request):
     feeds = tl.get(*query_args)
     # Basically record counts from each model
     # specify starting points of next Ajax requests.
-    feed_starts = {}
+    feed_starts = {model.__name__: 0 for model in tl.models}
     for record in feeds:
         if not (type(record).__name__ in feed_starts):
             feed_starts[type(record).__name__] = 1

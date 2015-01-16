@@ -1,0 +1,69 @@
+<div  class='post-container'>
+  <div class='post-header' layout='row' layout-align='space-between'>
+
+    <div layout='row'>
+      <!-- User photo -->
+      <div>
+        <a href="/">
+          <img height=50 src="{{ event.item.owner.photo }}">
+        </a>&nbsp;&nbsp;&nbsp;
+      </div>
+      <!-- User's name and time posted -->
+      <div>
+        <div class="username"><b>{{ event.item.owner.username }}</b></div>
+        <div class="time-posted">{{ event.time_updated }}</div>
+      </div>
+    </div>
+
+  </div>
+
+  {% if event.model_name == 'ItemEditRecord' %}
+  <div flex>
+
+    {% if event.field == "pic" %}
+    <span> Item {{event.item}}</span> has a new photo.
+
+    {% elif event.field == "status"%}
+    <span> Item {{event.item}} updated its status </span>
+
+    {% elif event.field == "creation" %}
+    <span> added {{ event.item }}</span>.
+
+    {% elif event.field == "description" %}
+    <span>{{ event.item }}</span> has a new description.
+
+    {% else %}
+    <span> {{ event.item }} updated its {{ event.field }}</span>: <span>{{ event.new_value }}.</span>
+
+    {% endif %}
+  </div>
+  {% endif %}
+
+  <div layout='row'>
+    <div flex layout>
+    {% if event.model_name == "ItemEditRecord" %}
+      {% if event.field == "pic" %}
+      <div class='picture-container'
+          style="background-image: url({{ event.new_value }});">
+        <img src="{{ event.new_value }}">
+      </div>
+      {% elif event.field == "creation" %}
+      {%   with item=event.item %}
+      <div class='event-body status'>
+        {% include 'pages/components/search-item-overview.html' %}
+      </div>
+      {% endwith %}
+      {% elif event.field == "status" %}
+      <div class='event-body status'>
+       <i class="fa fa-quote-left"></i>&nbsp;&nbsp;{{ event.new_value }}
+      </div>
+      {% elif event.field == "description" %}
+      <div class='event-body description'>
+      {{ event.new_value }}
+      </div>
+     {% endif %}
+    {% endif %}
+    </div>
+  </div>
+
+</div>

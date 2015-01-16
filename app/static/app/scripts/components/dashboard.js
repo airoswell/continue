@@ -31,10 +31,11 @@
       });
       $scope.layout = {
         creating_new_item: false,
-        display_tab: "updates",
+        display_tab: "timeline",
         loading: {
           "posts": false,
-          "feeds": false
+          "feeds": false,
+          "timeline": false
         }
       };
       $scope.load_posts = function() {
@@ -95,7 +96,7 @@
           _results = [];
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             feed = _ref[_i];
-            if (feed.type === "Post") {
+            if (feed.model_name === "Post") {
               post = feed;
               if (post.tags) {
                 if (typeof post.tags === "string") {
@@ -105,7 +106,55 @@
                 post.tags = [];
               }
             }
-            if (feed.type === "Item") {
+            if (feed.model_name === "Item") {
+              item = feed;
+              if (item.tags) {
+                if (typeof item.tags === "string") {
+                  _results.push(item.tags = item.tags.split(","));
+                } else {
+                  _results.push(void 0);
+                }
+              } else {
+                _results.push(item.tags = []);
+              }
+            } else {
+              _results.push(void 0);
+            }
+          }
+          return _results;
+        });
+      };
+      $scope.load_timeline = function() {
+        console.log("loading timeline");
+        $scope.layout.loading.timeline = true;
+        if (!$scope.timeline) {
+          $scope.timeline = Feed.$search({
+            "timeline_starts": $scope.timeline_starts
+          });
+        } else {
+          $scope.timeline = $scope.timeline.$fetch({
+            "timeline_starts": $scope.timeline.timeline_starts
+          });
+        }
+        return $scope.timeline.$then(function(response) {
+          var feed, item, post, timeline_starts, _i, _len, _ref, _results;
+          console.log(response);
+          timeline_starts = response.pop();
+          _ref = $scope.timeline;
+          _results = [];
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            feed = _ref[_i];
+            if (feed.model_name === "Post") {
+              post = feed;
+              if (post.tags) {
+                if (typeof post.tags === "string") {
+                  post.tags = post.tags.split(",");
+                }
+              } else {
+                post.tags = [];
+              }
+            }
+            if (feed.model_name === "Item") {
               item = feed;
               if (item.tags) {
                 if (typeof item.tags === "string") {

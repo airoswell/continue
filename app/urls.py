@@ -59,6 +59,9 @@ urlpatterns += patterns(
     url(r'^feeds/$',
         api.FeedList.as_view(),
         name='feed_list'),
+    url(r'^timeline/$',
+        api.TimelineList.as_view(),
+        name='timeline_list'),
 )
 
 # postman URL

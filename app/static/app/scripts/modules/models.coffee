@@ -102,6 +102,9 @@ angular.module 'continue.models', [
             transform: (obj) ->
               record = this.$build(this.init)
               return record.copy(obj)
+            search: (params)->
+              self.loading = true
+              self.$search(params)
       )
   }
 ]
@@ -250,3 +253,38 @@ angular.module 'continue.models', [
           this.save()
   )
 ]
+
+.factory "InfiniteScroll", ()->
+
+  return{
+    model: undefined
+    init_starts: undefined
+    subsequent_starts: undefined
+    monitor: 0
+    config: (configs)->
+      for cf of configs
+        this.cf = configs[cf]
+    load: (data_holder)->
+      if not data_holder    # if data_holder is empty
+        data_holder = model.search(starts: this.init_starts)
+      else
+        data_holder = model.fetch(starts: this.subsequent_starts)
+      return data_holder
+    default_tags_processor: (data_holder)->
+      for record in data_holder
+        # Process the post.tags
+        if record.model_name == "Post"
+          post = record
+          if post.tags
+            if typeof(post.tags) == "string"
+              post.tags = post.tags.split(",")
+          else
+            post.tags = []
+        if record.model_name == "Item"
+          item = record
+          if item.tags
+            if typeof(item.tags) == "string"
+              item.tags = item.tags.split(",")
+          else
+            item.tags = []
+  }

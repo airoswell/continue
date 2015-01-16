@@ -22,10 +22,12 @@
     <!-- Expiration time -->
     <div reduced-padding>
       <div class='expiration'>
-        {% if post.remaining_time > 0%}
+        {% if post.remaining_time %}
+        {%   if post.remaining_time > 0%}
         Expiring in {{ post.remaining_time|floatformat:"0" }} days
-        {% else %}
+        {%   else %}
         Probably expired
+        {%   endif %}
         {% endif %}
       </div>
       {% if request.user == post.owner %}
@@ -70,7 +72,7 @@
       <!-- Transferring an item will by default make the item -->
       <!-- visible in Ex-owners's page, and therefore viewable -->
       <!-- in the post. -->
-      {% if item.visibility == 'Public' and item.owner == post.owner or item.visibility == 'Ex-owners' and post.owner in item.previous_owners.all %}
+      {% if item.visibility == 'Public' and item.owner == post.owner or item.visibility == 'Ex-owners' and post.owner in item.previous_owners.all or post.owner == request.user %}
       {% include "components/search-item-overview.html" %}
       {% block item_overview %}
       {% endblock item_overview %}

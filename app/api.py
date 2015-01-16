@@ -732,8 +732,61 @@ class FeedList(XListAPIView):
             index = self.models.index(type(record))
             serializer = self.serializer[index]
             record_data = serializer(record).data
-            record_data["type"] = type(record).__name__
             data.append(record_data)
         # Append the starts to the end of respond data
         data.append(feed_starts)
+        return Response(data=data)
+
+
+class TimelineList(XListAPIView):
+
+    models = (Item, ItemEditRecord, ItemTransactionRecord)
+    models_str = ("Item", "ItemEditRecord", "ItemTransactionRecord")
+    serializer = (ItemSerializer,
+                  ItemEditRecordSerializer, TransactionSerializer)
+    order_by = ("-time_created", "-time_updated", "-time_updated")
+    filter_type = ["or", "or", "or"]
+
+    def get(self, request):
+        user = request.user
+        params = request.query_params
+        # Check the starts param in the request
+        timeline_starts = {model_name: 0 for model_name in self.models_str}
+        starts = [0] * len(self.models)
+        if "timeline_starts" in params:
+            # The params["timeline_starts"] from HTT PRequest
+            # is a unicode string
+            # needs to load it into python dict
+            import json
+            timeline_starts = json.loads(params['timeline_starts'])
+            for model_name in timeline_starts:
+                index = self.models_str.index(model_name)
+                starts[index] = timeline_starts[model_name]
+        # Make the queries
+        tl = Timeline(*self.models)
+        tl.config(
+            order_by=self.order_by,
+            filter_type=self.filter_type,
+            starts=starts,
+        )
+        query_args = [
+            {"owner": user},
+            {"item__owner": user},
+            {"receiver": user, "giver": user}
+        ]
+        timeline = tl.get(*query_args)
+        # Prepare the starts for next request
+        # This is much harder to do it properly in the front end.
+        for record in timeline:
+            model_name = type(record).__name__
+            timeline_starts[model_name] += 1
+        # Prepare the return data
+        data = []
+        for record in timeline:
+            index = self.models.index(type(record))
+            serializer = self.serializer[index]
+            record_data = serializer(record).data
+            data.append(record_data)
+        # Append the starts to the end of respond data
+        data.append(timeline_starts)
         return Response(data=data)

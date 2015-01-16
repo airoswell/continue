@@ -76,22 +76,32 @@ angular.module("continue")
       scope.$apply()
 
 
-.directive "itemEditMenu", (ItemEditor)->
+.directive "itemEditMenu", ()->
   restrict: "E"
   templateUrl: "/static/app/directives/item-edit-menu.html"
+  scope: true
+  link: (scope, element, attrs)->
+    scope.refresh = false
+    if "refresh" in attrs
+      scope.refresh = attrs["refresh"]
 
 .directive "itemEditButton", ["ItemEditor", (ItemEditor)->
   restrict: "A"
   link: (scope, element, attrs)->
     if "itemId" of attrs
       item_id = attrs['itemId']
+    refresh = false
+    if "refresh" of attrs
+      refresh = attrs['refresh']
     scope.show_editor = ()->
-      console.log "show_editor"
       if item_id != "{{"
-        ItemEditor.begin(item_id)
+        console.log scope
+        console.log "scope.refresh", refresh
+        ItemEditor.begin(item_id, refresh)
       else
         scope.item.is_new = false
-        ItemEditor.begin(scope.item)
+        console.log "refresh", refresh
+        ItemEditor.begin(scope.item, refresh)
       
 ]
 

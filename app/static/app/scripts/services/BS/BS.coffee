@@ -61,8 +61,11 @@ angular.module "continue"
     item: {}
     monitor: 0
     deferred: {}
-    begin: (input)->
+    refresh: false
+    begin: (input, refresh)->
       self = this
+      if refresh?
+        self.refresh = refresh
       if input?
         if typeof(input) == "string"
           self.item = Item.$find(input).$then (response)->
@@ -106,8 +109,9 @@ angular.module "continue"
       # it will not run the new save() request.
       ItemEditor.deferred.resolve(item)
       item.save().$then (response)->
-        console.log "B"
         scope.item = {}
+        if ItemEditor.refresh
+          location.reload()
 ]
 
 .factory "ItemSelector", ["Item", "BS", (Item, BS)->

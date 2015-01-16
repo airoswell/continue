@@ -87,15 +87,15 @@
     <div layout='column' layout-align='space-between'>
 
       {% if item|find_requester_in_post:post and item.transferrable %}
-      {% include 'pages/components/transfer-menu.html' %}
+      {%   include 'pages/components/transfer-menu.html' %}
       {% endif %}
 
-      {% include 'pages/components/item-edit-menu.html' %}
+      {% include 'pages/components/django-item-edit-menu.html' %}
     </div>
 
     {% elif pm_messages and request.user == item.owner %}
     <div>
-    {% include 'pages/components/item-edit-menu.html' %}
+    {% include 'pages/components/django-item-edit-menu.html' %}
 
     {%    if item.requesters.all|length > 0 and item.transferrable %}
       {% include 'pages/components/transfer-menu.html' %}
@@ -104,7 +104,7 @@
 
     {% elif view == 'timeline' and request.user == item.owner %}
     <div>
-    {% include 'pages/components/item-edit-menu.html' %}
+    {% include 'pages/components/django-item-edit-menu.html' %}
 
     {%    if item.requesters.all|length > 1 and item.transferrable %}
       {% include 'pages/components/transfer-menu.html' %}

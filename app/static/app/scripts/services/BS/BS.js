@@ -58,9 +58,13 @@
         item: {},
         monitor: 0,
         deferred: {},
-        begin: function(input) {
+        refresh: false,
+        begin: function(input, refresh) {
           var self;
           self = this;
+          if (refresh != null) {
+            self.refresh = refresh;
+          }
           if (input != null) {
             if (typeof input === "string") {
               return self.item = Item.$find(input).$then(function(response) {
@@ -104,8 +108,10 @@
           return scope.update_item = function(item) {
             ItemEditor.deferred.resolve(item);
             return item.save().$then(function(response) {
-              console.log("B");
-              return scope.item = {};
+              scope.item = {};
+              if (ItemEditor.refresh) {
+                return location.reload();
+              }
             });
           };
         }

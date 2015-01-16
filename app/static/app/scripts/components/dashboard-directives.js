@@ -65,7 +65,12 @@
         }
       };
     }
-  ]).directive("inputText", function() {
+  ]).directive("angularItemUpdate", function() {
+    return {
+      restrict: "E",
+      templateUrl: "/static/app/directives/angular-item-update.html"
+    };
+  }).directive("inputText", function() {
     return {
       restrict: "E",
       templateUrl: "/static/app/directives/input-text.html",

@@ -41,8 +41,11 @@ angular.module("continue")
       if "trigger" of e.target.attributes
         scope.expand(scope.item)
         scope.$apply()
-
 ]
+
+.directive "angularItemUpdate", ()->
+  restrict: "E"
+  templateUrl: "/static/app/directives/angular-item-update.html"
 
 .directive "inputText", ->
   restrict: "E"

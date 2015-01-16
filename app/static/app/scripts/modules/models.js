@@ -118,6 +118,10 @@
                   var record;
                   record = this.$build(this.init);
                   return record.copy(obj);
+                },
+                search: function(params) {
+                  self.loading = true;
+                  return self.$search(params);
                 }
               }
             }
@@ -308,6 +312,65 @@
         }
       });
     }
-  ]);
+  ]).factory("InfiniteScroll", function() {
+    return {
+      model: void 0,
+      init_starts: void 0,
+      subsequent_starts: void 0,
+      monitor: 0,
+      config: function(configs) {
+        var cf, _results;
+        _results = [];
+        for (cf in configs) {
+          _results.push(this.cf = configs[cf]);
+        }
+        return _results;
+      },
+      load: function(data_holder) {
+        if (!data_holder) {
+          data_holder = model.search({
+            starts: this.init_starts
+          });
+        } else {
+          data_holder = model.fetch({
+            starts: this.subsequent_starts
+          });
+        }
+        return data_holder;
+      },
+      default_tags_processor: function(data_holder) {
+        var item, post, record, _i, _len, _results;
+        _results = [];
+        for (_i = 0, _len = data_holder.length; _i < _len; _i++) {
+          record = data_holder[_i];
+          if (record.model_name === "Post") {
+            post = record;
+            if (post.tags) {
+              if (typeof post.tags === "string") {
+                post.tags = post.tags.split(",");
+              }
+            } else {
+              post.tags = [];
+            }
+          }
+          if (record.model_name === "Item") {
+            item = record;
+            if (item.tags) {
+              if (typeof item.tags === "string") {
+                _results.push(item.tags = item.tags.split(","));
+              } else {
+                _results.push(void 0);
+              }
+            } else {
+              _results.push(item.tags = []);
+            }
+          } else {
+            _results.push(void 0);
+          }
+        }
+        return _results;
+      }
+    };
+  });
 
 }).call(this);

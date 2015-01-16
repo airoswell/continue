@@ -214,6 +214,15 @@ class Item(models.Model):
     def __unicode__(self):
         return unicode(self.title)
 
+    def model_name(self):
+        return type(self).__name__
+
+    def owner_profile(self):
+        return {
+            "name": self.owner.name(),
+            "photo": self.owner.photo(),
+        }
+
     @property
     def tracked_fields(self):
         return ('owner', 'status',
@@ -425,6 +434,9 @@ class Post(models.Model):
     def owner_name(self):
         return self.owner.name()
 
+    def model_name(self):
+        return type(self).__name__
+
     def __unicode__(self):
         return unicode(self.title)
 
@@ -492,6 +504,9 @@ class ItemTransactionRecord(models.Model):
             transaction.save()
         return transaction, []
 
+    def model_name(self):
+        return type(self).__name__
+
     def __unicode__(self):
         return unicode(self.item)
 
@@ -512,6 +527,9 @@ class ItemEditRecord(models.Model):
     new_value = models.CharField(max_length=500)
     note = models.CharField(max_length=500, default="", blank=True, null=True)
     time_updated = models.DateTimeField(auto_now_add=True)
+
+    def model_name(self):
+        return type(self).__name__
 
     def __unicode__(self):
         return unicode(self.item)
