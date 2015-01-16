@@ -20,8 +20,8 @@
     </div>
     <!-- Expiration time -->
     <div reduced-padding>
-      <div class='expiration'>
-        <switch ng-switch on="post.remaining_time > 0">
+      <div class='expiration' ng-if="::post.remaining_time">
+        <switch ng-switch on="::post.remaining_time > 0">
           <when ng-switch-when="true">
             Expiring in <span ng-bind="::post.remaining_time"></span>days
           </when>

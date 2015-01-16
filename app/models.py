@@ -325,10 +325,13 @@ class Post(models.Model):
     def remaining_time(self):
         from datetime import datetime
         now = datetime.now()
-        exp = self.expiration_date
-        exp = datetime.combine(exp, datetime.min.time())
-        d = exp - now
-        return d.days
+        if self.expiration_date:
+            exp = self.expiration_date
+            exp = datetime.combine(exp, datetime.min.time())
+            d = exp - now
+            return d.days
+        else:
+            return None
 
     @classmethod
     def update(cls, validated_data, **kwargs):
