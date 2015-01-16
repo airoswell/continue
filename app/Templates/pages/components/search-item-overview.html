@@ -43,13 +43,13 @@
     <!-- Request Button -->
     <!-- Only the third party (neither the owner of the post nor the item) -->
     <!-- can see the following components                     -->
-    {% if post.owner != request.user and item.owner != request.user %}
+    {% if post.owner != request.user and item.owner != request.user or feeds and item.availability == "Available" %}
       <!-- If the post owner still owns the item -->
       {% if item.owner == post.owner and item.transferrable %}
 
         <!-- ===================================== -->
         <!-- If the user has requested the item -->
-        {% if request.user in item|find_requester_in_post:post %}
+        {% if request.user in item.requesters.all %}
         <div layout='column'>
           <div item-id="{{ item.id }}" class="add-item disabled">
             <i class="fa fa-check"></i>

@@ -23,7 +23,7 @@
       <div class='expiration'>
         <switch ng-switch on="post.remaining_time > 0">
           <when ng-switch-when="true">
-            Expiring in {{ post.remaining_time }} days
+            Expiring in <span ng-bind="::post.remaining_time"></span>days
           </when>
           <when ng-switch-when="false">Probably expired</when>
         </switch>
@@ -64,22 +64,8 @@
 
     <!-- item list of the post -->
     <div ng-repeat="item in post.items"
-         ng-if="item.visibility == 'Public' || item.visibility == 'Ex-owners' "layout='row' flex>
-      <div click-to-show class='item-container' flex>
-        <item-title click-to-show-trigger item='item'></item-title>
-          <div click-to-show-target>
-            <if ng-if="::item.pic">
-              <br/>
-              <a href="/app/item/{{::item.id}}/timeline/">
-                <div class='picture-container'
-                    style="background: url({{::item.pic}});background-size:100%">
-                  <img ng-src="{{::item.pic}}" style='width:98%;opacity:0'>
-                </div>
-              </a>
-            </if>
-          </div>
-      </div>
-      <item-edit-menu></item-edit-menu>
+         ng-if="(item.visibility == 'Public' && item.owner == post.owner) || (item.visibility == 'Ex-owners' && (profile.user_id|previously_owned:item)) "layout='row' flex>
+      <angular-item-overview flex></angular-item-overview>
     </div>
   </div> <!-- post body end -->
 

@@ -21,14 +21,12 @@
       return $scope.load_posts = function() {
         $scope.layout.loading.posts = true;
         if (!$scope.posts) {
-          console.log("loading posts starting from " + $scope.init_post_num);
           $scope.posts = Post.search({
             "start": $scope.init_post_num,
             "q": $scope.q,
             "area": $scope.area
           });
         } else {
-          console.log("loading posts starting from " + $scope.posts.start);
           $scope.posts = $scope.posts.fetch({
             "start": $scope.posts.start,
             "q": $scope.q,
@@ -36,7 +34,7 @@
           });
         }
         return $scope.posts.$then(function(response) {
-          var post, _i, _len, _results;
+          var item, post, _i, _len, _results;
           if ($scope.posts.start === 0) {
             $scope.posts.start = parseInt($scope.init_post_num) + response.length;
           } else {
@@ -45,22 +43,37 @@
           _results = [];
           for (_i = 0, _len = response.length; _i < _len; _i++) {
             post = response[_i];
-            console.log("type of tags is " + (typeof post.tags));
             if (post.tags) {
               if (typeof post.tags === "string") {
-                _results.push(post.tags = post.tags.split(","));
-              } else {
-                _results.push(void 0);
+                post.tags = post.tags.split(",");
               }
             } else {
-              _results.push(post.tags = []);
+              post.tags = [];
             }
+            _results.push((function() {
+              var _j, _len1, _ref, _results1;
+              _ref = post.items;
+              _results1 = [];
+              for (_j = 0, _len1 = _ref.length; _j < _len1; _j++) {
+                item = _ref[_j];
+                if (item.tags) {
+                  if (typeof item.tags === "string") {
+                    _results1.push(item.tags = item.tags.split(","));
+                  } else {
+                    _results1.push(item.tags = []);
+                  }
+                } else {
+                  _results1.push(void 0);
+                }
+              }
+              return _results1;
+            })());
           }
           return _results;
         }).$asPromise().then(function() {
           return $scope.layout.loading.posts = false;
         }, function() {
-          return Alert.show_msg("You have reach the end of the post list");
+          return Alert.show_msg("All posts are loaded above.");
         });
       };
     }
@@ -78,7 +91,6 @@
             "display": ""
           });
           return scope.contact = function() {
-            console.log("scope.items", scope.items);
             return PrivateMessage.compose(owner_id, post_id, scope.items);
           };
         }
@@ -92,6 +104,7 @@
         scope.item_id = attrs['itemId'];
         return scope.add_item = function() {
           var _ref;
+          console.log(scope.item_id);
           if (!(_ref = scope.item_id, __indexOf.call(scope.items, _ref) >= 0)) {
             return scope.items.push(scope.item_id);
           } else {

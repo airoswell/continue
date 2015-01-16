@@ -296,8 +296,8 @@
               this.status = "Revoked";
               return this.save();
             },
-            reject: function() {
-              this.status = "Rejected";
+            dismiss: function() {
+              this.status = "Dismissed";
               return this.save();
             },
             receive: function() {

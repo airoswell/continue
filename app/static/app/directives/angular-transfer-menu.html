@@ -1,0 +1,44 @@
+<div ng-cloak drop-down-menu transfer-menu class="transfer-dropdown"
+    item-id="{{ item.id }}">
+  <div drop-down-menu-trigger layout='row' layout-align='center'
+      class='text-default transfer-button'>
+    <i class="fa fa-refresh"></i>
+  </div>
+  <div drop-down-menu-target style='display:none;position:absolute;font-weight:600'>
+    <div class='option' style='background-color:transparent'
+        layout='row' layout-align='start center'>
+      <i class="fa fa-refresh" style='padding-top:5px;'></i> &nbsp;Transfer to
+    </div>
+    <if ng-if="post">
+    {%   for requester in item.requesters %}
+    <div drop-down-menu-option class='option' layout='row'
+        ng-click="select({{requester.id}},'{{requester.username}}')"
+        ng-class="{active: new_owner.id == {{ requester.id }}}">
+      <img height=20
+          src='{{ requester.profile.0.social_account_photo }}'>
+        &nbsp;&nbsp;
+      <div user-id={{ requester.id }}>
+        {{ requester.username }}
+      </div>
+    </div>
+    {%   endfor %}
+    {% elif pm_messages and item.requesters.all|length > 0 %}
+    {%   for requester in item.requesters.all %}
+    <div drop-down-menu-option class='option' layout='row'
+        ng-click="select({{requester.id}},'{{requester.username}}')"
+        ng-class="{active: new_owner.id == {{ requester.id }}}">
+      <img height=20
+          src='{{ requester.profile.all.0.social_account_photo }}'>
+        &nbsp;&nbsp;
+      <div user-id={{ requester.id }}>
+        {{ requester.username }}
+      </div>
+    </div>
+    {%   endfor %}
+    {% endif %}
+    </if>
+    <div ng-show='new_owner' ng-click="transfer()" class='option'>
+      OK Transfer!
+    </div>
+  </div>
+</div>

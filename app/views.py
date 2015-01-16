@@ -238,12 +238,14 @@ def dashboard(request):
     if "numOfPosts" in params:
         numOfPosts = params["numOfPosts"]
     posts = Post.objects.filter(owner=user)[:numOfPosts]
-
+    # Build feeds (posts are from interested area)
+    # need to include more stuffs in the future
     interested_areas = user.profile.all()[0].interested_areas
     tl = Timeline(Post, Item, ItemEditRecord, )
     tl.config(
         order_by=("-time_posted", "-time_created", "-time_updated", ),
         filter_type = ["or", "or", "or"],
+        num_of_records=10,
     )
     interested_areas = user.interested_areas().split(",")
     query_args = [
@@ -252,8 +254,16 @@ def dashboard(request):
         {"item__owner": user},
     ]
     feeds = tl.get(*query_args)
-
+    # Basically record counts from each model
+    # specify starting points of next Ajax requests.
+    feed_starts = {}
+    for record in feeds:
+        if not (type(record).__name__ in feed_starts):
+            feed_starts[type(record).__name__] = 1
+        else:
+            feed_starts[type(record).__name__] += 1
     # Build a combined timeline of ItemEditRecord and ItemTransactionRecord
+    # of the current user.
     tl = Timeline(ItemEditRecord, ItemTransactionRecord)
     tl.config(num_of_records=16, filter_type=["and", "or"])
     timeline = tl.get(
@@ -266,6 +276,7 @@ def dashboard(request):
         {
             'view': 'dashboard',
             'feeds': feeds,
+            'feed_starts': feed_starts,
             'posts': posts,
             'numOfPosts': numOfPosts,
             'timeline': timeline,

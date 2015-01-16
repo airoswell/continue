@@ -70,7 +70,7 @@
       <!-- Transferring an item will by default make the item -->
       <!-- visible in Ex-owners's page, and therefore viewable -->
       <!-- in the post. -->
-      {% if item.visibility == 'Public' or item.visibility == 'Ex-owners' %}
+      {% if item.visibility == 'Public' and item.owner == post.owner or item.visibility == 'Ex-owners' and post.owner in item.previous_owners.all %}
       {% include "components/search-item-overview.html" %}
       {% block item_overview %}
       {% endblock item_overview %}

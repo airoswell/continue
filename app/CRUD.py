@@ -53,6 +53,8 @@ class Crud:
         # print "\t\t CRUD.update ==> errors %s" % (errors)
         # return instance, errors
         try:
+            print("\tinstance, errors = self.model.update(validated_data, **kwargs)")
+            import pdb; pdb.set_trace()
             instance, errors = self.model.update(validated_data, **kwargs)
             print "\t\t CRUD.update ==> errors %s" % (errors)
             return instance, errors

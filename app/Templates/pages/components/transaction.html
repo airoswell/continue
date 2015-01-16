@@ -20,8 +20,8 @@
     <span>{{transaction.giver.username}}</span> has <span>{{transaction.status|lower}}</span> you
     an item <span>{{transaction.item.title}}</span>
     <span class='button button-small button-gray'
-        ng-click="transaction.reject()">
-      Reject
+        ng-click="transaction.dismiss()">
+      Dismiss
     </span>
     &nbsp;
     <span class='button button-small button-gray'
@@ -38,7 +38,7 @@
   You <span>{{transaction.status|lower}}</span> an item <span>{{transaction.item.title}}</span> from <span>{{transaction.giver.username}}</span>
   {% endif %}
 
-  {% elif transaction.status == "Rejected" %}
+  {% elif transaction.status == "Dismissed" %}
   {%   if transaction.giver.id == request.user.id %}
   <span>{{transaction.giver.username}}</span> has <span>{{transaction.status|lower}}</span> the item <span>{{transaction.item.title}}</span>
   </span>

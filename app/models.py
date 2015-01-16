@@ -332,6 +332,7 @@ class Post(models.Model):
 
     @classmethod
     def update(cls, validated_data, **kwargs):
+        print("\t\nPost.update() begins..\n")
         items_data = None
         if "items" in validated_data:
             items_data = validated_data.pop("items")
@@ -343,7 +344,7 @@ class Post(models.Model):
         if kwargs:
             queryset = queryset.filter(**kwargs)
         if queryset.update(**post_data) == 0:
-            return False, errors
+            return None, ["Updated zero posts."]
         post = queryset[0]
         if items_data is None:
             return post, errors
@@ -469,10 +470,10 @@ class ItemTransactionRecord(models.Model):
         queryset = cls.objects.filter(pk=validated_data['id'])
         if queryset:
             transaction = queryset[0]
-            # For status == "rejected", "received", "revoked"
+            # For status == "Dismissed", "Received", "Revoked"
             # no action should be taken
             if transaction.status != "Sent":
-                return False
+                return transaction, []
             new_status = validated_data['status']
             item = validated_data['item']
             giver = validated_data['giver']
@@ -481,11 +482,12 @@ class ItemTransactionRecord(models.Model):
             if new_status == "Received":
                 item.owner = receiver
                 item.visibility = "Ex-owners"
+                # Add original owner to the previous_owners field
                 item.previous_owners.add(giver)
             item.transferrable = True
             item.save()
             transaction.save()
-        return transaction
+        return transaction, []
 
     def __unicode__(self):
         return unicode(self.item)

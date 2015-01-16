@@ -242,8 +242,8 @@ angular.module 'continue.models', [
         revoke: ()->
           this.status = "Revoked"
           this.save()
-        reject: ()->
-          this.status = "Rejected"
+        dismiss: ()->
+          this.status = "Dismissed"
           this.save()
         receive: ()->
           this.status = "Received"

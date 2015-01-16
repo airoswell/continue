@@ -178,6 +178,10 @@ class PostDetail(XDetailAPIView):
             data['items'] = items_data
         errors = post_data_errors
         errors['items_errors'] = items_errors
+        if items_errors:
+            print("\n\items_errors %s\n" % (items_errors))
+        if errors:
+            print("\n\tpost_data_errors %s\n" % (post_data_errors))
         if "fatal" in errors or "fatal" in errors["items_errors"]:
             return Response(data=errors, status=st.HTTP_400_BAD_REQUEST)
         # Validation End
@@ -188,6 +192,7 @@ class PostDetail(XDetailAPIView):
             # Pass in keyword argument owner=request.user
             # will further authenticate user at the model.update() level
             post, errors = crud.update(data, owner=request.user)
+            print("\t\ncrud.update==>errors %s\n" % (errors))
             data = self.serializer(post).data
             data["errors"] = errors
             return Response(data=data, status=status)
@@ -237,6 +242,12 @@ class ItemList(XListAPIView):
             )
         # get list of items of the current authenticated user
         elif not request.user.is_anonymous():
+            data, status = retrieve_records(
+                Item, ItemSerializer,
+                start, num_of_records,
+                owner__id=request.user.id,
+            )
+            return Response(data=data, status=status)
             return run_and_respond(
                 retrieve_records,
                 Item, ItemSerializer,
@@ -578,14 +589,24 @@ class Timeline:
         return ordering_field
 
     def merge(self, *querysets):
+        """
+        Take in a list of SORTED querysets (q1, q2, ...) as optional arguments,
+        mergesort them.
+        Returns
+        - a merged list of instances.
+        """
         num_of_arrays = len(querysets)
         result = []
+        if num_of_arrays < 1:
+            return None
         if num_of_arrays == 1:
             return querysets[0]
+        # Merge sort 2 querysets
         if num_of_arrays == 2:
             a, b = querysets
             while a and b:
-                if getattr(a[0], self.ordering_field(a)) > getattr(b[0], self.ordering_field(b)):
+                if (getattr(a[0], self.ordering_field(a)) >
+                        getattr(b[0], self.ordering_field(b))):
                     result.append(a.pop(0))
                 else:
                     result.append(b.pop(0))
@@ -606,7 +627,7 @@ class Timeline:
 
     def get(self, *args, **kwargs):
         """
-        Take in either an array of kwargs for filtering, e.g.
+        Take in either an list of kwargs for filtering, e.g.
         get(
             {"item": item, "item__owner": request.user},
             {"item__owner": user}
@@ -617,24 +638,25 @@ class Timeline:
             - list (mergesorted)
         """
         querysets = []
-        from django.db.models import Q
+        # Make query to each individual model
+        # according to the query arguments (either *args, or **kwargs)
         for index in range(0, len(self.models)):
             start = self.starts[index]
             model = self.models[index]
-            print("\t index = %s, model = %s " % (index, model))
-            if not kwargs:
+            if not kwargs:  # If *args but not **kwargs is provided
                 temp_kwargs = args[index]
+                # If the user wants to make a filter_or query
+                # the django Q class will be needed
                 if self.filter_type[index] == "or":
+                    from django.db.models import Q
                     Q_list = []
                     for field in temp_kwargs:
-                        print("field = %s;" % (field))
                         value = temp_kwargs[field]
                         if type(value) is list:
                             for sub_value in value:
                                 Q_list.append(Q(**{field: sub_value}))
                         else:
                             Q_list.append(Q(**{field: value}))
-                    print(Q_list)
                     import operator
                     queryset = (model.objects
                                 .filter(
@@ -642,21 +664,23 @@ class Timeline:
                                 )
                                 .order_by(self.order_by[index])
                                 [start: start + self.num_of_records + 1])
+                # If the user wants to make a filter_and query
                 elif self.filter_type[index] == "and":
                     queryset = (model.objects.filter(**temp_kwargs)
                                 .order_by(self.order_by[index])
                                 [start: start + self.num_of_records + 1])
-            else:
-                queryset = (model.objects.filter(**kwargs)
+
+            else:   # If **kwargs is provided
+                queryset = (model.objects
+                            .filter(**kwargs)
                             .order_by(self.order_by[index])
                             [start: start + self.num_of_records + 1])
             if self.common_filter:
                 queryset = queryset.filter(**self.common_filter)
-            print("\n\tqueryset for model %s is %s" % (model, queryset))
+            print("\n\tqueryset for model %s is %s\n" % (model, queryset))
             queryset = [r for r in queryset]
             querysets.append(queryset)
         # Merge sort
-        print("\n\tquerysets = %s" % (querysets))
         timeline = self.merge(*querysets)[0:self.num_of_records]
         return timeline
 
@@ -664,6 +688,7 @@ class Timeline:
 class FeedList(XListAPIView):
 
     models = (Post, Item, ItemEditRecord, )
+    models_str = ("Post", "Item", "ItemEditRecord")
     serializer = (PostSerializer, ItemSerializer, ItemEditRecordSerializer, )
     order_by = ("-time_posted", "-time_created", "-time_updated", )
     filter_type = ["or", "or", "or"]
@@ -671,9 +696,18 @@ class FeedList(XListAPIView):
     def get(self, request):
         user = request.user
         params = request.query_params
+        # Check the starts param in the request
+        feed_starts = {model_name: 0 for model_name in self.models_str}
         starts = [0] * len(self.models)
-        if "starts" in params:
-            starts = params['starts'].split(",")
+        if "feed_starts" in params:
+            # The params["feed_starts"] is a unicode string
+            # need to load it into python dict
+            import json
+            feed_starts = json.loads(params['feed_starts'])
+            for model_name in feed_starts:
+                index = self.models_str.index(model_name)
+                starts[index] = feed_starts[model_name]
+        # Make the queries
         tl = Timeline(*self.models)
         tl.config(
             order_by=self.order_by,
@@ -687,9 +721,19 @@ class FeedList(XListAPIView):
             {"item__owner": user},
         ]
         feeds = tl.get(*query_args)
+        # Prepare the starts for next request
+        # This is much harder to do it properly in the front end.
+        for record in feeds:
+            model_name = type(record).__name__
+            feed_starts[model_name] += 1
+        # Prepare the return data
         data = []
         for record in feeds:
             index = self.models.index(type(record))
             serializer = self.serializer[index]
-            data.append(serializer(record).data)
+            record_data = serializer(record).data
+            record_data["type"] = type(record).__name__
+            data.append(record_data)
+        # Append the starts to the end of respond data
+        data.append(feed_starts)
         return Response(data=data)

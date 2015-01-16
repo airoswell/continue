@@ -18,14 +18,12 @@ angular.module "continue"
     $scope.load_posts = ()->
       $scope.layout.loading.posts = true
       if not $scope.posts
-        console.log "loading posts starting from #{$scope.init_post_num}"
         $scope.posts = Post.search(
           "start": $scope.init_post_num
           "q": $scope.q
           "area": $scope.area
         )
       else
-        console.log "loading posts starting from #{$scope.posts.start}"
         $scope.posts = $scope.posts.fetch(
           "start": $scope.posts.start
           "q": $scope.q
@@ -40,16 +38,21 @@ angular.module "continue"
           $scope.posts.start = parseInt($scope.posts.start) + response.length
         # Deal with the tags
         for post in response
-          console.log "type of tags is #{typeof(post.tags)}"
           if post.tags
             if typeof(post.tags) == "string"
               post.tags = post.tags.split(",")
           else
             post.tags = []
+          for item in post.items
+            if item.tags
+              if typeof(item.tags) == "string"
+                item.tags = item.tags.split(",")
+              else
+                item.tags = []
       .$asPromise().then ()->
         $scope.layout.loading.posts = false
       , ()->
-        Alert.show_msg("You have reach the end of the post list")
+        Alert.show_msg("All posts are loaded above.")
 ]
 
 .directive "searchPostOverview", ["PrivateMessage", (PrivateMessage)->
@@ -61,7 +64,6 @@ angular.module "continue"
     owner_id = attrs['ownerId']
     element.find("[contact-button]").css({"display": ""})
     scope.contact = ()->
-      console.log "scope.items", scope.items
       PrivateMessage.compose(owner_id, post_id, scope.items)
 ]
 
@@ -71,6 +73,7 @@ angular.module "continue"
   link: (scope, element, attrs)->
     scope.item_id = attrs['itemId']
     scope.add_item = ()->
+      console.log scope.item_id
       if not (scope.item_id in scope.items)
         scope.items.push(scope.item_id)
       else

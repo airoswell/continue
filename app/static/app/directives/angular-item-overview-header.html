@@ -1,0 +1,41 @@
+<div layout='row'>
+  <div layout>
+    <div class='item-overview-title'>
+      <div layout='row'>
+        <div layout='column' layout-align='center'>
+          <div ng-bind='item.title'></div>
+        </div>
+        <div class='item-overview-quantity' ng-bind="::item.quantity"></div>
+      </div>
+    </div>
+    <div ng-if='item.pic'>
+      &nbsp;&nbsp;
+      <img height=35 ng-src="{{::item.pic}}">
+    </div>
+  </div>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <div layout='row'>
+    <div ng-if="item.estimated_value">
+      <div style='color: #999'> Value</div>
+      <div layout='row'>
+        <div><i class="fa fa-usd"></i></div>
+        <div style='font-weight:600' ng-bind="item.estimated_value"></div>
+      </div>
+    </div>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <div>
+      <div style='color: #999'>Condition</div>
+      <div style='font-weight:600' ng-bind="item.condition"></div>
+    </div>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <div ng-if="item.size">
+      <div style='color: #999'>Size</div>
+      <div style='font-weight:600' ng-bind='item.size'></div>
+    </div>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <div ng-if="!item.transferrable || item.owner != profile.user_id">
+      <div style='color: #999'>Unavailable</div>
+      <div style='font-weight:600'>Currently out</div>
+    </div>
+  </div>
+</div>

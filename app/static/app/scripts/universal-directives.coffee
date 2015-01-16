@@ -1,5 +1,15 @@
 angular.module("continue")
 
+.filter "requested", ()->
+  return (user_id, item)->
+    requesters_id = [requester.id for requester in item.requesters]
+    if user_id in requesters_id
+      return true
+    return false
+
+.filter "previously_owned", ()->
+  return (user_id, item)->
+    return user_id in item.previous_owners
 
 .directive "autoExpand", ->
   """
@@ -127,3 +137,11 @@ angular.module("continue")
   templateUrl: "/static/app/directives/item-title.html"
   link: (scope, element, attrs)->
     console.log "itemTitle"
+
+.directive "angularItemOverviewHeader", ()->
+  restrct: "E"
+  templateUrl: "/static/app/directives/angular-item-overview-header.html"
+
+.directive "angularItemOverview", ()->
+  restrict: "E"
+  templateUrl: "/static/app/directives/angular-item-overview.html"

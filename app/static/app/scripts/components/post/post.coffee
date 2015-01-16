@@ -1,6 +1,6 @@
 angular.module "continue"
 
-.controller "postCtrl", ["$scope", "Post", "ItemSelector", "ItemEditor", ($scope, Post, ItemSelector, ItemEditor)->
+.controller "postCtrl", ["$scope", "Post", "ItemSelector", "ItemEditor", "Alert", ($scope, Post, ItemSelector, ItemEditor, Alert)->
   $scope.new_items = []
   $scope.post = Post.$build(Post.init)
   $scope.layout = {
@@ -20,6 +20,9 @@ angular.module "continue"
     $scope.layout.detail_input = true
     
   $scope.select_item = ()->
+    Alert.show_msg("Loading your items ...")
+    # $scope.post.items is passed in as existed items,
+    # used to remove duplicated items from the BottomSheet.
     ItemSelector.begin($scope.post.items).then (response)->
       if response
         $scope.post.items.push(response)
@@ -36,7 +39,7 @@ angular.module "continue"
     tags = tags_array.join(",")
     $scope.post.tags = tags
     $scope.post.save().$then (response)->
-      if "id" of response
-        window.location.replace("/app/post/#{response.id}/")
+      # if "id" of response
+        # window.location.replace("/app/post/#{response.id}/")
 
 ]

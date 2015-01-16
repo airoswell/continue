@@ -3,7 +3,8 @@
 {% block content %}
 {% load filters %}
 <div id='dashboard-wrapper' ng-controller="DashBoardCtrl"
-    ng-init="numOfPosts='{{ numOfPosts }}'"
+    ng-init="numOfPosts='{{ numOfPosts }}';
+             feed_starts = {{ feed_starts }}"
     layout='row' layout-align='end'>
   
   <!-- Side navigation bar -->
@@ -77,7 +78,26 @@
       {%     endif %}
       {%   endwith %}
       {% endfor %}
+        <div ng-repeat="record in feeds">
+          <div>
+            <switch ng-switch on="record.type">
+              <div ng-switch-when="Post" ng-init="post=record">
+                <post-overview></post-overview>
+              </div>
+              <div ng-switch-when="Item" ng-init="item=record">
+                <angular-item-overview>
+                </angular-item-overview>
+              </div>
+              <div ng-switch-when="Item">
+                <div ng-init="event=record">
+                  
+                </div>
+              </div>
+            </switch>
+          </div>
+        </div>
       </div>
+      
     </div>
 
     <!-- timeline -->

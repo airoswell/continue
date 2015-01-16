@@ -40,7 +40,9 @@ class ItemSerializer(serializers.ModelSerializer):
                   "availability", "link", "pic", "time_created", 'owner',
                   "acquiring_date", "original_value", "estimated_value",
                   "requesters", "transferrable", "tags", "tags_private",
+                  "previous_owners",
                   )
+        read_only_fields = ('previous_owners', "time_created", "requesters", )
 
 
 class ItemSerializerLite(serializers.ModelSerializer):

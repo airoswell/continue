@@ -49,40 +49,78 @@
           });
         }
         return $scope.posts.$then(function(response) {
-          var post, _i, _len, _ref;
+          var post, _i, _len, _ref, _results;
           if ($scope.posts.start === 0) {
             $scope.posts.start = parseInt($scope.numOfPosts) + $scope.posts.length;
           } else {
-            $scope.posts.start = parseInt($scope.posts.start) + $scope.posts.length;
+            $scope.posts.start = parseInt($scope.numOfPosts) + $scope.posts.length;
           }
           _ref = $scope.posts;
+          _results = [];
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             post = _ref[_i];
             if (post.tags) {
               if (typeof post.tags === "string") {
-                post.tags = post.tags.split(",");
+                _results.push(post.tags = post.tags.split(","));
+              } else {
+                _results.push(void 0);
               }
             } else {
-              post.tags = [];
+              _results.push(post.tags = []);
             }
           }
+          return _results;
+        }).$asPromise().then(function() {
           return $scope.layout.loading.posts = false;
+        }, function() {
+          return Alert.show_msg("You have reach the end of the posts.");
         });
       };
       $scope.load_feeds = function() {
-        console.log("loading feeds");
         $scope.layout.loading.feeds = true;
         if (!$scope.feeds) {
           $scope.feeds = Feed.$search({
-            "start": $scope.numOfPosts
+            "feed_starts": $scope.feed_starts
           });
         } else {
           $scope.feeds = $scope.feeds.$fetch({
-            "start": $scope.feeds.start
+            "feed_starts": $scope.feeds.feed_starts
           });
         }
         return $scope.feeds.$then(function(response) {
-          return console.log(response);
+          var feed, feed_starts, item, post, _i, _len, _ref, _results;
+          console.log(response);
+          feed_starts = response.pop();
+          _ref = $scope.feeds;
+          _results = [];
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            feed = _ref[_i];
+            if (feed.type === "Post") {
+              post = feed;
+              if (post.tags) {
+                if (typeof post.tags === "string") {
+                  post.tags = post.tags.split(",");
+                }
+              } else {
+                post.tags = [];
+              }
+            }
+            if (feed.type === "Item") {
+              item = feed;
+              if (item.tags) {
+                if (typeof item.tags === "string") {
+                  _results.push(item.tags = item.tags.split(","));
+                } else {
+                  _results.push(void 0);
+                }
+              } else {
+                _results.push(item.tags = []);
+              }
+            } else {
+              _results.push(void 0);
+            }
+          }
+          return _results;
         });
       };
       $scope.display_tab = function(tab_name) {

@@ -18,10 +18,10 @@ def order_by(queryset, args):
 
 @register.filter(name='find_requester_in_post')
 def find_requester_in_post(item, post):
-    q = item.status_in_post.filter(post=post)
-    if q:
-        status = q[0]
-    return status.item_requesters.all()
+    # q = item.status_in_post.filter(post=post)
+    # if q:
+    #     status = q[0]
+    return item.requesters.all()
 
 
 @register.filter(name='truncate')

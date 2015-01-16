@@ -34,7 +34,7 @@ angular.module("continue")
         if $scope.posts.start == 0
           $scope.posts.start = parseInt($scope.numOfPosts) + $scope.posts.length
         else
-          $scope.posts.start = parseInt($scope.posts.start) + $scope.posts.length
+          $scope.posts.start = parseInt($scope.numOfPosts) + $scope.posts.length
         # Deal with the tags
         for post in $scope.posts
           if post.tags
@@ -42,18 +42,43 @@ angular.module("continue")
               post.tags = post.tags.split(",")
           else
             post.tags = []
+      .$asPromise().then ()->
         $scope.layout.loading.posts = false
+      , ()->
+        Alert.show_msg("You have reach the end of the posts.")
 
     $scope.load_feeds = ()->
-      console.log "loading feeds"
       $scope.layout.loading.feeds = true
       if not $scope.feeds
-        $scope.feeds = Feed.$search({"start": $scope.numOfPosts})
+        $scope.feeds = Feed.$search(
+          # $scope.feed_starts are the initial starts passed from views.py
+          {"feed_starts": $scope.feed_starts}
+        )
       else
-        $scope.feeds = $scope.feeds.$fetch({"start": $scope.feeds.start})
+        $scope.feeds = $scope.feeds.$fetch(
+          {"feed_starts": $scope.feeds.feed_starts}
+        )
 
       $scope.feeds.$then (response)->
         console.log response
+        feed_starts = response.pop()
+        # Begin processing the returned data
+        for feed in $scope.feeds
+          # Process the post.tags
+          if feed.type == "Post"
+            post = feed
+            if post.tags
+              if typeof(post.tags) == "string"
+                post.tags = post.tags.split(",")
+            else
+              post.tags = []
+          if feed.type == "Item"
+            item = feed
+            if item.tags
+              if typeof(item.tags) == "string"
+                item.tags = item.tags.split(",")
+            else
+              item.tags = []
 
 
     $scope.display_tab = (tab_name)->
