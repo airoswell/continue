@@ -17,6 +17,23 @@
     </div>
 
   </div>
+  <div flex ng-switch on="event.field">
+    <switch ng-switch-when="pic">
+        Item <span ng-bind="event.item.title"></span> has a new photo.</switch>
+
+    <switch ng-switch-when="status"> Item <span ng-bind="event.item"></span> updated its status </switch>
+
+    <switch ng-switch-when="creation">
+      added <span ng-bind="event.item.title"></span>
+    </switch>.
+
+    <switch ng-switch-when="description">
+      <span ng-bind="event.item.title"></span> has a new description.
+    </switch>
+
+    <switch ng-switch-default> <span ng-bind="event.item.title"></span> updated its <span ng-bind=" event.field "></span>: <span ng-bind="event.new_value">.</switch>
+
+  </div>
   <if ng-if="event.field == 'pic'">
     <div class='picture-container'
         style="background-image: url({{ event.new_value }});">
@@ -24,7 +41,7 @@
     </div>
   </if>
   <if ng-if="event.field == 'creation'">
-    <div class='event-body status' ng-init='item=event.item'>
+    <div ng-init='item=event.item'>
       <angular-item-overview></angular-item-overview>
     </div>
   </if>

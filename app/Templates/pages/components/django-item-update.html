@@ -17,9 +17,7 @@
 
   </div>
 
-  {% if event.model_name == 'ItemEditRecord' %}
   <div flex>
-
     {% if event.field == "pic" %}
     <span> Item {{event.item}}</span> has a new photo.
 
@@ -37,7 +35,6 @@
 
     {% endif %}
   </div>
-  {% endif %}
 
   <div layout='row'>
     <div flex layout>
