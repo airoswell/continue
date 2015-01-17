@@ -603,6 +603,7 @@ class TimelineManager:
             from operator import attrgetter
             queryset = querysets[0]
             ordering_field = self.ordering_field(queryset)
+            print("\n\tordering_field = %s" % (ordering_field))
             if not self.reversed:
                 result = sorted(
                     chain(*querysets),
@@ -617,6 +618,7 @@ class TimelineManager:
             return result
         # If the models are supposed to be
         # ordered by fields with different names,
+        querysets = list(querysets)     # turn <queryset> to <list>
         num_of_arrays = len(querysets)
         result = []
         if num_of_arrays < 1:
@@ -701,8 +703,8 @@ class TimelineManager:
             if self.common_filter:
                 queryset = queryset.filter(**self.common_filter)
             print("\n\tReturned %s results for model %s:\n %s\n" % (queryset.count(), model, queryset))
-            queryset = [r for r in queryset]
-            querysets.append(queryset)
+            if queryset:
+                querysets.append(queryset)
         # ======== merge and limit the querysets ========
         timeline = self.merge(*querysets)[0:self.num_of_records]
         return timeline

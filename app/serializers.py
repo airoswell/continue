@@ -155,6 +155,7 @@ class TransactionSerializer(serializers.ModelSerializer):
         model = ItemTransactionRecord
         fields = ("id", "item", "giver", "receiver", "status",
                   "time_updated", "time_sent", "model_name")
+        read_only_fields = ("id", "time_sent", "model_name", )
 
 
 class TransactionSerializerLite(serializers.ModelSerializer):
