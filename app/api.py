@@ -545,7 +545,7 @@ class TransactionDetail(XDetailAPIView):
     serializer = TransactionSerializer
 
 
-class Timeline:
+class TimelineManager:
     def __init__(self, *models):
         """
         arguments <models> should take in several models, based on which
@@ -561,6 +561,7 @@ class Timeline:
         self.common_filter = None
         self.starts = [0] * len(models)
         self.order_by = ["-time_updated"] * len(models)
+        self.reversed = False
         self.filter_type = ["and"] * len(models)
         # record the final count of records in each model that get into
         # the result; for instance,
@@ -582,9 +583,10 @@ class Timeline:
             return None
         instance = queryset[0]
         index = self.models.index(type(instance))
-        # remove "-""
+        # remove possible minus sign "-"
         minus = re.compile("^-")
         if minus.match(self.order_by[index]):
+            self.reversed = True
             ordering_field = self.order_by[index][1:]
         return ordering_field
 
@@ -595,6 +597,26 @@ class Timeline:
         Returns
         - a merged list of instances.
         """
+        # If all models share the same "order_by" field, use a faster approach
+        if len(set(self.order_by)) <= 1:
+            from itertools import chain
+            from operator import attrgetter
+            queryset = querysets[0]
+            ordering_field = self.ordering_field(queryset)
+            if not self.reversed:
+                result = sorted(
+                    chain(*querysets),
+                    key=attrgetter(ordering_field)
+                )
+            elif self.reversed:
+                result = sorted(
+                    chain(*querysets),
+                    key=attrgetter(ordering_field),
+                    reverse=True,
+                )
+            return result
+        # If the models are supposed to be
+        # ordered by fields with different names,
         num_of_arrays = len(querysets)
         result = []
         if num_of_arrays < 1:
@@ -638,14 +660,15 @@ class Timeline:
             - list (mergesorted)
         """
         querysets = []
-        # Make query to each individual model
+        # ======== Make query to each individual model ========
         # according to the query arguments (either *args, or **kwargs)
+        print("\n\tself.starts = %s\n" % (self.starts))
         for index in range(0, len(self.models)):
             start = self.starts[index]
             model = self.models[index]
             if not kwargs:  # If *args but not **kwargs is provided
                 temp_kwargs = args[index]
-                # If the user wants to make a filter_or query
+                # If the user wants to make a "filter_or" query
                 # the django Q class will be needed
                 if self.filter_type[index] == "or":
                     from django.db.models import Q
@@ -664,7 +687,7 @@ class Timeline:
                                 )
                                 .order_by(self.order_by[index])
                                 [start: start + self.num_of_records + 1])
-                # If the user wants to make a filter_and query
+                # If the user wants to make a "filter_and" query
                 elif self.filter_type[index] == "and":
                     queryset = (model.objects.filter(**temp_kwargs)
                                 .order_by(self.order_by[index])
@@ -677,15 +700,60 @@ class Timeline:
                             [start: start + self.num_of_records + 1])
             if self.common_filter:
                 queryset = queryset.filter(**self.common_filter)
-            print("\n\tqueryset for model %s is %s\n" % (model, queryset))
+            print("\n\tReturned %s results for model %s:\n %s\n" % (queryset.count(), model, queryset))
             queryset = [r for r in queryset]
             querysets.append(queryset)
-        # Merge sort
+        # ======== merge and limit the querysets ========
         timeline = self.merge(*querysets)[0:self.num_of_records]
         return timeline
 
 
-class FeedList(XListAPIView):
+class TimelineAPIView(XListAPIView):
+    """
+    API for all timelines (cross model requests).
+    """
+
+    def get_query_args(self, request):
+        # default query arguments, should be overwritten in
+        # each individual API
+        return []
+
+    def get_query_kwargs(self, request):
+        # default query keyword arguments, should be overwritten in
+        # each individual API
+        return {}
+
+    def get(self, request):
+        params = request.query_params
+        starts_dict = {model_name: 0 for model_name in self.models_str}
+        starts = [0] * len(self.models)
+        if "starts" in params:
+            import json
+            starts_dict = json.loads(params['starts'])
+            for model_name in starts_dict:
+                index = self.models_str.index(model_name)
+                starts[index] = starts_dict[model_name]
+        tl = TimelineManager(*self.models)
+        tl.config(
+            order_by=self.order_by,
+            filter_type=self.filter_type,
+            starts=starts,
+        )
+        query_args = self.get_query_args(request)
+        query_kwargs = self.get_query_kwargs(request)
+        results = tl.get(*query_args, **query_kwargs)
+        if not results:
+            return Response(status=st.HTTP_404_NOT_FOUND)
+        data = []
+        for record in results:
+            index = self.models.index(type(record))
+            serializer = self.serializer[index]
+            record_data = serializer(record).data
+            data.append(record_data)
+        return Response(data=data)
+
+
+class FeedList(TimelineAPIView):
 
     models = (Post, Item, ItemEditRecord, )
     models_str = ("Post", "Item", "ItemEditRecord")
@@ -693,96 +761,29 @@ class FeedList(XListAPIView):
     order_by = ("-time_posted", "-time_created", "-time_updated", )
     filter_type = ["or", "or", "or"]
 
-    def get(self, request):
+    def get_query_args(self, request):
         user = request.user
-        params = request.query_params
-        # Check the starts param in the request
-        feed_starts = {model_name: 0 for model_name in self.models_str}
-        starts = [0] * len(self.models)
-        if "feed_starts" in params:
-            # The params["feed_starts"] is a unicode string
-            # need to load it into python dict
-            import json
-            feed_starts = json.loads(params['feed_starts'])
-            for model_name in feed_starts:
-                index = self.models_str.index(model_name)
-                starts[index] = feed_starts[model_name]
-        # Make the queries
-        tl = Timeline(*self.models)
-        tl.config(
-            order_by=self.order_by,
-            filter_type=self.filter_type,
-            starts=starts,
-        )
         interested_areas = user.interested_areas().split(",")
         query_args = [
             {"area": interested_areas},
             {"owner": user},
             {"item__owner": user},
         ]
-        feeds = tl.get(*query_args)
-        if not len(feeds):
-            return Response(status=st.HTTP_404_NOT_FOUND)
-        # Prepare the return data
-        # Each model type needs its serializer
-        data = []
-        for record in feeds:
-            index = self.models.index(type(record))
-            serializer = self.serializer[index]
-            record_data = serializer(record).data
-            data.append(record_data)
-        # Append the starts to the end of respond data
-        return Response(data=data)
+        return query_args
 
 
-class TimelineList(XListAPIView):
+class TimelineList(TimelineAPIView):
 
-    models = (Item, ItemEditRecord, ItemTransactionRecord)
-    models_str = ("Item", "ItemEditRecord", "ItemTransactionRecord")
-    serializer = (ItemSerializer,
-                  ItemEditRecordSerializer, TransactionSerializer)
-    order_by = ("-time_created", "-time_updated", "-time_updated")
-    filter_type = ["or", "or", "or"]
+    models = (ItemEditRecord, ItemTransactionRecord)
+    models_str = ("ItemEditRecord", "ItemTransactionRecord")
+    serializer = (ItemEditRecordSerializer, TransactionSerializer)
+    order_by = ("-time_updated", "-time_updated")
+    filter_type = ["or", "or"]
 
-    def get(self, request):
+    def get_query_args(self, request):
         user = request.user
-        params = request.query_params
-        # Check the starts param in the request
-        timeline_starts = {model_name: 0 for model_name in self.models_str}
-        starts = [0] * len(self.models)
-        if "timeline_starts" in params:
-            # The params["timeline_starts"] from HTT PRequest
-            # is a unicode string
-            # needs to load it into python dict
-            import json
-            timeline_starts = json.loads(params['timeline_starts'])
-            for model_name in timeline_starts:
-                index = self.models_str.index(model_name)
-                starts[index] = timeline_starts[model_name]
-        # Make the queries
-        tl = Timeline(*self.models)
-        tl.config(
-            order_by=self.order_by,
-            filter_type=self.filter_type,
-            starts=starts,
-        )
         query_args = [
-            {"owner": user},
             {"item__owner": user},
             {"receiver": user, "giver": user}
         ]
-        timeline = tl.get(*query_args)
-        # Prepare the starts for next request
-        # This is much harder to do it properly in the front end.
-        for record in timeline:
-            model_name = type(record).__name__
-            timeline_starts[model_name] += 1
-        # Prepare the return data
-        data = []
-        for record in timeline:
-            index = self.models.index(type(record))
-            serializer = self.serializer[index]
-            record_data = serializer(record).data
-            data.append(record_data)
-        # Append the starts to the end of respond data
-        return Response(data=data)
+        return query_args

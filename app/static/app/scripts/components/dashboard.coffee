@@ -2,8 +2,8 @@
 angular.module("continue")
 
 .controller("DashBoardCtrl", [
-  "$scope", "Post", "Item", "Feed", "Alert", "Auth",
-  ($scope, Post, Item, Feed, Alert, Auth) ->
+  "$scope", "Post", "Item", "Feed", "Timeline", "Alert", "Auth",
+  ($scope, Post, Item, Feed, Timeline, Alert, Auth) ->
 
     # Load in items and posts of the current user
     Alert.show_msg("Downloading your data.")
@@ -53,21 +53,20 @@ angular.module("continue")
       if not $scope.feeds
         $scope.feeds = Feed.$search(
           # $scope.feed_starts are the initial starts passed from views.py
-          {"feed_starts": $scope.feed_starts}
+          {"starts": $scope.feed_starts}
         )
       else
         $scope.feeds = $scope.feeds.$fetch(
-          {"feed_starts": $scope.feeds.feed_starts}
+          {"starts": $scope.feeds.starts}
         )
 
       $scope.feeds.$then (response)->
-        console.log "response.length", response.length
-        $scope.feeds.feed_starts = $scope.feed_starts
+        $scope.feeds.starts = $scope.feed_starts
         # Begin processing the returned data
         for feed in $scope.feeds
           # Process the post.tags
           if feed.model_name == "Post"
-            $scope.feeds.feed_starts.Post += 1
+            $scope.feeds.starts.Post += 1
             post = feed
             if post.tags
               if typeof(post.tags) == "string"
@@ -75,7 +74,7 @@ angular.module("continue")
             else
               post.tags = []
           if feed.model_name == "Item"
-            $scope.feeds.feed_starts.Item += 1
+            $scope.feeds.starts.Item += 1
             item = feed
             if item.tags
               if typeof(item.tags) == "string"
@@ -83,7 +82,7 @@ angular.module("continue")
             else
               item.tags = []
           else if feed.model_name == "ItemEditRecord"
-            $scope.feeds.feed_starts.ItemEditRecord += 1
+            $scope.feeds.starts.ItemEditRecord += 1
       .$asPromise().then ()->
         $scope.layout.loading.feeds = false
       , ()->
@@ -91,39 +90,33 @@ angular.module("continue")
 
 
     $scope.load_timeline = ()->
-      console.log "loading timeline"
       $scope.layout.loading.timeline = true
       # Download data
       if not $scope.timeline
-        $scope.timeline = Feed.$search(
+        $scope.timeline = Timeline.$search(
           # $scope.feed_starts are the initial starts passed from views.py
-          {"timeline_starts": $scope.timeline_starts}
+          {"starts": $scope.timeline_starts}
         )
       else
         $scope.timeline = $scope.timeline.$fetch(
-          {"timeline_starts": $scope.timeline.timeline_starts}
+          {"starts": $scope.timeline.starts}
         )
 
       $scope.timeline.$then (response)->
-        $scope.timeline.timeline_starts = $scope.timeline_starts
+        $scope.timeline.starts = {}
+        for model_name of $scope.timeline_starts
+          $scope.timeline.starts[model_name] = $scope.timeline_starts[model_name]
         # Begin processing the returned data
         for feed in $scope.timeline
           # Process the post.tags
           if feed.model_name == "ItemTransactionRecord"
-            $scope.timeline.timeline_starts.ItemTransactionRecord += 1
-          else if feed.model_name == "Item"
-            $scope.timeline.timeline_starts.Item += 1
-            item = feed
-            if item.tags
-              if typeof(item.tags) == "string"
-                item.tags = item.tags.split(",")
-            else
-              item.tags = []
+            $scope.timeline.starts.ItemTransactionRecord += 1
           else if feed.model_name == 'ItemEditRecord'
-            $scope.timeline.timeline_starts.ItemEditRecord += 1
+            $scope.timeline.starts.ItemEditRecord += 1
       .$asPromise().then ()->
         $scope.layout.loading.timeline = false
-
+      , ()->
+        Alert.show_msg("All timeline records are downloaded.")
 
     $scope.display_tab = (tab_name)->
       $scope.layout.display_tab = tab_name

@@ -1,7 +1,7 @@
 # Models and serializers
 from app.models import Item, Post
 from app.models import ItemEditRecord, PostItemStatus, ItemTransactionRecord
-from app.api import S, Timeline
+from app.api import S, TimelineManager
 from app.GenericAPI import *
 from app.serializers import *
 from app.CRUD import *
@@ -182,7 +182,7 @@ def item_timeline(request, pk):
         )
     item = queryset[0]
 
-    tl = Timeline(ItemEditRecord, ItemTransactionRecord)
+    tl = TimelineManager(ItemEditRecord, ItemTransactionRecord)
     tl.config(
         num_of_records=num_of_records,
         starts=(edit_start, transaction_start)
@@ -205,7 +205,7 @@ def item_timeline(request, pk):
 
 
 def user_timeline(request, pk):
-    tl = Timeline(ItemEditRecord, ItemTransactionRecord)
+    tl = TimelineManager(ItemEditRecord, ItemTransactionRecord)
     tl.config(
         num_of_records=16,
     )
@@ -241,7 +241,7 @@ def dashboard(request):
     # Build feeds (posts are from interested area)
     # need to include more stuffs in the future
     interested_areas = user.profile.all()[0].interested_areas
-    tl = Timeline(Post, Item, ItemEditRecord, )
+    tl = TimelineManager(Post, Item, ItemEditRecord, )
     tl.config(
         order_by=("-time_posted", "-time_created", "-time_updated", ),
         filter_type = ["or", "or", "or"],
@@ -258,18 +258,18 @@ def dashboard(request):
     # specify starting points of next Ajax requests.
     feed_starts = {model.__name__: 0 for model in tl.models}
     for record in feeds:
-        if not (type(record).__name__ in feed_starts):
-            feed_starts[type(record).__name__] = 1
-        else:
-            feed_starts[type(record).__name__] += 1
+        feed_starts[type(record).__name__] += 1
     # Build a combined timeline of ItemEditRecord and ItemTransactionRecord
     # of the current user.
-    tl = Timeline(ItemEditRecord, ItemTransactionRecord)
+    tl = TimelineManager(ItemEditRecord, ItemTransactionRecord)
     tl.config(num_of_records=16, filter_type=["and", "or"])
     timeline = tl.get(
         {"item__owner": user},
         {"giver": user, "receiver": user},
     )[0: tl.num_of_records]
+    timeline_starts = {model.__name__: 0 for model in tl.models}
+    for record in timeline:
+        timeline_starts[type(record).__name__] += 1
     return render(
         request,
         'pages/dashboard.html',
@@ -280,6 +280,7 @@ def dashboard(request):
             'posts': posts,
             'numOfPosts': numOfPosts,
             'timeline': timeline,
+            'timeline_starts': timeline_starts,
             "subject": "You",
         }
     )

@@ -315,6 +315,14 @@
         }
       });
     }
+  ]).factory("Timeline", [
+    "Model", function(Model) {
+      return Model.create("/timeline/").mix({
+        $extend: {
+          record: ""
+        }
+      });
+    }
   ]).factory("Transaction", [
     "Model", function(Model) {
       return Model.create("/transactions/").mix({

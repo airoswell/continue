@@ -249,6 +249,13 @@ angular.module 'continue.models', [
   )
 ]
 
+.factory "Timeline", ["Model", (Model) ->
+  return Model.create("/timeline/").mix(
+    $extend:
+      record:""
+  )
+]
+
 .factory "Transaction", ["Model", (Model)->
   return Model.create("/transactions/").mix(
     $hooks:

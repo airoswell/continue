@@ -154,7 +154,7 @@ class TransactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = ItemTransactionRecord
         fields = ("id", "item", "giver", "receiver", "status",
-                  "time_updated", "time_sent")
+                  "time_updated", "time_sent", "model_name")
 
 
 class TransactionSerializerLite(serializers.ModelSerializer):
