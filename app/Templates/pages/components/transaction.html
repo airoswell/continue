@@ -1,7 +1,7 @@
 <!-- A transaction record -->
 
 {% load filters %}
-<div transaction transaction-id={{ transaction.id }}>
+<div transaction transaction-id="{{ transaction.id }}">
   {% if transaction.status == "Sent" %}
 
   {%   if transaction.giver.id == request.user.id %}
