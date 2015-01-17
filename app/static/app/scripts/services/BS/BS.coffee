@@ -63,15 +63,24 @@ angular.module "continue"
     deferred: {}
     refresh: false
     begin: (input, refresh)->
+      # input might be item_id, namely of <string> type
+      # might be an item object
       self = this
       if refresh?
         self.refresh = refresh
       if input?
+        # if only supply an id, download the item
         if typeof(input) == "string"
-          self.item = Item.$find(input).$then (response)->
+          self.item = Item.$find(input)
+          self.item.$then (response)->
+            console.log "self.item.tags_handler"
+            self.item.tags_handler()
             self.deferred = BS.bringUp("item-editor")
             self.monitor += 1
-            self.deferred.promise
+            console.log "self.deferred.promise", self.deferred.promise
+            return self.deferred.promise
+          .$asPromise()   # the restmod $then must explicitly use .$asPromise()
+                          # to forward any promise object inside the $then()
         else if typeof(input) == "object"
           self.item = input
           self.item.is_new = true
@@ -81,7 +90,8 @@ angular.module "continue"
           # Copy the deferred object from the BottomSheet
           self.deferred = BS.bringUp("item-editor")
           self.monitor += 1
-          self.deferred.promise
+          console.log "self.deferred.promise", self.deferred.promise
+          return self.deferred.promise
       else
         self.item = Item.$build(Item.init)
         self.item.is_new = true
@@ -90,7 +100,7 @@ angular.module "continue"
         self.item.visibility = "Public"
         self.deferred = BS.bringUp("item-editor")
         self.monitor += 1
-        self.deferred.promise
+        return self.deferred.promise
   }
 ]
 
@@ -110,8 +120,6 @@ angular.module "continue"
       ItemEditor.deferred.resolve(item)
       item.save().$then (response)->
         scope.item = {}
-        if ItemEditor.refresh
-          location.reload()
 ]
 
 .factory "ItemSelector", ["Item", "BS", (Item, BS)->
@@ -128,6 +136,8 @@ angular.module "continue"
         num_of_records: 8
       )
       self.items.$asPromise().then (response)->
+        console.log "ItemSelector tags_handler()"
+        self.items.tags_handler()
         self.deferred = BS.bringUp("item-selector")
         for item in self.items
           item.duplicated = false

@@ -21,8 +21,8 @@ angular.module 'continue.models', [
     self.loading = true
     # By default, saving the object should be under the current user's
     # name
-    if "process_data" of self
-      self.process_data()
+    if "pre_save_handler" of self
+      self.pre_save_handler()
     Alert.show_msg("Saving your data to database ...")
     self.$save().$then (response) ->
       Alert.show_msg("Your data is saved! You may need to refresh ...")
@@ -84,6 +84,11 @@ angular.module 'continue.models', [
                 if property of obj
                   this[property] = obj[property]
                 return this
+            tags_handler: ()->
+              if "tags" of this
+                if typeof(this.tags) == "string"
+                  if this.tags
+                    this.tags = this.tags.split(",")
           Collection:
             path: path
             loading: false
@@ -98,6 +103,9 @@ angular.module 'continue.models', [
               self = this
               this.loading = true
               this.$fetch(params)
+            tags_handler: ()->
+              for record in this
+                record.tags_handler()
           Model:
             transform: (obj) ->
               record = this.$build(this.init)
@@ -143,12 +151,20 @@ angular.module 'continue.models', [
     posts = self.$search(params)
     $then = posts.$then (response) ->
       for post in posts
+        if "tags" of post
+          if typeof(post.tags) == "string"
+            post.tags = post.tags.split(",")
         for i in [0...post.items.length]
           # Originally the item is a plain JSON object
           # transform it into a resource instance,
           # With all possible mod-choices
           item = post.items[i]
           post.items[i] = Item.transform(item)
+          if "tags" of item
+            if typeof(item.tags) == "string"
+              item.tags = item.tags.split(",")
+          
+
 
   return Model.create('/posts/').mix({
     $extend:
@@ -203,7 +219,7 @@ angular.module 'continue.models', [
           initialize(this)
         is_valid: () ->
           is_valid(this)
-        process_data: ()->
+        pre_save_handler: ()->
           console.log "processing data"
           self = this
           # But if the owner choose a new owner, use the new owner.
@@ -211,6 +227,11 @@ angular.module 'continue.models', [
             if self["new_owner"]
               self.owner = self['new_owner'].id
               self.visibility = "Ex-owners"
+          # if the self.tags is in array type,
+          # merge them into string.
+          if "tags" of self
+            if typeof(self.tags) == "object"
+              self.tags = self.tags.join(",")
       Model:
         init: init
     histories: {hasMany: "History"}
@@ -237,7 +258,7 @@ angular.module 'continue.models', [
       Record:
         is_valid: ()->
           true
-        process_data: ()->
+        pre_save_handler: ()->
           # API expect <pk> value for easy de-serialization
           this.giver = this.giver.id
           this.receiver = this.receiver.id
@@ -270,7 +291,7 @@ angular.module 'continue.models', [
       else
         data_holder = model.fetch(starts: this.subsequent_starts)
       return data_holder
-    default_tags_processor: (data_holder)->
+    default_tags_handler: (data_holder)->
       for record in data_holder
         # Process the post.tags
         if record.model_name == "Post"

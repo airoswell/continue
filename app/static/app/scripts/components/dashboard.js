@@ -89,14 +89,15 @@
           });
         }
         return $scope.feeds.$then(function(response) {
-          var feed, feed_starts, item, post, _i, _len, _ref, _results;
-          console.log(response);
-          feed_starts = response.pop();
+          var feed, item, post, _i, _len, _ref, _results;
+          console.log("response.length", response.length);
+          $scope.feeds.feed_starts = $scope.feed_starts;
           _ref = $scope.feeds;
           _results = [];
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             feed = _ref[_i];
             if (feed.model_name === "Post") {
+              $scope.feeds.feed_starts.Post += 1;
               post = feed;
               if (post.tags) {
                 if (typeof post.tags === "string") {
@@ -107,6 +108,7 @@
               }
             }
             if (feed.model_name === "Item") {
+              $scope.feeds.feed_starts.Item += 1;
               item = feed;
               if (item.tags) {
                 if (typeof item.tags === "string") {
@@ -117,11 +119,17 @@
               } else {
                 _results.push(item.tags = []);
               }
+            } else if (feed.model_name === "ItemEditRecord") {
+              _results.push($scope.feeds.feed_starts.ItemEditRecord += 1);
             } else {
               _results.push(void 0);
             }
           }
           return _results;
+        }).$asPromise().then(function() {
+          return $scope.layout.loading.feeds = false;
+        }, function() {
+          return Alert.show_msg("All feeds are already loaded.");
         });
       };
       $scope.load_timeline = function() {
@@ -137,24 +145,16 @@
           });
         }
         return $scope.timeline.$then(function(response) {
-          var feed, item, post, timeline_starts, _i, _len, _ref, _results;
-          console.log(response);
-          timeline_starts = response.pop();
+          var feed, item, _i, _len, _ref, _results;
+          $scope.timeline.timeline_starts = $scope.timeline_starts;
           _ref = $scope.timeline;
           _results = [];
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             feed = _ref[_i];
-            if (feed.model_name === "Post") {
-              post = feed;
-              if (post.tags) {
-                if (typeof post.tags === "string") {
-                  post.tags = post.tags.split(",");
-                }
-              } else {
-                post.tags = [];
-              }
-            }
-            if (feed.model_name === "Item") {
+            if (feed.model_name === "ItemTransactionRecord") {
+              _results.push($scope.timeline.timeline_starts.ItemTransactionRecord += 1);
+            } else if (feed.model_name === "Item") {
+              $scope.timeline.timeline_starts.Item += 1;
               item = feed;
               if (item.tags) {
                 if (typeof item.tags === "string") {
@@ -165,11 +165,15 @@
               } else {
                 _results.push(item.tags = []);
               }
+            } else if (feed.model_name === 'ItemEditRecord') {
+              _results.push($scope.timeline.timeline_starts.ItemEditRecord += 1);
             } else {
               _results.push(void 0);
             }
           }
           return _results;
+        }).$asPromise().then(function() {
+          return $scope.layout.loading.timeline = false;
         });
       };
       $scope.display_tab = function(tab_name) {

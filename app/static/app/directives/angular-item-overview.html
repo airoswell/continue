@@ -74,7 +74,7 @@
         <if ng-if="item.transferrable && item.requesters">
           <transfer-menu></transfer-menu>  
         </if>
-        <item-edit-menu></item-edit-menu>
+        <angular-item-edit-menu></angular-item-edit-menu>
       </div>
     </if>
     <if ng-if="!post && item.owner == profile.user_id">
@@ -82,7 +82,7 @@
         <if ng-if="item.requesters && item.transferrable">
           <angular-transfer-menu></angular-transfer-menu>  
         </if>
-        <item-edit-menu></item-edit-menu>
+        <angular-item-edit-menu></angular-item-edit-menu>
       </div>
     </if>
   </div>

@@ -67,17 +67,22 @@
           }
           if (input != null) {
             if (typeof input === "string") {
-              return self.item = Item.$find(input).$then(function(response) {
+              self.item = Item.$find(input);
+              return self.item.$then(function(response) {
+                console.log("self.item.tags_handler");
+                self.item.tags_handler();
                 self.deferred = BS.bringUp("item-editor");
                 self.monitor += 1;
+                console.log("self.deferred.promise", self.deferred.promise);
                 return self.deferred.promise;
-              });
+              }).$asPromise();
             } else if (typeof input === "object") {
               self.item = input;
               self.item.is_new = true;
               self.item.visibility = "Public";
               self.deferred = BS.bringUp("item-editor");
               self.monitor += 1;
+              console.log("self.deferred.promise", self.deferred.promise);
               return self.deferred.promise;
             }
           } else {
@@ -108,10 +113,7 @@
           return scope.update_item = function(item) {
             ItemEditor.deferred.resolve(item);
             return item.save().$then(function(response) {
-              scope.item = {};
-              if (ItemEditor.refresh) {
-                return location.reload();
-              }
+              return scope.item = {};
             });
           };
         }
@@ -134,6 +136,8 @@
           });
           return self.items.$asPromise().then(function(response) {
             var existed, item, _i, _j, _len, _len1, _ref;
+            console.log("ItemSelector tags_handler()");
+            self.items.tags_handler();
             self.deferred = BS.bringUp("item-selector");
             _ref = self.items;
             for (_i = 0, _len = _ref.length; _i < _len; _i++) {

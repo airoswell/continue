@@ -61,12 +61,13 @@ angular.module("continue")
         )
 
       $scope.feeds.$then (response)->
-        console.log response
-        feed_starts = response.pop()
+        console.log "response.length", response.length
+        $scope.feeds.feed_starts = $scope.feed_starts
         # Begin processing the returned data
         for feed in $scope.feeds
           # Process the post.tags
           if feed.model_name == "Post"
+            $scope.feeds.feed_starts.Post += 1
             post = feed
             if post.tags
               if typeof(post.tags) == "string"
@@ -74,17 +75,25 @@ angular.module("continue")
             else
               post.tags = []
           if feed.model_name == "Item"
+            $scope.feeds.feed_starts.Item += 1
             item = feed
             if item.tags
               if typeof(item.tags) == "string"
                 item.tags = item.tags.split(",")
             else
               item.tags = []
+          else if feed.model_name == "ItemEditRecord"
+            $scope.feeds.feed_starts.ItemEditRecord += 1
+      .$asPromise().then ()->
+        $scope.layout.loading.feeds = false
+      , ()->
+        Alert.show_msg("All feeds are already loaded.")
 
 
     $scope.load_timeline = ()->
       console.log "loading timeline"
       $scope.layout.loading.timeline = true
+      # Download data
       if not $scope.timeline
         $scope.timeline = Feed.$search(
           # $scope.feed_starts are the initial starts passed from views.py
@@ -96,25 +105,24 @@ angular.module("continue")
         )
 
       $scope.timeline.$then (response)->
-        console.log response
-        timeline_starts = response.pop()
+        $scope.timeline.timeline_starts = $scope.timeline_starts
         # Begin processing the returned data
         for feed in $scope.timeline
           # Process the post.tags
-          if feed.model_name == "Post"
-            post = feed
-            if post.tags
-              if typeof(post.tags) == "string"
-                post.tags = post.tags.split(",")
-            else
-              post.tags = []
-          if feed.model_name == "Item"
+          if feed.model_name == "ItemTransactionRecord"
+            $scope.timeline.timeline_starts.ItemTransactionRecord += 1
+          else if feed.model_name == "Item"
+            $scope.timeline.timeline_starts.Item += 1
             item = feed
             if item.tags
               if typeof(item.tags) == "string"
                 item.tags = item.tags.split(",")
             else
               item.tags = []
+          else if feed.model_name == 'ItemEditRecord'
+            $scope.timeline.timeline_starts.ItemEditRecord += 1
+      .$asPromise().then ()->
+        $scope.layout.loading.timeline = false
 
 
     $scope.display_tab = (tab_name)->

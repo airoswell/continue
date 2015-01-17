@@ -11,16 +11,17 @@
         if ($scope.id != null) {
           $scope.post = Post.$find($scope.id);
           return $scope.post.$then(function(response) {
-            var tag, tags;
-            tags = response.tags.split(",");
+            var tag;
+            $scope.post.tags_handler();
             $('textarea').val($scope.post.detail).trigger('autosize.resize');
             if ($scope.post.tags) {
               return $scope.tags_input = [
                 (function() {
-                  var _i, _len, _results;
+                  var _i, _len, _ref, _results;
+                  _ref = $scope.post.tags;
                   _results = [];
-                  for (_i = 0, _len = tags.length; _i < _len; _i++) {
-                    tag = tags[_i];
+                  for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                    tag = _ref[_i];
                     _results.push({
                       "text": tag
                     });
@@ -46,6 +47,7 @@
       };
       $scope.add_new_item = function() {
         return ItemEditor.begin().then(function(response) {
+          console.log("haha2 in add_new_item");
           if (response) {
             $scope.post.items.push(response);
             return $scope.new_items.push(response);
@@ -68,7 +70,11 @@
         ];
         tags = tags_array.join(",");
         $scope.post.tags = tags;
-        return $scope.post.save().$then(function(response) {});
+        return $scope.post.save().$then(function(response) {
+          if ("id" in response) {
+            return window.location.replace("/app/post/" + response.id + "/");
+          }
+        });
       };
     }
   ]);

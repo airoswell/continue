@@ -75,7 +75,7 @@
     " template\n<div click-to-show>\n  <div click-to-show-trigger></div>\n  <div click-to-show-target></div>\n</div>\nclicking the '[click-to-show-trigger]' will show and hide\n'[click-to-show-trigger]'.";
     return {
       restrict: "A",
-      scope: {},
+      scope: true,
       link: function(scope, element, attrs) {
         var target, trigger;
         scope.expanded = false;
@@ -85,8 +85,6 @@
           "display": "none"
         });
         return trigger.on("click", function(e) {
-          console.log("clicked");
-          console.log(target);
           if (!scope.expanded) {
             target.css({
               "display": ""
@@ -101,11 +99,10 @@
         });
       }
     };
-  }).directive("itemEditMenu", function() {
+  }).directive("angularItemEditMenu", function() {
     return {
       restrict: "E",
       templateUrl: "/static/app/directives/item-edit-menu.html",
-      scope: true,
       link: function(scope, element, attrs) {
         scope.refresh = false;
         if (__indexOf.call(attrs, "refresh") >= 0) {
@@ -114,7 +111,7 @@
       }
     };
   }).directive("itemEditButton", [
-    "ItemEditor", function(ItemEditor) {
+    "ItemEditor", "$rootScope", function(ItemEditor, $rootScope) {
       return {
         restrict: "A",
         link: function(scope, element, attrs) {
@@ -127,15 +124,28 @@
             refresh = attrs['refresh'];
           }
           return scope.show_editor = function() {
-            if (item_id !== "{{") {
-              console.log(scope);
-              console.log("scope.refresh", refresh);
-              return ItemEditor.begin(item_id, refresh);
+            var promise;
+            if (item_id) {
+              promise = ItemEditor.begin(item_id, refresh);
             } else {
               scope.item.is_new = false;
-              console.log("refresh", refresh);
-              return ItemEditor.begin(scope.item, refresh);
+              promise = ItemEditor.begin(scope.item, refresh);
             }
+            return promise.then(function(response) {
+              var existing_items, i, _i, _ref;
+              if (scope.view === "post") {
+                console.log("We are in view post!!!");
+                existing_items = scope.post.items;
+                console.log("scope.post.items", scope.post.items);
+                for (i = _i = 0, _ref = existing_items.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
+                  console.log("existing_items[" + i + "]", existing_items[i]);
+                  if (existing_items[i].id === response.id) {
+                    existing_items[i] = response;
+                  }
+                }
+                return console.log("After the update, scope.post.items = ", scope.post.items);
+              }
+            });
           };
         }
       };

@@ -18,8 +18,8 @@
           return false;
         }
         self.loading = true;
-        if ("process_data" in self) {
-          self.process_data();
+        if ("pre_save_handler" in self) {
+          self.pre_save_handler();
         }
         Alert.show_msg("Saving your data to database ...");
         return self.$save().$then(function(response) {
@@ -92,6 +92,15 @@
                     }
                     return this;
                   }
+                },
+                tags_handler: function() {
+                  if ("tags" in this) {
+                    if (typeof this.tags === "string") {
+                      if (this.tags) {
+                        return this.tags = this.tags.split(",");
+                      }
+                    }
+                  }
                 }
               },
               Collection: {
@@ -111,6 +120,15 @@
                   self = this;
                   this.loading = true;
                   return this.$fetch(params);
+                },
+                tags_handler: function() {
+                  var record, _i, _len, _results;
+                  _results = [];
+                  for (_i = 0, _len = this.length; _i < _len; _i++) {
+                    record = this[_i];
+                    _results.push(record.tags_handler());
+                  }
+                  return _results;
                 }
               },
               Model: {
@@ -172,12 +190,26 @@
           _results = [];
           for (_i = 0, _len = posts.length; _i < _len; _i++) {
             post = posts[_i];
+            if ("tags" in post) {
+              if (typeof post.tags === "string") {
+                post.tags = post.tags.split(",");
+              }
+            }
             _results.push((function() {
               var _j, _ref, _results1;
               _results1 = [];
               for (i = _j = 0, _ref = post.items.length; 0 <= _ref ? _j < _ref : _j > _ref; i = 0 <= _ref ? ++_j : --_j) {
                 item = post.items[i];
-                _results1.push(post.items[i] = Item.transform(item));
+                post.items[i] = Item.transform(item);
+                if ("tags" in item) {
+                  if (typeof item.tags === "string") {
+                    _results1.push(item.tags = item.tags.split(","));
+                  } else {
+                    _results1.push(void 0);
+                  }
+                } else {
+                  _results1.push(void 0);
+                }
               }
               return _results1;
             })());
@@ -245,14 +277,19 @@
             is_valid: function() {
               return is_valid(this);
             },
-            process_data: function() {
+            pre_save_handler: function() {
               var self;
               console.log("processing data");
               self = this;
               if ("new_owner" in self) {
                 if (self["new_owner"]) {
                   self.owner = self['new_owner'].id;
-                  return self.visibility = "Ex-owners";
+                  self.visibility = "Ex-owners";
+                }
+              }
+              if ("tags" in self) {
+                if (typeof self.tags === "object") {
+                  return self.tags = self.tags.join(",");
                 }
               }
             }
@@ -291,7 +328,7 @@
             is_valid: function() {
               return true;
             },
-            process_data: function() {
+            pre_save_handler: function() {
               this.giver = this.giver.id;
               this.receiver = this.receiver.id;
               return this.item = this.item.id;
@@ -338,7 +375,7 @@
         }
         return data_holder;
       },
-      default_tags_processor: function(data_holder) {
+      default_tags_handler: function(data_holder) {
         var item, post, record, _i, _len, _results;
         _results = [];
         for (_i = 0, _len = data_holder.length; _i < _len; _i++) {

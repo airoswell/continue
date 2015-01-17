@@ -6,19 +6,20 @@ angular.module "continue"
   $scope.layout = {
     detail_input: false
   }
+
   # If 'id' is specified, load the post from server.
   $scope.$watch "id", ()->
     if $scope.id?
       $scope.post = Post.$find($scope.id)
       $scope.post.$then (response)->
-        tags = response.tags.split(",")
+        $scope.post.tags_handler()
         $('textarea').val($scope.post.detail).trigger('autosize.resize')
         if $scope.post.tags
-          $scope.tags_input = [{"text": tag} for tag in tags][0]
+          $scope.tags_input = [{"text": tag} for tag in $scope.post.tags][0]
 
   $scope.show_detail_editor = ()->
     $scope.layout.detail_input = true
-    
+
   $scope.select_item = ()->
     Alert.show_msg("Loading your items ...")
     # $scope.post.items is passed in as existed items,
@@ -30,6 +31,7 @@ angular.module "continue"
 
   $scope.add_new_item = ()->
     ItemEditor.begin().then (response)->
+      console.log "haha2 in add_new_item"
       if response
         $scope.post.items.push(response)
         $scope.new_items.push(response)
@@ -39,7 +41,7 @@ angular.module "continue"
     tags = tags_array.join(",")
     $scope.post.tags = tags
     $scope.post.save().$then (response)->
-      # if "id" of response
-        # window.location.replace("/app/post/#{response.id}/")
+      if "id" of response
+        window.location.replace("/app/post/#{response.id}/")
 
 ]

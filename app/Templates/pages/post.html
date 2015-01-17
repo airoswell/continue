@@ -57,13 +57,15 @@
           placeholder='Tag your post!'>
       </tags-input>
     </div>
+
     <div>
-      {% for item in items%}
+      {% for item in items %}
       <div style='display:inline-block;margin-top:5px;margin-bottom:5px;'>
         {% include 'search-item-overview.html'%}
       </div>
       {% endfor %}
     </div>
+    <!-- Newly added item, either brand new of existing. -->
     <div style='display:inline-block' ng-repeat="item in new_items">
       <div layout='row'>
         <angular-item-overview></angular-item-overview>

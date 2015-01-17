@@ -69,14 +69,15 @@
 
     <!-- item list of the post -->
     {% for item in post.items.all %}
-      <!-- Transferring an item will by default make the item -->
-      <!-- visible in Ex-owners's page, and therefore viewable -->
-      <!-- in the post. -->
-      {% if item.visibility == 'Public' and item.owner == post.owner or item.visibility == 'Ex-owners' and post.owner in item.previous_owners.all or post.owner == request.user %}
-      {% include "components/search-item-overview.html" %}
-      {% block item_overview %}
-      {% endblock item_overview %}
-      {% endif %}
+
+    {%   if request.user != post.owner and request.user != item.owner %}
+    {%     if item.visibility == "Public" and item.owner == post.owner or post.owner in item.previous_owners.all and item.visibility == "Ex-owners" or post.owner in item.prev_owners.all and item.visibility == "Pbulic" %}
+    {%       include "components/search-item-overview.html" %}
+    {%     endif %}
+    {%   elif request.user == post.owner and request.user == item.owner or request.user == post.owner and post.owner in item.prev_owners.all and item.visibility == "Ex-owners" or request.user == item.owner and post.owner in item.prev_owners.all and item.visibility == "Public" %}
+    {%       include "components/search-item-overview.html" %}
+    {%   endif %}
+
     {% endfor %} {# items iteration end #}
   </div> <!-- post body end -->
 

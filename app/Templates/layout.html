@@ -21,7 +21,7 @@
   <div id="fb-root"></div>
   
 
-  <div ng-controller="LayoutCtrl">
+  <div ng-controller="LayoutCtrl" ng-init="view='{{view}}'">
     {% include "navbar.html" %}
     {% block navbar %}
     {% endblock navbar %}

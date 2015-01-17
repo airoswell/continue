@@ -721,12 +721,10 @@ class FeedList(XListAPIView):
             {"item__owner": user},
         ]
         feeds = tl.get(*query_args)
-        # Prepare the starts for next request
-        # This is much harder to do it properly in the front end.
-        for record in feeds:
-            model_name = type(record).__name__
-            feed_starts[model_name] += 1
+        if not len(feeds):
+            return Response(status=st.HTTP_404_NOT_FOUND)
         # Prepare the return data
+        # Each model type needs its serializer
         data = []
         for record in feeds:
             index = self.models.index(type(record))
@@ -734,7 +732,6 @@ class FeedList(XListAPIView):
             record_data = serializer(record).data
             data.append(record_data)
         # Append the starts to the end of respond data
-        data.append(feed_starts)
         return Response(data=data)
 
 
@@ -788,5 +785,4 @@ class TimelineList(XListAPIView):
             record_data = serializer(record).data
             data.append(record_data)
         # Append the starts to the end of respond data
-        data.append(timeline_starts)
         return Response(data=data)

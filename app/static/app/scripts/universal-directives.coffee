@@ -59,15 +59,13 @@ angular.module("continue")
   '[click-to-show-trigger]'.
   """
   restrict: "A"
-  scope: {}
+  scope: true
   link: (scope, element, attrs)->
     scope.expanded = false
     trigger = element.find("[click-to-show-trigger]")
     target = element.find("[click-to-show-target]")
     target.css({"display":"none"})
     trigger.on "click", (e)->
-      console.log "clicked"
-      console.log target
       if not scope.expanded
         target.css({"display": ""})
       else if scope.expanded
@@ -76,33 +74,47 @@ angular.module("continue")
       scope.$apply()
 
 
-.directive "itemEditMenu", ()->
+.directive "angularItemEditMenu", ()->
   restrict: "E"
   templateUrl: "/static/app/directives/item-edit-menu.html"
-  scope: true
   link: (scope, element, attrs)->
     scope.refresh = false
     if "refresh" in attrs
       scope.refresh = attrs["refresh"]
 
-.directive "itemEditButton", ["ItemEditor", (ItemEditor)->
+.directive "itemEditButton", ["ItemEditor", "$rootScope", (ItemEditor, $rootScope)->
   restrict: "A"
   link: (scope, element, attrs)->
+    # Initialize the button
     if "itemId" of attrs
       item_id = attrs['itemId']
     refresh = false
     if "refresh" of attrs
       refresh = attrs['refresh']
+
     scope.show_editor = ()->
-      if item_id != "{{"
-        console.log scope
-        console.log "scope.refresh", refresh
-        ItemEditor.begin(item_id, refresh)
+      # refresh parameter signals that if the window is refreshed
+      # after ItemEditor.deferred is resolved
+      if item_id
+        # Called inside django-item-edit-menu
+        # where scope.item is not ready
+        promise = ItemEditor.begin(item_id, refresh)
       else
+        # Called inside angular-item-edit-menu
+        # scope.item is already there from ng-repeat="item in ..."
         scope.item.is_new = false
-        console.log "refresh", refresh
-        ItemEditor.begin(scope.item, refresh)
-      
+        promise = ItemEditor.begin(scope.item, refresh)
+
+      promise.then (response)->
+        if scope.view == "post"
+          console.log "We are in view post!!!"
+          existing_items = scope.post.items
+          console.log "scope.post.items", scope.post.items
+          for i in [0...existing_items.length]
+            console.log "existing_items[#{i}]", existing_items[i]
+            if existing_items[i].id == response.id
+              existing_items[i] = response
+          console.log "After the update, scope.post.items = ", scope.post.items
 ]
 
 .directive "dropDownMenu", ["$timeout", ($timeout)->
