@@ -618,14 +618,16 @@ class TimelineManager:
             return result
         # If the models are supposed to be
         # ordered by fields with different names,
-        querysets = list(querysets)     # turn <queryset> to <list>
+        # - turn <queryset> to <list>, so that we can use .pop()
+        for queryset in querysets:
+            queryset = list(queryset)
         num_of_arrays = len(querysets)
         result = []
         if num_of_arrays < 1:
             return None
         if num_of_arrays == 1:
             return querysets[0]
-        # Merge sort 2 querysets
+        # Do a mergesort of the two querysets
         if num_of_arrays == 2:
             a, b = querysets
             while a and b:
