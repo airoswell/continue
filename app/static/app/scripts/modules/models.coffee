@@ -272,13 +272,16 @@ angular.module 'continue.models', [
           this.item = this.item.id
         revoke: ()->
           this.status = "Revoked"
-          this.save()
+          this.save().$then ()->
+            location.reload()
         dismiss: ()->
           this.status = "Dismissed"
-          this.save()
+          this.save().$then ()->
+            location.reload()
         receive: ()->
           this.status = "Received"
-          this.save()
+          this.save().$then ()->
+            location.reload()
   )
 ]
 

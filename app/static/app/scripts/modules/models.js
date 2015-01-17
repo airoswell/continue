@@ -343,15 +343,21 @@
             },
             revoke: function() {
               this.status = "Revoked";
-              return this.save();
+              return this.save().$then(function() {
+                return location.reload();
+              });
             },
             dismiss: function() {
               this.status = "Dismissed";
-              return this.save();
+              return this.save().$then(function() {
+                return location.reload();
+              });
             },
             receive: function() {
               this.status = "Received";
-              return this.save();
+              return this.save().$then(function() {
+                return location.reload();
+              });
             }
           }
         }

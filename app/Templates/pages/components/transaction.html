@@ -9,7 +9,7 @@
     <img height=20 src="{{transaction.receiver.photo}}" style='vertical-align:center'>
     &nbsp;&nbsp;You have <span>{{transaction.status}}</span> <span>{{transaction.receiver.username}}</span> the item <span>{{transaction.item.title}}</span>
     <span class='button button-small button-gray'
-        ng-click="transaction.revoke()">
+        ng-click="transaction.revoke(); location.reload()">
       Revoke
     </span>
   </span>

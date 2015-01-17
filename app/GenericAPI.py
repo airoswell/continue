@@ -84,7 +84,6 @@ class XDetailAPIView(APIView):
             # If the model does not have 'owner' field
             # pass in <user> to the model methods, let them decide
             print("\n\tdata = %s\n" % (data))
-            import pdb; pdb.set_trace()
             instance, errors = crud.update(data, user=request.user)
         # ============================================================
         if instance:    # Update was successful

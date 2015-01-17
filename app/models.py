@@ -499,6 +499,11 @@ class ItemTransactionRecord(models.Model):
                 item.visibility = "Ex-owners"
                 # Add original owner to the previous_owners field
                 item.previous_owners.add(giver)
+            # If the item is revoked, the requester should be able
+            # to request it again, thus remove him/her from the
+            # requester list.
+            if new_status == "Revoked":
+                item.requesters.remove(receiver)
             item.transferrable = True
             item.save()
             transaction.save()
