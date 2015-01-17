@@ -260,7 +260,6 @@ def dashboard(request):
         feed_starts[type(record).__name__] += 1
     # Build a combined timeline of ItemEditRecord and ItemTransactionRecord
     # of the current user.
-    import pdb; pdb.set_trace()
     tl = TimelineManager(ItemEditRecord, ItemTransactionRecord)
     tl.config(num_of_records=16, filter_type=["and", "or"])
     timeline = tl.get(
