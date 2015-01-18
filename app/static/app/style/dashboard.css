@@ -45,6 +45,10 @@
     background: #eee;
 }
 
+item-editor-pro tags-input.custom .host{
+    max-width: none;
+}
+
 .post-item-list{
     margin: 10px;
 }

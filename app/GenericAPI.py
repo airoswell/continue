@@ -29,6 +29,8 @@ class XListAPIView(APIView):
             start = int(params['start'])
         if "num_of_records" in params:
             num_of_records = int(params["num_of_records"])
+        if "page" in params:
+            start = params * num_of_records
         return start, num_of_records
 
     def get_object(self, **search_kwargs):

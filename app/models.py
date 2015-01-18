@@ -167,6 +167,8 @@ class Item(models.Model):
         choices=condition_choices,
         default='Good'
     )
+    transferrable = models.BooleanField(default=True)
+    available = models.BooleanField(default=False)
     previous_owners = models.ManyToManyField(
         User,
         related_name='previously_owned_item',
@@ -188,7 +190,6 @@ class Item(models.Model):
         choices=utilization_choices,
         default='Sometimes',
     )
-    transferrable = models.BooleanField(default=True)
     availability_choices = (
         ('Available', 'Available'),
         ('In use', 'In use'),

@@ -155,28 +155,17 @@
     </div>
 
     <!-- Item list -->
-    <div ng-show='layout.display_tab == "items" '>
+    <div id='items-display' ng-show='layout.display_tab == "items" '
+        infinite-scroll="load_items()" infinite-scroll-distance="1"
+        infinite-scroll-disabled="layout.display_tab !='items' || layout.loading.items || scrollTop < 600">
       <div class="section-title-large">
         Your inventory
       </div>
 
-      <div id='items-display' layout='column' layout-gt-md='row'>
-        <div flex-gt-md="50" flex='100'>
-          <dashboard-item-overview
-            ng-repeat='item in items' ng-show="$even">
-          </dashboard-item-overview>
-        </div>
-        <div flex-gt-md="50" flex='100'>
-          <div ng-repeat='item in items' ng-show="$odd">
-            <div ng-bind="item.title"></div>
-            <dashboard-item-overview></dashboard-item-overview>
-          </div>
-        </div>
+      <div flex-gt-lg="60" flex-lg="65" flex-gt-md="70" flex-md="70">
+        <item-editor-pro ng-repeat="item in items"></item-editor-pro>
       </div>
-      <div layout='row' layout-align='center'>
-        <div class="button pagination" ng-click="items.prev_page()">Previous</div>
-        <div class="button pagination" ng-click="items.next_page()">Next</div>
-      </div>
+
     </div>
 
     

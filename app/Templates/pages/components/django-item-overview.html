@@ -1,0 +1,93 @@
+{% block item_overview %}
+{% load filters %}
+<div item-overview item-id="{{ item.id }}">
+  <div layout='row' layout-align='end'>
+
+    <div click-to-show class='item-container' flex>
+
+      <!-- Item title & quantity & Basic conditions-->
+      <div click-to-show-trigger>
+      {% include "pages/components/search-item-overview-header.html" %}
+      {% block item_overview_header %}
+      {% endblock item_overview_header %}
+      </div>
+      {% if item.tags %}
+      <div>
+      {% for tag in item.tags|split:"," %}
+        <div class='tag tag-small tag-gray'>#{{ tag }}</div>
+      {% endfor %}
+      </div>
+      {% endif %}
+      <!-- Item description there is any -->
+      {% if item.description %}
+      <div style="margin-top: 10px;padding-top:4px;padding-bottom:4px;">
+        &nbsp;&nbsp;<i class="fa fa-quote-left"></i>&nbsp;&nbsp;{{ item.description }}
+      </div>
+      {% endif %}
+
+      <!-- Item thumbnail -->
+      {% if item.pic %}
+      <div click-to-show-target>
+        <br/>
+        <a href="/app/item/{{item.id}}/timeline/">
+          <div class='picture-container'
+              style="background: url({{item.pic}});background-size:100%">
+            <img src="{{item.pic}}" style='width:98%;opacity:0'>
+          </div>
+        </a>
+      </div>
+      {% endif %}
+
+    </div>
+
+    {% if item.owner != request.user %}
+    <!-- Request Button or check mark -->
+    <!-- Only the third party (neither the owner of the post nor the item) -->
+    <!-- can see the following components                                  -->
+    {%   if view == "search" and item.owner == post.owner and item.available or view == "dashboard" and item.available or view == 'timeline' and item.available %}
+    <!-- If the post owner still owns the item -->
+    {%       if request.user in item.requesters.all %}
+      <div layout='column'>
+        <div item-id="{{ item.id }}" class="add-item disabled">
+          <i class="fa fa-check"></i>
+        </div>
+      </div>
+        <!-- If the user has NOT requested the item, then show the -->
+        <!-- add item button                                       -->
+    {%       else %}
+      <div layout='column'>
+        <div item-id="{{ item.id }}" class="add-item"
+            ng-click="add_item()"
+            ng-class="{'active': items.indexOf(item_id) > -1}">
+          <i class='fa fa-circle-o'></i>
+        </div>
+      </div>
+    {%       endif %}
+    {%   endif %}
+
+
+    {% elif request.user == item.owner %}
+    {%   if view == "search" and request.user == post.owner %}
+    <div>
+    {%     include 'pages/components/django-item-edit-menu.html' %}
+    {%     if  item.requesters.all|length > 0 and item.transferrable%}
+    {%       include 'pages/components/transfer-menu.html' %}
+    {%     endif %}
+
+    </div>
+
+    <!-- In all other views, including dashboard, item timeline -->
+    <!-- edit menu and transfer menu should appear whenever the current -->
+    <!-- user is the owner of the item. -->
+    {%   elif request.user == item.owner %}
+    <div>
+    {% include 'pages/components/django-item-edit-menu.html' %}
+    {%    if item.requesters.all|length > 0 and item.transferrable %}
+      {% include 'pages/components/transfer-menu.html' %}
+    {%    endif %}
+    </div>
+    {%   endif %}
+    {% endif %}
+  </div>
+</div>
+{% endblock item_overview %}

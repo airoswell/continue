@@ -11,15 +11,17 @@ angular.module("continue")
       for item in $scope.items
         if item.tags
           item.tags_input = [{"text": tag} for tag in item.tags.split(",")][0]
+          item.tags = item.tags.split(",")
       Alert.show_msg("Download is finished.")
 
     $scope.layout = {
       creating_new_item: false
-      display_tab: "timeline"
+      display_tab: "items"
       loading:
         "posts": false
         "feeds": false
         "timeline": false
+        "items": false
     }
 
     $scope.load_posts = ()->
@@ -45,6 +47,32 @@ angular.module("continue")
             post.tags = []
       .$asPromise().then ()->
         $scope.layout.loading.posts = false
+      , ()->
+        Alert.show_msg("You have reach the end of the posts.")
+
+    $scope.load_items = ()->
+      $scope.layout.loading.items = true
+      if not $scope.items
+        $scope.items = Item.search({"start": 0})
+      else
+        $scope.items = $scope.items.fetch({"start": $scope.items.start})
+
+      $scope.items.$then (response)->
+        # store the next [start] param; it will propagate to
+        # queryset[start:end]
+        if $scope.items.start == 0
+          $scope.items.start = parseInt($scope.numOfPosts) + $scope.items.length
+        else
+          $scope.items.start = parseInt($scope.numOfPosts) + $scope.items.length
+        # Deal with the tags
+        for post in $scope.items
+          if post.tags
+            if typeof(post.tags) == "string"
+              post.tags = post.tags.split(",")
+          else
+            post.tags = []
+      .$asPromise().then ()->
+        $scope.layout.loading.items = false
       , ()->
         Alert.show_msg("You have reach the end of the posts.")
 
@@ -147,16 +175,6 @@ angular.module("continue")
       $("html, body").animate scrollTop: $("#posts-display").offset().top - 100
       true
 
-    $scope.item_update_successHandler = (item, response) ->
-      item.expanded = false
-      item.new_status = ""
-
-    $scope.item_create_successHandler = (item, response) ->
-      layout.creating_new_item = false
-      item.expanded = false
-      item.is_new = false
-      item.new_status = ""
-      $scope.histories.$refresh()
 
     $scope.post_create_successHandler = (item, response) ->
       layout.creating_new_post = false

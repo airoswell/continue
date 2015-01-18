@@ -50,11 +50,11 @@
         <div class="text-large">{{ post.title }}</div>
         <div> Location: {{ post.area }}</div>
       </div>
-      <div>
-        {% for tag in post.tags|split:"," %}
-          <span class='tag tag-small tag-gray'>#{{tag}}</span>
-        {% endfor %}
-      </div>
+    </div>
+    <div>
+      {% for tag in post.tags|split:"," %}
+        <span class='tag tag-small tag-gray'>#{{tag}}</span>
+      {% endfor %}
     </div>
     {% load markdown_deux_tags %}
     <div click-to-expand max-height='125px'>
@@ -72,10 +72,10 @@
 
     {%   if request.user != post.owner and request.user != item.owner %}
     {%     if item.visibility == "Public" and item.owner == post.owner or post.owner in item.previous_owners.all and item.visibility == "Ex-owners" or post.owner in item.prev_owners.all and item.visibility == "Pbulic" %}
-    {%       include "components/search-item-overview.html" %}
+    {%       include "components/django-item-overview.html" %}
     {%     endif %}
     {%   elif request.user == post.owner and request.user == item.owner or request.user == post.owner and post.owner in item.prev_owners.all and item.visibility == "Ex-owners" or request.user == item.owner and post.owner in item.prev_owners.all and item.visibility == "Public" %}
-    {%       include "components/search-item-overview.html" %}
+    {%       include "components/django-item-overview.html" %}
     {%   endif %}
 
     {% endfor %} {# items iteration end #}

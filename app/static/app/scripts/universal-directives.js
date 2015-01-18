@@ -78,23 +78,23 @@
       scope: true,
       link: function(scope, element, attrs) {
         var target, trigger;
-        scope.expanded = false;
+        scope.click_to_show_is_show = false;
         trigger = element.find("[click-to-show-trigger]");
         target = element.find("[click-to-show-target]");
         target.css({
           "display": "none"
         });
         return trigger.on("click", function(e) {
-          if (!scope.expanded) {
+          if (!scope.click_to_show_is_show) {
             target.css({
               "display": ""
             });
-          } else if (scope.expanded) {
+          } else if (scope.click_to_show_is_show) {
             target.css({
               "display": "none"
             });
           }
-          scope.expanded = !scope.expanded;
+          scope.click_to_show_is_show = !scope.click_to_show_is_show;
           return scope.$apply();
         });
       }

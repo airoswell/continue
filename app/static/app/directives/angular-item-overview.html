@@ -1,4 +1,4 @@
-<div search-item-overview item-id="{{ item.id }}">
+<div item-overview item-id="{{ item.id }}">
   <div layout='row' layout-align='end'>
 
     <div click-to-show class='item-container' flex>
@@ -20,8 +20,8 @@
 
       <!-- Item thumbnail -->
       <div click-to-show-target>
-        <br/>
         <a ng-if='item.pic' href="/app/item/{{item.id}}/timeline/">
+          <br/>
           <div class='picture-container'
               style="background: url({{item.pic}});background-size:100%">
             <img ng-src="{{item.pic}}" style='width:98%;opacity:0'>

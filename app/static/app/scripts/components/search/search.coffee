@@ -67,32 +67,31 @@ angular.module "continue"
       PrivateMessage.compose(owner_id, post_id, scope.items)
 ]
 
-.directive "searchItemOverview", ()->
+.directive "itemOverview", ()->
   restrict: "A"
   scope: true
   link: (scope, element, attrs)->
     scope.item_id = attrs['itemId']
     scope.add_item = ()->
-      console.log scope.item_id
       if not (scope.item_id in scope.items)
         scope.items.push(scope.item_id)
       else
         scope.items.splice scope.items.indexOf(scope.item_id), 1
 
 
-.directive "clickToShowTrigger", ()->
-  restrict: "A"
-  link: (scope, element, attrs)->
-    scope.expanded = false
-    click_to_show = element.find("[click-to-show]")
-    click_to_show.css({"display":"none"})
-    element.on "click", (e)->
-      if not scope.expanded
-        click_to_show.css({"display": "inherit"})
-      else if scope.expanded and not ("click-to-show" of e.target.attributes)
-        click_to_show.css({"display": "none"})
-      scope.expanded = !scope.expanded
-      scope.$apply()
+# .directive "clickToShowTrigger", ()->
+#   restrict: "A"
+#   link: (scope, element, attrs)->
+#     scope.expanded = false
+#     click_to_show = element.find("[click-to-show]")
+#     click_to_show.css({"display":"none"})
+#     element.on "click", (e)->
+#       if not scope.expanded
+#         click_to_show.css({"display": "inherit"})
+#       else if scope.expanded and not ("click-to-show" of e.target.attributes)
+#         click_to_show.css({"display": "none"})
+#       scope.expanded = !scope.expanded
+#       scope.$apply()
 
 .directive "clickToExpand", ()->
   restrict: "A"
@@ -116,8 +115,7 @@ angular.module "continue"
   link: (scope, element, attrs)->
     scope.new_owner = undefined
     item_id = attrs["itemId"]
-    item = Item.$find(item_id).$then (response)->
-      console.log item
+    item = Item.$find(item_id)
     scope.transfer = ()->
       item.new_owner = scope.new_owner
       console.log "transferring", scope.item

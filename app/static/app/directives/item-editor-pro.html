@@ -1,0 +1,50 @@
+<div style='box-shadow: 0px 3px 5px #ddd;margin:20px;padding:20px;border:1px solid #eee;'>
+  
+  <!-- Header -->
+  <div layout='column' layout-gt-lg="row">
+    <item-editor-pro-title></item-editor-pro-title>
+    <item-editor-pro-basics flex></item-editor-pro-basics>
+  </div>
+
+  <div ng-if="item.tags || item.tags_private">
+    <span class='tag tag-small tag-gray'
+      ng-repeat="tag in item.tags" ng-bind='tag'>
+    </span>
+    <span class='tag tag-small tag-gray'
+      ng-repeat="tag in item.private_tags" ng-bind='tag'>
+    </span>
+  </div>
+  <br/>
+  <textarea style="border:none;"
+      placeholder="What's new with it?"
+      rows='3'
+      ng-model="item.status">
+  </textarea>
+  <div>
+    <br/>
+    <div ng-if="item.pic">
+      <img ng-src="{{item.pic}}" style='width:100%;'>
+    </div>
+  </div>
+
+  <item-editor-pro-more ng-show='show_more'></item-editor-pro-more>
+
+  <br/>
+  <div layout='row' layout-align='end'>
+    <div class='button button-small button-gray'
+        ng-click="show_more = !show_more">
+      <span ng-show="!show_more">More</span>
+      <span ng-show="show_more">Less</span>
+    </div>
+    &nbsp;
+    <div class='button button-small button-gray' ng-if="!item.is_new"
+        ng-click="save(item, item_update_successHandler)">
+      Update
+    </div>
+    &nbsp;
+    <div class='button button-small button-gray' ng-if="item.is_new"
+        ng-click="save(item, item_create_successHandler)">
+      Create
+    </div>
+  </div>
+</div>

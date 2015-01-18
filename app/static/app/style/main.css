@@ -181,7 +181,7 @@ textarea:focus{
 }
 .input-label{
     color:#999;
-    padding: 5px 5px 5px 0px;
+    padding: 0px 5px 5px 0px;
 }
 
 input-dropdown[reduced-padding] .choice-result{
@@ -237,13 +237,17 @@ input-dropdown[reduced-padding] .input-label{
 
 
 .tag{
-    font-size: 13px;cursor: pointer;margin: 5px;
+    font-size: 13px;cursor: pointer;margin: 10px 5px 5px 0px;
+    display: inline-block;
 }
 .tag-small{
     padding: 5px 10px;border: 1px solid #ddd;
 }
 .tag-gray{
     background: #f4f4f4;color: #666;
+}
+.tag-gray:hover{
+    border: 1px solid #aaa;
 }
 .tag-default{
     font-size: 14px;
@@ -445,7 +449,7 @@ input-num>div:hover, [input-num]>div:hover {
 }
 .choice-result{
     font-size:14px;cursor: pointer;
-    border: 2px;font-weight: 600;padding: 0px 10px 5px 10px;
+    border: 2px;font-weight: 600;
 }
 .choice-option {
     padding: 10px 15px;font-size: 14px;cursor: pointer;

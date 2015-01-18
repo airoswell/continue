@@ -47,7 +47,7 @@
       {% elif event.field == "creation" %}
       {%   with item=event.item %}
       <div class='event-body status'>
-        {% include 'pages/components/search-item-overview.html' %}
+        {% include 'pages/components/django-item-overview.html' %}
       </div>
       {% endwith %}
       {% elif event.field == "status" %}

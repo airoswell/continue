@@ -8,3 +8,6 @@ one variable:
         def some_function():
             ...
             return instance
+
+
+#### On server, `BdbQuit at /app/user/dashboard/` implies there is `pdb.set_trace()` some where.

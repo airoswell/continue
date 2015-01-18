@@ -41,6 +41,7 @@ class ItemSerializer(serializers.ModelSerializer):
                   "acquiring_date", "original_value", "estimated_value",
                   "requesters", "transferrable", "tags", "tags_private",
                   "previous_owners", 'model_name', 'owner_profile',
+                  "available",
                   )
         read_only_fields = ('previous_owners', "time_created", "requesters",
                             "owner_profile")
@@ -62,7 +63,7 @@ class ItemSerializerLite(serializers.ModelSerializer):
 
     class Meta:
         model = Item
-        fields = ("id", "title", "quantity", "condition",
+        fields = ("id", "title", "quantity", "condition", "available",
                   "description", "availability", "tags", 'model_name')
 
 

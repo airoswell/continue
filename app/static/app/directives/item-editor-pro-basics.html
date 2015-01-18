@@ -1,0 +1,18 @@
+<div flex layout='row'>
+  <div ng-if='item.pic' ng-click="get_albums(item)">
+    &nbsp;&nbsp;
+    <img height=40 ng-src="{{item.pic}}"></a>
+  </div>
+  <div ng-if="!item.pic" ng-click='get_albums(item)'>
+    &nbsp;&nbsp;<i class='fa fa-picture-o' style='font-size:40px;'></i>
+  </div>
+  <div layout='row' flex>
+    <input-dropdown label="'Condition'" flex style='margin-left:10px;margin-right:10px;'
+        choices="item.condition_choices" data='item.condition'>
+    </input-dropdown>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <input-dropdown label="'Visible to'" flex style='margin-left:10px;margin-right:10px;'
+        choices="item.visibility_choices" data='item.visibility'>
+    </input-dropdown>
+  </div>
+</div>

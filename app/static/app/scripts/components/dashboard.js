@@ -25,17 +25,19 @@
                 return _results;
               })()
             ][0];
+            item.tags = item.tags.split(",");
           }
         }
         return Alert.show_msg("Download is finished.");
       });
       $scope.layout = {
         creating_new_item: false,
-        display_tab: "timeline",
+        display_tab: "items",
         loading: {
           "posts": false,
           "feeds": false,
-          "timeline": false
+          "timeline": false,
+          "items": false
         }
       };
       $scope.load_posts = function() {
@@ -73,6 +75,45 @@
           return _results;
         }).$asPromise().then(function() {
           return $scope.layout.loading.posts = false;
+        }, function() {
+          return Alert.show_msg("You have reach the end of the posts.");
+        });
+      };
+      $scope.load_items = function() {
+        $scope.layout.loading.items = true;
+        if (!$scope.items) {
+          $scope.items = Item.search({
+            "start": 0
+          });
+        } else {
+          $scope.items = $scope.items.fetch({
+            "start": $scope.items.start
+          });
+        }
+        return $scope.items.$then(function(response) {
+          var post, _i, _len, _ref, _results;
+          if ($scope.items.start === 0) {
+            $scope.items.start = parseInt($scope.numOfPosts) + $scope.items.length;
+          } else {
+            $scope.items.start = parseInt($scope.numOfPosts) + $scope.items.length;
+          }
+          _ref = $scope.items;
+          _results = [];
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            post = _ref[_i];
+            if (post.tags) {
+              if (typeof post.tags === "string") {
+                _results.push(post.tags = post.tags.split(","));
+              } else {
+                _results.push(void 0);
+              }
+            } else {
+              _results.push(post.tags = []);
+            }
+          }
+          return _results;
+        }).$asPromise().then(function() {
+          return $scope.layout.loading.items = false;
         }, function() {
           return Alert.show_msg("You have reach the end of the posts.");
         });
@@ -206,17 +247,6 @@
           scrollTop: $("#posts-display").offset().top - 100
         });
         return true;
-      };
-      $scope.item_update_successHandler = function(item, response) {
-        item.expanded = false;
-        return item.new_status = "";
-      };
-      $scope.item_create_successHandler = function(item, response) {
-        layout.creating_new_item = false;
-        item.expanded = false;
-        item.is_new = false;
-        item.new_status = "";
-        return $scope.histories.$refresh();
       };
       $scope.post_create_successHandler = function(item, response) {
         layout.creating_new_post = false;

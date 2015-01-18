@@ -6,7 +6,7 @@ angular.module "continue"
     FB.resource.get(
       node: album_id
       edge: "photos"
-      access_token: Auth.get_user().social_account_access_token
+      access_token: Auth.get_profile().access_token
       fields: "images"
     )
     .$promise
@@ -21,7 +21,7 @@ angular.module "continue"
       self = this
       FB.resource.get(
         node: "me"
-        access_token: Auth.get_user().social_account_access_token
+        access_token: Auth.get_profile().access_token
         fields: "id, albums{cover_photo}"
       )
       .$promise
@@ -35,7 +35,7 @@ angular.module "continue"
         ids = album_covers.toString()
         # Using ids, one can perform multiple request to Graph API
         covers = FB.resource.get(
-          access_token: Auth.get_user().social_account_access_token
+          access_token: Auth.get_profile().access_token
           ids: ids
           fields: "images"
         )

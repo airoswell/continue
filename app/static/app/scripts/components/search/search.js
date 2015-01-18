@@ -96,7 +96,7 @@
         }
       };
     }
-  ]).directive("searchItemOverview", function() {
+  ]).directive("itemOverview", function() {
     return {
       restrict: "A",
       scope: true,
@@ -104,38 +104,12 @@
         scope.item_id = attrs['itemId'];
         return scope.add_item = function() {
           var _ref;
-          console.log(scope.item_id);
           if (!(_ref = scope.item_id, __indexOf.call(scope.items, _ref) >= 0)) {
             return scope.items.push(scope.item_id);
           } else {
             return scope.items.splice(scope.items.indexOf(scope.item_id), 1);
           }
         };
-      }
-    };
-  }).directive("clickToShowTrigger", function() {
-    return {
-      restrict: "A",
-      link: function(scope, element, attrs) {
-        var click_to_show;
-        scope.expanded = false;
-        click_to_show = element.find("[click-to-show]");
-        click_to_show.css({
-          "display": "none"
-        });
-        return element.on("click", function(e) {
-          if (!scope.expanded) {
-            click_to_show.css({
-              "display": "inherit"
-            });
-          } else if (scope.expanded && !("click-to-show" in e.target.attributes)) {
-            click_to_show.css({
-              "display": "none"
-            });
-          }
-          scope.expanded = !scope.expanded;
-          return scope.$apply();
-        });
       }
     };
   }).directive("clickToExpand", function() {
@@ -171,9 +145,7 @@
           var item, item_id;
           scope.new_owner = void 0;
           item_id = attrs["itemId"];
-          item = Item.$find(item_id).$then(function(response) {
-            return console.log(item);
-          });
+          item = Item.$find(item_id);
           scope.transfer = function() {
             item.new_owner = scope.new_owner;
             console.log("transferring", scope.item);

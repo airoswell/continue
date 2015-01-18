@@ -1,20 +1,21 @@
 angular.module("continue")
 
-.directive "dashboardHistoryOverview", ->
+.directive "itemEditorPro", ["Alert", "Album", (Alert, Album)->
   restrict: "E"
-  templateUrl: "/static/app/directives/dashboard-history-overview.html"
-  link: (scope, element, attrs) ->
-      return
-
-.directive "postOverview", ->
-  restrict: "E"
-  templateUrl: "/static/app/directives/post-overview.html"
-
-.directive "dashboardItemOverview", ["History", "Album", "Alert", (History, Album, Alert)->
-  restrict: "E"
+  templateUrl: "/static/app/directives/item-editor-pro.html"
   scope: true
-  templateUrl: "/static/app/directives/dashboard-item-overview.html"
-  link: (scope, element, attrs) ->
+  link: (scope)->
+    scope.show_more = false
+    scope.item_update_successHandler = (item, response) ->
+      item.expanded = false
+      item.new_status = ""
+
+    scope.item_create_successHandler = (item, response) ->
+      layout.creating_new_item = false
+      item.expanded = false
+      item.is_new = false
+      item.new_status = ""
+
     scope.save = (item, handler)->
       console.log item.tags_input
       tags = [tag.text for tag in item.tags_input][0].join(",")
@@ -36,6 +37,30 @@ angular.module("continue")
       Alert.show_msg("Downloading your albums ...")
       Album.get_albums().then (response)->
         item.pic = response
+]
+
+.directive "itemEditorProTitle", ()->
+  restrict: "E"
+  templateUrl: "/static/app/directives/item-editor-pro-title.html"
+
+.directive "itemEditorProBasics", ()->
+  restrict: "E"
+  templateUrl: "/static/app/directives/item-editor-pro-basics.html"
+
+.directive "itemEditorProMore", ()->
+  restrict: "E"
+  templateUrl: "/static/app/directives/item-editor-pro-more.html"
+
+.directive "postOverview", ->
+  restrict: "E"
+  templateUrl: "/static/app/directives/post-overview.html"
+
+.directive "dashboardItemOverview", ["History", "Album", "Alert", (History, Album, Alert)->
+  restrict: "E"
+  scope: true
+  templateUrl: "/static/app/directives/dashboard-item-overview.html"
+  link: (scope, element, attrs) ->
+    
 
     element.on "click", (e)->
       if "trigger" of e.target.attributes
