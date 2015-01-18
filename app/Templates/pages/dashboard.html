@@ -162,7 +162,20 @@
         Your inventory
       </div>
 
-      <div flex-gt-lg="60" flex-lg="65" flex-gt-md="70" flex-md="70">
+      <div ng-show="layout.show_items_search_results"
+          flex-gt-lg="60" flex-lg="65" flex-gt-md="70" flex-md="70">
+        <div class="text-large">Search results: <b><span ng-bind="layout.items_search_keyword"></span></b></div>
+        <div layout='row' layout-align='end'>
+          <div class='button button-small button-gray' ng-click="layout.show_items_search_results = false">
+            Back to inventory
+          </div>
+        </div>
+        <item-editor-pro ng-repeat="item in items_search_results">
+        </item-editor-pro>
+      </div>
+
+      <div ng-hide="layout.show_items_search_results"
+          flex-gt-lg="60" flex-lg="65" flex-gt-md="70" flex-md="70">
         <item-editor-pro ng-repeat="item in items"></item-editor-pro>
       </div>
 

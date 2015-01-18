@@ -5,7 +5,9 @@ angular.module("continue")
   templateUrl: "/static/app/directives/item-editor-pro.html"
   scope: true
   link: (scope)->
+
     scope.show_more = false
+    $('textarea').autosize()
     scope.item_update_successHandler = (item, response) ->
       item.expanded = false
       item.new_status = ""
@@ -22,7 +24,7 @@ angular.module("continue")
       tags_private = [tag.text for tag in item.tags_private_input][0].join(",")
       item.tags = tags
       item.tags_private = tags_private
-      item.save(handler)
+      item.save(handler).$asPromise()
 
     scope.expand = (item) ->
       if item.expanded isnt true

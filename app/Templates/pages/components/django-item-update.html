@@ -19,23 +19,23 @@
 
   <div flex>
     {% if event.field == "pic" %}
-    <span> Item {{event.item}}</span> has a new photo.
+    <span><b>{{event.item}}</b></span> has a new photo.
 
     {% elif event.field == "status"%}
-    <span> Item {{event.item}} updated its status </span>
+    <span> Item <b>{{event.item}}</b> updated its status </span>
 
     {% elif event.field == "creation" %}
-    <span> added {{ event.item }}</span>.
+    <span> added <b>{{ event.item }}</b></span>.
 
     {% elif event.field == "description" %}
-    <span>{{ event.item }}</span> has a new description.
+    <span><b>{{ event.item }}</b></span> has a new description.
 
     {% else %}
-    <span> {{ event.item }} updated its {{ event.field }}</span>: <span>{{ event.new_value }}.</span>
+    <span> <b>{{ event.item }}</b> updated its {{ event.field }}</span>: <span>{{ event.new_value }}.</span>
 
     {% endif %}
   </div>
-
+  <br/>
   <div layout='row'>
     <div flex layout>
     {% if event.model_name == "ItemEditRecord" %}
@@ -46,7 +46,7 @@
       </div>
       {% elif event.field == "creation" %}
       {%   with item=event.item %}
-      <div class='event-body status'>
+      <div flex>
         {% include 'pages/components/django-item-overview.html' %}
       </div>
       {% endwith %}

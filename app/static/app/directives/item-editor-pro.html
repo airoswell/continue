@@ -8,17 +8,19 @@
 
   <div ng-if="item.tags || item.tags_private">
     <span class='tag tag-small tag-gray'
-      ng-repeat="tag in item.tags" ng-bind='tag'>
+      ng-repeat="tag in item.tags" ng-bind='tag' ng-click="items_search(tag)">
     </span>
     <span class='tag tag-small tag-purple'
-      ng-repeat="tag in item.tags_private" ng-bind='tag'>
+      ng-repeat="tag in item.tags_private" ng-bind='tag' ng-click="items_search(tag)">
     </span>
   </div>
-  <br/>
-  <textarea style="border:none;"
+  <div class='text-default' style="color:#999;letter-spacing:0.2px;line-height:1.5;">
+    &nbsp;<i class="fa fa-quote-left"></i>&nbsp;&nbsp;<span ng-bind="item.status" ></span>
+  </div>
+  <textarea
       placeholder="What's new with it?"
       rows='3'
-      ng-model="item.status">
+      ng-model="item.new_status">
   </textarea>
   <div>
     <br/>
@@ -35,6 +37,11 @@
         ng-click="show_more = !show_more">
       <span ng-show="!show_more">More</span>
       <span ng-show="show_more">Less</span>
+    </div>
+    &nbsp;
+    <div class='button button-small button-gray' ng-if="item.is_new"
+        ng-click="reset(item)">
+      Reset
     </div>
     &nbsp;
     <div class='button button-small button-gray' ng-if="!item.is_new"

@@ -25,12 +25,12 @@ angular.module 'continue.models', [
       self.pre_save_handler()
     Alert.show_msg("Saving your data to database ...")
     self.$save().$then (response) ->
-      Alert.show_msg("Your data is saved! You may need to refresh ...")
-      self.loading = false
       if self.tags_handler?
         self.tags_handler()
       if successHandler?
         successHandler(self, response)
+      Alert.show_msg("Your data is saved! You may need to refresh ...")
+      self.loading = false
     , (errors) ->
       self.loading = false
       Alert.show_error("There are problems processing your data.", 10000)
@@ -91,6 +91,8 @@ angular.module 'continue.models', [
                 if typeof(this.tags) == "string"
                   if this.tags
                     this.tags = this.tags.split(",")
+                  else
+                    this.tags = []
           Collection:
             path: path
             loading: false
@@ -104,7 +106,9 @@ angular.module 'continue.models', [
             fetch: (params)->
               self = this
               this.loading = true
-              this.$fetch(params)
+              this.$fetch(params).$then (response)->
+                if response.tags_handler?
+                  response.tags_handler()
             tags_handler: ()->
               for record in this
                 record.tags_handler()
@@ -113,8 +117,10 @@ angular.module 'continue.models', [
               record = this.$build(this.init)
               return record.copy(obj)
             search: (params)->
-              self.loading = true
-              self.$search(params)
+              this.loading = true
+              this.$search(params).$then (response)->
+                if response.tags_handler?
+                  response.tags_handler()
       )
   }
 ]
@@ -155,7 +161,10 @@ angular.module 'continue.models', [
       for post in posts
         if "tags" of post
           if typeof(post.tags) == "string"
-            post.tags = post.tags.split(",")
+            if post.tags
+              post.tags = post.tags.split(",")
+            else
+              post.tags = []
         for i in [0...post.items.length]
           # Originally the item is a plain JSON object
           # transform it into a resource instance,
@@ -164,7 +173,10 @@ angular.module 'continue.models', [
           post.items[i] = Item.transform(item)
           if "tags" of item
             if typeof(item.tags) == "string"
-              item.tags = item.tags.split(",")
+              if item.tags
+                item.tags = item.tags.split(",")
+              else
+                item.tags = []
           
 
 
@@ -230,6 +242,8 @@ angular.module 'continue.models', [
               self.visibility = "Ex-owners"
           # if the self.tags is in array type,
           # merge them into string.
+          if self.new_status
+            self.status = self.new_status
           if "tags" of self
             if typeof(self.tags) == "object"
               self.tags = self.tags.join(",")
@@ -310,35 +324,54 @@ angular.module 'continue.models', [
 
 .factory "InfiniteScroll", ()->
 
-  return{
-    model: undefined
+  return class InfiniteScroll
+    model_types: []    # The expected model_types returned from the backend
     init_starts: undefined
-    subsequent_starts: undefined
     monitor: 0
-    config: (configs)->
+    constructor: (Model)->
+      @Model = Model     # The restmod model that calls search() or fetch()
+    config: (configs)=>
       for cf of configs
-        this.cf = configs[cf]
-    load: (data_holder)->
-      if not data_holder    # if data_holder is empty
-        data_holder = model.search(starts: this.init_starts)
+        @[cf] = configs[cf]
+    base_tags_handler: (parent)->
+      if parent.tags?
+        if parent.tags_handler?
+          parent.tags_handler()
+        else
+          if typeof(parent.tags) == "string" and parent.tags.length > 0
+            parent.tags = parent.tags.split(",")
+          else
+            parent.tags = []
+
+    load: (model) =>
+      if not model?    # if model does not exist, start the first search
+        if @model_types.length > 1
+          return @Model.search(starts: @init_starts)
+        else
+          return @Model.search(start: @init_starts)
       else
-        data_holder = model.fetch(starts: this.subsequent_starts)
-      return data_holder
-    default_tags_handler: (data_holder)->
-      for record in data_holder
-        # Process the post.tags
-        if record.model_name == "Post"
-          post = record
-          if post.tags
-            if typeof(post.tags) == "string"
-              post.tags = post.tags.split(",")
-          else
-            post.tags = []
-        if record.model_name == "Item"
-          item = record
-          if item.tags
-            if typeof(item.tags) == "string"
-              item.tags = item.tags.split(",")
-          else
-            item.tags = []
-  }
+        if @model_types.length > 1
+          return model.fetch(starts: model.starts)
+        else
+          return model.fetch(start: model.start)
+
+    success_handler: (response)=>
+      if @model_types.length == 1
+        response.start = parseInt(@init_starts) + response.length
+        if response.tags_handler?
+          response.tags_handler()
+
+      else if @model_types.length > 1
+        response.starts = {}
+
+        for model_name of @init_starts
+          response.starts[model_name] = @init_starts[model_name]
+
+        for record in response
+          model_name = record.model_name
+          response.starts[model_name] += 1
+          if record.items?
+            if record.items
+              for item in record.items
+                @base_tags_handler(item)
+      return response

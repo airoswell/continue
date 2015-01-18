@@ -135,21 +135,9 @@
             num_of_records: 8
           });
           return self.items.$asPromise().then(function(response) {
-            var existed, item, _i, _j, _len, _len1, _ref;
             console.log("ItemSelector tags_handler()");
             self.items.tags_handler();
             self.deferred = BS.bringUp("item-selector");
-            _ref = self.items;
-            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-              item = _ref[_i];
-              item.duplicated = false;
-              for (_j = 0, _len1 = existed_items.length; _j < _len1; _j++) {
-                existed = existed_items[_j];
-                if (item.id === existed.id) {
-                  item.duplicated = true;
-                }
-              }
-            }
             self.monitor += 1;
             console.log("self.items ========>", self.items);
             return self.deferred.promise;
@@ -166,10 +154,23 @@
           scope.select = function(item) {
             return ItemSelector.deferred.resolve(item);
           };
-          return scope.$watch("ItemSelector.monitor", function() {
+          scope.$watch("ItemSelector.monitor", function() {
             scope.items = ItemSelector.items;
+            scope.existed_items = ItemSelector.existed_items;
             return scope.items.num_of_records = 8;
           });
+          return scope.duplicated = function(item) {
+            var duplicated, existed, _i, _len, _ref;
+            duplicated = false;
+            _ref = scope.existed_items;
+            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+              existed = _ref[_i];
+              if (item.id === existed.id) {
+                duplicated = true;
+              }
+            }
+            return duplicated;
+          };
         }
       };
     }

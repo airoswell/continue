@@ -15,7 +15,9 @@ while i < count
 
 # Auto resize all textarea
 $(document).ready ()->
+  console.log "resizing"
   $('textarea').autosize()
+  console.log $("textarea")
 # ============================
 angular.module("continue")
 

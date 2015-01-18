@@ -221,6 +221,10 @@ class ItemList(XListAPIView):
 
     def get(self, request, post_id=None, format=None):
         start, num_of_records = self.paginator(request)
+        #################################################
+        # You can overwrite start and num_of_records here
+        # start = 0; num_of_records = 100
+        # #######################################
         # get list of items owned by a specific user
         # Don't need any authentication
         if request.GET.get("user_id"):
@@ -231,6 +235,14 @@ class ItemList(XListAPIView):
                 owner__id=request.GET.get("user_id"),
                 visibility="Public",
             )
+        if request.GET.get("tags"):
+            tags = request.GET.get("tags").split(",")
+            kwargs = {"tags": tag for tag in tags}
+            sqs = SearchQuerySet().models(self.model).filter_or(**kwargs)
+            if not sqs:
+                return Response(status=st.HTTP_404_NOT_FOUND)
+            sqs = [sq.object for sq in sqs]
+            return Response(data=self.serializer(sqs, many=True).data)
         # For accessing items of a post
         # No authentication required
         elif post_id:
@@ -248,12 +260,6 @@ class ItemList(XListAPIView):
                 owner__id=request.user.id,
             )
             return Response(data=data, status=status)
-            return run_and_respond(
-                retrieve_records,
-                Item, ItemSerializer,
-                start, num_of_records,
-                owner__id=request.user.id,
-            )
         # unauthenticated user cannot get any item list
         else:
             return Response(
@@ -709,6 +715,8 @@ class TimelineManager:
             print("\n\tReturned %s results for model %s:\n %s\n" % (queryset.count(), model, queryset))
             if queryset:
                 querysets.append(queryset)
+        if not querysets:
+            return None
         # ======== merge and limit the querysets ========
         timeline = self.merge(*querysets)[0:self.num_of_records]
         return timeline

@@ -139,11 +139,6 @@ angular.module "continue"
         console.log "ItemSelector tags_handler()"
         self.items.tags_handler()
         self.deferred = BS.bringUp("item-selector")
-        for item in self.items
-          item.duplicated = false
-          for existed in existed_items
-            if item.id == existed.id
-              item.duplicated = true
         self.monitor += 1
         console.log "self.items ========>", self.items
         self.deferred.promise
@@ -154,10 +149,17 @@ angular.module "continue"
   restrict: "AE"
   link: (scope)->
     scope.ItemSelector = ItemSelector
-
     scope.select = (item)->
       ItemSelector.deferred.resolve(item)
     scope.$watch "ItemSelector.monitor", ()->
       scope.items = ItemSelector.items
+      scope.existed_items = ItemSelector.existed_items
       scope.items.num_of_records = 8
+    
+    scope.duplicated = (item)->
+      duplicated = false
+      for existed in scope.existed_items
+        if item.id == existed.id
+          duplicated = true
+      return duplicated
 ]

@@ -22,7 +22,9 @@
   }
 
   $(document).ready(function() {
-    return $('textarea').autosize();
+    console.log("resizing");
+    $('textarea').autosize();
+    return console.log($("textarea"));
   });
 
   angular.module("continue").controller("LayoutCtrl", [

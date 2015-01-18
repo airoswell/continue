@@ -1,3 +1,5 @@
 {{ object.title }}
 {{ object.condition }}
 {{ object.owner.username }}
+{{ object.tags }}
+{{ object.tags_private }}

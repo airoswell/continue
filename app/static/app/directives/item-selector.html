@@ -8,8 +8,13 @@
 </style>
 
 <div item-selector>
-  <div style='display:inline-block' ng-repeat="item in items">
-    <item-title ng-show='!item.duplicated' item="item" ng-click="select(item)"></item-title>
+  <br/>
+  <div class='text-large'>
+    You can select an item from your inventory
+  </div>
+  <br/>
+  <div ng-show='!duplicated(item)' ng-click="select(item)" style='display:inline-block;margin:10px;padding:10px;border:1px solid #ddd;' ng-repeat="item in items">
+    <item-title item="item"></item-title>
   </div>
   <div layout='row' layout-align='center'>
     <div class='button button-small button-gray'
@@ -17,7 +22,8 @@
         ng-show="items.page > 1">
       Prev Page
     </div>
-    <div class='button button-small button-gray' ng-click="::items.next_page()">
+    <div class='button button-small button-gray'
+        ng-click="::items.next_page()">
       Next Page
     </div>
   </div>

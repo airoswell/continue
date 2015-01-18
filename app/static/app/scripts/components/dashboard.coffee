@@ -3,7 +3,8 @@ angular.module("continue")
 
 .controller("DashBoardCtrl", [
   "$scope", "Post", "Item", "Feed", "Timeline", "Alert", "Auth",
-  ($scope, Post, Item, Feed, Timeline, Alert, Auth) ->
+  "InfiniteScroll",
+  ($scope, Post, Item, Feed, Timeline, Alert, Auth, InfiniteScroll) ->
 
     # Load in items and posts of the current user
     Alert.show_msg("Downloading your data.")
@@ -13,7 +14,8 @@ angular.module("continue")
 
     $scope.layout = {
       creating_new_item: false
-      display_tab: "items"
+      display_tab: "posts"
+      show_items_search_results: false
       loading:
         "posts": false
         "feeds": false
@@ -21,120 +23,76 @@ angular.module("continue")
         "items": false
     }
 
-    $scope.load_posts = ()->
-      $scope.layout.loading.posts = true
-      if not $scope.posts
-        $scope.posts = Post.search({"start": $scope.numOfPosts})
-      else
-        $scope.posts = $scope.posts.fetch({"start": $scope.posts.start})
+    $scope.items_search = (tag)->
+      Alert.show_msg("Searching...")
+      $scope.layout.items_search_keyword = tag
+      $scope.layout.show_items_search_results = true
+      $scope.items_search_results = Item.search(
+        tags: tag
+      )
 
-      $scope.posts.$then (response)->
-        # store the next [start] param; it will propagate to
-        # queryset[start:end]
-        if $scope.posts.start == 0
-          $scope.posts.start = parseInt($scope.numOfPosts) + $scope.posts.length
-        else
-          $scope.posts.start = parseInt($scope.numOfPosts) + $scope.posts.length
-        # Deal with the tags
-        $scope.posts.tags_handler()
-      .$asPromise().then ()->
+    # =========== Infinite scrolling for posts ===========
+    infinite_scroll_posts = new InfiniteScroll(Post)
+    infinite_scroll_posts.config(
+      model_types: ["Post"]       # Expected model types from the backend
+      init_starts: $scope.numOfPosts
+    )
+    $scope.load_posts = ()->
+      # Disable infinite scroll while loading
+      $scope.layout.loading.posts = true
+      $scope.posts = infinite_scroll_posts.load($scope.posts)
+      $scope.posts.$asPromise().then (response)->
+        # Success handlers
+        infinite_scroll_posts.success_handler(response)
         $scope.layout.loading.posts = false
       , ()->
-        Alert.show_msg("You have reach the end of the posts.")
+        # Error handlers
+        Alert.show_msg("All posts are downloaded ...")
 
+    # =========== Infinite scrolling for items ===========
+    infinite_scroll_items = new InfiniteScroll(Item)
+    infinite_scroll_items.config(
+      model_types: ["Item"]       # Expected model types from the backend
+      init_starts: $scope.items.length
+    )
     $scope.load_items = ()->
       $scope.layout.loading.items = true
-      if not $scope.items
-        $scope.items = Item.search({"start": 0})
-      else
-        $scope.items = $scope.items.fetch({"start": $scope.items.start})
-
-      $scope.items.$then (response)->
-        self = this
-        # store the next [start] param; it will propagate to
-        # queryset[start:end]
-        if self.start == 0
-          self.start = parseInt($scope.numOfPosts) + self.length
-        else
-          self.start = parseInt($scope.numOfPosts) + self.length
-        # Deal with the tags
-        # initialize the tags_input and tags_private_input
-        # Now convert the tags from <string> to <array>
-        this.tags_handler()
-      .$asPromise().then ()->
+      $scope.items = infinite_scroll_items.load($scope.items)
+      $scope.items.$asPromise().then (response)->
+        infinite_scroll_items.success_handler(response)
         $scope.layout.loading.items = false
       , ()->
-        Alert.show_msg("You have reach the end of the posts.")
+        Alert.show_msg("All items are downloaded ...")
 
+    # =========== Infinite scrolling for feeds ===========
+    infinite_scroll_feeds = new InfiniteScroll(Feed)
     $scope.load_feeds = ()->
       $scope.layout.loading.feeds = true
-      if not $scope.feeds
-        $scope.feeds = Feed.$search(
-          # $scope.feed_starts are the initial starts passed from views.py
-          {"starts": $scope.feed_starts}
-        )
-      else
-        $scope.feeds = $scope.feeds.$fetch(
-          {"starts": $scope.feeds.starts}
-        )
-
-      $scope.feeds.$then (response)->
-        $scope.feeds.starts = $scope.feed_starts
-        # Begin processing the returned data
-        for feed in $scope.feeds
-          # Process the post.tags
-          if feed.model_name == "Post"
-            $scope.feeds.starts.Post += 1
-            post = feed
-            if post.tags
-              if typeof(post.tags) == "string"
-                post.tags = post.tags.split(",")
-            else
-              post.tags = []
-          if feed.model_name == "Item"
-            $scope.feeds.starts.Item += 1
-            item = feed
-            if item.tags
-              if typeof(item.tags) == "string"
-                item.tags = item.tags.split(",")
-            else
-              item.tags = []
-          else if feed.model_name == "ItemEditRecord"
-            $scope.feeds.starts.ItemEditRecord += 1
-      .$asPromise().then ()->
+      infinite_scroll_feeds.config(
+        model_types: ["ItemEditRecord", "Post", "Item"]
+        init_starts: $scope.feed_starts
+      )
+      $scope.feeds = infinite_scroll_feeds.load($scope.feeds)
+      $scope.feeds.$asPromise().then (response)->
+        infinite_scroll_feeds.success_handler(response)
         $scope.layout.loading.feeds = false
       , ()->
-        Alert.show_msg("All feeds are already loaded.")
+        Alert.show_msg("All feeds are downloaded ...")
 
 
+    infinite_scroll_timeline = new InfiniteScroll(Timeline)
     $scope.load_timeline = ()->
       $scope.layout.loading.timeline = true
-      # Download data
-      if not $scope.timeline
-        $scope.timeline = Timeline.$search(
-          # $scope.feed_starts are the initial starts passed from views.py
-          {"starts": $scope.timeline_starts}
-        )
-      else
-        $scope.timeline = $scope.timeline.$fetch(
-          {"starts": $scope.timeline.starts}
-        )
-
-      $scope.timeline.$then (response)->
-        $scope.timeline.starts = {}
-        for model_name of $scope.timeline_starts
-          $scope.timeline.starts[model_name] = $scope.timeline_starts[model_name]
-        # Begin processing the returned data
-        for feed in $scope.timeline
-          # Process the post.tags
-          if feed.model_name == "ItemTransactionRecord"
-            $scope.timeline.starts.ItemTransactionRecord += 1
-          else if feed.model_name == 'ItemEditRecord'
-            $scope.timeline.starts.ItemEditRecord += 1
-      .$asPromise().then ()->
+      infinite_scroll_timeline.config(
+        init_starts: $scope.timeline_starts
+        model_types: ["Item", "ItemEditRecord", "ItemTransactionRecord"]
+      )
+      $scope.timeline = infinite_scroll_timeline.load($scope.timeline)
+      $scope.timeline.$asPromise().then (response)->
+        infinite_scroll_timeline.success_handler(response)
         $scope.layout.loading.timeline = false
       , ()->
-        Alert.show_msg("All timeline records are downloaded.")
+        Alert.show_msg("All timeline events are downloaded ...")
 
     $scope.display_tab = (tab_name)->
       $scope.layout.display_tab = tab_name

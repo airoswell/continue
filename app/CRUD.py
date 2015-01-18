@@ -78,6 +78,7 @@ def retrieve_records(model, serializer, start, num_of_records, **search_kwargs):
     queryset = (model.objects.filter(**search_kwargs)
                 .order_by('-pk')[start: end]
                 )
+    print("\n\tretrieve_records() returns queryset %s" % (queryset))
     # ================================================================
     # Deal with serialization errors
     try:

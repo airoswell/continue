@@ -8,6 +8,7 @@
         scope: true,
         link: function(scope) {
           scope.show_more = false;
+          $('textarea').autosize();
           scope.item_update_successHandler = function(item, response) {
             item.expanded = false;
             return item.new_status = "";
@@ -47,7 +48,7 @@
             ][0].join(",");
             item.tags = tags;
             item.tags_private = tags_private;
-            return item.save(handler);
+            return item.save(handler).$asPromise();
           };
           scope.expand = function(item) {
             if (item.expanded !== true) {
