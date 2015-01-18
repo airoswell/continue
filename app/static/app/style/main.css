@@ -136,6 +136,9 @@ input, textarea{
     -ms-transition: all 0.2s ease-out; /* IE10 is actually unprefixed */
     -o-transition: all 0.2s ease-out;
 }
+textarea{
+    line-height: 1.4;
+}
 input{
     width: 100%;
     cursor: pointer;
@@ -248,6 +251,12 @@ input-dropdown[reduced-padding] .input-label{
 }
 .tag-gray:hover{
     border: 1px solid #aaa;
+}
+.tag-purple{
+    background: #CA5EFA;color: #fff;
+}
+.tag-purple:hover{
+    border: 1px solid #CA5EFA;
 }
 .tag-default{
     font-size: 14px;

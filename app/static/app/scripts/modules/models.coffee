@@ -27,6 +27,8 @@ angular.module 'continue.models', [
     self.$save().$then (response) ->
       Alert.show_msg("Your data is saved! You may need to refresh ...")
       self.loading = false
+      if self.tags_handler?
+        self.tags_handler()
       if successHandler?
         successHandler(self, response)
     , (errors) ->
@@ -85,7 +87,7 @@ angular.module 'continue.models', [
                   this[property] = obj[property]
                 return this
             tags_handler: ()->
-              if "tags" of this
+              if this.tags?
                 if typeof(this.tags) == "string"
                   if this.tags
                     this.tags = this.tags.split(",")
@@ -220,7 +222,6 @@ angular.module 'continue.models', [
         is_valid: () ->
           is_valid(this)
         pre_save_handler: ()->
-          console.log "processing data"
           self = this
           # But if the owner choose a new owner, use the new owner.
           if "new_owner" of self
@@ -232,6 +233,28 @@ angular.module 'continue.models', [
           if "tags" of self
             if typeof(self.tags) == "object"
               self.tags = self.tags.join(",")
+          if "tags_private" of self
+            if typeof(self.tags_private) == "object"
+              self.tags_private = self.tags_private.join(",")
+        tags_handler: ()->
+          if "tags" of this
+            if not this.tags
+              this.tags = []
+              this.tags_input = []
+            if typeof(this.tags) == "string"
+              if this.tags
+                this.tags = this.tags.split(",")
+                this.tags_input = [{"text": tag} for tag in this.tags][0]
+          if "tags_private" of this
+            if not this.tags_private
+              this.tags_private = []
+              this.tags_private_input = []
+            if typeof(this.tags_private) == "string"
+              if this.tags_private
+                this.tags_private = this.tags_private.split(",")
+                this.tags_private_input = [
+                  {"text": tag} for tag in this.tags_private
+                ][0]
       Model:
         init: init
     histories: {hasMany: "History"}

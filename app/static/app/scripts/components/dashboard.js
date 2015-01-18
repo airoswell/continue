@@ -6,28 +6,7 @@
       $scope.items = Item.$search({
         num_of_records: 8
       }).$then(function() {
-        var item, tag, _i, _len, _ref;
-        _ref = $scope.items;
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          item = _ref[_i];
-          if (item.tags) {
-            item.tags_input = [
-              (function() {
-                var _j, _len1, _ref1, _results;
-                _ref1 = item.tags.split(",");
-                _results = [];
-                for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
-                  tag = _ref1[_j];
-                  _results.push({
-                    "text": tag
-                  });
-                }
-                return _results;
-              })()
-            ][0];
-            item.tags = item.tags.split(",");
-          }
-        }
+        this.tags_handler();
         return Alert.show_msg("Download is finished.");
       });
       $scope.layout = {
@@ -52,27 +31,12 @@
           });
         }
         return $scope.posts.$then(function(response) {
-          var post, _i, _len, _ref, _results;
           if ($scope.posts.start === 0) {
             $scope.posts.start = parseInt($scope.numOfPosts) + $scope.posts.length;
           } else {
             $scope.posts.start = parseInt($scope.numOfPosts) + $scope.posts.length;
           }
-          _ref = $scope.posts;
-          _results = [];
-          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-            post = _ref[_i];
-            if (post.tags) {
-              if (typeof post.tags === "string") {
-                _results.push(post.tags = post.tags.split(","));
-              } else {
-                _results.push(void 0);
-              }
-            } else {
-              _results.push(post.tags = []);
-            }
-          }
-          return _results;
+          return $scope.posts.tags_handler();
         }).$asPromise().then(function() {
           return $scope.layout.loading.posts = false;
         }, function() {
@@ -91,27 +55,14 @@
           });
         }
         return $scope.items.$then(function(response) {
-          var post, _i, _len, _ref, _results;
-          if ($scope.items.start === 0) {
-            $scope.items.start = parseInt($scope.numOfPosts) + $scope.items.length;
+          var self;
+          self = this;
+          if (self.start === 0) {
+            self.start = parseInt($scope.numOfPosts) + self.length;
           } else {
-            $scope.items.start = parseInt($scope.numOfPosts) + $scope.items.length;
+            self.start = parseInt($scope.numOfPosts) + self.length;
           }
-          _ref = $scope.items;
-          _results = [];
-          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-            post = _ref[_i];
-            if (post.tags) {
-              if (typeof post.tags === "string") {
-                _results.push(post.tags = post.tags.split(","));
-              } else {
-                _results.push(void 0);
-              }
-            } else {
-              _results.push(post.tags = []);
-            }
-          }
-          return _results;
+          return this.tags_handler();
         }).$asPromise().then(function() {
           return $scope.layout.loading.items = false;
         }, function() {

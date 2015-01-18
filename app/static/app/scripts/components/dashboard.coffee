@@ -8,10 +8,7 @@ angular.module("continue")
     # Load in items and posts of the current user
     Alert.show_msg("Downloading your data.")
     $scope.items = Item.$search({num_of_records: 8}).$then ()->
-      for item in $scope.items
-        if item.tags
-          item.tags_input = [{"text": tag} for tag in item.tags.split(",")][0]
-          item.tags = item.tags.split(",")
+      this.tags_handler()
       Alert.show_msg("Download is finished.")
 
     $scope.layout = {
@@ -39,12 +36,7 @@ angular.module("continue")
         else
           $scope.posts.start = parseInt($scope.numOfPosts) + $scope.posts.length
         # Deal with the tags
-        for post in $scope.posts
-          if post.tags
-            if typeof(post.tags) == "string"
-              post.tags = post.tags.split(",")
-          else
-            post.tags = []
+        $scope.posts.tags_handler()
       .$asPromise().then ()->
         $scope.layout.loading.posts = false
       , ()->
@@ -58,19 +50,17 @@ angular.module("continue")
         $scope.items = $scope.items.fetch({"start": $scope.items.start})
 
       $scope.items.$then (response)->
+        self = this
         # store the next [start] param; it will propagate to
         # queryset[start:end]
-        if $scope.items.start == 0
-          $scope.items.start = parseInt($scope.numOfPosts) + $scope.items.length
+        if self.start == 0
+          self.start = parseInt($scope.numOfPosts) + self.length
         else
-          $scope.items.start = parseInt($scope.numOfPosts) + $scope.items.length
+          self.start = parseInt($scope.numOfPosts) + self.length
         # Deal with the tags
-        for post in $scope.items
-          if post.tags
-            if typeof(post.tags) == "string"
-              post.tags = post.tags.split(",")
-          else
-            post.tags = []
+        # initialize the tags_input and tags_private_input
+        # Now convert the tags from <string> to <array>
+        this.tags_handler()
       .$asPromise().then ()->
         $scope.layout.loading.items = false
       , ()->

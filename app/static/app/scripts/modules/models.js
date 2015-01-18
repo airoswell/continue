@@ -25,6 +25,9 @@
         return self.$save().$then(function(response) {
           Alert.show_msg("Your data is saved! You may need to refresh ...");
           self.loading = false;
+          if (self.tags_handler != null) {
+            self.tags_handler();
+          }
           if (successHandler != null) {
             return successHandler(self, response);
           }
@@ -94,7 +97,7 @@
                   }
                 },
                 tags_handler: function() {
-                  if ("tags" in this) {
+                  if (this.tags != null) {
                     if (typeof this.tags === "string") {
                       if (this.tags) {
                         return this.tags = this.tags.split(",");
@@ -279,7 +282,6 @@
             },
             pre_save_handler: function() {
               var self;
-              console.log("processing data");
               self = this;
               if ("new_owner" in self) {
                 if (self["new_owner"]) {
@@ -289,7 +291,65 @@
               }
               if ("tags" in self) {
                 if (typeof self.tags === "object") {
-                  return self.tags = self.tags.join(",");
+                  self.tags = self.tags.join(",");
+                }
+              }
+              if ("tags_private" in self) {
+                if (typeof self.tags_private === "object") {
+                  return self.tags_private = self.tags_private.join(",");
+                }
+              }
+            },
+            tags_handler: function() {
+              var tag;
+              if ("tags" in this) {
+                if (!this.tags) {
+                  this.tags = [];
+                  this.tags_input = [];
+                }
+                if (typeof this.tags === "string") {
+                  if (this.tags) {
+                    this.tags = this.tags.split(",");
+                    this.tags_input = [
+                      (function() {
+                        var _i, _len, _ref, _results;
+                        _ref = this.tags;
+                        _results = [];
+                        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                          tag = _ref[_i];
+                          _results.push({
+                            "text": tag
+                          });
+                        }
+                        return _results;
+                      }).call(this)
+                    ][0];
+                  }
+                }
+              }
+              if ("tags_private" in this) {
+                if (!this.tags_private) {
+                  this.tags_private = [];
+                  this.tags_private_input = [];
+                }
+                if (typeof this.tags_private === "string") {
+                  if (this.tags_private) {
+                    this.tags_private = this.tags_private.split(",");
+                    return this.tags_private_input = [
+                      (function() {
+                        var _i, _len, _ref, _results;
+                        _ref = this.tags_private;
+                        _results = [];
+                        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                          tag = _ref[_i];
+                          _results.push({
+                            "text": tag
+                          });
+                        }
+                        return _results;
+                      }).call(this)
+                    ][0];
+                  }
                 }
               }
             }

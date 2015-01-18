@@ -19,18 +19,18 @@ angular.module("continue")
     scope.save = (item, handler)->
       console.log item.tags_input
       tags = [tag.text for tag in item.tags_input][0].join(",")
+      tags_private = [tag.text for tag in item.tags_private_input][0].join(",")
       item.tags = tags
+      item.tags_private = tags_private
       item.save(handler)
+
     scope.expand = (item) ->
-      console.log "item.expanded isnt true", item.expanded isnt true
       if item.expanded isnt true
         console.log "expand"
         item.expanded = true
-        item.histories = item.histories.$search({num_of_records: 8})
       else
         console.log "fold"
         item.expanded = false
-        item.histories = History
       return
 
     scope.get_albums = (item)->

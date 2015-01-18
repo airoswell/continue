@@ -19,7 +19,7 @@
             return item.new_status = "";
           };
           scope.save = function(item, handler) {
-            var tag, tags;
+            var tag, tags, tags_private;
             console.log(item.tags_input);
             tags = [
               (function() {
@@ -33,21 +33,29 @@
                 return _results;
               })()
             ][0].join(",");
+            tags_private = [
+              (function() {
+                var _i, _len, _ref, _results;
+                _ref = item.tags_private_input;
+                _results = [];
+                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                  tag = _ref[_i];
+                  _results.push(tag.text);
+                }
+                return _results;
+              })()
+            ][0].join(",");
             item.tags = tags;
+            item.tags_private = tags_private;
             return item.save(handler);
           };
           scope.expand = function(item) {
-            console.log("item.expanded isnt true", item.expanded !== true);
             if (item.expanded !== true) {
               console.log("expand");
               item.expanded = true;
-              item.histories = item.histories.$search({
-                num_of_records: 8
-              });
             } else {
               console.log("fold");
               item.expanded = false;
-              item.histories = History;
             }
           };
           return scope.get_albums = function(item) {
