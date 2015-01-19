@@ -33,13 +33,13 @@ angular.module("continue")
 
     # =========== Infinite scrolling for posts ===========
     infinite_scroll_posts = new InfiniteScroll(Post)
-    infinite_scroll_posts.config(
-      model_types: ["Post"]       # Expected model types from the backend
-      init_starts: $scope.numOfPosts
-    )
     $scope.load_posts = ()->
       # Disable infinite scroll while loading
       $scope.layout.loading.posts = true
+      infinite_scroll_posts.config(
+        model_types: ["Post"]       # Expected model types from the backend
+        init_starts: $scope.numOfPosts
+      )
       $scope.posts = infinite_scroll_posts.load($scope.posts)
       $scope.posts.$asPromise().then (response)->
         # Success handlers
