@@ -120,7 +120,7 @@
         if ($scope.layout.creating_new_post) {
           return;
         }
-        layout.creating_new_post = true;
+        $scope.layout.creating_new_post = true;
         post = Post.$build(Post.init);
         post.owner = Auth.get_user().user_id;
         $scope.posts.splice(0, 0, post);
@@ -130,7 +130,7 @@
         return true;
       };
       $scope.post_create_successHandler = function(item, response) {
-        layout.creating_new_post = false;
+        $scope.layout.creating_new_post = false;
         return post.is_new = false;
       };
       $scope.post_update_successHandler = function(item, response) {

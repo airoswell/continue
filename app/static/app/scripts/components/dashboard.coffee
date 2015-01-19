@@ -116,7 +116,7 @@ angular.module("continue")
     $scope.create_post = () ->
       if $scope.layout.creating_new_post
         return
-      layout.creating_new_post = true
+      $scope.layout.creating_new_post = true
       post = Post.$build(Post.init)
       post.owner = Auth.get_user().user_id
       $scope.posts.splice 0, 0, post
@@ -125,7 +125,7 @@ angular.module("continue")
 
 
     $scope.post_create_successHandler = (item, response) ->
-      layout.creating_new_post = false
+      $scope.layout.creating_new_post = false
       post.is_new = false
 
     $scope.post_update_successHandler = (item, response) ->

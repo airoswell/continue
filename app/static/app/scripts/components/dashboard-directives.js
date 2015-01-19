@@ -9,16 +9,6 @@
         link: function(scope) {
           scope.show_more = false;
           $('textarea').autosize();
-          scope.item_update_successHandler = function(item, response) {
-            item.expanded = false;
-            return item.new_status = "";
-          };
-          scope.item_create_successHandler = function(item, response) {
-            layout.creating_new_item = false;
-            item.expanded = false;
-            item.is_new = false;
-            return item.new_status = "";
-          };
           scope.save = function(item, handler) {
             var tag, tags, tags_private;
             console.log(item.tags_input);

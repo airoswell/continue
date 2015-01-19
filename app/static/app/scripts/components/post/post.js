@@ -54,6 +54,11 @@
           }
         });
       };
+      $scope.reset = function() {
+        console.log("reseting.");
+        $scope.post.$fetch();
+        return $scope.new_items = [];
+      };
       return $scope.save = function() {
         var tag, tags, tags_array;
         tags_array = [

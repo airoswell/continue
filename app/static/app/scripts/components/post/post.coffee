@@ -36,6 +36,12 @@ angular.module "continue"
         $scope.post.items.push(response)
         $scope.new_items.push(response)
 
+
+  $scope.reset = ()->
+    console.log "reseting."
+    $scope.post.$fetch()
+    $scope.new_items = []
+
   $scope.save = ()->
     tags_array = [tag.text for tag in $scope.tags_input]
     tags = tags_array.join(",")

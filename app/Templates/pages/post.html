@@ -48,6 +48,11 @@
         <textarea ng-model='post.detail'
             placeholder="Post body goes here ... You can use the [ TAB ] key to indent.">
         </textarea>
+        <br/>
+        <div class='text-large' style='padding:10px 0px;'>Preview</div>
+        <div marked="post.detail" style='padding:10px;background:#f4f4f4;border:1px solid ddd;'>
+          
+        </div>
       </div>
     </div>
     <!-- ======== Tags ======== -->
@@ -78,6 +83,9 @@
           ng-click="add_new_item()">Add new item</div>
       <div class='button button-small button-gray'
           ng-click="select_item()">Add existing item</div>
+      <div ng-click="reset()" class='button button-small button-gray'>
+        Reset
+      </div>
       <div ng-click="save()" class='button button-small button-gray'>Save</div>
     </div>
   </div>

@@ -8,15 +8,6 @@ angular.module("continue")
 
     scope.show_more = false
     $('textarea').autosize()
-    scope.item_update_successHandler = (item, response) ->
-      item.expanded = false
-      item.new_status = ""
-
-    scope.item_create_successHandler = (item, response) ->
-      layout.creating_new_item = false
-      item.expanded = false
-      item.is_new = false
-      item.new_status = ""
 
     scope.save = (item, handler)->
       console.log item.tags_input
