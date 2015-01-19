@@ -30,12 +30,12 @@
         });
       };
       infinite_scroll_posts = new InfiniteScroll(Post);
-      infinite_scroll_posts.config({
-        model_types: ["Post"],
-        init_starts: $scope.numOfPosts
-      });
       $scope.load_posts = function() {
         $scope.layout.loading.posts = true;
+        infinite_scroll_posts.config({
+          model_types: ["Post"],
+          init_starts: $scope.numOfPosts
+        });
         $scope.posts = infinite_scroll_posts.load($scope.posts);
         return $scope.posts.$asPromise().then(function(response) {
           infinite_scroll_posts.success_handler(response);

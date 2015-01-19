@@ -110,7 +110,32 @@
         }
       }
     };
-  }).directive("itemEditButton", [
+  }).directive("followButtonArea", [
+    "Auth", "Alert", function(Auth, Alert) {
+      return {
+        restrict: "A",
+        link: function(scope, element, attrs) {
+          var area;
+          area = attrs['area'];
+          scope.is_followed = function(area) {
+            var area_regex;
+            area_regex = RegExp(area);
+            return area_regex.test(scope.profile.interested_areas);
+          };
+          return scope.follow = function(area) {
+            var profile;
+            if (!scope.is_followed(area)) {
+              profile = Auth.get_profile();
+              profile.interested_areas += "," + area;
+              return profile.$save().$then(function(response) {
+                return Alert.show_msg("Successfully followed " + area);
+              });
+            }
+          };
+        }
+      };
+    }
+  ]).directive("itemEditButton", [
     "ItemEditor", "$rootScope", function(ItemEditor, $rootScope) {
       return {
         restrict: "A",

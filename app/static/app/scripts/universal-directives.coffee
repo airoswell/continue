@@ -82,6 +82,22 @@ angular.module("continue")
     if "refresh" in attrs
       scope.refresh = attrs["refresh"]
 
+.directive "followButtonArea", ["Auth", "Alert", (Auth, Alert)->
+  restrict: "A"
+  link: (scope, element, attrs)->
+    area = attrs['area']
+    scope.is_followed = (area)->
+      area_regex = RegExp(area)
+      area_regex.test(scope.profile.interested_areas)
+    scope.follow = (area)->
+      if not scope.is_followed(area)
+        profile = Auth.get_profile()
+        profile.interested_areas += ",#{area}"
+        profile.$save().$then (response)->
+          Alert.show_msg("Successfully followed #{area}")
+]
+
+
 .directive "itemEditButton", ["ItemEditor", "$rootScope", (ItemEditor, $rootScope)->
   restrict: "A"
   link: (scope, element, attrs)->

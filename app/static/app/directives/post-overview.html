@@ -44,7 +44,13 @@
     <div layout='column' layout-gt-md='row' layout-align='space-between center'>
       <div>
         <div class="text-large" ng-bind="post.title"></div>
-        <div> Location: <bind ng-bind="post.area"></bind></div>
+        <div layout='row'>
+          <div>Location: <bind ng-bind="post.area"></bind></div>
+          <div follow-button-area area='{{post.area}}' style='color:#999;cursor:pointer' ng-cloak
+              ng-click="follow(post.area)" ng-show="!is_followed(post.data)">
+            <i class='fa fa-plus'></i>
+          </div>
+        </div>
       </div>
     </div>
     <div>

@@ -237,8 +237,13 @@ class ItemList(XListAPIView):
             )
         if request.GET.get("tags"):
             tags = request.GET.get("tags").split(",")
-            kwargs = {"tags": tag for tag in tags}
-            sqs = SearchQuerySet().models(self.model).filter_or(**kwargs)
+            kwargs_tags = {"tags": tag for tag in tags}
+            kwargs_tags_private = {"tags_private": tag for tag in tags}
+            kwargs = dict(kwargs_tags.items() + kwargs_tags_private.items())
+            print("\n\tkwargs = %s" % (kwargs))
+            import pdb; pdb.set_trace()
+            sqs = (SearchQuerySet().models(self.model)
+                   .filter(owner=request.user).filter_or(**kwargs))
             if not sqs:
                 return Response(status=st.HTTP_404_NOT_FOUND)
             sqs = [sq.object for sq in sqs]
