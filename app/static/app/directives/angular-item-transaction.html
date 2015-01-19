@@ -13,7 +13,7 @@
         <div class="username">
           <b ng-bind="event.giver.profile.name"></b>
         </div>
-        <div class="time-posted" ng-bind="event.time_updated"></div>
+        <div class="time-posted" ng-bind="event.time_updated|date: 'MMM dd yyyy H: mm a'"></div>
       </div>
       <div layout='column' layout-align='center'
           style='margin-left:20px;margin-right:20px'>
@@ -26,7 +26,7 @@
       </div>
       <div>
         <div class="username"><b ng-bind="event.receiver.profile.name"></b></div>
-        <div class="time-posted" ng-bind="event.time_updated"></div>
+        <div class="time-posted" ng-bind="event.time_updated|date: 'MMM dd yyyy H: mm a'"></div>
       </div>
     </div>
 

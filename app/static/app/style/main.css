@@ -488,3 +488,6 @@ tags-input.custom .tags .tag-item{
 tags-input.custom input {
     width: auto;
 }
+tags-input.custom.purple .tags .tag-item{
+    background: #CA5EFA;color: #fff;
+}

@@ -7,9 +7,6 @@
              feed_starts = {{ feed_starts }}; timeline_starts={{ timeline_starts }}"
     layout='row' layout-align='end'>
   
-  <!-- Side navigation bar -->
-  {% include 'pages/components/sidebar.html'%}
-  <!-- END: Side navigation bar -->
   
   <div flex-gt-md="80">
     <!-- Main interface -->
@@ -29,11 +26,28 @@
 
     <!-- Welcome message -->
     <div layout='row' layout-sm='column' layout-align='start center'>
-      <div class='section-title section-title-exlarge'>Welcome,
+      <div class='section-title section-title-xlarge'>Welcome back,
       {{ request.user.profile.all.last.name }}
       </div>
     </div>
 
+    <!-- Side navigation bar -->
+    <!-- The nav bar on the left when on big windlw -->
+    <div hide-sm>
+      {% include 'pages/components/sidebar.html'%}
+    </div>
+    <!-- The nav bar at the top when on small window -->
+    <div hide-gt-sm flex>
+      <div layout='row' flex>
+        <div flex class="button button-small button-gray" ng-click='display_tab("feeds")'>Feeds</div>
+        <div flex class="button button-small button-gray" ng-click='display_tab("timeline")'>Timeline</div>
+        <div flex class="button button-small button-gray" ng-click='display_tab("posts")'>Posts</div>
+        <div flex class="button button-small button-gray" ng-click='display_tab("items")'>Items</div>
+      </div>
+    </div>
+    <!-- END: Side navigation bar -->
+
+    <br/>
     <!-- News Feed section -->
     <div ng-show="layout.display_tab == 'feeds'"
         infinite-scroll="load_feeds()" infinite-scroll-distance="1"
@@ -43,8 +57,9 @@
       {%   with post=record%}
       {%     if post.model_name == 'Post' %}
         <div layout='row' class="event">
-          <div flex='20' style='margin-top:20px;text-align:right'>
-            {{ post.time_posted }}
+          <div hide-sm flex='20' style='margin-top:20px;text-align:right'>
+            <div class='text-large' style='color:#666'>New post</div>
+            <div style='color:#999'>{{ event.time_posted|date:"M/d/Y" }}</div>
           </div>
           <div flex>
       {%       include 'pages/components/post-overview.html'%}
@@ -55,8 +70,10 @@
       {%   with event=record %}
       {%     if event.model_name == 'ItemEditRecord' %}
         <div layout='row'>
-          <div flex="20" style='margin-top:20px;text-align:right'>
-            {{ event.time_updated }}
+          <div hide-sm flex="20" style='margin-top:20px;text-align:right'>
+            <br/>
+            <div class='text-large' style='color:#666'>Update</div>
+            <div style='color:#999'>{{ event.time_updated|date:"M/d/Y" }}</div>
           </div>
           <div flex>
             {%       include 'pages/components/django-item-update.html' %}
@@ -70,8 +87,12 @@
             <switch ng-switch on="record.model_name">
               <switch ng-switch-when="Post" ng-init="post=record">
                 <div layout='row'>
-                  <div flex="20" style='margin-top:20px;text-align:right'
-                      ng-bind="post.time_posted">
+                  <div hide-sm flex="20" style='margin-top:20px;text-align:right'>
+                    <br/>
+                    <div class="text-large" style='color:#666;'>Update</div>
+                    <div style='color:#999;'
+                        ng-bind="event.time_posted|date:'MMM/dd/yyyy'">
+                    </div>
                   </div>
                   <div flex>
                     <post-overview></post-overview>
@@ -80,8 +101,12 @@
               </switch>
               <switch ng-switch-when="ItemEditRecord" ng-init="event=record">
                 <div layout='row'>
-                  <div flex="20" style="margin-top:20px;text-align:right"
-                      ng-bind="event.time_updated">
+                  <div hide-sm flex="20" style="margin-top:20px;text-align:right">
+                    <br/>
+                    <div class="text-large" style='color:#666;'>Update</div>
+                    <div style='color:#999;'
+                        ng-bind="event.time_updated|date:'MMM/dd/yyyy'">
+                    </div>
                   </div>
                   <div flex>
                     <angular-item-update></angular-item-update>
@@ -101,8 +126,10 @@
       {% for event in timeline %}
       {%  if event.model_name == 'ItemEditRecord' %}
       <div layout='row' flex-gt-md="90">
-        <div flex='20' style='margin-top:20px;text-align:right'>
-          {{ event.time_updated }}
+        <div hide-sm flex='20' style='margin-top:20px;text-align:right'>
+          <br/>
+          <div class='text-large' style='color:#666'>Update</div>
+          <div style='color:#999'>{{ event.time_updated|date:"M/d/Y" }}</div>
         </div>
         <div flex>
           {% include 'pages/components/django-item-update.html' %}
@@ -110,8 +137,10 @@
       </div>
       {%  elif event.model_name == 'ItemTransactionRecord' %}
       <div layout='row' flex-gt-md="90">
-        <div flex="20" style='margin-top:20px;text-align:right'>
-          {{ event.time_updated }}
+        <div hide-sm flex="20" style='margin-top:20px;text-align:right'>
+          <br/>
+          <div class='text-large' style='color:#666'>Transfer</div>
+          <div style='color:#999'>{{ event.time_updated|date:"M/d/Y" }}</div>
         </div>
         <div flex>
           {% include 'pages/components/django-item-transaction.html' %}
@@ -121,19 +150,26 @@
       {% endfor %}
         <div ng-repeat="record in timeline">
           <switch ng-switch on="record.model_name">
+
             <switch ng-switch-when="ItemEditRecord" ng-init='event=record'>
               <div layout='row' flex-gt-md="90">
-                <div flex="20" style='margin-top:20px;text-align:right'
-                    ng-bind="event.time_updated">
+                <div flex="20" style='margin-top:20px;text-align:right'>
+                  <br/>
+                  <div class="text-large" style='color:#666;'>Update</div>
+                  <div style='color:#999;'
+                      ng-bind="event.time_updated|date:'MMM/dd/yyyy'">
+                  </div>
                 </div>
                 <div flex>
                   <angular-item-update></angular-item-update>
                 </div>
               </div>
             </switch>
+
             <switch ng-switch-when="ItemTransactionRecord" ng-init="event=record">
               <angular-item-transaction></angular-item-transaction>
             </switch>
+
           </switch>
         </div>
     </div>

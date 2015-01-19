@@ -15,7 +15,7 @@
       <!-- User's name and time posted -->
       <div>
         <div class="username"><b ng-bind="post.owner_name"></b></div>
-        <div class="time-posted" ng-bind="post.time_posted"></div>
+        <div class="time-posted" ng-bind="post.time_posted|date: 'MMM dd yyyy H: mm a'"></div>
       </div>
     </div>
     <!-- Expiration time -->
@@ -46,11 +46,11 @@
         <div class="text-large" ng-bind="post.title"></div>
         <div> Location: <bind ng-bind="post.area"></bind></div>
       </div>
-      <div>
-        <span ng-repeat="tag in post.tags" class='tag tag-small tag-gray'>
-          #<bind ng-bind="tag"></bind>
-        </span>
-      </div>
+    </div>
+    <div>
+      <span ng-repeat="tag in post.tags" class='tag tag-small tag-gray'>
+        #<bind ng-bind="tag"></bind>
+      </span>
     </div>
     <div ng-if="post.detail" click-to-expand max-height='125px'>
       <div click-to-expand-target class="text-default" style='background: #f9f9f9;padding:5px 20px;margin-top:10px;

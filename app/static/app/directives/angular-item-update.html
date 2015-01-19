@@ -12,7 +12,7 @@
       <div>
         <div class="username"><b ng-bind="event.item.owner_profile.name"></b>
         </div>
-        <div class="time-posted" ng-bind="event.time_updated"></div>
+        <div class="time-posted" ng-bind="event.time_updated|date: 'MMM dd yyyy H: mm a'"></div>
       </div>
     </div>
 

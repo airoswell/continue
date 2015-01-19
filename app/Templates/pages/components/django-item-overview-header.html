@@ -1,11 +1,12 @@
 {% block item_overview_header %}
 
 {% if item.title|length < 30 %}
-<div layout='row'>
+<div layout='column' layout-gt-md="row">
 {% else %}
 <div layout='column'>
 {% endif %}
   <div layout>
+
     <div class='item-overview-title'>
       <div layout='row'>
         <div layout='column' layout-align='center'>
@@ -14,6 +15,7 @@
         <div class='item-overview-quantity'>{{ item.quantity }}</div>
       </div>
     </div>
+
     {% if item.pic %}
     &nbsp;&nbsp;
     <img height=35 ng-src="{{item.pic}}">

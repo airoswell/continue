@@ -22,7 +22,7 @@
     <span><b>{{event.item}}</b></span> has a new photo.
 
     {% elif event.field == "status"%}
-    <span> Item <b>{{event.item}}</b> updated its status </span>
+    <div flex> Item <b>{{event.item}}</b> updated its status </div>
 
     {% elif event.field == "creation" %}
     <span> added <b>{{ event.item }}</b></span>.
@@ -51,11 +51,11 @@
       </div>
       {% endwith %}
       {% elif event.field == "status" %}
-      <div class='event-body status'>
+      <div class='event-body status' flex>
        <i class="fa fa-quote-left"></i>&nbsp;&nbsp;{{ event.new_value }}
       </div>
       {% elif event.field == "description" %}
-      <div class='event-body description'>
+      <div class='event-body description' flex>
       {{ event.new_value }}
       </div>
      {% endif %}
