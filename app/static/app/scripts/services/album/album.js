@@ -72,6 +72,7 @@
       $scope.Album = Album;
       $scope.image = "";
       $scope.uploaded = "";
+      console.log("hahaha this is albumCtrl!!!");
       $scope.upload = function() {
         Alert.show_msg("Uploading your image ...");
         $scope.image_resource = Image.$build();
@@ -79,6 +80,7 @@
         $scope.image_resource.owner = Auth.get_profile().user_id;
         return $scope.image_resource.$save().$asPromise().then(function(response) {
           $scope.uploaded = "" + settings.UPLOADED_URL + response.url;
+          console.log("$scope.uploaded", $scope.uploaded);
           return Alert.show_msg("Your image has been uploaded successfully!");
         }, function() {
           return Alert.show_error("There was problem uploading your file. Please make sure your file is a valid image file.");
