@@ -2,3 +2,4 @@
 /app/migrations
 /app/*.pyc
 /app/templatetags/*.pyc
+/env-continue/*
