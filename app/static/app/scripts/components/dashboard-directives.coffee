@@ -9,13 +9,14 @@ angular.module("continue")
     scope.show_more = false
     $('textarea').autosize()
 
-    scope.save = (item, handler)->
-      console.log item.tags_input
+    scope.save = (item, success_handler)->
       tags = [tag.text for tag in item.tags_input][0].join(",")
       tags_private = [tag.text for tag in item.tags_private_input][0].join(",")
       item.tags = tags
       item.tags_private = tags_private
-      item.save(handler).$asPromise()
+      success_handler = (item)->
+        item.expanded = false
+      item.save(success_handler).$asPromise()
 
     scope.expand = (item) ->
       if item.expanded isnt true
@@ -29,7 +30,8 @@ angular.module("continue")
     scope.get_albums = (item)->
       Alert.show_msg("Downloading your albums ...")
       Album.get_albums().then (response)->
-        item.pic = response
+        if response
+          item.pic = response
 ]
 
 .directive "itemEditorProTitle", ()->

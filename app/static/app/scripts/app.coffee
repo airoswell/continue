@@ -7,9 +7,11 @@ app = angular.module("continue", [
   "continue.auth"
   "continue.models"
   "continue.social_accounts"
+  # some nice angular widgets
   "ngTagsInput"
   "infinite-scroll"
   "hc.marked"
+  "omr.angularFileDnD"
 ])
 
 app.config [
@@ -24,3 +26,11 @@ app.config [
   (markedProvider)->
     markedProvider.setOptions({gfm: true});
 ]
+
+app.factory "settings", ()->
+  STATIC_URL = "/static/"
+  UPLOADED_URL = "#{STATIC_URL}uploaded/"
+  return {
+    STATIC_URL: STATIC_URL
+    UPLOADED_URL: UPLOADED_URL
+  }

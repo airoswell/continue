@@ -53,53 +53,78 @@ angular.module "continue"
         self.deferred = BS.bringUp("album")
         self.deferred.promise
 
-
     get_photos: (album_id)->
+      # To retrieve ALL photos of a selected album
+      # Pagination is achieved in the albumCtrl
       get_photos(this, album_id)
 
   }
 ]
 
-.controller "albumCtrl", ["$scope", "Album", ($scope, Album)->
-  $scope.layout = {
-    album_list_is_show: true
-    page: 1
-    num_of_records: 8
-  }
-  $scope.Album = Album
+.controller "albumCtrl", [
+  "$scope", "settings", "Album", "Image", "Auth", "Alert",
+  ($scope, settings, Album, Image, Auth, Alert) ->
+    $scope.layout = {
+      album_list_is_show: true
+      page: 1
+      num_of_records: 8
+      method: 'upload'
+    }
+    $scope.Album = Album
+    $scope.image = ""
+    $scope.uploaded = ""
 
-  $scope.photos_to_display = ()->
-    start = ($scope.layout.page - 1) * $scope.layout.num_of_records
-    end = Math.min($scope.layout.page * $scope.layout.num_of_records, Album.photos.length - 1)
-    Album.photos[start..end]
+    $scope.upload = ()->
+      Alert.show_msg("Uploading your image ...")
+      $scope.image_resource = Image.$build()
+      $scope.image_resource.image = $scope.image
+      $scope.image_resource.owner = Auth.get_profile().user_id
+      $scope.image_resource.$save().$asPromise().then (response)->
+        $scope.uploaded = "#{settings.UPLOADED_URL}#{response.url}"
+        Alert.show_msg("Your image has been uploaded successfully!")
+      , ()->
+        Alert.show_error("There was problem uploading your file. Please make sure your file is a valid image file.")
 
-  $scope.pagination = (array)->
-    start = ($scope.layout.page - 1) * $scope.layout.num_of_records
-    end = Math.min($scope.layout.page * $scope.layout.num_of_records - 1, array.length - 1)
-    array[start..end]
+    $scope.photos_to_display = ()->
+      start = ($scope.layout.page - 1) * $scope.layout.num_of_records
+      end = Math.min($scope.layout.page * $scope.layout.num_of_records, Album.photos.length - 1)
+      Album.photos[start..end]
 
-  $scope.back_to_albums = ()->
-    $scope.layout.album_list_is_show = true
+    $scope.pagination = (array)->
+      start = ($scope.layout.page - 1) * $scope.layout.num_of_records
+      end = Math.min(
+        $scope.layout.page * $scope.layout.num_of_records - 1,
+        array.length - 1
+      )
+      array[start..end]
 
-  $scope.next_page = ()->
-    if $scope.layout.album_list_is_show
-      array = Album.albums
-    else
-      array = Album.photos
-    if $scope.layout.page * $scope.layout.num_of_records < array.length
-      $scope.layout.page += 1
+    $scope.back_to_albums = ()->
+      $scope.layout.album_list_is_show = true
 
-  $scope.prev_page = ()->
-    if $scope.layout.page > 1
-      $scope.layout.page -= 1
+    $scope.next_page = ()->
+      if $scope.layout.album_list_is_show
+        array = Album.albums
+      else
+        array = Album.photos
+      if $scope.layout.page * $scope.layout.num_of_records < array.length
+        $scope.layout.page += 1
 
-  $scope.select_album = (album_id)->
-    Album.get_photos(album_id).then (response)->
-      Album.photos = response.data
-      $scope.layout.album_list_is_show = false
+    $scope.prev_page = ()->
+      if $scope.layout.page > 1
+        $scope.layout.page -= 1
 
-  $scope.select_photo = (photo)->
-    Album.photo = photo.images[2].source
-    console.log Album.deferred
-    Album.deferred.resolve(Album.photo)
+    $scope.select_album = (album_id)->
+      Album.get_photos(album_id).then (response)->
+        Album.photos = response.data
+        $scope.layout.album_list_is_show = false
+
+    $scope.select_photo = (photo)->
+      Album.photo = photo.images[2].source
+      Album.deferred.resolve(Album.photo)
+
+    $scope.select_uploaded = ()->
+      Album.deferred.resolve($scope.uploaded)
+
+    $scope.cancel = ()->
+      Album.deferred.resolve()
 ]

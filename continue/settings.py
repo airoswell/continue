@@ -38,8 +38,8 @@ TEMPLATE_DIRS = {
 }
 print(TEMPLATE_DIRS)
 STATIC_ROOT = os.path.join(PROJECT_DIR, 'app/static/')
-# STATIC_ROOT = os.path.join(PROJECT_DIR, 'public/static/')
 STATIC_PRECOMPILER_OUTPUT_DIR = "../static/"
+MEDIA_ROOT = os.path.join(PROJECT_DIR, 'app/static/uploaded/')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
@@ -163,6 +163,11 @@ REST_FRAMEWORK = {
     # 'DEFAULT_RENDERER_CLASSES': (
     #     'rest_framework.renderers.JSONRenderer',
     # )
+    'DEFAULT_PARSER_CLASSES': (
+        'rest_framework.parsers.JSONParser',
+        'rest_framework.parsers.FormParser',
+        'rest_framework.parsers.MultiPartParser',
+    ),
 }
 
 
@@ -228,7 +233,7 @@ STATIC_PRECOMPILER_COMPILERS = (
 # ===============
 HAYSTACK_CONNECTIONS = {
     'default': {
-        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+        'ENGINE': ('haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine'),
         'URL': 'http://127.0.0.1:9200/',
         'INDEX_NAME': 'haystack',
     },

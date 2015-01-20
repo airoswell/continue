@@ -1,10 +1,10 @@
 
 angular.module("continue")
 
-.controller("DashBoardCtrl", [
-  "$scope", "Post", "Item", "Feed", "Timeline", "Alert", "Auth",
+.controller "DashBoardCtrl", [
+  "$scope", "Post", "Item", "Feed", "Timeline", "Alert",
   "InfiniteScroll",
-  ($scope, Post, Item, Feed, Timeline, Alert, Auth, InfiniteScroll) ->
+  ($scope, Post, Item, Feed, Timeline, Alert, InfiniteScroll) ->
 
     # Load in items and posts of the current user
     Alert.show_msg("Downloading your data.")
@@ -113,30 +113,4 @@ angular.module("continue")
       $("html, body").animate scrollTop: $("#items-display").offset().top - 100
       true
 
-    $scope.create_post = () ->
-      if $scope.layout.creating_new_post
-        return
-      $scope.layout.creating_new_post = true
-      post = Post.$build(Post.init)
-      post.owner = Auth.get_user().user_id
-      $scope.posts.splice 0, 0, post
-      $("html, body").animate scrollTop: $("#posts-display").offset().top - 100
-      true
-
-
-    $scope.post_create_successHandler = (item, response) ->
-      $scope.layout.creating_new_post = false
-      post.is_new = false
-
-    $scope.post_update_successHandler = (item, response) ->
-      console.log "successfully updated the post."
-
-    $scope.add_item = (post)->
-      post.add_item()
-
-    $scope.add_existing_item = (post)->
-      item = post.add_item()
-      BottomSheet.show(item)
-])
-
-
+]

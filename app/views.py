@@ -15,7 +15,8 @@ from django.http import HttpResponse
 # ================================
 # Other Python module
 import json
-from controllers import *
+from django.db.models import Q
+import operator
 
 
 # Handel all user-related posts request
@@ -247,10 +248,42 @@ def dashboard(request):
         num_of_records=10,
     )
     interested_areas = user.interested_areas().split(",")
+    Ex_owners_Q = Q(
+        visibility='Ex-owners', previous_owners__id=request.user.id
+    )
+    public_Q = Q(visibility='Public')
+    areas_Q = Q(area__in=interested_areas)
+    owner_Q = Q(owner=user)
+    item_arg = reduce(
+        operator.or_,
+        [owner_Q, reduce(
+            operator.and_,
+            [areas_Q, reduce(
+                operator.or_,
+                [public_Q, Ex_owners_Q]
+            )]
+        )]
+    )
+    update_Ex_owners_Q = Q(
+        item__visibility='Ex-owners', item__previous_owners__id=request.user.id
+    )
+    update_public_Q = Q(item__visibility='Public')
+    update_areas_Q = Q(item__area__in=interested_areas)
+    update_owner_Q = Q(item__owner=user)
+    update_arg = reduce(
+        operator.or_,
+        [update_owner_Q, reduce(
+            operator.and_,
+            [update_areas_Q, reduce(
+                operator.or_,
+                [update_public_Q, update_Ex_owners_Q]
+            )]
+        )]
+    )
     query_args = [
         {"area": interested_areas},
-        {"owner": user},
-        {"item__owner": user},
+        item_arg,
+        update_arg,
     ]
     feeds = tl.get(*query_args)
     # Basically record counts from each model

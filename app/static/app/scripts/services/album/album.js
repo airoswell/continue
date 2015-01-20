@@ -62,13 +62,28 @@
       };
     }
   ]).controller("albumCtrl", [
-    "$scope", "Album", function($scope, Album) {
+    "$scope", "settings", "Album", "Image", "Auth", "Alert", function($scope, settings, Album, Image, Auth, Alert) {
       $scope.layout = {
         album_list_is_show: true,
         page: 1,
-        num_of_records: 8
+        num_of_records: 8,
+        method: 'upload'
       };
       $scope.Album = Album;
+      $scope.image = "";
+      $scope.uploaded = "";
+      $scope.upload = function() {
+        Alert.show_msg("Uploading your image ...");
+        $scope.image_resource = Image.$build();
+        $scope.image_resource.image = $scope.image;
+        $scope.image_resource.owner = Auth.get_profile().user_id;
+        return $scope.image_resource.$save().$asPromise().then(function(response) {
+          $scope.uploaded = "" + settings.UPLOADED_URL + response.url;
+          return Alert.show_msg("Your image has been uploaded successfully!");
+        }, function() {
+          return Alert.show_error("There was problem uploading your file. Please make sure your file is a valid image file.");
+        });
+      };
       $scope.photos_to_display = function() {
         var end, start;
         start = ($scope.layout.page - 1) * $scope.layout.num_of_records;
@@ -106,10 +121,15 @@
           return $scope.layout.album_list_is_show = false;
         });
       };
-      return $scope.select_photo = function(photo) {
+      $scope.select_photo = function(photo) {
         Album.photo = photo.images[2].source;
-        console.log(Album.deferred);
         return Album.deferred.resolve(Album.photo);
+      };
+      $scope.select_uploaded = function() {
+        return Album.deferred.resolve($scope.uploaded);
+      };
+      return $scope.cancel = function() {
+        return Album.deferred.resolve();
       };
     }
   ]);

@@ -30,12 +30,12 @@
       </div>
     </div>
 
-    <item-editor-pro-more ng-show='show_more'></item-editor-pro-more>
+    <item-editor-pro-more ng-show='item.expanded'></item-editor-pro-more>
 
     <br/>
     <div layout='row' layout-align='end'>
       <div class='button button-small button-gray'
-          ng-click="show_more = !show_more">
+          ng-click="expand(item)">
         <span ng-show="!show_more">More</span>
         <span ng-show="show_more">Less</span>
       </div>

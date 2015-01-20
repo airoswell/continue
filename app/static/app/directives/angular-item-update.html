@@ -21,17 +21,17 @@
     <switch ng-switch-when="pic">
         Item <span ng-bind="event.item.title"></span> has a new photo.</switch>
 
-    <switch ng-switch-when="status"> Item <span ng-bind="event.item"></span> updated its status </switch>
+    <switch ng-switch-when="status"> Item <b><span ng-bind="event.item.title"></span></b> updated its status </switch>
 
     <switch ng-switch-when="creation">
-      added <span ng-bind="event.item.title"></span>
+      added <b><span ng-bind="event.item.title"></span></b>
     </switch>.
 
     <switch ng-switch-when="description">
-      <span ng-bind="event.item.title"></span> has a new description.
+      <b><span ng-bind="event.item.title"></span></b> has a new description.
     </switch>
 
-    <switch ng-switch-default> <span ng-bind="event.item.title"></span> updated its <span ng-bind=" event.field "></span>: <span ng-bind="event.new_value">.</switch>
+    <switch ng-switch-default> <b><span ng-bind="event.item.title"></span> </b>updated its <span ng-bind=" event.field "></span>: <span ng-bind="event.new_value">.</switch>
 
   </div>
   <if ng-if="event.field == 'pic'">

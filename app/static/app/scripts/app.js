@@ -2,7 +2,7 @@
 (function() {
   var app;
 
-  app = angular.module("continue", ["ngResource", "ngAria", "ngAnimate", "ngMaterial", "restmod", "continue.auth", "continue.models", "continue.social_accounts", "ngTagsInput", "infinite-scroll", "hc.marked"]);
+  app = angular.module("continue", ["ngResource", "ngAria", "ngAnimate", "ngMaterial", "restmod", "continue.auth", "continue.models", "continue.social_accounts", "ngTagsInput", "infinite-scroll", "hc.marked", "omr.angularFileDnD"]);
 
   app.config([
     "$httpProvider", function($httpProvider) {
@@ -19,5 +19,15 @@
       });
     }
   ]);
+
+  app.factory("settings", function() {
+    var STATIC_URL, UPLOADED_URL;
+    STATIC_URL = "/static/";
+    UPLOADED_URL = "" + STATIC_URL + "uploaded/";
+    return {
+      STATIC_URL: STATIC_URL,
+      UPLOADED_URL: UPLOADED_URL
+    };
+  });
 
 }).call(this);

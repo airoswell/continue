@@ -14,7 +14,7 @@
 
 ## Front End
 - ### Dashboard
-    - Items and posts search
+    - <s>Items</s> and posts search
     - Redesign item and post overview directives
         - Initialize items properly (post-items do not have options)
         - Change background color according to the condition
@@ -23,9 +23,9 @@
         - Add slide-up animation
     - <s>Histories list styling and wording.</s>
     - User profile
-- ### Front page
+- ### <s>Front page</s>
 - ### <s>Login, logout, sign up pages styling</s>
-- ### Search result page
+- ### </s>Search result page</s>
 - ### Logo design
 
 ## Domain

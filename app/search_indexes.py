@@ -21,6 +21,7 @@ class PostIndex(indexes.SearchIndex, indexes.Indexable):
 class ItemIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.EdgeNgramField(document=True, use_template=True)
     # these fields are used to narrow down data
+    owner = indexes.CharField(model_attr='owner')
     tags = indexes.CharField(model_attr="tags")
     tags_private = indexes.CharField(model_attr="tags_private")
 

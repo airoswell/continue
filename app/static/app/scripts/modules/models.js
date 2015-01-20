@@ -20,7 +20,7 @@
           return false;
         }
         self.loading = true;
-        if ("pre_save_handler" in self) {
+        if (self.pre_save_handler != null) {
           self.pre_save_handler();
         }
         Alert.show_msg("Saving your data to database ...");
@@ -82,6 +82,11 @@
       return {
         create: function(path) {
           return restmod.model(path).mix({
+            $hooks: {
+              "before-request": function(_req) {
+                return _req.url += "/";
+              }
+            },
             $extend: {
               Record: {
                 loading: false,
@@ -220,7 +225,7 @@
               for (i = _j = 0, _ref = post.items.length; 0 <= _ref ? _j < _ref : _j > _ref; i = 0 <= _ref ? ++_j : --_j) {
                 item = post.items[i];
                 post.items[i] = Item.transform(item);
-                if ("tags" in item) {
+                if (item.tags != null) {
                   if (typeof item.tags === "string") {
                     if (item.tags) {
                       _results1.push(item.tags = item.tags.split(","));
@@ -251,6 +256,37 @@
             },
             initialize: function() {
               return initialize(this);
+            },
+            pre_save_handler: function() {
+              var item, self, _i, _len, _ref, _results;
+              self = this;
+              if ("tags" in self) {
+                if (typeof self.tags === "object") {
+                  self.tags = self.tags.join(",");
+                }
+              }
+              if (self.items != null) {
+                _ref = self.items;
+                _results = [];
+                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                  item = _ref[_i];
+                  if (item.tags != null) {
+                    if (typeof item.tags === "object") {
+                      item.tags = item.tags.join(",");
+                    }
+                  }
+                  if (item.tags_private != null) {
+                    if (typeof item.tags_private === "object") {
+                      _results.push(item.tags_private = item.tags_private.join(","));
+                    } else {
+                      _results.push(void 0);
+                    }
+                  } else {
+                    _results.push(void 0);
+                  }
+                }
+                return _results;
+              }
             }
           },
           Model: {
@@ -542,6 +578,14 @@
       return InfiniteScroll;
 
     })();
-  });
+  }).factory("Image", [
+    "Model", function(Model) {
+      return Model.create("/images/").mix({
+        $extend: {
+          record: ""
+        }
+      });
+    }
+  ]);
 
 }).call(this);

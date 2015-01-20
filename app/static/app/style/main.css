@@ -473,7 +473,7 @@ tags-input.custom {
     cursor: pointer;
 }
 tags-input.custom .tags{
-    border: none;background: transparent;
+    border: none;background: transparent;cursor: pointer;
     box-shadow: none;
 }
 tags-input.custom .host{

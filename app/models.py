@@ -138,6 +138,10 @@ def CheckAndUpdateProfile(sender, **kwargs):
 class Item(models.Model):
     title = models.CharField(max_length=144, blank=False)
     owner = models.ForeignKey(User, related_name="inventory")
+    area = models.CharField(max_length=5, default="", blank=True)
+    area_descripttion = models.CharField(
+        max_length=500, default="", blank=True,
+    )
     requesters = models.ManyToManyField(User, related_name="items_requested")
     quantity = models.IntegerField(default=1)
     model = models.CharField(max_length=200, default="", blank=True, null=True)
@@ -307,6 +311,23 @@ class Item(models.Model):
         queryset[0].save()      # To trigger Haystack update_index
         print("\t\t Item.update() ==> errors: %s" % (errors))
         return queryset[0], errors
+
+
+class CustomizedCharField(models.Model):
+    item = models.ForeignKey(Item, related_name="customized_char_fields")
+    title = models.CharField(max_length=144, blank=False)
+    value = models.CharField(max_length=500, blank=True, default="")
+    time_updated = models.DateTimeField(auto_now=True)
+    time_created = models.DateTimeField(auto_now_add=True)
+
+
+class CustomizedNumField(models.Model):
+    item = models.ForeignKey(Item, related_name="customized_num_fields")
+    title = models.CharField(max_length=144, blank=False)
+    value = models.DecimalField(max_digits=10, decimal_places=3, blank=False)
+    unit = models.CharField(max_length=20, blank=True, default="")
+    time_updated = models.DateTimeField(auto_now=True)
+    time_created = models.DateTimeField(auto_now_add=True)
 
 
 class Post(models.Model):
@@ -500,6 +521,9 @@ class ItemTransactionRecord(models.Model):
                 item.visibility = "Ex-owners"
                 # Add original owner to the previous_owners field
                 item.previous_owners.add(giver)
+                # Clear previous requesters
+                for requester in item.requesters.all():
+                    item.requesters.remove(requester)
             # If the item is revoked, the requester should be able
             # to request it again, thus remove him/her from the
             # requester list.
@@ -548,3 +572,12 @@ class PostAndItemsRequest(models.Model):
 
     def __unicode__(self):
         return unicode(self.message)
+
+
+class Image(models.Model):
+    image = models.ImageField(upload_to='item_images')
+    owner = models.ForeignKey(
+        User, related_name='uploaded_item_images',
+        blank=False,
+    )
+    time_created = models.DateTimeField(auto_now_add=True)

@@ -21,7 +21,7 @@ angular.module 'continue.models', [
     self.loading = true
     # By default, saving the object should be under the current user's
     # name
-    if "pre_save_handler" of self
+    if self.pre_save_handler?
       self.pre_save_handler()
     Alert.show_msg("Saving your data to database ...")
     self.$save().$then (response) ->
@@ -74,6 +74,9 @@ angular.module 'continue.models', [
   return {
     create: (path) ->
       restmod.model(path).mix(
+        $hooks:
+          "before-request": (_req)->
+            _req.url += "/"
         $extend:
           Record:
             loading: false
@@ -171,7 +174,7 @@ angular.module 'continue.models', [
           # With all possible mod-choices
           item = post.items[i]
           post.items[i] = Item.transform(item)
-          if "tags" of item
+          if item.tags?
             if typeof(item.tags) == "string"
               if item.tags
                 item.tags = item.tags.split(",")
@@ -189,6 +192,21 @@ angular.module 'continue.models', [
           is_valid(this)
         initialize: () ->
           initialize(this)
+        pre_save_handler: ()->
+          self = this
+          # Deal with the tags of the post
+          if "tags" of self
+            if typeof(self.tags) == "object"
+              self.tags = self.tags.join(",")
+          # Deal with the tags of the items
+          if self.items?
+            for item in self.items
+              if item.tags?
+                if typeof(item.tags) == "object"
+                  item.tags = item.tags.join(",")
+              if item.tags_private?
+                if typeof(item.tags_private) == "object"
+                  item.tags_private = item.tags_private.join(",")
       Model:
         search: (params)->
           search(this, params)
@@ -375,3 +393,11 @@ angular.module 'continue.models', [
               for item in record.items
                 @base_tags_handler(item)
       return response
+
+
+.factory "Image", ["Model", (Model) ->
+  return Model.create("/images/").mix(
+    $extend:
+      record:""
+  )
+]

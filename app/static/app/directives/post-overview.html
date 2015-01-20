@@ -45,10 +45,14 @@
       <div>
         <div class="text-large" ng-bind="post.title"></div>
         <div layout='row'>
-          <div>Location: <bind ng-bind="post.area"></bind></div>
-          <div follow-button-area area='{{post.area}}' style='color:#999;cursor:pointer' ng-cloak
-              ng-click="follow(post.area)" ng-show="!is_followed(post.data)">
-            <i class='fa fa-plus'></i>
+          <div>Location: <bind ng-bind="post.area"></bind></div>&nbsp;&nbsp;
+          <div style="color:#999;cursor:pointer;border:1px solid #eee;padding:0px 5px;"
+              follow-button-area area='{{post.area}}' ng-cloak ng-show="!is_followed(post.area)"
+              ng-click="follow(post.area)">
+            <i class='fa fa-plus'></i>&nbsp;Follow
+          </div>
+          <div ng-cloak ng-show="is_followed(post.area)">
+            <i class="fa fa-check"></i>
           </div>
         </div>
       </div>

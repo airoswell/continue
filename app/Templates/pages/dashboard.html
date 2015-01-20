@@ -72,7 +72,9 @@
         <div layout='row'>
           <div hide-sm flex="20" style='margin-top:20px;text-align:right'>
             <br/>
-            <div class='text-large' style='color:#666'>Update</div>
+            <div class='text-large' style='color:#666'>
+              {% if event.field != 'creation' %}Update{% else %}New item{% endif %}
+            </div>
             <div style='color:#999'>{{ event.time_updated|date:"M/d/Y" }}</div>
           </div>
           <div flex>
@@ -89,7 +91,10 @@
                 <div layout='row'>
                   <div hide-sm flex="20" style='margin-top:20px;text-align:right'>
                     <br/>
-                    <div class="text-large" style='color:#666;'>Update</div>
+                    <div class="text-large" style='color:#666;'>
+                      <if ng-if="record.field!='creation'">Update</if>
+                      <if ng-if="record.field=='creation'">New item</if>
+                    </div>
                     <div style='color:#999;'
                         ng-bind="event.time_posted|date:'MMM/dd/yyyy'">
                     </div>

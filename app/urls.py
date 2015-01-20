@@ -30,7 +30,6 @@ urlpatterns += patterns(
 # =================== Django-Rest-Framework API ======================
 urlpatterns += patterns(
     "api",
-    url(r'^test/?$', api.test.as_view(), name='post_list'),
     url(r'^posts/?$', api.PostList.as_view(), name='post_list'),
     url(r'^posts/(?P<pk>\d*)/$',
         api.PostDetail.as_view(), name='post_detail'),
@@ -62,6 +61,9 @@ urlpatterns += patterns(
     url(r'^timeline/$',
         api.TimelineList.as_view(),
         name='timeline_list'),
+    url(r'^images/$',
+        api.ImageList.as_view(),
+        name='image_list'),
 )
 
 # postman URL

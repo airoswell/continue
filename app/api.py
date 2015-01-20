@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Models and serializers
-from app.models import Item, Post, UserProfile
+from app.models import Item, Post, UserProfile, Image
 from app.models import ItemEditRecord, ItemTransactionRecord, PostItemStatus
 from app.serializers import *
 import app.permissions as perms
@@ -16,13 +16,8 @@ from rest_framework import permissions
 # Django Allauth
 from allauth.socialaccount.models import SocialToken
 # Other Python module
-from controllers import *
-
-
-class test(XListAPIView):
-
-    def get(self, request):
-        return Response(data=request.query_params)
+import operator
+from django.db.models import Q
 
 
 class PostList(XListAPIView):
@@ -241,9 +236,11 @@ class ItemList(XListAPIView):
             kwargs_tags_private = {"tags_private": tag for tag in tags}
             kwargs = dict(kwargs_tags.items() + kwargs_tags_private.items())
             print("\n\tkwargs = %s" % (kwargs))
-            import pdb; pdb.set_trace()
             sqs = (SearchQuerySet().models(self.model)
-                   .filter(owner=request.user).filter_or(**kwargs))
+                   .filter(**kwargs_tags).filter_or(**kwargs_tags_private)
+                   .filter(owner=request.user)
+                   )
+            print("\tReturned %s search results: %s" % (sqs.count(), sqs))
             if not sqs:
                 return Response(status=st.HTTP_404_NOT_FOUND)
             sqs = [sq.object for sq in sqs]
@@ -685,14 +682,19 @@ class TimelineManager:
             model = self.models[index]
             if not kwargs:  # If *args but not **kwargs is provided
                 temp_kwargs = args[index]
-                # If the user wants to make a "filter_or" query
-                # the django Q class will be needed
-                if self.filter_type[index] == "or":
-                    from django.db.models import Q
+                # if user specified a Q object as argument,
+                # just use it directly
+                if type(temp_kwargs) is Q:
+                    queryset = (model.objects.filter(temp_kwargs)
+                                .order_by(self.order_by[index])
+                                [start: start + self.num_of_records + 1])
+                elif self.filter_type[index] == "or":
                     Q_list = []
                     for field in temp_kwargs:
                         value = temp_kwargs[field]
                         if type(value) is list:
+                            # for making OR filter to the same field, e.g.
+                            # filter(area='11790' or area='11720' or area=...)
                             for sub_value in value:
                                 Q_list.append(Q(**{field: sub_value}))
                         else:
@@ -721,7 +723,7 @@ class TimelineManager:
             if queryset:
                 querysets.append(queryset)
         if not querysets:
-            return None
+            return []
         # ======== merge and limit the querysets ========
         timeline = self.merge(*querysets)[0:self.num_of_records]
         return timeline
@@ -783,10 +785,43 @@ class FeedList(TimelineAPIView):
     def get_query_args(self, request):
         user = request.user
         interested_areas = user.interested_areas().split(",")
+        Ex_owners_Q = Q(
+            visibility='Ex-owners', previous_owners__id=request.user.id
+        )
+        public_Q = Q(visibility='Public')
+        areas_Q = Q(area__in=interested_areas)
+        owner_Q = Q(owner=user)
+        item_arg = reduce(
+            operator.or_,
+            [owner_Q, reduce(
+                operator.and_,
+                [areas_Q, reduce(
+                    operator.or_,
+                    [public_Q, Ex_owners_Q]
+                )]
+            )]
+        )
+        update_Ex_owners_Q = Q(
+            item__visibility='Ex-owners',
+            item__previous_owners__id=request.user.id
+        )
+        update_public_Q = Q(item__visibility='Public')
+        update_areas_Q = Q(item__area__in=interested_areas)
+        update_owner_Q = Q(item__owner=user)
+        update_arg = reduce(
+            operator.or_,
+            [update_owner_Q, reduce(
+                operator.and_,
+                [update_areas_Q, reduce(
+                    operator.or_,
+                    [update_public_Q, update_Ex_owners_Q]
+                )]
+            )]
+        )
         query_args = [
             {"area": interested_areas},
-            {"owner": user},
-            {"item__owner": user},
+            item_arg,
+            update_arg,
         ]
         return query_args
 
@@ -806,3 +841,30 @@ class TimelineList(TimelineAPIView):
             {"receiver": user, "giver": user}
         ]
         return query_args
+
+
+class ImageList(XListAPIView):
+    """
+        get, create posts of the current user.
+    """
+    permission_classes = (
+        # only logged in user can post
+        permissions.IsAuthenticatedOrReadOnly,
+    )
+
+    model = Image
+    serializer = ImageSerializer
+    num_of_records = 100
+
+    def get(self, request):
+        return Response(data=request.query_params)
+
+    def post(self, request):
+        data = request.data
+        serialized = ImageSerializer(data=data)
+        if serialized.is_valid():
+            image = serialized.save()
+            print(image.image.url)
+        return Response(
+            data={"url": image.image.url}
+        )

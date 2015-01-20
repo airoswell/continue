@@ -9,9 +9,8 @@
         link: function(scope) {
           scope.show_more = false;
           $('textarea').autosize();
-          scope.save = function(item, handler) {
+          scope.save = function(item, success_handler) {
             var tag, tags, tags_private;
-            console.log(item.tags_input);
             tags = [
               (function() {
                 var _i, _len, _ref, _results;
@@ -38,7 +37,10 @@
             ][0].join(",");
             item.tags = tags;
             item.tags_private = tags_private;
-            return item.save(handler).$asPromise();
+            success_handler = function(item) {
+              return item.expanded = false;
+            };
+            return item.save(success_handler).$asPromise();
           };
           scope.expand = function(item) {
             if (item.expanded !== true) {
@@ -52,7 +54,9 @@
           return scope.get_albums = function(item) {
             Alert.show_msg("Downloading your albums ...");
             return Album.get_albums().then(function(response) {
-              return item.pic = response;
+              if (response) {
+                return item.pic = response;
+              }
             });
           };
         }

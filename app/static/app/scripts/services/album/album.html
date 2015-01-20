@@ -2,12 +2,47 @@
   .thumbnail{
     cursor: pointer;margin: 5px;
   }
+  .method{
+    border: 2px solid #ccc;height: 120px;
+    padding: 20px;
+    border-radius: 5px;
+    background: #eee;
+    cursor: pointer;
+  }
+  .method:hover{
+    background: #ddd;
+  }
 </style>
 
 <div ng-controller="albumCtrl">
-  <div>
+  <!-- Facebook albums and photos -->
+  <br/>
+  <div class='text-large'>
+    Update your items picture by
+  </div>
+  <div layout='row' layout-sm='column' layout-align='center'>
+    <div file-dropzone="[image/png, image/jpeg, image/gif]" file="image" class='method' data-max-file-size="3" file-name="imageFileName">
+      <div layout='row' layout-align='center'>
+        <i class="fa fa-upload" style='font-size:50px;'></i>
+      </div>
+      <div class='text-large'>Drap & drop your photo here</div>
+    </div>
+    &nbsp;&nbsp;
+    <div>
+      <img ng-src="{{image}}" height=120 style='border-radius:5px;' />
+    </div>
+    &nbsp;&nbsp;
+    <div class='method' ng-click="layout.method='social'">
+      <div layout='row' layout-align='center'>
+        <i class="fa fa-facebook-square" style='font-size:50px;'></i>
+      </div>
+      <div class='text-large'>Select from your social account</div>
+    </div>
+  </div>
+
+  <div ng-show="layout.method =='social'">
     <div ng-show='layout.album_list_is_show'>
-      <div class='text-large'>Albums</div>
+      <div class='text-large'>Select an album</div>
       <div layout='row' layout-align='center'>
         <div class="thumbnail" 
             ng-repeat="album in pagination(Album.albums)"
@@ -29,19 +64,33 @@
     </div>
   </div>
 
+  <br/>
+  <!-- Buttons -->
   <div layout='row' layout-align='center'>
-    <div class='button button-small button-gray'
+    <div ng-show="layout.method =='social'" class='button button-small button-gray'
         ng-show='!layout.album_list_is_show'
         ng-click="back_to_albums()">
       Back to albums
     </div>
-    <div class='button button-small button-gray'
+    <div ng-show="layout.method =='social'" class='button button-small button-gray'
       ng-click="prev_page()">
       Previous
     </div>
-    <div class='button button-small button-gray'
+    <div ng-show="layout.method =='social'" class='button button-small button-gray'
         ng-click="next_page()">
       Next
+    </div>
+    <div ng-show="layout.method =='upload' && image && !uploaded" class='button button-small button-gray'
+        ng-click="upload()">
+      Upload
+    </div>
+    <div ng-show="layout.method =='upload' && image && uploaded" class='button button-small button-gray'
+        ng-click="select_uploaded()">
+      OK
+    </div>
+    <div class='button button-small button-gray'
+        ng-click="cancel()">
+      Cancel
     </div>
   </div>
 </div>
