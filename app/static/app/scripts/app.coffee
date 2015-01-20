@@ -28,7 +28,7 @@ app.config [
 ]
 
 app.factory "settings", ()->
-  STATIC_URL = "/static/"
+  STATIC_URL = "http://104.237.144.150/static/"
   UPLOADED_URL = "#{STATIC_URL}uploaded/"
   return {
     STATIC_URL: STATIC_URL
