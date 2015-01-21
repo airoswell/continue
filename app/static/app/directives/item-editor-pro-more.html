@@ -1,12 +1,33 @@
 <div class="dashboard-item-overview-details">
   <br/>
-  <tags-input class='custom long' ng-model='item.tags_input' class='custom' placeholder="Tag you item">
-  </tags-input>
-  <tags-input class='custom purple long' ng-model='item.tags_private_input' placeholder="Private tags">
-  </tags-input>
   <div layout='row'>
-    &nbsp;&nbsp;&nbsp;&nbsp;
-    <input-dropdown label="'Frequence of use'" flex
+    <div layout='column' layout-align='center'>
+      <div><i class="fa fa-tags" style='font-size:20px;'></i>&nbsp;</div>
+    </div>
+    <div flex>
+      <tags-input class='custom long' ng-model='item.tags_input' class='custom' placeholder="Tag you item"></tags-input>
+    </div>
+  </div>
+  <div layout='row'>
+    <div layout='column' layout-align='center'>
+      <div><i class="fa fa-tags" style='font-size:20px;color:#CA5EFA;'></i>&nbsp;</div>
+    </div>
+    <div flex>
+      <tags-input class='custom purple long' ng-model='item.tags_private_input' placeholder="Private tags">
+      </tags-input>
+    </div>
+  </div>
+  <div>
+    <input-dropdown label="'Condition'" flex style='margin-left:10px;margin-right:10px;display:inline-block'
+        choices="item.condition_choices" data='item.condition'>
+    </input-dropdown>
+    <input-dropdown label="'Visible to'" flex style='margin-left:10px;margin-right:10px;display:inline-block'
+        choices="item.visibility_choices" data='item.visibility'>
+      </input-dropdown>
+    <input-dropdown label="'Available'" flex style='margin-left:10px;margin-right:10px;display:inline-block'
+        choices="['For Share', 'For Sale', 'No']" data='item.available'>
+    </input-dropdown>
+    <input-dropdown label="'Frequence of use'" flex style='margin-left:10px;margin-right:10px;display:inline-block;'
         choices="item.utilization_choices" data='item.utilization'>
     </input-dropdown>
   </div>

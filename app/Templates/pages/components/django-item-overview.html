@@ -44,7 +44,7 @@
     <!-- Request Button or check mark -->
     <!-- Only the third party (neither the owner of the post nor the item) -->
     <!-- can see the following components                                  -->
-    {%   if view == "search" and item.owner == post.owner and item.available or view == "dashboard" and item.available or view == 'timeline' and item.available %}
+    {%   if view == "search" and item.owner == post.owner and item.available != "No" or view == "dashboard" and item.available != "No" or view == 'timeline' and item.available != "No" %}
     <!-- If the post owner still owns the item -->
     {%       if request.user in item.requesters.all %}
       <div layout='column'>

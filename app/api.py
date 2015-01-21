@@ -262,6 +262,7 @@ class ItemList(XListAPIView):
                 start, num_of_records,
                 owner__id=request.user.id,
             )
+            print("\n\tdata = %s" % (data))
             return Response(data=data, status=status)
         # unauthenticated user cannot get any item list
         else:

@@ -33,9 +33,9 @@
     <!-- Request Button -->
     <!-- Only the third party (neither the owner of the post nor the item) -->
     <!-- can see the following components  -->
-    <if ng-if="(post.owner != profile.user_id && item.owner != profile.user_id) || (feeds && items.availability == 'Available')">
+    <if ng-if="item.owner != profile.user_id">
       <!-- If the post owner still owns the item -->
-      <if ng-if="item.owner == post.owner && item.transferrable">
+      <if ng-if="(view == 'search' && item.owner == post.owner && item.available != 'No') || (view == 'dashboard' && item.available != 'No' ) || view == 'timeline' and item.available != 'No' ">
         <!-- ===================================== -->
         <!-- If the user has requested the item -->
         <if ng-if="profile.user_id|requested:item">
@@ -69,21 +69,23 @@
     <!-- - and the item is transferrable -->
     <!-- show the transfer menu -->
     <!-- <if ng-if="post.owner == profile.user_id && item.owner == profile.user_id"> -->
-    <if ng-if="post.owner == profile.user_id && item.owner == profile.user_id">
-      <div layout='column' layout-align='space-between'>
-        <if ng-if="item.transferrable && item.requesters">
-          <transfer-menu></transfer-menu>  
-        </if>
-        <angular-item-edit-menu></angular-item-edit-menu>
-      </div>
-    </if>
-    <if ng-if="!post && item.owner == profile.user_id">
-      <div layout='column' layout-align='space-between'>
-        <if ng-if="item.requesters && item.transferrable">
-          <angular-transfer-menu></angular-transfer-menu>  
-        </if>
-        <angular-item-edit-menu></angular-item-edit-menu>
-      </div>
+    <if ng-if="item.owner == profile.user_id">
+      <if ng-if='view == "search" && profile.user_id == post.owner'>
+        <div layout='column' layout-align='space-between'>
+          <angular-item-edit-menu></angular-item-edit-menu>
+          <if ng-if="item.transferrable && item.requesters">
+            <transfer-menu></transfer-menu>  
+          </if>
+        </div>
+      </if>
+      <if ng-if="view != 'search'">
+        <div layout='column' layout-align='space-between'>
+          <angular-item-edit-menu></angular-item-edit-menu>
+          <if ng-if="item.requesters && item.transferrable">
+            <angular-transfer-menu></angular-transfer-menu>  
+          </if>
+        </div>
+      </if>
     </if>
   </div>
 </div>

@@ -83,13 +83,16 @@ def retrieve_records(model, serializer, start, num_of_records, **search_kwargs):
     # Deal with serialization errors
     try:
         serialized = serializer(queryset, many=True)
+        print("\n\t serialized.data = %s" % (serialized.data))
         serialized.data     # Call once to detect potential FieldError
     except FieldError:
         return ({"error": "Incorrect query kwargs.",
                  "error_detail": "Ask the administrator."},
                 st.HTTP_400_BAD_REQUEST)
-    except KeyError:
+    except KeyError, e:
+        print("\n\t there is error in CRUD.retrieve_records: %s" % (e))
         queryset = ErrorHandler(serializer).key_error_filter(queryset)
+        print("\n\t queryset = %s " % (queryset))
     # ================================================================
     serialized = serializer(queryset, many=True)
     status = st.HTTP_200_OK if queryset else st.HTTP_404_NOT_FOUND

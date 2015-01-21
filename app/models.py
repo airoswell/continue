@@ -172,7 +172,14 @@ class Item(models.Model):
         default='Good'
     )
     transferrable = models.BooleanField(default=True)
-    available = models.BooleanField(default=False)
+    available_choices = (
+        ("For Share", "For Share"), ("For Sale", "For Sale"), ("No", "No")
+    )
+    available = models.CharField(
+        choices=available_choices,
+        default="No",
+        max_length=3,
+    )
     previous_owners = models.ManyToManyField(
         User,
         related_name='previously_owned_item',

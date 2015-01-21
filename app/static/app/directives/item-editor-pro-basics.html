@@ -6,13 +6,18 @@
   <div ng-if="!item.pic" ng-click='get_albums(item)'>
     &nbsp;&nbsp;<i class='fa fa-picture-o' style='font-size:40px;'></i>
   </div>
-  <div layout='row' flex>
-    <input-dropdown label="'Condition'" flex style='margin-left:10px;margin-right:10px;'
-        choices="item.condition_choices" data='item.condition'>
-    </input-dropdown>
-    &nbsp;&nbsp;&nbsp;&nbsp;
-    <input-dropdown label="'Visible to'" flex style='margin-left:10px;margin-right:10px;'
-        choices="item.visibility_choices" data='item.visibility'>
-    </input-dropdown>
+  <div layout='row' layout-align='end' flex style='font-size:20px;'>
+    <switch ng-switch on="item.visibility">
+      <switch ng-switch-when="Public"><i class='fa fa-globe'></i></switch>
+      <switch ng-switch-when="Private"><i class='fa fa-lock'></i></switch>
+      <switch ng-switch-when="Ex-owners"><i class='fa fa-users'></i></switch>
+    </switch>
+    &nbsp;&nbsp;
+    <switch ng-switch on="item.available">
+      <switch ng-switch-when="For Sale"><i class='fa fa-dollar'></i></switch>
+      <switch ng-switch-when="For Share">
+        <i class='fa fa-share-alt'></i>
+      </switch>
+    </switch>
   </div>
 </div>

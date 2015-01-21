@@ -87,13 +87,13 @@
         <div ng-repeat="record in feeds">
           <div>
             <switch ng-switch on="record.model_name">
+              <!-- New post -->
               <switch ng-switch-when="Post" ng-init="post=record">
                 <div layout='row'>
                   <div hide-sm flex="20" style='margin-top:20px;text-align:right'>
                     <br/>
                     <div class="text-large" style='color:#666;'>
-                      <if ng-if="record.field!='creation'">Update</if>
-                      <if ng-if="record.field=='creation'">New item</if>
+                      <if ng-if="record.field!='creation'">New post</if>
                     </div>
                     <div style='color:#999;'
                         ng-bind="event.time_created|date:'MMM/dd/yyyy'">
@@ -104,11 +104,15 @@
                   </div>
                 </div>
               </switch>
+              <!-- Item Update -->
               <switch ng-switch-when="ItemEditRecord" ng-init="event=record">
                 <div layout='row'>
                   <div hide-sm flex="20" style="margin-top:20px;text-align:right">
                     <br/>
-                    <div class="text-large" style='color:#666;'>Update</div>
+                    <div class="text-large" style='color:#666;'>
+                      <if ng-if="record.field!='creation'">Update</if>
+                      <if ng-if="record.field=='creation'">New item</if>
+                    </div>
                     <div style='color:#999;'
                         ng-bind="event.time_updated|date:'MMM/dd/yyyy'">
                     </div>
@@ -204,7 +208,7 @@
       </div>
 
       <div ng-show="layout.show_items_search_results"
-          flex-gt-lg="60" flex-lg="65" flex-gt-md="70" flex-md="70">
+          flex-gt-lg="65" flex-gt-md="75" flex-md="70">
         <div class="text-large">Search results: <b><span ng-bind="layout.items_search_keyword"></span></b></div>
         <div layout='row' layout-align='end'>
           <div class='button button-small button-gray' ng-click="layout.show_items_search_results = false">

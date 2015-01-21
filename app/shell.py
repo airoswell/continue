@@ -17,6 +17,7 @@ from rest_framework.parsers import JSONParser
 import operator
 from django.db.models import Q
 
-for post in Post.objects.all():
-    post.time_created = datetime.datetime.now()
-    post.save()
+
+for item in Item.objects.all():
+    item.available = "For Share"
+    item.save()
