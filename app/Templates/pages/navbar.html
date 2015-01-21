@@ -20,14 +20,15 @@
     <div class="logo text-large">Continue</div>
   </a>
   <div class='menu text-default' layout='row' layout-align='end center'>
-    <div auto-expand data="q" min-size="15" init-width="150px"
-        class="dropdown">
+    <div ng-cloak >
       <!-- Search form -->
       <form id='search-form' name='search-form' action="/app/search/"
           layout='row' layout-align='center center'>
         <i class='fa fa-search'></i>&nbsp;&nbsp;&nbsp;
-        <input type='text' placeholder='Search and hit enter.'
+        <span auto-expand data="q" min-size="15" init-width="160px">
+          <input type='text' placeholder='Search and hit enter.'
             ng-model="q" name='q'>
+        </span>
         <!-- Dropdown advanced search panel -->
         <span drop-down-menu>
           <a href drop-down-menu-trigger><i class="fa fa-caret-down"></i></a>
