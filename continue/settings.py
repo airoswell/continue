@@ -182,7 +182,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+# ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = "/app/"
 
 # The id of the working URL in the Sites table
@@ -201,7 +201,7 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 # The email backend for allauth
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     # Required by allauth template tags
