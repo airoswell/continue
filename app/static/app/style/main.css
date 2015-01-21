@@ -129,7 +129,7 @@ em{
 }
 
 input, textarea{
-    font-size: 14px;color: #999;
+    font-size: 14px;color: #666;
     transition: all 0.3s ease-out;
     -webkit-transition: all 0.2s ease-out;
     -moz-transition: all 0.2s ease-out;

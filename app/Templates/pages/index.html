@@ -2,7 +2,23 @@
 
 {% block content %}
   {% load staticfiles %}
-  <div flex style='background-image: url("{% static "app/images/bg.jpg" %}");height:750px;'>
+  <style type="text/css">
+    #index-search-form tags-input.custom input{
+      color: #fff;
+    }
+    #index-search-form tags-input.custom .host{
+      border: none;
+      border-bottom: 2px solid #ddd;
+      margin-top: 0px;margin-bottom: 0px;
+    }
+    #index-search-form tags-input.custom input{
+      width: 80px;
+    }
+    #index-search-form tags-input.custom .tags.focused{
+      box-shadow: none;
+    }
+  </style>
+  <div flex style='background-image: url("{% static "app/images/bg.jpg" %}");height:750px;' ng-controller="indexCtrl">
     <div layout='row'>
       <div flex-gt-md='10'></div>
       <div style='color:#aaa' flex>
@@ -25,30 +41,62 @@
     </div>
     <br/>
     <div layout='row' layout-align='center'>
-      <form enter-to-submit id='index-search-form'
+      <form id='index-search-form'
           class="search-form search-form-large" name='search-form'
           action="/app/search/"
-          style=' padding:30px;background-color:rgba(0,0,0,0.4);'>
-          <div style='color: #ccc;'><a href="/app/user/signup/"><b>Sign up</b></a> now, or start searching</div>
-          <br/>
-          <div layout='column' layout-gt-md='row' layout-align='center'>
-            <div layout>
-              <input enter-to-submit-input type='text' name='q' placeholder='Search items, posts, owner, areas, etc.' style='width:500px;'>
-            </div>
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            <div layout>
-              <input enter-to-submit-input class='input-short' type='text' name='area' placeholder='Area zip code' style='width:100px;'>
-            </div>
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            <div layout>
-              <div class='button button-small button-gray' type="submit"
-                  onclick="document.getElementById('index-search-form').submit()">
-                Go
+          style=' padding:30px;background-color:rgba(0,0,0,0.6);'>
+          <div style='color: #ccc;'><a href="/app/user/signup/"><b style='font-size:20px;'>Sign up</b></a> now, or start <b style='font-size:20px;'>searching</b></div>
+          <div layout-gt-md='row' layout='column' >
+            <!-- Search inputs -->
+            <div style='margin:20px 40px;'>
+              <div style='width:100%'>
+                <input enter-to-submit-input type='text' name='q' placeholder='Search products, posts, owners, etc.'
+                style='width:400px;color:#fff;'
+                ng-model="q">
+              </div>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <div style='width:100%'>
+                <tags-input class='custom' ng-model="areas_tags"
+                    allowed-tags-pattern="^\d{5}$"
+                    placeholder="Areas zip codes, separated by comma">
+                </tags-input>
+              </div>
+              <br/>
+              <div style='width:100%;'>
+                <tags-input class='custom' ng-model="tags_tags"
+                    allowed-tags-pattern="^[a-zA-Z0-9_\-]+$"
+                    placeholder="Tags to refine search">
+                </tags-input>
+              </div>
+              <input type='text' name='areas' style='display:none'>
+              <input type='text' name='tags' style='display:none'>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <div layout='row' layout-align='start center'>
+                <div>
+                  <i class='fa fa-key' style='color:#fff;'></i>
+                  <input type='text' name='secret_key'
+                      placeholder='Got secret key? Enter here!'
+                      style='width:200px;color:#fff;'>
+                </div>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <div class='button button-small button-gray' type="submit"
+                    ng-click="search()">
+                  <i class='fa fa-search'></i>&nbsp;Go search
+                </div>
               </div>
             </div>
+            <!-- Browse button -->
+            <div style='color: #ccc;text-align:center;margin:20px 40px;'>
+              Or just &nbsp;&nbsp;
+              <br/><br/>
+              <a href="/app/search/?q=">
+                <div class='button button-small' style='border:1px solid #ddd;background:rgba(255,255,255,0.2);width:120px;padding:10px;'>
+                  <div><b style='font-size:20px;'>Browse</b></div>
+                  <div>all recent posts.</div>
+                </div>
+              </a>
+            </div>
           </div>
-          <br/><br/>
-          <div style='color: #ccc;text-align:center'>or just &nbsp;&nbsp;<a href="/app/search/?q="><span class='button button-small' style='border:1px solid #ddd;background:rgba(255,255,255,0.2)'><b>browse all recent posts.</b></span></a> </div>
       </form>
     </div>
   </div>

@@ -3,6 +3,7 @@
 {{ object.area }}
 {{ object.owner }}
 {{ object.tags }}
+{{ object.secret_key }}
 {% for item in object.items.all %}
   {{ item.title }}
   {{ item.tags }}

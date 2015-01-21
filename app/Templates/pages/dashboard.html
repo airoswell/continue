@@ -59,7 +59,7 @@
         <div layout='row' class="event">
           <div hide-sm flex='20' style='margin-top:20px;text-align:right'>
             <div class='text-large' style='color:#666'>New post</div>
-            <div style='color:#999'>{{ event.time_posted|date:"M/d/Y" }}</div>
+            <div style='color:#999'>{{ event.time_created|date:"M/d/Y" }}</div>
           </div>
           <div flex>
       {%       include 'pages/components/post-overview.html'%}
@@ -96,7 +96,7 @@
                       <if ng-if="record.field=='creation'">New item</if>
                     </div>
                     <div style='color:#999;'
-                        ng-bind="event.time_posted|date:'MMM/dd/yyyy'">
+                        ng-bind="event.time_created|date:'MMM/dd/yyyy'">
                     </div>
                   </div>
                   <div flex>

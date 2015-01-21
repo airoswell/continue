@@ -7,6 +7,7 @@
       $scope.layout = {
         detail_input: false
       };
+      $scope.submission_error = false;
       $scope.$watch("id", function() {
         if ($scope.id != null) {
           $scope.post = Post.$find($scope.id);
@@ -61,6 +62,11 @@
       };
       return $scope.save = function() {
         var tag, tags, tags_array;
+        if (!$scope.postEditor.$valid) {
+          $scope.submission_error = true;
+          Alert.show_error("Please fill in the required fields.");
+          return;
+        }
         tags_array = [
           (function() {
             var _i, _len, _ref, _results;

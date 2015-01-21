@@ -101,14 +101,38 @@ def index(request):
 def search(request):
     # Initialize date passed from search input
     params = request.GET
-    s = S(Post)
-    posts = s.search(params)
-    area = ""
-    q = ""
-    if "area" in params:
-        area = params["area"]
+    content = ""
+    areas = ""
+    tags = ""
+    secret_key = ""
     if "q" in params:
-        q = params['q']
+        content = params['q']
+    if "areas" in params:
+        areas = params["areas"]
+    if "tags" in params:
+        tags = params["tags"]
+    if "secret_key" in params:
+        secret_key = params['secret_key']
+    s = S(Post)
+    s.config(
+        num_of_records=8,
+    )
+    if not secret_key:
+        posts = s.__search__(
+            content=content,
+            areas=areas,
+            tags=tags,
+            visibility="Public",
+        )
+    else:
+        posts = s.__search__(
+            content=content,
+            areas=areas,
+            tags=tags,
+            visibility="Invitation",
+            secret_key=secret_key,
+        )
+    posts = [post.object for post in posts]
     return render(
         request,
         'pages/search.html',
@@ -116,8 +140,10 @@ def search(request):
             'view': 'search',
             "posts": posts,
             "user": user_info_generator(request.user),
-            "q": q,
-            "area": area,
+            "q": content,
+            "areas": areas,
+            "tags": tags,
+            "secret_key": secret_key,
             "init_post_num": len(posts),
         }
     )
@@ -243,7 +269,7 @@ def dashboard(request):
     interested_areas = user.profile.all()[0].interested_areas
     tl = TimelineManager(Post, Item, ItemEditRecord, )
     tl.config(
-        order_by=("-time_posted", "-time_created", "-time_updated", ),
+        order_by=("-time_created", "-time_created", "-time_updated", ),
         filter_type = ["or", "or", "or"],
         num_of_records=10,
     )

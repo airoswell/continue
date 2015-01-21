@@ -39,18 +39,27 @@ class PostList(XListAPIView):
         start, num_of_records = self.paginator(request)
         print "start = %s." % (start)
         if "q" in params:
+            areas = ""
+            tags = ""
+            content = params['q']
+            if "areas" in params:
+                areas = params["areas"]
+            if "tags" in params:
+                tags = params["tags"]
             s = S(Post)
             s.config(
-                num_of_records=num_of_records,
+                num_of_records=8,
                 start=start,
             )
-            posts = s.search(params)
-            if posts:
-                return Response(
-                    data=self.serializer(posts, many=True).data,
-                )
-            else:
+            posts = s.__search__(
+                content=content,
+                areas=areas,
+                tags=tags,
+            )
+            if not posts:
                 return Response(status=st.HTTP_404_NOT_FOUND)
+            posts = [post.object for post in posts]
+            return Response(data=self.serializer(posts, many=True).data)
         # Display list of posts of a specified user
         elif "user_id" in params:
             return run_and_respond(
@@ -58,14 +67,6 @@ class PostList(XListAPIView):
                 Post, PostSerializerLite,
                 start, num_of_records,
                 owner__id=params["user_id"]
-            )
-        # Display list of posts of a location
-        elif "area" in params:
-            return run_and_respond(
-                retrieve_records,
-                Post, PostSerializerLite,
-                start, num_of_records,
-                area=params['area']
             )
         # Display all posts of the current user
         data, status = retrieve_records(
@@ -356,33 +357,57 @@ from haystack.query import SearchQuerySet
 
 
 class S:
-    def __init__(self, model):
-        self.model = model
+    def __init__(self, *models):
+        self.models = models
         self.start = 0
-        self.num_of_records = 10
+        self.order_by = "-time_created"
+        self.num_of_records = 20
+        self.user = None
+        self.sqs_full = None
 
     def config(self, **kwargs):
         for kwarg in kwargs:
             setattr(self, kwarg, kwargs[kwarg])
+
+    def __search__(self, content="", areas="", tags="", **kwargs):
+        start = self.start
+        end = start + self.num_of_records
+        # import pdb; pdb.set_trace()
+        if not content:
+            sqs = SearchQuerySet().models(*self.models).all()
+        else:
+            sqs = SearchQuerySet().models(*self.models).filter(content=content)
+        if areas:
+            sqs = sqs.filter(area__in=areas.split(","))
+        if tags:
+            tags_list = tags.split(",")
+            Q_list = [Q(tags=tag) for tag in tags_list]
+            sqs = sqs.filter(reduce(operator.or_, Q_list))
+        if kwargs:
+            sqs = sqs.filter(**kwargs)
+        sqs = sqs.order_by(self.order_by)
+        self.sqs_full = sqs
+        return sqs[start: end]
 
     def search(self, params):
         start = self.start
         end = self.start + self.num_of_records
         area = ""
         if "area" in params:
-            area = params['area']
+            area = params['area'].split(",")
         if not ("q" in params) and area:
-            return self.model.in_areas(area)[start:end]
+            return self.models.filter(area__in=area)[start:end]
         # Note that the default ordering of models are not respected here
         if params["q"] != "":
-            sqs = (SearchQuerySet().models(Post).filter(content=params['q'])
-                   .order_by("-time_posted"))
+            sqs = (SearchQuerySet().models(self.models)
+                   .filter(content=params['q'])
+                   .order_by(self.order_by))
         # If no parameter is specified, make a full data search
         else:
-            sqs = (SearchQuerySet().models(Post).all()
-                   .order_by("-time_posted"))
-        if area != "":
-            sqs = sqs.filter(area=area)
+            sqs = (SearchQuerySet().models(self.model).all()
+                   .order_by(self.order_by))
+        if area:
+            sqs = sqs.filter(area__in=area)
         results = [sq.object for sq in sqs][start:end]
         return results
 
@@ -779,7 +804,7 @@ class FeedList(TimelineAPIView):
     models = (Post, Item, ItemEditRecord, )
     models_str = ("Post", "Item", "ItemEditRecord")
     serializer = (PostSerializer, ItemSerializer, ItemEditRecordSerializer, )
-    order_by = ("-time_posted", "-time_created", "-time_updated", )
+    order_by = ("-time_created", "-time_created", "-time_updated", )
     filter_type = ["or", "or", "or"]
 
     def get_query_args(self, request):

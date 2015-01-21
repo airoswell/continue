@@ -1,8 +1,28 @@
 {% extends 'layout.html' %}
 
 {% block content %}
+{% load markdown_deux_tags %}
+<style type="text/css">
+  .post-editor .post-detail{
+    background:#f9f9f9;padding:20px;cursor:pointer;
+    transition: all 0.2;border: 1px solid #ddd;
+    -webkit-transition: all 0.2;
+  }
+  .post-editor .post-detail:hover{
+    background: #f4f4f4;
+  }
+  .post-editor .post-detail:active{
+    background: #eee;
+  }
+  .post-editor textarea{
+    border: 1px solid #ddd;
+  }
+  input.submission-error.ng-invalid.ng-dirty{
+    background: red;color: #fff;
+  }
+</style>
 
-<div class='post-editor' ng-controller="postCtrl" ng-cloak
+<form name='postEditor' class='post-editor' ng-controller="postCtrl" ng-cloak
     style='padding:20px;'
     {% if post.id %} ng-init="id={{ post.id }}" {% endif %}
     layout='row' layout-align='center'>
@@ -17,18 +37,45 @@
       <div class='text-small' style='color:#999'>Click to edit</div>
       <div auto-expand data='post.title' init-width="180px" min-size=1>
         <input type='text'
-            style="font-size: 25px;padding-left:0px;border:none;color:#666;line-height:40px;"
+            style="font-size: 25px;padding-left:0px;border:none;line-height:40px;"
+            ng-class="{'submission-error': submission_error}"
             ng-model="post.title" required
             ng-init="post.title = '{{post.title}}'"
             placeholder="Post title here">
       </div>
-      <div>
-        Area (zip code) &nbsp;
-        <input type='text' ng-model="post.area" ng-init="post.area='{{ request.user.profile.all.0.primary_area}}'"
-            style='width:44px;padding:0px;'>
+      <div layout='column' layout-gt-md='row'>
+        <div>
+          <div style='color:#999;margin-bottom:5px;border-color:transparent;'>Area (zip code) &nbsp;</div>
+          <div>
+            <input style='width:44px;padding:0px;font-weight:600' type='text'
+                ng-model="post.area" 
+                ng-class="{'submission-error': submission_error}"
+                ng-init="post.area='{{ request.user.profile.all.0.primary_area}}'"
+                required ng-maxlength="5" ng-minlength='5'>
+          </div>
+        </div>
+        &nbsp;
+        &nbsp;
+        <div>
+          <input-dropdown label="'Visible to'" flex
+              choices="post.visibility_choices" data='post.visibility'>
+          </input-dropdown>
+        </div>
+        &nbsp;
+        &nbsp;
+        <div auto-expand data='post.secret_key' min-size="20" init-width="160px" ng-show='post.visibility == "Invitation"'>
+          <div style='color:#999;margin-bottom:5px;border-color:transparent;'>
+            Secret key
+          </div>
+          <div>
+            <i class="fa fa-key"></i>&nbsp;<input style='padding:0px;color:#666;font-weight:600' type='text'
+                placeholder="4-50 characters"
+                ng-model="post.secret_key"
+                ng-maxlength="50" ng-minlength="4">
+          </div>
+        </div>
       </div>
     </div>
-    {% load markdown_deux_tags %}
     <br/>
     
     <!-- ======== Tags ======== -->
@@ -39,9 +86,10 @@
       </tags-input>
     </div>
 
+    <!-- ======== Detail ======== -->
     <div>
-      <div ng-show="!layout.detail_input" ng-click="show_detail_editor()"
-          style='background:#f9f9f9;padding:20px;cursor:pointer'>
+      <div class="post-detail" ng-show="!layout.detail_input"
+          ng-click="show_detail_editor()">
         {{ post.detail|markdown }}
       </div>
       <div ng-show="layout.detail_input">
@@ -89,5 +137,5 @@
       <div ng-click="save()" class='button button-small button-gray'>Save</div>
     </div>
   </div>
-</div>
+</form>
 {% endblock %}

@@ -16,7 +16,7 @@
       var copy, next_page, prev_page, save;
       save = function(self, successHandler, errorHandler) {
         if (!self.is_valid()) {
-          Alert.show_error("Your input contains invalid data.");
+          Alert.show_error("Your input is not complete or contains invalid data.");
           return false;
         }
         self.loading = true;
@@ -169,7 +169,7 @@
     }
   ]).factory('Post', [
     "$q", "Model", "Item", "Auth", function($q, Model, Item, Auth) {
-      var add_item, condition_choices, init, is_valid, search;
+      var add_item, condition_choices, init, is_valid, search, visibility_choices;
       condition_choices = ["New", "Like new", "Good", "Functional", "Broken"];
       init = {
         title: "",
@@ -199,6 +199,9 @@
           if (item.title.length === 0) {
             return false;
           }
+        }
+        if (self.visibility === "Invitation" && !self.secret_key) {
+          return false;
         }
         return true;
       };
@@ -245,9 +248,11 @@
           return _results;
         });
       };
+      visibility_choices = ["Private", "Public", "Invitation"];
       return Model.create('/posts/').mix({
         $extend: {
           Record: {
+            visibility_choices: visibility_choices,
             add_item: function() {
               return add_item(this);
             },
@@ -260,6 +265,9 @@
             pre_save_handler: function() {
               var item, self, _i, _len, _ref, _results;
               self = this;
+              if (self.visibility !== "Invitation") {
+                self.secret_key = "";
+              }
               if ("tags" in self) {
                 if (typeof self.tags === "object") {
                   self.tags = self.tags.join(",");
@@ -494,6 +502,7 @@
       function InfiniteScroll(Model) {
         this.success_handler = __bind(this.success_handler, this);
         this.load = __bind(this.load, this);
+        this.params = __bind(this.params, this);
         this.config = __bind(this.config, this);
         this.Model = Model;
       }
@@ -521,27 +530,44 @@
         }
       };
 
-      InfiniteScroll.prototype.load = function(model) {
+      InfiniteScroll.prototype.params = function(model) {
+        var key, params;
         if (model == null) {
           if (this.model_types.length > 1) {
-            return this.Model.search({
+            params = {
               starts: this.init_starts
-            });
+            };
           } else {
-            return this.Model.search({
+            params = {
               start: this.init_starts
-            });
+            };
           }
         } else {
           if (this.model_types.length > 1) {
-            return model.fetch({
+            params = {
               starts: model.starts
-            });
+            };
           } else {
-            return model.fetch({
+            params = {
               start: model.start
-            });
+            };
           }
+        }
+        if (this.extra_params != null) {
+          for (key in this.extra_params) {
+            params[key] = this.extra_params[key] || "";
+          }
+        }
+        return params;
+      };
+
+      InfiniteScroll.prototype.load = function(model) {
+        var params;
+        params = this.params(model);
+        if (model == null) {
+          return this.Model.search(params);
+        } else {
+          return model.fetch(params);
         }
       };
 

@@ -3,7 +3,7 @@
 {% block content %}
 <div id='search-results-wrapper'
     layout='column' layout-align='start center'
-    ng-init="q='{{q}}'; init_post_num={{init_post_num}}"
+    ng-init="q='{{q}}';tags='{{tags}}';areas='{{areas}}'; init_post_num={{init_post_num}}"
     ng-controller="SearchResultsCtrl">
   
   <!-- Side navigation bar -->
@@ -38,7 +38,7 @@
         </div>
         <div layout='row' layout-align='center center'>
           <div class='text-default'>Area: &nbsp;&nbsp;</div>
-          <div><input type='text' name='area'></div>
+          <div><input type='text' name='areas'></div>
         </div>
         <button type='submit' class='button button-default'>Search</button>
       </form>

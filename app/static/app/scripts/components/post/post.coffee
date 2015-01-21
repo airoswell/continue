@@ -6,7 +6,7 @@ angular.module "continue"
   $scope.layout = {
     detail_input: false
   }
-
+  $scope.submission_error = false
   # If 'id' is specified, load the post from server.
   $scope.$watch "id", ()->
     if $scope.id?
@@ -43,6 +43,10 @@ angular.module "continue"
     $scope.new_items = []
 
   $scope.save = ()->
+    if not $scope.postEditor.$valid
+      $scope.submission_error = true
+      Alert.show_error("Please fill in the required fields.")
+      return
     tags_array = [tag.text for tag in $scope.tags_input]
     tags = tags_array.join(",")
     $scope.post.tags = tags

@@ -8,8 +8,10 @@ class PostIndex(indexes.SearchIndex, indexes.Indexable):
     title = indexes.CharField(model_attr='title')
     detail = indexes.CharField(model_attr='detail')
     area = indexes.CharField(model_attr='area')
-    time_posted = indexes.DateTimeField(model_attr="time_posted")
     tags = indexes.CharField(model_attr="tags")
+    visibility = indexes.CharField(model_attr="visibility")
+    secret_key = indexes.CharField(model_attr="secret_key")
+    time_created = indexes.DateTimeField(model_attr="time_created")
 
     def get_model(self):
         return Post

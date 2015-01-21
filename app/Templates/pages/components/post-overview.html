@@ -16,7 +16,7 @@
       <!-- User's name and time posted -->
       <div>
         <div class="username"><b>{{ post.owner.username }}</b></div>
-        <div class="time-posted">{{ post.time_posted }}</div>
+        <div class="time-posted">{{ post.time_created }}</div>
       </div>
     </div>
     <!-- Expiration time -->
@@ -52,7 +52,7 @@
           <div> Location: {{ post.area }}</div>
           &nbsp;&nbsp;
           <div style="color:#999;cursor:pointer;border:1px solid #eee;padding:0px 5px;"
-              follow-button-area area='{{post.area}}' ng-cloak ng-show="!is_followed({{post.area}})"
+              follow-button-area area='{{post.area}}' ng-cloak ng-show="!is_followed({{post.area}}) && !profile.is_anonymous"
               ng-click="follow({{post.area}})">
             <i class='fa fa-plus'></i>&nbsp; Follow
           </div>

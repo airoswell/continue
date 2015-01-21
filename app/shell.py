@@ -14,11 +14,9 @@ from django.utils.six import BytesIO
 from rest_framework import serializers
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
+import operator
+from django.db.models import Q
 
-for item in Item.objects.all():
-    if item.previous_owners.all():
-        print("\n")
-        print(item.title)
-        print(item.previous_owners.all())
-
-Item.objects.filter(previous_owners__username='yiwen')
+for post in Post.objects.all():
+    post.time_created = datetime.datetime.now()
+    post.save()

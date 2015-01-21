@@ -2,7 +2,8 @@ angular.module "continue"
 
 
 .controller "SearchResultsCtrl", [
-  "$scope", "Post", "Alert", ($scope, Post, Alert)->
+  "$scope", "Post", "Alert", "InfiniteScroll",
+  ($scope, Post, Alert, InfiniteScroll)->
 
     $scope.scroll_to_post = (id)->
       top = $("#post-#{id}").offset().top
@@ -12,47 +13,32 @@ angular.module "continue"
     $scope.layout = {
       loading:
         posts: false
-        feeds: false
     }
 
+    infinite_scroll_posts = new InfiniteScroll(Post)
     $scope.load_posts = ()->
+      # Disable infinite scroll while loading
       $scope.layout.loading.posts = true
-      if not $scope.posts
-        $scope.posts = Post.search(
-          "start": $scope.init_post_num
-          "q": $scope.q
-          "area": $scope.area
-        )
-      else
-        $scope.posts = $scope.posts.fetch(
-          "start": $scope.posts.start
-          "q": $scope.q
-          "area": $scope.area
-        )
-      $scope.posts.$then (response)->
-        # store the next [start] param; it will propagate to
-        # queryset[start:end]65
-        if $scope.posts.start == 0
-          $scope.posts.start = parseInt($scope.init_post_num) + response.length
-        else
-          $scope.posts.start = parseInt($scope.posts.start) + response.length
-        # Deal with the tags
-        for post in response
-          if post.tags
-            if typeof(post.tags) == "string"
-              post.tags = post.tags.split(",")
-          else
-            post.tags = []
-          for item in post.items
-            if item.tags
-              if typeof(item.tags) == "string"
-                item.tags = item.tags.split(",")
-              else
-                item.tags = []
-      .$asPromise().then ()->
+      infinite_scroll_posts.config(
+        model_types: ["Post"]       # Expected model types from the backend
+        init_starts: $scope.init_post_num
+        extra_params: {
+          q: $scope.q,
+          tags: $scope.tags,
+          areas: $scope.areas,
+          secret_key: $scope.secret_key,
+        }
+      )
+      $scope.posts = infinite_scroll_posts.load(
+        $scope.posts
+      )
+      $scope.posts.$asPromise().then (response)->
+        # Success handlers
+        infinite_scroll_posts.success_handler(response)
         $scope.layout.loading.posts = false
       , ()->
-        Alert.show_msg("All posts are loaded above.")
+        # Error handlers
+        Alert.show_msg("All posts are downloaded ...")
 ]
 
 .directive "searchPostOverview", ["PrivateMessage", (PrivateMessage)->

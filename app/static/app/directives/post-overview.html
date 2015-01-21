@@ -15,7 +15,7 @@
       <!-- User's name and time posted -->
       <div>
         <div class="username"><b ng-bind="post.owner_name"></b></div>
-        <div class="time-posted" ng-bind="post.time_posted|date: 'MMM dd yyyy H: mm a'"></div>
+        <div class="time-posted" ng-bind="post.time_created|date: 'MMM dd yyyy H: mm a'"></div>
       </div>
     </div>
     <!-- Expiration time -->
@@ -47,7 +47,7 @@
         <div layout='row'>
           <div>Location: <bind ng-bind="post.area"></bind></div>&nbsp;&nbsp;
           <div style="color:#999;cursor:pointer;border:1px solid #eee;padding:0px 5px;"
-              follow-button-area area='{{post.area}}' ng-cloak ng-show="!is_followed(post.area)"
+              follow-button-area area='{{post.area}}' ng-cloak ng-show="!is_followed(post.area) && !profile.is_anonymous"
               ng-click="follow(post.area)">
             <i class='fa fa-plus'></i>&nbsp;Follow
           </div>

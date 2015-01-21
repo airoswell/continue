@@ -3,7 +3,8 @@
   var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   angular.module("continue").controller("SearchResultsCtrl", [
-    "$scope", "Post", "Alert", function($scope, Post, Alert) {
+    "$scope", "Post", "Alert", "InfiniteScroll", function($scope, Post, Alert, InfiniteScroll) {
+      var infinite_scroll_posts;
       $scope.scroll_to_post = function(id) {
         var top;
         top = $("#post-" + id).offset().top;
@@ -14,66 +15,28 @@
       };
       $scope.layout = {
         loading: {
-          posts: false,
-          feeds: false
+          posts: false
         }
       };
+      infinite_scroll_posts = new InfiniteScroll(Post);
       return $scope.load_posts = function() {
         $scope.layout.loading.posts = true;
-        if (!$scope.posts) {
-          $scope.posts = Post.search({
-            "start": $scope.init_post_num,
-            "q": $scope.q,
-            "area": $scope.area
-          });
-        } else {
-          $scope.posts = $scope.posts.fetch({
-            "start": $scope.posts.start,
-            "q": $scope.q,
-            "area": $scope.area
-          });
-        }
-        return $scope.posts.$then(function(response) {
-          var item, post, _i, _len, _results;
-          if ($scope.posts.start === 0) {
-            $scope.posts.start = parseInt($scope.init_post_num) + response.length;
-          } else {
-            $scope.posts.start = parseInt($scope.posts.start) + response.length;
+        infinite_scroll_posts.config({
+          model_types: ["Post"],
+          init_starts: $scope.init_post_num,
+          extra_params: {
+            q: $scope.q,
+            tags: $scope.tags,
+            areas: $scope.areas,
+            secret_key: $scope.secret_key
           }
-          _results = [];
-          for (_i = 0, _len = response.length; _i < _len; _i++) {
-            post = response[_i];
-            if (post.tags) {
-              if (typeof post.tags === "string") {
-                post.tags = post.tags.split(",");
-              }
-            } else {
-              post.tags = [];
-            }
-            _results.push((function() {
-              var _j, _len1, _ref, _results1;
-              _ref = post.items;
-              _results1 = [];
-              for (_j = 0, _len1 = _ref.length; _j < _len1; _j++) {
-                item = _ref[_j];
-                if (item.tags) {
-                  if (typeof item.tags === "string") {
-                    _results1.push(item.tags = item.tags.split(","));
-                  } else {
-                    _results1.push(item.tags = []);
-                  }
-                } else {
-                  _results1.push(void 0);
-                }
-              }
-              return _results1;
-            })());
-          }
-          return _results;
-        }).$asPromise().then(function() {
+        });
+        $scope.posts = infinite_scroll_posts.load($scope.posts);
+        return $scope.posts.$asPromise().then(function(response) {
+          infinite_scroll_posts.success_handler(response);
           return $scope.layout.loading.posts = false;
         }, function() {
-          return Alert.show_msg("All posts are loaded above.");
+          return Alert.show_msg("All posts are downloaded ...");
         });
       };
     }

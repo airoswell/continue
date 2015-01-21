@@ -15,7 +15,7 @@ angular.module 'continue.models', [
   save = (self, successHandler, errorHandler) ->
     # Prepare for saving
     if not self.is_valid()
-      Alert.show_error("Your input contains invalid data.")
+      Alert.show_error("Your input is not complete or contains invalid data.")
       return false
     # Save the record
     self.loading = true
@@ -155,6 +155,8 @@ angular.module 'continue.models', [
     for item in self.items
       if item.title.length == 0
         return false
+    if self.visibility == "Invitation" and not self.secret_key
+      return false
     return true
 
   # <Post, Model> method
@@ -181,11 +183,12 @@ angular.module 'continue.models', [
               else
                 item.tags = []
           
-
+  visibility_choices = ["Private", "Public", "Invitation"]
 
   return Model.create('/posts/').mix({
     $extend:
-      Record: 
+      Record:
+        visibility_choices: visibility_choices
         add_item: () ->
           add_item(this)
         is_valid: () ->
@@ -194,6 +197,8 @@ angular.module 'continue.models', [
           initialize(this)
         pre_save_handler: ()->
           self = this
+          if self.visibility != "Invitation"
+            self.secret_key = ""
           # Deal with the tags of the post
           if "tags" of self
             if typeof(self.tags) == "object"
@@ -360,18 +365,27 @@ angular.module 'continue.models', [
             parent.tags = parent.tags.split(",")
           else
             parent.tags = []
-
-    load: (model) =>
+    params: (model)=>
       if not model?    # if model does not exist, start the first search
         if @model_types.length > 1
-          return @Model.search(starts: @init_starts)
+          params = {starts: @init_starts}
         else
-          return @Model.search(start: @init_starts)
+          params = {start: @init_starts}
       else
         if @model_types.length > 1
-          return model.fetch(starts: model.starts)
+          params = starts: model.starts
         else
-          return model.fetch(start: model.start)
+          params = {start: model.start}
+      if @extra_params?
+        for key of @extra_params
+          params[key] = @extra_params[key] or ""
+      return params
+    load: (model) =>
+      params = @params(model)
+      if not model?    # if model does not exist, start the first search
+        return @Model.search(params)
+      else
+        return model.fetch(params)
 
     success_handler: (response)=>
       if @model_types.length == 1

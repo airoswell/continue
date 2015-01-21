@@ -341,17 +341,30 @@ class Post(models.Model):
     area = models.CharField(
         max_length=5,
         blank=False,
-        default=''
+        default='',
     )
     tags = models.CharField(max_length=500, blank=True, null=True, default="")
     detail = models.TextField(default='', blank=True)
+    visibility_choices = (
+        ('Private', 'Private'),
+        ('Public', 'Public'),
+        ('Invitation', 'Invitation'),
+    )
+    visibility = models.CharField(
+        max_length=20, blank=False,
+        choices=visibility_choices,
+        default='Public'
+    )
+    secret_key = models.CharField(
+        max_length=100, blank=True, default=''
+    )
     today = datetime.date.today()
     day = today + relativedelta(months=1)
     expiration_date = models.DateField(default=day)
-    time_posted = models.DateTimeField(auto_now_add=True)
+    time_created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ['-time_posted']
+        ordering = ['-time_created']
 
     def remaining_time(self):
         from datetime import datetime
@@ -446,9 +459,9 @@ class Post(models.Model):
         all posts in either of the areas.
         Can be used for searching posts from multiple areas
         """
-        Q_list = [Q(area=area) for area in areas]
-        return (cls.objects.filter(reduce(operator.or_, Q_list))
-                .order_by("-time_posted"))
+
+        return (cls.objects.filter(area__in=list(areas))
+                .order_by("-time_created"))
 
     def owner_photo(self):
         return self.owner.photo()

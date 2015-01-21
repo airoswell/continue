@@ -150,7 +150,8 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ('id', 'title', 'owner', 'area', 'detail',
-                  'time_posted', 'expiration_date', 'items', "tags",
+                  "visibility", "secret_key",
+                  'time_created', 'expiration_date', 'items', "tags",
                   'remaining_time', 'owner_photo', 'owner_name', "model_name",
                   )
 
@@ -165,7 +166,7 @@ class PostSerializerLite(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ('id', 'title', 'owner', 'area', 'detail',
-                  'time_posted', 'expiration_date', 'items', 'owner', "tags",
+                  'time_created', 'expiration_date', 'items', 'owner', "tags",
                   'remaining_time', 'model_name',
                   )
 

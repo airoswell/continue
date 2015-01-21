@@ -15,7 +15,7 @@
         ng-repeat="tag in item.tags_private" ng-bind='tag' ng-click="items_search(tag)">
       </span>
     </div>
-    <div class='text-default' style="color:#999;letter-spacing:0.2px;line-height:1.5;">
+    <div class='text-default' style="color:#999;letter-spacing:0.2px;line-height:1.5;" ng-show='item.status'>
       &nbsp;<i class="fa fa-quote-left"></i>&nbsp;&nbsp;<span ng-bind="item.status" ></span>
     </div>
     <textarea

@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterModelOptions(
             name='post',
-            options={'ordering': ['-time_posted']},
+            options={'ordering': ['-time_created']},
         ),
         migrations.AlterModelOptions(
             name='review',
