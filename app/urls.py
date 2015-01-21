@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, url, include
 # ======== Postman ========
 from postman.views import InboxView, ReplyView, MessageView, ConversationView
+from postman.views import DeleteView
 from postman import OPTIONS
 from app import views, api
 
@@ -77,5 +78,9 @@ urlpatterns += patterns(
         MessageView.as_view(), name='view'),
     url(r'^user/view/t/(?P<thread_id>[\d]+)/$',
         ConversationView.as_view(), name='view_conversation'),
+)
+
+urlpatterns += patterns(
+    "",
     (r'^user/', include('allauth.urls')),
 )
