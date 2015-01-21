@@ -178,7 +178,7 @@ class Item(models.Model):
     available = models.CharField(
         choices=available_choices,
         default="No",
-        max_length=3,
+        max_length=20,
     )
     previous_owners = models.ManyToManyField(
         User,
