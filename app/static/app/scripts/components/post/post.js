@@ -77,8 +77,11 @@
         var tag, tags, tags_array;
         if (!$scope.postEditor.$valid) {
           $scope.submission_error = true;
-          Alert.show_error("Please fill in the required fields.");
+          Alert.show_error("You input maybe incomplete, or invalid.");
           return;
+        }
+        if ($scope.post.visibility === "Invitation" && !$scope.post.secret_key) {
+          $scope.missing_key = true;
         }
         tags_array = [
           (function() {

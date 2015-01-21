@@ -1,12 +1,13 @@
 <div flex layout='row'>
   <div ng-if='item.pic' ng-click="get_albums(item)" style='cursor:pointer'>
     &nbsp;&nbsp;
-    <img height=40 ng-src="{{item.pic}}"></a>
-  </div>
-  <div ng-if="!item.pic" ng-click='get_albums(item)'>
-    &nbsp;&nbsp;<i class='fa fa-picture-o' style='font-size:40px;'></i>
+    <img height=40 ng-src="{{item.pic}}">
   </div>
   <div layout='row' layout-align='end' flex style='font-size:20px;'>
+    <div ng-click='get_albums(item)' style='cursor:pointer'>
+      <i class='fa fa-camera'></i>
+    </div>
+    &nbsp;&nbsp;
     <switch ng-switch on="item.visibility">
       <switch ng-switch-when="Public"
           tooltip="The item is visible in the public search and feeds."
@@ -21,7 +22,7 @@
       <switch ng-switch-when="Ex-owners"
           tooltip="The item is only visible to you and the previous owners"
           tooltip-placement="bottom">
-        <i class='fa fa-users'></i>
+        <i class='fa fa-user'></i>
       </switch>
     </switch>
     &nbsp;&nbsp;

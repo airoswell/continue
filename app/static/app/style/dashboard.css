@@ -1,12 +1,7 @@
 /* Feeds */
 
-.event .post-container{
-    margin-top: 0px;
-}
-
-
 #dashboard-wrapper{
-    padding:20px;
+    padding:20px;background: #f9f9f9;height: 100%;
 }
 .dashboard-history-list{
     padding: 5px 20px;background: #f9f9f9;min-height: 300px;
@@ -22,6 +17,11 @@
 /* =========================== item list =========================== */
 .dashboard-item-overview-basics, .dashboard-item-overview-details{
     padding:0px 10px 10px 10px;
+}
+.item-editor-pro{
+    background: #fff;
+    box-shadow: 0px 3px 8px #ccc;
+    margin:20px;padding:20px;border:1px solid #eee;
 }
 .dashboard-item-overview textarea{
     padding: 5px 10px;

@@ -3,6 +3,12 @@
 {% block content %}
 {% load markdown_deux_tags %}
 <style type="text/css">
+  #post-editor-wrapper{
+    padding: 0px 40px;
+  }
+  .post-editor{
+    min-height: 680px;background: #fff;box-shadow: 0px 3px 8px #ccc;
+  }
   .post-editor .post-detail{
     background:#f9f9f9;padding:20px;cursor:pointer;
     transition: all 0.2;border: 1px solid #ddd;
@@ -17,37 +23,48 @@
   .post-editor textarea{
     border: 1px solid #ddd;
   }
-  input.submission-error.ng-invalid.ng-dirty{
-    background: red;color: #fff;
+  .post-editor .post-preview{
+    padding:10px;background:#f4f4f4;border:1px solid #ddd;
+  }
+  input.submission-error.ng-invalid.ng-dirty,
+  .post-editor .missing-key{
+    background: #f17483;color: #fff;
+  }
+  .post-editor tags-input.custom .host{
+    border: none;
+  }
+  .post-editor tags-input.custom .tags.focused{
+    box-shadow: none;
   }
 </style>
 
-<form name='postEditor' class='post-editor' ng-controller="postCtrl" ng-cloak
-    style='padding:20px;'
-    {% if post.id %} ng-init="id={{ post.id }}" {% endif %}
-    layout='row' layout-align='center'>
-  <div flex-gt-md="80" flex>
-    {% if not post %}
-    <div class='section-title section-title-large'>
-      <i class="fa fa-align-left"></i> &nbsp;New post
-    </div>
-    <br/>
-    {% endif %}
-    <div>
-      <div class='text-small' style='color:#999'>Click to edit</div>
-      <div auto-expand data='post.title' init-width="180px" min-size=1>
-        <input type='text'
-            style="font-size: 25px;padding-left:0px;border:none;line-height:40px;"
-            ng-class="{'submission-error': submission_error}"
-            ng-model="post.title" required
-            ng-init="post.title = '{{post.title}}'"
-            placeholder="Post title here">
+<div id='post-editor-wrapper'>
+  {% if not post %}
+  <div class='section-title section-title-large'>
+    <i class="fa fa-align-left"></i> &nbsp;New post
+  </div>
+  {% endif %}
+  <form name='postEditor' ng-controller="postCtrl" ng-cloak
+      style='padding:20px;'
+      {% if post.id %} ng-init="id={{ post.id }}" {% endif %}
+      layout='row' layout-align='center'>
+    <div  class='post-editor' flex-gt-md="80" flex="100">
+      <div style='background:#f9f9f9;padding:20px;border-bottom:1px dashed #ddd;'>
+        <div class='text-small' style='color:#999'>Click to edit</div>
+        <div>
+          <input type='text'
+              style="font-size: 25px;padding-left:0px;border:none;line-height:40px;width:100%;"
+              ng-class="{'submission-error': submission_error}"
+              ng-model="post.title" required
+              ng-init="post.title = '{{post.title}}'"
+              placeholder="Post title here">
+        </div>
       </div>
-      <div layout='column' layout-gt-md='row'>  
+
+      <div layout='row' style='padding:0px 20px;'>  
         <div style='padding:10px;'>
           <div style='color:#999;margin-bottom:5px;border-color:transparent;'>Area (zip code) &nbsp;</div>
           <div>
-
             <input style='width:44px;padding:0px;font-weight:600' type='text'
                 ng-model="post.area" 
                 ng-class="{'submission-error': submission_error}"
@@ -64,80 +81,90 @@
         </div>
         &nbsp;
         &nbsp;
-        <div style="padding:10px;" auto-expand data='post.secret_key' min-size="20" init-width="160px" ng-show='post.visibility == "Invitation"'>
+        <div style="padding:10px;"
+            auto-expand data='post.secret_key' min-size="20" init-width="200px" ng-show='post.visibility == "Invitation"'>
           <div style='color:#999;margin-bottom:5px;border-color:transparent;'>
             Secret key
-            <i class="fa fa-info-circle" tooltip-placement="bottom" tooltip="Invitation-only articles are only accessible via search with secret-key."></i>
+            <i class="fa fa-info-circle" tooltip-placement="bottom"
+                tooltip="The article will only appear when searched with the key. Share the key with people by whom you want the post to be seen."></i>
           </div>
           <div>
-            <i class="fa fa-key"></i>&nbsp;<input style='padding:0px;color:#666;font-weight:600' type='text'
-                placeholder="4-50 characters"
-                ng-model="post.secret_key"
-                ng-maxlength="50" ng-minlength="4">
+            <i class="fa fa-key"></i>&nbsp;
+            <input style='padding:0px;color:#666;font-weight:600' type='text'
+                placeholder="4-50 characters (a-Z, 0-9)"
+                ng-model="post.secret_key" ng-class="{'missing-key': missing_key}"
+                ng-maxlength="50" ng-minlength="4"
+                ng-pattern="[a-zA-Z0-9]">
           </div>
         </div>
       </div>
-    </div>
-    <br/>
-    
-    <!-- ======== Tags ======== -->
+      
+      <!-- ======== Tags ======== -->
 
-    <div flex>
-      <tags-input class="custom" ng-model='tags_input'
-          placeholder='Tag your post!'>
-      </tags-input>
-    </div>
+      <div style='padding:0px 20px;'>
+        <div flex layout='row' layout-align='start center' style='margin-bottom:5px;'>
+          <i class='fa fa-tags'></i>&nbsp; 
+          <div flex>
+            <tags-input class="custom" ng-model='tags_input'
+                placeholder='Tag your post for ease of search.'>
+            </tags-input>
+          </div>
+        </div>
 
-    <!-- ======== Detail ======== -->
-    <div>
-      <div class="post-detail" ng-show="!layout.detail_input"
-          ng-click="show_detail_editor()">
-        {{ post.detail|markdown }}
-      </div>
-      <div ng-show="layout.detail_input">
-        <textarea ng-model='post.detail'
-            placeholder="Post body goes here ... You can use the [ TAB ] key to indent.">
-        </textarea>
+        <!-- ======== Detail ======== -->
+        <div layout='row'>
+          <i class="fa fa-align-left"></i>&nbsp;&nbsp;
+          <div flex>
+            {% if post %}
+            <div class="post-detail" ng-show="!layout.detail_input"
+                ng-click="show_detail_editor()">
+              {{ post.detail|markdown }}
+            </div>
+            {% endif %}
+            <div {% if post %} ng-show="layout.detail_input" {% endif %}>
+              <textarea ng-model='post.detail'
+                  {% if not post %} style='height:250px;' {% endif %}
+                  placeholder="Post body goes here ... You can use the [ TAB ] key to indent.">
+              </textarea>
+              <br/>
+              <div class='text-large' style='padding:10px 0px;'>
+                <i class="fa fa-eye"></i>&nbsp;Preview
+              </div>
+              <div marked="post.detail" class="post-preview">
+                
+              </div>
+            </div>
+          </div>
+        </div>
+
         <br/>
-        <div class='text-large' style='padding:10px 0px;'>Preview</div>
-        <div marked="post.detail" style='padding:10px;background:#f4f4f4;border:1px solid ddd;'>
-          
+        <div>
+          {% for item in items %}
+          <div style='display:inline-block;margin-top:5px;margin-bottom:5px;'>
+            {% include 'django-item-overview.html'%}
+          </div>
+          {% endfor %}
+        </div>
+        <!-- Newly added item, either brand new of existing. -->
+        <div style='display:inline-block' ng-repeat="item in new_items">
+          <div layout='row'>
+            <angular-item-overview></angular-item-overview>
+          </div>
+        </div>
+
+        <!-- ======== Buttons ======== -->
+        <div layout='row' layout-align='end'>
+          <div class='button button-small button-gray'
+              ng-click="add_new_item()">Add new item</div>
+          <div class='button button-small button-gray'
+              ng-click="select_item()">Add existing item</div>
+          <div ng-click="reset()" class='button button-small button-gray'>
+            Reset
+          </div>
+          <div ng-click="save()" class='button button-small button-gray'>Save</div>
         </div>
       </div>
     </div>
-    <!-- ======== Tags ======== -->
-
-    <div flex>
-      <tags-input class="custom" ng-model='tags_input'
-          placeholder='Tag your post!'>
-      </tags-input>
-    </div>
-
-    <div>
-      {% for item in items %}
-      <div style='display:inline-block;margin-top:5px;margin-bottom:5px;'>
-        {% include 'django-item-overview.html'%}
-      </div>
-      {% endfor %}
-    </div>
-    <!-- Newly added item, either brand new of existing. -->
-    <div style='display:inline-block' ng-repeat="item in new_items">
-      <div layout='row'>
-        <angular-item-overview></angular-item-overview>
-      </div>
-    </div>
-
-    <!-- ======== Buttons ======== -->
-    <div layout='row' layout-align='end'>
-      <div class='button button-small button-gray'
-          ng-click="add_new_item()">Add new item</div>
-      <div class='button button-small button-gray'
-          ng-click="select_item()">Add existing item</div>
-      <div ng-click="reset()" class='button button-small button-gray'>
-        Reset
-      </div>
-      <div ng-click="save()" class='button button-small button-gray'>Save</div>
-    </div>
-  </div>
-</form>
+  </form>
+</div>
 {% endblock %}

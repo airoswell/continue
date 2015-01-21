@@ -1,6 +1,5 @@
-
-.post-container{
-    padding:20px;margin:20px 10px;box-shadow: 0px 2px 5px #ddd;
+#search-results-wrapper{
+    height: 100%;
 }
 .post-header{
     margin-top:5px;margin-bottom:5px;

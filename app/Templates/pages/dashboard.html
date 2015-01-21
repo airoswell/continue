@@ -36,15 +36,6 @@
     <div hide-sm>
       {% include 'pages/components/sidebar.html'%}
     </div>
-    <!-- The nav bar at the top when on small window -->
-    <div hide-gt-sm flex>
-      <div layout='row' flex>
-        <div flex class="button button-small button-gray" ng-click='display_tab("feeds")'>Feeds</div>
-        <div flex class="button button-small button-gray" ng-click='display_tab("timeline")'>Timeline</div>
-        <div flex class="button button-small button-gray" ng-click='display_tab("posts")'>Posts</div>
-        <div flex class="button button-small button-gray" ng-click='display_tab("items")'>Items</div>
-      </div>
-    </div>
     <!-- END: Side navigation bar -->
 
     <br/>
@@ -187,6 +178,7 @@
     <div infinite-scroll="load_posts()" infinite-scroll-distance="1"
         infinite-scroll-disabled="layout.display_tab !='posts' || layout.loading.posts || scrollTop < 600"
         ng-show="layout.display_tab == 'posts'" layout='row'>
+      <div flex-gt-md="10"></div>
       <div flex-gt-md="80" flex>
         {% for post in posts %}
         <div>
@@ -203,12 +195,25 @@
     <div id='items-display' ng-show='layout.display_tab == "items" '
         infinite-scroll="load_items()" infinite-scroll-distance="1"
         infinite-scroll-disabled="layout.display_tab !='items' || layout.loading.items || scrollTop < 600">
-      <div class="section-title-large">
-        Your inventory
+      <div class="section-title-large" layout='row'>
+        <div flex="10"></div>
+        <div>Your inventory</div>
       </div>
 
+      <!-- Item editors list -->
+      <div ng-hide="layout.show_items_search_results"
+          flex-gt-lg="60" flex-lg="65" flex-gt-md="70" flex-md="70"
+          layout='row'>
+        <div flex="10"></div>
+        <div>
+          <item-editor-pro ng-repeat="item in items"></item-editor-pro>
+        </div>
+      </div>
+
+      <!-- Search result -->
       <div ng-show="layout.show_items_search_results"
-          flex-gt-lg="65" flex-gt-md="75" flex-md="70">
+          flex-gt-lg="65" flex-gt-md="75" flex-md="70"
+          offset="10">
         <div class="text-large">Search results: <b><span ng-bind="layout.items_search_keyword"></span></b></div>
         <div layout='row' layout-align='end'>
           <div class='button button-small button-gray' ng-click="layout.show_items_search_results = false">
@@ -217,11 +222,6 @@
         </div>
         <item-editor-pro ng-repeat="item in items_search_results">
         </item-editor-pro>
-      </div>
-
-      <div ng-hide="layout.show_items_search_results"
-          flex-gt-lg="60" flex-lg="65" flex-gt-md="70" flex-md="70">
-        <item-editor-pro ng-repeat="item in items"></item-editor-pro>
       </div>
 
     </div>
