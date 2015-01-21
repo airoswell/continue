@@ -1,6 +1,7 @@
 {% load filters %}
-<div ng-cloak class='sidebar'>
-  <div class="sidebar-title text-large" style='background:#eee;padding:5px 10px;'>
+<div ng-cloak class='sidebar' hide-sm hide-md show-gt-md>
+  <div class="sidebar-title text-large" 
+      style='background:#eee;padding:5px 10px;'>
     <i class='fa fa-list'></i>&nbsp;Navigation
   </div>
   <div class='sidebar-body' style=''>
@@ -41,10 +42,9 @@
   </div>
 </div>
 
-    
-    
+
 <!-- The nav bar at the top when on small window -->
-<div hide-gt-sm flex>
+<div hide-gt-md flex>
   <div layout='row' flex>
     <div flex class="button button-small button-gray" ng-click='display_tab("feeds")'>Feeds</div>
     <div flex class="button button-small button-gray" ng-click='display_tab("timeline")'>Timeline</div>

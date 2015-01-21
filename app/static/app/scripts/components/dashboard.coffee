@@ -14,7 +14,7 @@ angular.module("continue")
 
     $scope.layout = {
       creating_new_item: false
-      display_tab: "posts"
+      display_tab: "feeds"
       show_items_search_results: false
       loading:
         "posts": false

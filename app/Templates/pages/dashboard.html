@@ -8,7 +8,7 @@
     layout='row' layout-align='end'>
   
   
-  <div flex-gt-md="80">
+  <div flex-gt-md="80" flex="100">
     <!-- Main interface -->
     <!-- Create item and post button -->
     <div trigger style='position:fixed;top:100px;right:20px;z-index:1'>
@@ -33,7 +33,7 @@
 
     <!-- Side navigation bar -->
     <!-- The nav bar on the left when on big windlw -->
-    <div hide-sm>
+    <div>
       {% include 'pages/components/sidebar.html'%}
     </div>
     <!-- END: Side navigation bar -->
@@ -48,7 +48,7 @@
       {%   with post=record%}
       {%     if post.model_name == 'Post' %}
         <div layout='row' class="event">
-          <div hide-sm flex='20' style='margin-top:20px;text-align:right'>
+          <div hide-sm flex-gt-md='20' flex="15" style='margin-top:20px;text-align:right'>
             <div class='text-large' style='color:#666'>New post</div>
             <div style='color:#999'>{{ event.time_created|date:"M/d/Y" }}</div>
           </div>
@@ -61,7 +61,7 @@
       {%   with event=record %}
       {%     if event.model_name == 'ItemEditRecord' %}
         <div layout='row'>
-          <div hide-sm flex="20" style='margin-top:20px;text-align:right'>
+          <div hide-sm flex-gt-md='20' flex="15" style='margin-top:20px;text-align:right'>
             <br/>
             <div class='text-large' style='color:#666'>
               {% if event.field != 'creation' %}Update{% else %}New item{% endif %}
@@ -81,7 +81,7 @@
               <!-- New post -->
               <switch ng-switch-when="Post" ng-init="post=record">
                 <div layout='row'>
-                  <div hide-sm flex="20" style='margin-top:20px;text-align:right'>
+                  <div hide-sm flex-gt-md='20' flex="15" style='margin-top:20px;text-align:right'>
                     <br/>
                     <div class="text-large" style='color:#666;'>
                       <if ng-if="record.field!='creation'">New post</if>
@@ -98,7 +98,7 @@
               <!-- Item Update -->
               <switch ng-switch-when="ItemEditRecord" ng-init="event=record">
                 <div layout='row'>
-                  <div hide-sm flex="20" style="margin-top:20px;text-align:right">
+                  <div hide-sm flex-gt-md='20' flex="15" style="margin-top:20px;text-align:right">
                     <br/>
                     <div class="text-large" style='color:#666;'>
                       <if ng-if="record.field!='creation'">Update</if>
@@ -125,8 +125,8 @@
         infinite-scroll-disabled="layout.display_tab !='timeline' || layout.loading.timeline || scrollTop < 200">
       {% for event in timeline %}
       {%  if event.model_name == 'ItemEditRecord' %}
-      <div layout='row' flex-gt-md="90">
-        <div hide-sm flex='20' style='margin-top:20px;text-align:right'>
+      <div layout='row' flex-gt-md="90" flex="100">
+        <div hide-sm flex-gt-md='20' flex="15" style='margin-top:20px;text-align:right'>
           <br/>
           <div class='text-large' style='color:#666'>Update</div>
           <div style='color:#999'>{{ event.time_updated|date:"M/d/Y" }}</div>
@@ -137,7 +137,7 @@
       </div>
       {%  elif event.model_name == 'ItemTransactionRecord' %}
       <div layout='row' flex-gt-md="90">
-        <div hide-sm flex="20" style='margin-top:20px;text-align:right'>
+        <div hide-sm flex-gt-md='20' flex="15" style='margin-top:20px;text-align:right'>
           <br/>
           <div class='text-large' style='color:#666'>Transfer</div>
           <div style='color:#999'>{{ event.time_updated|date:"M/d/Y" }}</div>
@@ -153,7 +153,7 @@
 
             <switch ng-switch-when="ItemEditRecord" ng-init='event=record'>
               <div layout='row' flex-gt-md="90">
-                <div flex="20" style='margin-top:20px;text-align:right'>
+                <div flex-gt-md='20' flex="15" style='margin-top:20px;text-align:right'>
                   <br/>
                   <div class="text-large" style='color:#666;'>Update</div>
                   <div style='color:#999;'
