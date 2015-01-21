@@ -27,6 +27,28 @@ angular.module("continue")
   "Alert"
   ($scope, Auth, Alert) ->
 
+    $scope.search = ()->
+      areas = $scope.tags_to_string($scope.areas_tags)
+      tags = $scope.tags_to_string($scope.tags_tags)
+      $("input[name=areas]").val(areas)
+      $("input[name=tags]").val(tags)
+      document.getElementById('search-form').submit()
+      # clear the input to prevent going back and see the input
+      $("input").val("")
+      return
+
+    $scope.tags_to_string = (input_tags)->
+      if input_tags
+        areas = [tag.text for tag in input_tags]
+        areas = areas.join(",")
+        return areas
+      return ""
+    
+    $("input[name='q'], input[name='secret_key']").keyup (e)->
+      if e.which == 13
+        $scope.search()
+      return
+
     $scope.profile = {}
     $scope.scrollTop = 0
     angular.element($(window)).bind "scroll", ()->
@@ -38,6 +60,7 @@ angular.module("continue")
       Auth.store_profile(response[0])
       $scope.profile = Auth.get_profile()
       $scope.photo = Auth.get_profile().social_account_photo
+
       
 ]
 

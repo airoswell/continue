@@ -29,6 +29,39 @@
 
   angular.module("continue").controller("LayoutCtrl", [
     "$scope", "Auth", "Alert", function($scope, Auth, Alert) {
+      $scope.search = function() {
+        var areas, tags;
+        areas = $scope.tags_to_string($scope.areas_tags);
+        tags = $scope.tags_to_string($scope.tags_tags);
+        $("input[name=areas]").val(areas);
+        $("input[name=tags]").val(tags);
+        document.getElementById('search-form').submit();
+        $("input").val("");
+      };
+      $scope.tags_to_string = function(input_tags) {
+        var areas, tag;
+        if (input_tags) {
+          areas = [
+            (function() {
+              var _i, _len, _results;
+              _results = [];
+              for (_i = 0, _len = input_tags.length; _i < _len; _i++) {
+                tag = input_tags[_i];
+                _results.push(tag.text);
+              }
+              return _results;
+            })()
+          ];
+          areas = areas.join(",");
+          return areas;
+        }
+        return "";
+      };
+      $("input[name='q'], input[name='secret_key']").keyup(function(e) {
+        if (e.which === 13) {
+          $scope.search();
+        }
+      });
       $scope.profile = {};
       $scope.scrollTop = 0;
       angular.element($(window)).bind("scroll", function() {

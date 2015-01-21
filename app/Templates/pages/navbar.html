@@ -20,14 +20,68 @@
     <div class="logo text-large">Continue</div>
   </a>
   <div class='menu text-default' layout='row' layout-align='end center'>
-    <div auto-expand data="search" min-size="15" init-width="140px">
-      <form name='search-form' action="/app/search/" layout='row' layout-align='center center'>
+    <div auto-expand data="q" min-size="15" init-width="150px"
+        class="dropdown">
+      <!-- Search form -->
+      <form id='search-form' name='search-form' action="/app/search/"
+          layout='row' layout-align='center center'>
         <i class='fa fa-search'></i>&nbsp;&nbsp;&nbsp;
         <input type='text' placeholder='Search and hit enter.'
-            ng-model="search" name='q'>
+            ng-model="q" name='q'>
+        <!-- Dropdown advanced search panel -->
+        <span drop-down-menu>
+          <a href drop-down-menu-trigger><i class="fa fa-caret-down"></i></a>
+          <div drop-down-menu-target mobile-narrow
+              style='position:absolute;top:40px;margin-left:-200px;padding:20px;width:450px;'>
+            <div layout='row' layout-align='center center' flex>
+              <i class="fa fa-map-marker"
+                  style='font-size:20px;'>
+              </i>
+              &nbsp;&nbsp;
+              <div flex>
+                <tags-input class='custom' ng-model="areas_tags"
+                    allowed-tags-pattern="^\d{5}$"
+                    placeholder="Areas zip codes">
+                </tags-input>
+              </div>
+            </div>
+            <br/>
+            <div layout='row' layout-align='center center' flex>
+              <i class="fa fa-tags"
+                  style='font-size:20px;'>
+              </i>
+              &nbsp;
+              <div flex>
+                <tags-input class='custom long' 
+                  ng-model="tags_tags"
+                  allowed-tags-pattern="^[a-zA-Z0-9_\-]+$"
+                  placeholder="Tags to refine search">
+                </tags-input>
+              </div>
+            </div>
+            <input type='text' name='areas' style='display:none'>
+            <input type='text' name='tags' style='display:none'>
+            <br/>
+            <div layout='row' layout-align='space-between center'>
+              <div>
+                <i class='fa fa-key' style='font-size:20px;'></i>
+                <input type='text' name='secret_key'
+                    placeholder='Secret Key'>
+              </div>
+              <div class='button button-small button-gray' type="submit"
+                  ng-click="search()">
+                <i class='fa fa-search'></i>&nbsp;Go search
+              </div>
+            </div>
+          </div>
+        </span>
+
       </form>
+      
     </div>
     &nbsp;&nbsp;
+
+    <!-- Nav buttons on the right. -->
     {% if user.is_anonymous %}
     <a href="/app/user/login/">
       <div class='menu-item'>Log in</div>

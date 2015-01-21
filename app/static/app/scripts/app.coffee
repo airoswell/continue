@@ -6,6 +6,7 @@ app = angular.module("continue", [
   "restmod"
   "ui.bootstrap.typeahead"
   "ui.bootstrap.tooltip"
+  "ui.bootstrap.dropdown"
   "continue.auth"
   "continue.models"
   "continue.social_accounts"

@@ -2,22 +2,6 @@
 
 {% block content %}
   {% load staticfiles %}
-  <style type="text/css">
-    #index-search-form tags-input.custom input{
-      color: #fff;
-    }
-    #index-search-form tags-input.custom .host{
-      border: none;
-      border-bottom: 2px solid #ddd;
-      margin-top: 0px;margin-bottom: 0px;
-    }
-    #index-search-form tags-input.custom input{
-      width: 80px;
-    }
-    #index-search-form tags-input.custom .tags.focused{
-      box-shadow: none;
-    }
-  </style>
   <div flex style='background-image: url("{% static "app/images/bg.jpg" %}");height:750px;' ng-controller="indexCtrl">
     <div layout='row'>
       <div flex-gt-md='10'></div>
@@ -41,12 +25,14 @@
     </div>
     <br/>
     <div layout='row' layout-align='center'>
-      <form id='index-search-form'
-          class="search-form search-form-large" name='search-form'
+
+      <form id='search-form'
+          class="search-form index-search-form" name='search-form'
           action="/app/search/"
           style=' padding:30px;background-color:rgba(0,0,0,0.6);'>
           <div style='color: #ccc;'><a href="/app/user/signup/"><b style='font-size:20px;'>Sign up</b></a> now, or start <b style='font-size:20px;'>Searching</b></div>
           <div layout-gt-md='row' layout='column' >
+
             <!-- Search inputs -->
             <div style='margin:20px 40px;'>
               <div style='width:100%'>

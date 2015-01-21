@@ -27,24 +27,6 @@
     </div>
   </div>
 
-  <div layout='row' layout-align='center'>
-    <div>
-      <form action="/app/search/">
-        <div layout='row' layout-align='center center'>
-          <div class='text-default'>Search: &nbsp;&nbsp;</div>
-          <div>
-            <input type='text' name='q' placeholder="by owner, title, content, ...">
-          </div>
-        </div>
-        <div layout='row' layout-align='center center'>
-          <div class='text-default'>Area: &nbsp;&nbsp;</div>
-          <div><input type='text' name='areas'></div>
-        </div>
-        <button type='submit' class='button button-default'>Search</button>
-      </form>
-    </div>
-  </div>
-
   {% if not posts %}
   <div layout='row' layout-align='center'>
     <div class='text-large'>

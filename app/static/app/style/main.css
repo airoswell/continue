@@ -362,7 +362,23 @@ input-dropdown[reduced-padding] .input-label{
 .nav-bar .menu-item{
     padding: 10px;
 }
-
+#search-form.index-search-form tags-input.custom input{
+  color: #fff;
+}
+#search-form tags-input.custom input:focus{
+  border: none;
+}
+#search-form tags-input.custom .host{
+  border: none;
+  border-bottom: 2px solid #ddd;
+  margin-top: 0px;margin-bottom: 0px;
+}
+#search-form tags-input.custom input{
+  width: 80px;
+}
+#search-form tags-input.custom .tags.focused{
+  box-shadow: none;
+}
 #content-wrapper{
     background: #f9f9f9;
 }
