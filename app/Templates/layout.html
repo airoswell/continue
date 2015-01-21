@@ -5,6 +5,7 @@
   <title>Continue</title>
   {% load staticfiles %}
   <link rel="stylesheet" type="text/css" href="{% static 'app/bower_components/angular-material/angular-material.css'%}">
+  <link rel="stylesheet" type="text/css" href="{% static 'app/bower_components/bootstrap/dist/css/bootstrap.min.css'%}">
   <link rel="stylesheet" type="text/css" href="{% static 'app/bower_components/font-awesome/css/font-awesome.css'%}">
   <link rel="stylesheet" type="text/css" href="{% static 'app/style/main.css'%}">
   <link rel="stylesheet" type="text/css" href="{% static 'app/style/search.css'%}">
@@ -49,14 +50,22 @@
   <script type="text/javascript" src="{% static 'app/bower_components/hammerjs/hammer.min.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/bower_components/angular-material/angular-material.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/bower_components/angular-resource/angular-resource.js'%}"></script>
+  <script type="text/javascript" src="{% static 'app/bower_components/ui-bootstrap-custom-build/ui-bootstrap-custom-tpls-0.12.0.min.js'%}"></script>
+  <!-- angular-restmod -->
   <script type="text/javascript" src="{% static 'app/bower_components/angular-restmod/dist/angular-restmod-bundle.min.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/bower_components/angular-restmod/dist/styles/ams.min.js'%}"></script>
+  <!-- Useful widgets -->
+  <!-- - tags-input -->
   <script type="text/javascript" src="{% static 'app/bower_components/ng-tags-input/ng-tags-input.min.js'%}"></script>
+  <!--  - infinite-scroll -->
   <script type="text/javascript" src="{% static 'app/bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js'%}"></script>
+  <!--  - markdown -->
   <script type="text/javascript" src="{% static 'app/bower_components/marked/lib/marked.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/bower_components/angular-marked/angular-marked.js'%}"></script>
+  <!-- - drag and drop -->
   <script type="text/javascript" src="{% static 'app/bower_components/angular-file-dnd/dist/angular-file-dnd.min.js' %}"></script>
   {# End: Bower #}
+
   <script type="text/javascript" src="{% static 'app/scripts/components/auto-resize.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/scripts/app.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/scripts/modules/auth.js'%}"></script>

@@ -256,3 +256,8 @@ POSTMAN_AUTO_MODERATE_AS = True
 COMPRESS_JS_FILTERS = [
     'compressor.filters.template.TemplateFilter',
 ]
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'ai.roswell@gmail.com'
+EMAIL_HOST_PASSWORD = '299792458ailight'
+EMAIL_PORT = 587

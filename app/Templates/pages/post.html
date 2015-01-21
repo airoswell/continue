@@ -43,10 +43,12 @@
             ng-init="post.title = '{{post.title}}'"
             placeholder="Post title here">
       </div>
-      <div layout='column' layout-gt-md='row'>
-        <div>
+      <div layout='column' layout-gt-md='row'>  
+        <input type="text" ng-model="asyncSelected" placeholder="Locations loaded via $http" typeahead="address for address in getLocation($viewValue)" typeahead-loading="loadingLocations" class="form-control">
+        <div style='padding:10px;'>
           <div style='color:#999;margin-bottom:5px;border-color:transparent;'>Area (zip code) &nbsp;</div>
           <div>
+
             <input style='width:44px;padding:0px;font-weight:600' type='text'
                 ng-model="post.area" 
                 ng-class="{'submission-error': submission_error}"

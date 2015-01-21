@@ -318,9 +318,6 @@ angular.module 'continue.models', [
 
 .factory "Transaction", ["Model", (Model)->
   return Model.create("/transactions/").mix(
-    $hooks:
-      "before-request": (_req)->
-        _req.url += "/"
     $extend:
       Record:
         is_valid: ()->
@@ -356,7 +353,7 @@ angular.module 'continue.models', [
     config: (configs)=>
       for cf of configs
         @[cf] = configs[cf]
-    base_tags_handler: (parent)->
+    tags_handler: (parent)->
       if parent.tags?
         if parent.tags_handler?
           parent.tags_handler()
@@ -402,15 +399,23 @@ angular.module 'continue.models', [
         for record in response
           model_name = record.model_name
           response.starts[model_name] += 1
-          if record.items?
+          if record.items?    # Typically for post
             if record.items
               for item in record.items
-                @base_tags_handler(item)
+                @tags_handler(item)
+          if record.item?     # Typically for transaction and updates
+            @tags_handler(record.item)
       return response
 
 
 .factory "Image", ["Model", (Model) ->
   return Model.create("/images/").mix(
+    $extend:
+      record:""
+  )
+]
+.factory "Profile", ["Model", (Model) ->
+  return Model.create("/profiles/").mix(
     $extend:
       record:""
   )

@@ -4,6 +4,7 @@ app = angular.module("continue", [
   "ngAnimate"
   "ngMaterial"
   "restmod"
+  "ui.bootstrap.typeahead"
   "continue.auth"
   "continue.models"
   "continue.social_accounts"

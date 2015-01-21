@@ -75,10 +75,12 @@ def pm_write(sender, recipient, subject, body='',
         ``auto_delete``: to mark the message as deleted on the sender side
         ``auto_moderators``: a list of auto-moderation functions
     """
+    import pdb; pdb.set_trace()
+    print("\n\tpm_writer")
     if type(sender) == User:
         message = Message(subject=subject, body=body,
                           sender=sender, recipient=recipient)
-    elif type(sender) == str:
+    elif type(sender) == unicode:
         message = Message(subject=subject, body=body,
                           email=sender, recipient=recipient)
     initial_status = message.moderation_status

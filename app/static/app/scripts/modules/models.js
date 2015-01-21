@@ -453,11 +453,6 @@
   ]).factory("Transaction", [
     "Model", function(Model) {
       return Model.create("/transactions/").mix({
-        $hooks: {
-          "before-request": function(_req) {
-            return _req.url += "/";
-          }
-        },
         $extend: {
           Record: {
             is_valid: function() {
@@ -516,7 +511,7 @@
         return _results;
       };
 
-      InfiniteScroll.prototype.base_tags_handler = function(parent) {
+      InfiniteScroll.prototype.tags_handler = function(parent) {
         if (parent.tags != null) {
           if (parent.tags_handler != null) {
             return parent.tags_handler();
@@ -592,9 +587,12 @@
                 _ref = record.items;
                 for (_j = 0, _len1 = _ref.length; _j < _len1; _j++) {
                   item = _ref[_j];
-                  this.base_tags_handler(item);
+                  this.tags_handler(item);
                 }
               }
+            }
+            if (record.item != null) {
+              this.tags_handler(record.item);
             }
           }
         }
@@ -607,6 +605,14 @@
   }).factory("Image", [
     "Model", function(Model) {
       return Model.create("/images/").mix({
+        $extend: {
+          record: ""
+        }
+      });
+    }
+  ]).factory("Profile", [
+    "Model", function(Model) {
+      return Model.create("/profiles/").mix({
         $extend: {
           record: ""
         }

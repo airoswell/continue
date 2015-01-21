@@ -323,6 +323,13 @@ class UserDetails(XDetailAPIView):
     serializer = UserProfileSerializer
 
     def get(self, request, pk=None):
+        if "user_id" in request.query_params:
+            user = User.objects.filter(pk=request.query_params['user_id'])
+            if not user:
+                return Response(status=st.HTTP_404_NOT_FOUND)
+            return Response(
+                data=UserProfileSerializer(user[0].profile.all()[0]).data
+            )
         if request.user.is_anonymous():
             return Response(
                 data=[{"is_anonymous": True}], status=st.HTTP_200_OK)
@@ -447,6 +454,7 @@ class MessageList(XListAPIView):
         # But this should not go in to serializer
         # since it expects a <User> instance.
         user = request.user
+        import pdb; pdb.set_trace()
         if user.is_anonymous():
             sender = data['email']
             data.pop("sender")
@@ -476,15 +484,15 @@ class MessageList(XListAPIView):
         # Write to the database
         # when sender = '<email address>', the resulting message
         # will have message.sender = None, message.email = "<address>".
-        message = pm_write(
-            sender, recipient, subject, body,
-        )
+        msg = pm_write(sender, recipient, subject, body)
         if post:
             req = PostAndItemsRequest.objects.create(
-                post=post, message=message
+                post=post, message=msg
             )
             req.save()
             req.items.add(*items)   # items is an array of item instances
+            if request.user.is_anonymous():
+                return Response(data="message sent!", status=st.HTTP_200_OK)
             for item in items:
                 status = item.status_in_post.filter(post=post)[0]
                 # Add the requester to the item.requesters

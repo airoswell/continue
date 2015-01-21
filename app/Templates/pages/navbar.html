@@ -1,21 +1,21 @@
 {% block navbar %}
 
 <style type="text/css">
-  .navbar input{
+  .nav-bar.non-bootstrap input{
       padding-left:0px;padding-bottom:0px;line-height:22px;border-color: transparent;
   }
-  .navbar input:focus{
+  .nav-bar.non-bootstrap input:focus{
     border-bottom: 2px solid #eee;
   }
-  .navbar .fa.fa-search{
+  .nav-bar.non-bootstrap .fa.fa-search{
     color: #999;
   }
-  .navbar .transaction-button:hover{
+  .nav-bar.non-bootstrap .transaction-button:hover{
     background: #f4f4f4;
   }
 {% load filters %}
 </style>
-<div class='navbar' layout='row' layout-align='space-between center'>
+<div class='nav-bar non-bootstrap' layout='row' layout-align='space-between center'>
   <a href="/app/">
     <div class="logo text-large">Continue</div>
   </a>

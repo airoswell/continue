@@ -8,14 +8,25 @@
   </div>
   <div layout='row' layout-align='end' flex style='font-size:20px;'>
     <switch ng-switch on="item.visibility">
-      <switch ng-switch-when="Public"><i class='fa fa-globe'></i></switch>
-      <switch ng-switch-when="Private"><i class='fa fa-lock'></i></switch>
-      <switch ng-switch-when="Ex-owners"><i class='fa fa-users'></i></switch>
+      <switch ng-switch-when="Public">
+        <i class='fa fa-globe'></i>
+      </switch>
+      <switch ng-switch-when="Private">
+        <i class='fa fa-lock'></i>
+      </switch>
+      <switch ng-switch-when="Ex-owners">
+        <i class='fa fa-users'></i>
+      </switch>
     </switch>
     &nbsp;&nbsp;
     <switch ng-switch on="item.available">
-      <switch ng-switch-when="For Sale"><i class='fa fa-dollar'></i></switch>
+      <switch ng-switch-when="For Sale">
+        <i class='fa fa-dollar'></i>
+      </switch>
       <switch ng-switch-when="For Share">
+        <md-tooltip>
+          The item is available for share
+        </md-tooltip>
         <i class='fa fa-share-alt'></i>
       </switch>
     </switch>

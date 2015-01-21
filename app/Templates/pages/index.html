@@ -45,7 +45,7 @@
           class="search-form search-form-large" name='search-form'
           action="/app/search/"
           style=' padding:30px;background-color:rgba(0,0,0,0.6);'>
-          <div style='color: #ccc;'><a href="/app/user/signup/"><b style='font-size:20px;'>Sign up</b></a> now, or start <b style='font-size:20px;'>searching</b></div>
+          <div style='color: #ccc;'><a href="/app/user/signup/"><b style='font-size:20px;'>Sign up</b></a> now, or start <b style='font-size:20px;'>Searching</b></div>
           <div layout-gt-md='row' layout='column' >
             <!-- Search inputs -->
             <div style='margin:20px 40px;'>
@@ -54,26 +54,47 @@
                 style='width:400px;color:#fff;'
                 ng-model="q">
               </div>
-              &nbsp;&nbsp;&nbsp;&nbsp;
-              <div style='width:100%'>
-                <tags-input class='custom' ng-model="areas_tags"
-                    allowed-tags-pattern="^\d{5}$"
-                    placeholder="Areas zip codes, separated by comma">
-                </tags-input>
+              <br/>
+              <div layout='row' style='width:100%'>
+                <div layout='column' layout-align='center'>
+                  <div>
+                    <i class="fa fa-map-marker"
+                        style='font-size:20px;color:#fff;'>
+                    </i>
+                  </div>
+                </div>
+                &nbsp;
+                <div style='width:100%'>
+                  <tags-input class='custom' ng-model="areas_tags"
+                      allowed-tags-pattern="^\d{5}$"
+                      placeholder="Areas zip codes, separated by comma">
+                  </tags-input>
+                </div>
               </div>
               <br/>
-              <div style='width:100%;'>
-                <tags-input class='custom' ng-model="tags_tags"
+              <div layout='row' style='width:100%'>
+                <div layout='column' layout-align='center'>
+                  <div>
+                    <i class="fa fa-tags"
+                        style='font-size:20px;color:#fff;'>
+                    </i>
+                  </div>
+                </div>
+                &nbsp;
+                <div flex>
+                  <tags-input class='custom long' 
+                    ng-model="tags_tags"
                     allowed-tags-pattern="^[a-zA-Z0-9_\-]+$"
                     placeholder="Tags to refine search">
-                </tags-input>
+                  </tags-input>
+                </div>
               </div>
               <input type='text' name='areas' style='display:none'>
               <input type='text' name='tags' style='display:none'>
               &nbsp;&nbsp;&nbsp;&nbsp;
               <div layout='row' layout-align='start center'>
                 <div>
-                  <i class='fa fa-key' style='color:#fff;'></i>
+                  <i class='fa fa-key' style='font-size:20px;color:#fff;'></i>
                   <input type='text' name='secret_key'
                       placeholder='Got secret key? Enter here!'
                       style='width:200px;color:#fff;'>

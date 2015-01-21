@@ -35,7 +35,7 @@
     <!-- can see the following components  -->
     <if ng-if="item.owner != profile.user_id">
       <!-- If the post owner still owns the item -->
-      <if ng-if="(view == 'search' && item.owner == post.owner && item.available != 'No') || (view == 'dashboard' && item.available != 'No' ) || view == 'timeline' and item.available != 'No' ">
+      <if ng-if="(view == 'search' && item.owner == post.owner && item.available != 'No') || (view == 'dashboard' && item.available != 'No' ) || view == 'timeline' && item.available != 'No' ">
         <!-- ===================================== -->
         <!-- If the user has requested the item -->
         <if ng-if="profile.user_id|requested:item">

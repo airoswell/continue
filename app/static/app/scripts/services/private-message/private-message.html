@@ -1,40 +1,61 @@
-<div ng-controller="privateMessageCtrl">
-  <form name='message-form' id="message-form" layout>
-    <div layout='row' layout-align='start start' flex>
-      <div layout='column' layout-align="start end">
-        <div class='text-default'>Subject: </div>
-        <div class='text-default'>Your message:</div>
-      </div>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <div flex>
-        <div><input type='text' ng-model="subject"></div>
-        <div><textarea ng-model='body' style='height:200px;max-height:300px;margin-top:10px;'></textarea></div>
-      </div>
-    </div>
-
-    <div style='max-width: 30%;margin-left:20px;'>
-      <div class='text-large'>
-        Items that you are interested in 
-      </div>
-      <div style='display:inline-block;margin-right:20px;margin-top:20px;'
-          ng-repeat='item in items track by item.id'>
-        <div class='item-overview-title'>
-          <div layout='row'>
-            <div layout='column' layout-align='center'>
-              <div ng-bind="item.title"></div>
-            </div>
-            <div class='item-overview-quantity' ng-bind="item.quantity"></div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-    &nbsp;&nbsp;&nbsp;&nbsp;
-    <div layout='column' layout-align='end'>
+<div ng-controller="privateMessageCtrl"
+    flex-gt-md='100' layout='row' layout-align='center'>
+  <form name='message-form' id="message-form" flex-gt-md='80' flex>
+    <br/>
+    <div layout='row'>
+      <img ng-src="{{recipient_profile.social_account_photo}}" height='40'>
+      &nbsp;&nbsp;
       <div>
-        <div class='button button-small button-gray' flex
-            ng-click="send()">
-          Send
+        <div>Writing to</div>
+        <div style='font-size:20px;font-weight:600' ng-bind="recipient_profile.name"></div>
+      </div>
+    </div>
+    <br/>
+    <div layout>
+      <div layout='row' layout-align='start start' flex>
+        <div layout='column' layout-align="start end">
+          <div ng-show='profile.is_anonymous' class='text-default'>Your email: </div>
+          <br/>
+          <div class='text-default'>Subject: </div>
+          <br/>
+          <div class='text-default'>Message:</div>
+        </div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <div flex>
+          <div ng-show='profile.is_anonymous'>
+            <input type='text' ng-model="email">
+          </div>
+          <br/>
+          <div><input type='text' ng-model="subject"></div>
+          <br/>
+          <div><textarea ng-model='body' style='height:200px;max-height:250px;margin-top:20px;border:1px solid #ddd;'></textarea></div>
+        </div>
+      </div>
+
+      <div style='max-width: 30%;margin-left:20px;'>
+        <div class='text-large'>
+          Items that you are interested in 
+        </div>
+        <div style='display:inline-block;margin-right:20px;margin-top:20px;'
+            ng-repeat='item in items track by item.id'>
+          <div class='item-overview-title'>
+            <div layout='row'>
+              <div layout='column' layout-align='center'>
+                <div ng-bind="item.title"></div>
+              </div>
+              <div class='item-overview-quantity' ng-bind="item.quantity"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <div layout='column' layout-align='end'>
+        <div>
+          <div class='button button-small button-gray' flex
+              ng-click="send()">
+            <i class="fa fa-paper-plane"></i>&nbsp;Send
+          </div>
         </div>
       </div>
     </div>
