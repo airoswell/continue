@@ -176,7 +176,8 @@
         area: "",
         detail: "",
         items: [],
-        is_new: true
+        is_new: true,
+        visibility: "Private"
       };
       add_item = function(self) {
         var item;

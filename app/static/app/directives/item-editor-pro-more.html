@@ -1,6 +1,9 @@
 <div class="dashboard-item-overview-details">
   <br/>
-  <div layout='row'>
+
+  <div layout='row'
+      tooltip="These tags will be displayed along with your item (if the item is publically-visible)"
+        tooltip-placement="right">
     <div layout='column' layout-align='center'>
       <div><i class="fa fa-tags" style='font-size:20px;'></i>&nbsp;</div>
     </div>
@@ -8,9 +11,14 @@
       <tags-input class='custom long' ng-model='item.tags_input' class='custom' placeholder="Tag you item"></tags-input>
     </div>
   </div>
-  <div layout='row'>
+
+  <div layout='row'
+      tooltip="Private tags are only visible and searchable by you."
+      tooltip-placement="bottom">
     <div layout='column' layout-align='center'>
-      <div><i class="fa fa-tags" style='font-size:20px;color:#CA5EFA;'></i>&nbsp;</div>
+      <div>
+        <i class="fa fa-tags" style='font-size:20px;color:#CA5EFA;'></i>&nbsp;
+      </div>
     </div>
     <div flex>
       <tags-input class='custom purple long' ng-model='item.tags_private_input' placeholder="Private tags">
@@ -63,6 +71,8 @@
       data="item.model">
   </input-text>
   <input-text label="'Description'" place-holder="'helps you and others search for this item.'"
+      tooltip="Descriptions will be displayed along with the items in your articles."
+      tooltip-placement="bottom"
       container-class="'input-container-mid'"
       input-class="'input-default'"
       data="item.description">

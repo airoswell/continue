@@ -48,7 +48,7 @@
     <div layout='column' layout-gt-md='row' layout-align='space-between center'>
       <div>
         <div class="text-large">{{ post.title }}</div>
-        <div layout='row'>
+        <div layout='row' layout='start center'>
           <div> Location: {{ post.area }}</div>
           &nbsp;&nbsp;
           <div style="color:#999;cursor:pointer;border:1px solid #eee;padding:0px 5px;"
@@ -58,6 +58,11 @@
           </div>
           <div ng-cloak ng-show="is_followed({{post.area}})">
             <i class="fa fa-check"></i>
+          </div>
+          &nbsp;&nbsp;
+          <div layout='column' layout-align='center'>
+            <i style='color:#666;' class="fa fa-info-circle" tooltip-placement="bottom"
+              tooltip="Following an area: public posts and items from the area will appear in your news feeds."></i>
           </div>
         </div>
       </div>
@@ -73,7 +78,7 @@
       max-height:125px;overflow:hidden'>
         {{ post.detail | markdown}}
       </div>
-      <div click-to-expand-trigger class='button button-small button-gray' style='border-radius:0px;margin-top:0px;'>
+      <div click-to-expand-trigger class='button button-small button-light-gray' style='border-radius:0px;margin-top:0px;'>
          <i class="fa fa-arrows-v"></i>&nbsp; toggle detail
        </div>
     </div>

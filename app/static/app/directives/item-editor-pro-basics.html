@@ -1,5 +1,5 @@
 <div flex layout='row'>
-  <div ng-if='item.pic' ng-click="get_albums(item)">
+  <div ng-if='item.pic' ng-click="get_albums(item)" style='cursor:pointer'>
     &nbsp;&nbsp;
     <img height=40 ng-src="{{item.pic}}"></a>
   </div>
@@ -8,25 +8,32 @@
   </div>
   <div layout='row' layout-align='end' flex style='font-size:20px;'>
     <switch ng-switch on="item.visibility">
-      <switch ng-switch-when="Public">
+      <switch ng-switch-when="Public"
+          tooltip="The item is visible in the public search and feeds."
+          tooltip-placement="bottom">
         <i class='fa fa-globe'></i>
       </switch>
-      <switch ng-switch-when="Private">
+      <switch ng-switch-when="Private"
+          tooltip="The item is only visible to you"
+          tooltip-placement="bottom">
         <i class='fa fa-lock'></i>
       </switch>
-      <switch ng-switch-when="Ex-owners">
+      <switch ng-switch-when="Ex-owners"
+          tooltip="The item is only visible to you and the previous owners"
+          tooltip-placement="bottom">
         <i class='fa fa-users'></i>
       </switch>
     </switch>
     &nbsp;&nbsp;
     <switch ng-switch on="item.available">
-      <switch ng-switch-when="For Sale">
+      <switch ng-switch-when="For Sale"
+          tooltip="The item is available for sale"
+          tooltip-placement="bottom">
         <i class='fa fa-dollar'></i>
       </switch>
-      <switch ng-switch-when="For Share">
-        <md-tooltip>
-          The item is available for share
-        </md-tooltip>
+      <switch ng-switch-when="For Share"
+          tooltip="The item is available for share with people."
+          tooltip-placement="bottom">
         <i class='fa fa-share-alt'></i>
       </switch>
     </switch>

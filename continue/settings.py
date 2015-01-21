@@ -181,6 +181,10 @@ AUTHENTICATION_BACKENDS = (
     "allauth.account.auth_backends.AuthenticationBackend",
 )
 
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = "/app/"
+
 # The id of the working URL in the Sites table
 # Currently the URL is http://localhost:8000/
 SITE_ID = 1
@@ -256,8 +260,8 @@ POSTMAN_AUTO_MODERATE_AS = True
 COMPRESS_JS_FILTERS = [
     'compressor.filters.template.TemplateFilter',
 ]
-EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'ai.roswell@gmail.com'
 EMAIL_HOST_PASSWORD = '299792458ailight'
 EMAIL_PORT = 587
+EMAIL_USE_TLS = True

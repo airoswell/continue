@@ -22,7 +22,7 @@
   <div id="fb-root"></div>
   
 
-  <div ng-controller="LayoutCtrl" ng-init="view='{{view}}'">
+  <div ng-controller="LayoutCtrl" ng-init="view='{{view}}'" style='height:100%;'>
     {% include "navbar.html" %}
     {% block navbar %}
     {% endblock navbar %}
@@ -32,7 +32,7 @@
     {% if request.user.profile.all.0.primary_area == "" and not request.user.profile.all.0.already_set %}
     {% include 'pages/components/area-setting.html'%}
     {% endif %}
-    <div id='content-wrapper'>
+    <div id='content-wrapper' style='height:100%'>
       {% block content %}
       {% endblock %}
     </div>
@@ -50,7 +50,7 @@
   <script type="text/javascript" src="{% static 'app/bower_components/hammerjs/hammer.min.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/bower_components/angular-material/angular-material.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/bower_components/angular-resource/angular-resource.js'%}"></script>
-  <script type="text/javascript" src="{% static 'app/bower_components/ui-bootstrap-custom-build/ui-bootstrap-custom-tpls-0.12.0.min.js'%}"></script>
+  <script type="text/javascript" src="{% static 'app/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js'%}"></script>
   <!-- angular-restmod -->
   <script type="text/javascript" src="{% static 'app/bower_components/angular-restmod/dist/angular-restmod-bundle.min.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/bower_components/angular-restmod/dist/styles/ams.min.js'%}"></script>
@@ -105,7 +105,11 @@
   <!-- {% compile "app/scripts/services/private-message/private-message.coffee" %} -->
   <!-- {% compile "app/scripts/services/BS/BS.coffee" %} -->
 
-
+  
+  
+  <script id="template/tooltip/tooltip-popup.html" type="text/ng-template">
+    <div class=tooltip {{placement}} ng-class="{ in: isOpen(), fade: animation() }"><div class=tooltip-arrow></div><div class=tooltip-inner ng-bind=content></div></div>
+  </script>
 
 
   <!-- Alternatively, use absolute path relative to the app folder
