@@ -431,6 +431,10 @@
         }
       });
     }
+  ]).factory("BulkItems", [
+    "Model", function(Model) {
+      return Model.create("/bulk-items/");
+    }
   ]).factory("History", [
     "Model", function(Model) {
       return Model.create("/histories/");

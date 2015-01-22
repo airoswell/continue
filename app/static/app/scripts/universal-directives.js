@@ -57,6 +57,7 @@
         };
         input = element.find("input");
         return scope.$watch("data", function() {
+          console.log(scope.data);
           if (input.length === 0) {
             input = element.find("input");
           }

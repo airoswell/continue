@@ -36,7 +36,7 @@
       {% block content %}
       {% endblock %}
     </div>
-    <alert></alert>
+    <div simple-alert></div>
   </div>
 
 
@@ -78,6 +78,7 @@
   <script type="text/javascript" src="{% static 'app/scripts/services/BS/BS.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/scripts/services/album/album.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/scripts/components/messages/messages.js'%}"></script>
+  <script type="text/javascript" src="{% static 'app/scripts/components/donations.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/scripts/components/index.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/scripts/components/search/search.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/scripts/components/dashboard.js'%}"></script>
@@ -91,6 +92,7 @@
   <!-- {% compile "app/scripts/layout.coffee" %} -->
   <!-- {% compile "app/scripts/universal-directives.coffee" %} -->
   <!-- {% compile "app/scripts/components/index.coffee" %} -->
+  <!-- {% compile "app/scripts/components/donations.coffee" %} -->
   <!-- {% compile "app/scripts/components/dashboard.coffee" %} -->
   <!-- {% compile "app/scripts/components/dashboard-directives.coffee" %} -->
   <!-- {% compile "app/scripts/components/search/search.coffee" %} -->
@@ -105,11 +107,6 @@
   <!-- {% compile "app/scripts/services/private-message/private-message.coffee" %} -->
   <!-- {% compile "app/scripts/services/BS/BS.coffee" %} -->
 
-  
-  
-  <script id="template/tooltip/tooltip-popup.html" type="text/ng-template">
-    <div class=tooltip {{placement}} ng-class="{ in: isOpen(), fade: animation() }"><div class=tooltip-arrow></div><div class=tooltip-inner ng-bind=content></div></div>
-  </script>
 
 
   <!-- Alternatively, use absolute path relative to the app folder

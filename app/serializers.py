@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 from app.models import Item, Post, UserProfile, Image
+from app.models import CustomizedCharField, CustomizedNumField
 from app.models import ItemEditRecord, PostItemStatus, ItemTransactionRecord
 from django.contrib.auth.models import User
 from postman.models import Message
 
 from rest_framework import serializers
 
-
-from rest_framework import serializers    
 
 class Base64ImageField(serializers.ImageField):
     """
@@ -40,7 +39,8 @@ class Base64ImageField(serializers.ImageField):
                 self.fail('invalid_image')
 
             # Generate file name:
-            file_name = str(uuid.uuid4())[:12] # 12 characters are more than enough.
+            # 12 characters are more than enough.
+            file_name = str(uuid.uuid4())[:12]
             # Get the file name extension:
             file_extension = self.get_file_extension(file_name, decoded_file)
 
@@ -77,9 +77,25 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('id', 'username', "profile")
 
 
+class CustomizedCharFieldSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomizedCharField
+        fields = ("id", "item", "title", "value",
+                  "time_updated", "time_created")
+
+
+class CustomizedNumFieldSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomizedNumField
+        fields = ("id", "item", "title", "value", "unit",
+                  "time_updated", "time_created")
+
+
 class ItemSerializer(serializers.ModelSerializer):
     requesters = UserSerializer(many=True, read_only=True)
     transferrable = serializers.BooleanField(read_only=True)
+    customized_char_fields = CustomizedCharFieldSerializer(many=True)
+    customized_num_fields = CustomizedNumFieldSerializer(many=True)
 
     def as_instance(self):
         return Item.objects.get(pk=self.data['id'])
@@ -94,6 +110,8 @@ class ItemSerializer(serializers.ModelSerializer):
                   "requesters", "transferrable", "tags", "tags_private",
                   "previous_owners", 'model_name', 'owner_profile',
                   "available", 'area',
+                  "customized_char_fields",
+                  "customized_num_fields",
                   )
         read_only_fields = ('previous_owners', "time_created", "requesters",
                             "owner_profile")

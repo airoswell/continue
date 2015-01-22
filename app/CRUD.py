@@ -27,13 +27,14 @@ class Crud:
             return None, errors
 
     def create(self, validated_data, *args, **kwargs):
+        import pdb; pdb.set_trace()
         try:
             queryset = self.model.create(validated_data, *args, **kwargs)
         except FieldError, e:
             self.status = st.HTTP_400_BAD_REQUEST
             print("\t\tCRUD.create FieldError ========>")
             print("\t\t\t %s" % (e.message))
-            return
+            return None
         return queryset
 
     def retrieve(self, start, num_of_records, **search_kwargs):

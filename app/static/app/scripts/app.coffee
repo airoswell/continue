@@ -4,9 +4,7 @@ app = angular.module("continue", [
   "ngAnimate"
   "ngMaterial"
   "restmod"
-  "ui.bootstrap.typeahead"
-  "ui.bootstrap.tooltip"
-  "ui.bootstrap.dropdown"
+  "ui.bootstrap"
   "continue.auth"
   "continue.models"
   "continue.social_accounts"
@@ -37,10 +35,3 @@ app.factory "settings", ()->
     STATIC_URL: STATIC_URL
     UPLOADED_URL: UPLOADED_URL
   }
-
-
-angular.module("template/tooltip/tooltip-popup.html", []).run [
-  "$templateCache"
-  ($templateCache) ->
-    $templateCache.put "template/tooltip/tooltip-popup.html", "<div class=\"tooltip {{placement}}\" ng-class=\"{ in: isOpen(), fade: animation() }\">\n" + "  <div class=\"tooltip-arrow\"></div>\n" + "  <div class=\"tooltip-inner\" ng-bind=\"content\"></div>\n" + "</div>\n" + ""
-]

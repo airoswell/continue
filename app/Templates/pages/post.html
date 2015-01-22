@@ -94,7 +94,7 @@
                 placeholder="4-50 characters (a-Z, 0-9)"
                 ng-model="post.secret_key" ng-class="{'missing-key': missing_key}"
                 ng-maxlength="50" ng-minlength="4"
-                ng-pattern="[a-zA-Z0-9]">
+                ng-pattern="/[a-zA-Z0-9]/">
           </div>
         </div>
       </div>

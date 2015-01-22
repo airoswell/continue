@@ -2,7 +2,7 @@
 (function() {
   var app;
 
-  app = angular.module("continue", ["ngResource", "ngAria", "ngAnimate", "ngMaterial", "restmod", "ui.bootstrap.typeahead", "ui.bootstrap.tooltip", "ui.bootstrap.dropdown", "continue.auth", "continue.models", "continue.social_accounts", "ngTagsInput", "infinite-scroll", "hc.marked", "omr.angularFileDnD"]);
+  app = angular.module("continue", ["ngResource", "ngAria", "ngAnimate", "ngMaterial", "restmod", "ui.bootstrap", "continue.auth", "continue.models", "continue.social_accounts", "ngTagsInput", "infinite-scroll", "hc.marked", "omr.angularFileDnD"]);
 
   app.config([
     "$httpProvider", function($httpProvider) {
@@ -29,11 +29,5 @@
       UPLOADED_URL: UPLOADED_URL
     };
   });
-
-  angular.module("template/tooltip/tooltip-popup.html", []).run([
-    "$templateCache", function($templateCache) {
-      return $templateCache.put("template/tooltip/tooltip-popup.html", "<div class=\"tooltip {{placement}}\" ng-class=\"{ in: isOpen(), fade: animation() }\">\n" + "  <div class=\"tooltip-arrow\"></div>\n" + "  <div class=\"tooltip-inner\" ng-bind=\"content\"></div>\n" + "</div>\n" + "");
-    }
-  ]);
 
 }).call(this);

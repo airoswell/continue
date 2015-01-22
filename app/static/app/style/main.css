@@ -289,11 +289,11 @@ input-dropdown[reduced-padding] .input-label{
 .text-small{
     font-size: 13px;color: #666;
 }
+.text-xlarge{
+    font-size: 25px;font-weight: 600;
+}
 .text-large{
     font-size: 20px;font-weight: 600;
-}
-.text-title{
-    cursor: pointer;font-weight: 800;color: #54B359;
 }
 
 .helper-title{
@@ -307,6 +307,12 @@ input-dropdown[reduced-padding] .input-label{
 }
 .text-blue{
     color: #0f78ff;
+}
+.text-gray{
+    color:#666;
+}
+.test-light-gray{
+    color: #999;
 }
 .text-light-gray{
     color: #888;

@@ -342,3 +342,13 @@ def dashboard(request):
             "subject": "You",
         }
     )
+
+
+def donations(request):
+    return render(
+        request,
+        'pages/donations.html',
+        {
+            'view': "donations",
+        }
+    )

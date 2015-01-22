@@ -15,7 +15,6 @@ while i < count
 
 # Auto resize all textarea
 $(document).ready ()->
-  console.log "resizing"
   $('textarea').autosize()
   console.log $("textarea")
 # ============================
@@ -60,8 +59,7 @@ angular.module("continue")
       Auth.store_profile(response[0])
       $scope.profile = Auth.get_profile()
       $scope.photo = Auth.get_profile().social_account_photo
-
-      
+   
 ]
 
 .directive "areaSettingForm", ["Auth", "Alert", (Auth, Alert)->

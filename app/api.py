@@ -215,6 +215,35 @@ class ItemList(XListAPIView):
     serializer = ItemSerializer
     num_of_records = 20
 
+    def pre_save_handler(self, data):
+        item_type = "normal"
+        if "type" in data:
+            if not (data['type'] == "donation"):
+                # if not donation
+                # Make sure owner present and correct
+                data['owner'] = request.user.id
+                item_type = "normal"
+            elif data['type'] == 'donation':
+                item_type = "donation"
+        if request.user.is_anonymous() and item_type == 'normal':
+            return Response(status=st.HTTP_401_UNAUTHORIZED)
+        customized_char_fields_data = []
+        customized_num_fields_data = []
+        if "customized_char_fields" in data:
+            customized_char_fields_data = data.pop("customized_char_fields")
+            data["customized_char_fields"] = []
+        if "customized_num_fields" in data:
+            customized_num_fields_data = data.pop("customized_num_fields")
+            data['customized_num_fields'] = []
+        print("\n\tdata = %s" % (data))
+        handler = ErrorHandler(ItemSerializer)
+        data = handler.validate(data)
+        data['customized_num_fields'] = customized_num_fields_data
+        data['customized_char_fields'] = customized_char_fields_data
+        errors = handler.errors
+        print("\n\tItemList.post() ==> \t handler.errors %s " % (errors))
+        return data, errors
+
     def get(self, request, post_id=None, format=None):
         start, num_of_records = self.paginator(request)
         #################################################
@@ -276,20 +305,62 @@ class ItemList(XListAPIView):
         ItemList.post
         """
         data = self.parser(request)
-        # Make sure owner present and correct
-        data['owner'] = request.user.id
-        handler = ErrorHandler(ItemSerializer)
-        data = handler.validate(data)
-        if not request.user.is_anonymous():
+        data, errors = self.pre_save_handler(data)
+        crud = Crud(request.user, Item)
+        item = crud.create(data)
+        data = self.serializer(item).data
+        data["errors"] = handler.errors
+        return Response(data=data, status=crud.status)
+
+
+class BulkItemCreation(XListAPIView):
+    """
+        Create an <item, Item>, or retrieve list of items
+    """
+    model = Item
+    serializer = ItemSerializer
+    num_of_records = 20
+
+    def post(self, request, format=None):
+        """
+        ItemList.post
+        """
+        request_data = self.parser(request)
+        print("\n\trequest_data = %s " % (request_data))
+        for data in request_data["items"]:
+            print("\n\t\t data = %s " % (data))
+            item_type = "normal"
+            if "type" in data:
+                if not (data['type'] == "donation"):
+                    # if not donation
+                    # Make sure owner present and correct
+                    data['owner'] = request.user.id
+                    item_type = "normal"
+                elif data['type'] == 'donation':
+                    item_type = "donation"
+            if request.user.is_anonymous() and item_type == 'normal':
+                return Response(status=st.HTTP_401_UNAUTHORIZED)
+            customized_char_fields_data = []
+            customized_num_fields_data = []
+            if "customized_char_fields" in data:
+                customized_char_fields_data = data.pop("customized_char_fields")
+                data["customized_char_fields"] = []
+            if "customized_num_fields" in data:
+                customized_num_fields_data = data.pop("customized_num_fields")
+                data['customized_num_fields'] = []
+            print("\n\tdata = %s" % (data))
+            handler = ErrorHandler(ItemSerializer)
+            print("\n\t\t Before validating, type(data) = %s " % (type(data)))
+            data = handler.validate(data)
+            data['customized_num_fields'] = customized_num_fields_data
+            data['customized_char_fields'] = customized_char_fields_data
+            errors = handler.errors
+            print("\n\tItemList.post() ==> \t handler.errors %s " % (errors))
             crud = Crud(request.user, Item)
             item = crud.create(data)
-            data = ItemSerializer(item).data
-            data["errors"] = handler.errors
-            return Response(data=data, status=crud.status)
-        return Response(
-            status=st.HTTP_401_UNAUTHORIZED,
-            data={"error": "Log in first."}
-        )
+            # data = self.serializer(item).data
+            # data["errors"] = handler.errors
+        return Response(status=crud.status)
 
 
 class ItemDetail(XDetailAPIView):

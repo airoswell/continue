@@ -59,10 +59,10 @@
         }
       };
     }
-  ]).directive("alert", [
+  ]).directive("simpleAlert", [
     "$rootScope", "Alert", function($rootScope, Alert) {
       return {
-        restrict: "E",
+        restrict: "A",
         templateUrl: "/static/app/scripts/services/alert/alert.html",
         link: function(scope, element, attrs) {
           return scope.alert = Alert;

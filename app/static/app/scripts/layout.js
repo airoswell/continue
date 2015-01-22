@@ -22,7 +22,6 @@
   }
 
   $(document).ready(function() {
-    console.log("resizing");
     $('textarea').autosize();
     return console.log($("textarea"));
   });

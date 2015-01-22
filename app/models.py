@@ -149,6 +149,10 @@ class Item(models.Model):
     tags_private = models.CharField(
         max_length=500, blank=True, null=True, default=""
     )
+    size = models.CharField(
+        max_length=100,
+        default="Small", blank=True
+    )
     visibility_choices = (
         ('Private', "Private"),
         ('Ex-owners', "Ex-owners"),
@@ -247,12 +251,21 @@ class Item(models.Model):
         """
         Item.create()
         """
+        num_fields_data = validated_data.pop('customized_num_fields')
+        char_fields_data = validated_data.pop('customized_char_fields')
+        print("\n\tItem.create() ==> validated_data = %s" % (validated_data))
         item = cls.objects.create(**validated_data)
         ItemEditRecord.objects.create(
             item=item, field="creation",
             original_value="", new_value=""
         )
         item.save()
+        for data in num_fields_data:
+            data['item'] = item
+            field = CustomizedNumField.objects.create(
+                **data
+            )
+            print(field)
         return item
 
     @classmethod

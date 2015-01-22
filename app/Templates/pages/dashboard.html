@@ -128,7 +128,13 @@
       <div layout='row' flex-gt-md="90" flex="100">
         <div hide-sm flex-gt-md='20' flex="15" style='margin-top:20px;text-align:right'>
           <br/>
-          <div class='text-large' style='color:#666'>Update</div>
+          <div class='text-large' style='color:#666'>
+            {% if event.field != "creation"%}
+            Update
+            {% else %}
+            New Item
+            {% endif %}
+          </div>
           <div style='color:#999'>{{ event.time_updated|date:"M/d/Y" }}</div>
         </div>
         <div flex>

@@ -55,8 +55,8 @@ angular.module "continue"
       , delay
   }
 ]
-.directive "alert", ["$rootScope", "Alert", ($rootScope, Alert)->
-  restrict: "E"
+.directive "simpleAlert", ["$rootScope", "Alert", ($rootScope, Alert)->
+  restrict: "A"
   templateUrl: "/static/app/scripts/services/alert/alert.html"
   link: (scope, element, attrs) ->
     scope.alert = Alert

@@ -299,6 +299,12 @@ angular.module 'continue.models', [
   })
 ]
 
+.factory "BulkItems", ["Model", (Model)->
+
+  return Model.create("/bulk-items/")
+
+]
+
 .factory "History", ["Model", (Model) ->
   return Model.create("/histories/")
 ]

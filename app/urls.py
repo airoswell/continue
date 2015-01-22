@@ -1,7 +1,6 @@
 from django.conf.urls import patterns, url, include
 # ======== Postman ========
 from postman.views import InboxView, ReplyView, MessageView, ConversationView
-from postman.views import DeleteView
 from postman import OPTIONS
 from app import views, api
 
@@ -19,6 +18,8 @@ urlpatterns = patterns(
         views.item_timeline, name='item_timeline'),
     url(r'^user/(?P<pk>\d+)/timeline/$',
         views.user_timeline, name='user_timeline'),
+    url(r'^donations/$',
+        views.donations, name='donations'),
 )
 
 # Django-allauth
@@ -40,6 +41,9 @@ urlpatterns += patterns(
     url(r'^items/(?P<pk>[0-9]+)/$',
         api.ItemDetail.as_view(),
         name='item_datail'),
+    url(r'^bulk-items/$',
+        api.BulkItemCreation.as_view(),
+        name='bulk_item_creation'),
     url(r'^items/(?P<item_id>[0-9]+)/histories/?$',
         api.HistoryList.as_view(),
         name='item_histories'),
