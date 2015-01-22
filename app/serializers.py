@@ -10,7 +10,8 @@ from rest_framework import serializers
 
 class Base64ImageField(serializers.ImageField):
     """
-    A Django REST framework field for handling image-uploads through raw post data.
+    A Django REST framework field for handling image-uploads
+    through raw post data.
     It uses base64 for encoding and decoding the contents of the file.
 
     Heavily based on
@@ -64,7 +65,8 @@ class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
         fields = ("id", "name", "social_account_photo", "email",
-                  "primary_area", "interested_areas", "already_set", )
+                  "primary_area", "interested_areas", "already_set",
+                  'social_account_provider')
 
 
 class UserSerializer(serializers.ModelSerializer):

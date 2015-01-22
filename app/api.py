@@ -413,10 +413,10 @@ class UserDetails(XDetailAPIView):
             profile = UserProfile.objects.get(user__id=user.id)
         except AssertionError:
             profile = (UserProfile.objects.filter(user__id=user.id)
-                                  .order_by('time_created')[0])
+                                  .order_by('-time_created')[0])
         except MultipleObjectsReturned:
             profile = (UserProfile.objects.filter(user__id=user.id)
-                                  .order_by('time_created')[0])
+                                  .order_by('-time_created')[0])
         if profile:
             data = self.serializer(profile).data
             data['user_id'] = request.user.id
