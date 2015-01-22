@@ -23,7 +23,7 @@
           self = this;
           if (Auth.get_profile().social_account_provider !== "facebook") {
             self.deferred = BS.bringUp("album");
-            self.deferred.promise;
+            return self.deferred.promise;
           }
           return FB.resource.get({
             node: "me",

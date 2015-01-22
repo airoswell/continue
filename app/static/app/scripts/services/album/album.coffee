@@ -21,7 +21,7 @@ angular.module "continue"
       self = this
       if Auth.get_profile().social_account_provider != "facebook"
         self.deferred = BS.bringUp("album")
-        self.deferred.promise
+        return self.deferred.promise
       FB.resource.get(
         node: "me"
         access_token: Auth.get_profile().access_token
