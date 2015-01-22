@@ -27,7 +27,6 @@ class Crud:
             return None, errors
 
     def create(self, validated_data, *args, **kwargs):
-        import pdb; pdb.set_trace()
         try:
             queryset = self.model.create(validated_data, *args, **kwargs)
         except FieldError, e:

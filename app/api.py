@@ -525,7 +525,6 @@ class MessageList(XListAPIView):
         # But this should not go in to serializer
         # since it expects a <User> instance.
         user = request.user
-        import pdb; pdb.set_trace()
         if user.is_anonymous():
             sender = data['email']
             data.pop("sender")
