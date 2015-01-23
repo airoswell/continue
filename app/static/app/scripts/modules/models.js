@@ -435,10 +435,6 @@
     "Model", function(Model) {
       return Model.create("/bulk-items/");
     }
-  ]).factory("History", [
-    "Model", function(Model) {
-      return Model.create("/histories/");
-    }
   ]).factory("Feed", [
     "Model", function(Model) {
       return Model.create("/feeds/").mix({
@@ -449,11 +445,11 @@
     }
   ]).factory("Timeline", [
     "Model", function(Model) {
-      return Model.create("/timeline/").mix({
-        $extend: {
-          record: ""
-        }
-      });
+      return Model.create("/timeline/");
+    }
+  ]).factory("ItemTimeline", [
+    "Model", function(Model) {
+      return Model.create("/item-timeline/");
     }
   ]).factory("Transaction", [
     "Model", function(Model) {

@@ -1,4 +1,4 @@
-<div  class='post-container'>
+<div class='post-container' flex>
   <div class='post-header' layout='row' layout-align='space-between'>
 
     <div layout='row'>
@@ -36,11 +36,12 @@
     {% endif %}
   </div>
   <br/>
-  <div layout='row'>
-    <div flex layout>
+
+  <div layout='row' flex>
+    <div flex>
     {% if event.model_name == "ItemEditRecord" %}
       {% if event.field == "pic" %}
-      <div class='picture-container'
+      <div class='picture-container' flex
           style="background-image: url({{ event.new_value }});">
         <img src="{{ event.new_value }}">
       </div>

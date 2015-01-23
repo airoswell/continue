@@ -85,7 +85,13 @@
   <script type="text/javascript" src="{% static 'app/scripts/components/dashboard-directives.js'%}"></script>
   {% if view == 'post' %}
   <script type="text/javascript" src="{% static 'app/scripts/components/post/post.js'%}"></script>
+  {% elif view == 'item-timeline'%}
+  <script type="text/javascript" src="{% static 'app/scripts/components/item-timeline.js'%}"></script>
   {% endif %}
+
+  <script type="text/javascript">
+    $("#content-wrapper").css({"min-height": $("body").height() + "px"});
+  </script>
 
   {% load compile_static %}
   <!-- {% compile "app/scripts/app.coffee" %} -->
@@ -94,6 +100,7 @@
   <!-- {% compile "app/scripts/components/index.coffee" %} -->
   <!-- {% compile "app/scripts/components/donations.coffee" %} -->
   <!-- {% compile "app/scripts/components/dashboard.coffee" %} -->
+  <!-- {% compile "app/scripts/components/item-timeline.coffee" %} -->
   <!-- {% compile "app/scripts/components/dashboard-directives.coffee" %} -->
   <!-- {% compile "app/scripts/components/search/search.coffee" %} -->
   <!-- {% compile "app/scripts/components/messages/messages.coffee" %} -->

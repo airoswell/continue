@@ -300,13 +300,7 @@ angular.module 'continue.models', [
 ]
 
 .factory "BulkItems", ["Model", (Model)->
-
   return Model.create("/bulk-items/")
-
-]
-
-.factory "History", ["Model", (Model) ->
-  return Model.create("/histories/")
 ]
 
 .factory "Feed", ["Model", (Model) ->
@@ -317,10 +311,11 @@ angular.module 'continue.models', [
 ]
 
 .factory "Timeline", ["Model", (Model) ->
-  return Model.create("/timeline/").mix(
-    $extend:
-      record:""
-  )
+  return Model.create("/timeline/")
+]
+
+.factory "ItemTimeline", ["Model", (Model) ->
+  return Model.create("/item-timeline/")
 ]
 
 .factory "Transaction", ["Model", (Model)->

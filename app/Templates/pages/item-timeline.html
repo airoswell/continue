@@ -1,38 +1,105 @@
 {% extends 'layout.html'%}
 
 {% block content %}
-
-<div style="position:fixed;left:20px;max-width:256px;">
-  <div reduced-padding>
-    <div style="color:#999;font-size:18px"><i class="fa fa-clock-o"></i>&nbsp;Timeline</div>
-    <div class='section-title section-title-large'>{{ item.title }}</div>
-  </div>
-  <div>
-    <img width="100%" src="{{ item.pic }}">
-  </div>
-</div>
-<div layout='row' layout-align='center' style='padding:20px;'>
-  <div flex-gt-md="20"></div>
-  <div class='timeline' flex-gt-md="80" flex>
-    <div layout='row'>
-      <div style='border-right:2px solid #ccc;font-size:30px;font-weight:600;
-                  color:#666;'
-          class="event-header"
-          layout='row' layout-align='end'
-          flex='20'>
-        Now
-      </div>
-      <div style='border-left:2px solid #ccc;' flex-gt-md="60">
-        {% include 'pages/components/django-item-overview.html'%}
+<style>
+  .item-timeline-wrapper{
+    padding: 40px 20px;
+  }
+</style>
+<div class='item-timeline-wrapper' ng-controller='itemTimelineCtrl'
+    layout-gt-md='row' layout-md="row" layout='column'>
+  <div reduced-padding flex-gt-md="30" flex-md="20" flex>
+    <div class='section-title section-title-large text-light-gray'>
+      <i class='fa fa-clock-o'></i>&nbsp;Timeline
+    </div>
+    <div class='section-title section-title-xlarge'>
+      {{ item.title }}
+    </div>
+    <!-- current owner -->
+    <div style='padding:0px 20px;' layout="row" layout-align='start center'>
+      <img src="{{ item.owner.photo }}" alt="" height=45>
+      &nbsp;&nbsp;
+      <div>
+        <div class="text-light-gray">owner</div>
+        <div class='text-large'>{{item.owner.name}}</div>
       </div>
     </div>
-    {% load filters %}
-    {% for event in timeline %}
-
-    {% include 'pages/components/timeline.html'%}
-
-
-   {% endfor %}
+    <!-- Previous owners -->
   </div>
+  <div infinite-scroll="load_timeline()" infinite-scroll-distance="1"
+      infinite-scroll-disabled="layout.display_tab !='timeline' || layout.loading.timeline || scrollTop < 200"
+      flex-gt-md="70" flex-md="80" flex>
+
+    <!-- The item at the present -->
+    <div layout='row' flex-gt-md="90" flex="100">
+      <div hide-sm flex-gt-md='20' flex="15" style='margin-top:20px;text-align:right'>
+        <br/>
+        <div class='text-large' style='color:#666'>
+          Now
+        </div>
+      </div>
+      <div ng-cloak class='post-container' layout='row' flex>
+        {% include 'pages/components/django-item-overview.html' %}
+      </div>
+    </div>
+
+    <!-- Past updates -->
+
+    {% for event in timeline %}
+    {%  if event.model_name == 'ItemEditRecord' %}
+    <div layout='row' flex-gt-md="90" flex="100">
+      <div hide-sm flex-gt-md='20' flex="15" style='margin-top:20px;text-align:right'>
+        <br/>
+        <div class='text-large' style='color:#666'>
+          {% if event.field != "creation"%}
+          Update
+          {% else %}
+          New Item
+          {% endif %}
+        </div>
+        <div style='color:#999'>{{ event.time_updated|date:"M/d/Y" }}</div>
+      </div>
+      <div ng-cloak flex>
+        {% include 'pages/components/django-item-update.html' %}
+      </div>
+    </div>
+    {%  elif event.model_name == 'ItemTransactionRecord' %}
+    <div layout='row' flex-gt-md="90">
+      <div hide-sm flex-gt-md='20' flex="15" style='margin-top:20px;text-align:right'>
+        <br/>
+        <div class='text-large' style='color:#666'>Transfer</div>
+        <div style='color:#999'>{{ event.time_updated|date:"M/d/Y" }}</div>
+      </div>
+      <div flex>
+        {% include 'pages/components/django-item-transaction.html' %}
+      </div>
+    </div>
+    {%   endif %}
+    {% endfor %}
+      <div ng-repeat="record in timeline">
+        <switch ng-switch on="record.model_name">
+
+          <switch ng-switch-when="ItemEditRecord" ng-init='event=record'>
+            <div layout='row' flex-gt-md="90">
+              <div flex-gt-md='20' flex="15" style='margin-top:20px;text-align:right'>
+                <br/>
+                <div class="text-large" style='color:#666;'>Update</div>
+                <div style='color:#999;'
+                    ng-bind="event.time_updated|date:'MMM/dd/yyyy'">
+                </div>
+              </div>
+              <div flex>
+                <angular-item-update></angular-item-update>
+              </div>
+            </div>
+          </switch>
+
+          <switch ng-switch-when="ItemTransactionRecord" ng-init="event=record">
+            <angular-item-transaction></angular-item-transaction>
+          </switch>
+        </switch>
+      </div>
+  </div>  
 </div>
+
 {% endblock content %}

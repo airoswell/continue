@@ -13,6 +13,12 @@
   .nav-bar.non-bootstrap .transaction-button:hover{
     background: #f4f4f4;
   }
+  #advanced-search-caret{
+    padding: 5px;
+  }
+  #advanced-search-caret:hover{
+    background: #eee;
+  }
 {% load filters %}
 </style>
 <div class='nav-bar non-bootstrap' layout='row' layout-align='space-between center'>
@@ -31,7 +37,9 @@
         </span>
         <!-- Dropdown advanced search panel -->
         <span drop-down-menu>
-          <a href drop-down-menu-trigger><i class="fa fa-caret-down"></i></a>
+          <a id="advanced-search-caret" href drop-down-menu-trigger>
+            <i class="fa fa-caret-down"></i>
+          </a>
           <div drop-down-menu-target mobile-narrow
               style='position:absolute;top:40px;margin-left:-200px;padding:20px;width:450px;'>
             <div layout='row' layout-align='center center' flex>

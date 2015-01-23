@@ -785,7 +785,7 @@ class TimelineManager:
         querysets = []
         # ======== Make query to each individual model ========
         # according to the query arguments (either *args, or **kwargs)
-        print("\n\tself.starts = %s\n" % (self.starts))
+        # print("\n\tself.starts = %s\n" % (self.starts))
         for index in range(0, len(self.models)):
             start = self.starts[index]
             model = self.models[index]

@@ -203,30 +203,37 @@ def item_timeline(request, pk):
 
     queryset = Item.objects.filter(pk=pk)
     if not queryset:
-        return Response(
-            data={"error": "item with pk value %s Not found" % (pk)},
-            status=st.HTTP_404_NOT_FOUND
+        return render(
+            request,
+            'pages/not-found.html'
         )
     item = queryset[0]
-
+    user = request.user
+    authorized = ((user == item.owner) or
+                  (user in item.previous_owners.all() and
+                   item.visibility == 'Ex_owner') or
+                  item.visibility == 'Public')
+    if not authorized:
+        return render(
+            request,
+            'pages/unauthorized.html',
+            {
+                'view': 'timeline'
+            }
+        )
     tl = TimelineManager(ItemEditRecord, ItemTransactionRecord)
     tl.config(
         num_of_records=num_of_records,
         starts=(edit_start, transaction_start)
     )
     timeline = tl.get(item=item)[0: tl.num_of_records]
-    if request.user == item.owner:
-        subject = "You"
-    else:
-        subject = request.user.name()
     return render(
         request,
         'pages/item-timeline.html',
         {
-            'view': 'timeline',
+            'view': 'item-timeline',
             'timeline': timeline,
             "item": item,
-            'subject': subject
         }
     )
 

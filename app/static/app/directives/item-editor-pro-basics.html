@@ -4,7 +4,9 @@
     <img height=40 ng-src="{{item.pic}}">
   </div>
   <div layout='row' layout-align='end' flex style='font-size:20px;'>
-    <div ng-click='get_albums(item)' style='cursor:pointer'>
+    <div ng-click='get_albums(item)' style='cursor:pointer'
+        tooltip="Upload an image"
+        tooltip-placement="bottom">
       <i class='fa fa-camera'></i>
     </div>
     &nbsp;&nbsp;
