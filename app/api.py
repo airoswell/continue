@@ -215,7 +215,8 @@ class ItemList(XListAPIView):
     serializer = ItemSerializer
     num_of_records = 20
 
-    def pre_save_handler(self, data):
+    def pre_save_handler(self, request):
+        data = request.data
         item_type = "normal"
         if "type" in data:
             if not (data['type'] == "donation"):
@@ -229,6 +230,7 @@ class ItemList(XListAPIView):
             return Response(status=st.HTTP_401_UNAUTHORIZED)
         customized_char_fields_data = []
         customized_num_fields_data = []
+        import pdb; pdb.set_trace()
         if "customized_char_fields" in data:
             customized_char_fields_data = data.pop("customized_char_fields")
             data["customized_char_fields"] = []
@@ -304,12 +306,15 @@ class ItemList(XListAPIView):
         """
         ItemList.post
         """
+        # Parse the data into python objects
         data = self.parser(request)
-        data, errors = self.pre_save_handler(data)
+        # Handle the data a little bit, using serializers
+        import pdb; pdb.set_trace()
+        data, errors = self.pre_save_handler(request)
         crud = Crud(request.user, Item)
         item = crud.create(data)
         data = self.serializer(item).data
-        data["errors"] = handler.errors
+        data["errors"] = errors
         return Response(data=data, status=crud.status)
 
 

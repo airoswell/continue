@@ -199,8 +199,8 @@
 
     <!-- Item list -->
     <div id='items-display' ng-show='layout.display_tab == "items" '
-        infinite-scroll="load_items()" infinite-scroll-distance="1"
-        infinite-scroll-disabled="layout.display_tab !='items' || layout.loading.items || scrollTop < 600">
+        infinite-scroll="load_items()" infinite-scroll-distance="0"
+        infinite-scroll-disabled="layout.display_tab !='items' || layout.loading.items || scrollTop < 600" >
       <div class="section-title-large" layout='row'>
         <div flex="10"></div>
         <div>Your inventory</div>

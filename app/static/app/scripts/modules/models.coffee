@@ -370,6 +370,7 @@ angular.module 'continue.models', [
           else
             parent.tags = []
     params: (model)=>
+      console.log "InfiniteScroll.params, @init_starts = ", @init_starts
       if not model?    # if model does not exist, start the first search
         if @model_types.length > 1
           params = {starts: @init_starts}

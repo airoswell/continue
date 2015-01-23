@@ -96,8 +96,10 @@ class CustomizedNumFieldSerializer(serializers.ModelSerializer):
 class ItemSerializer(serializers.ModelSerializer):
     requesters = UserSerializer(many=True, read_only=True)
     transferrable = serializers.BooleanField(read_only=True)
-    customized_char_fields = CustomizedCharFieldSerializer(many=True)
-    customized_num_fields = CustomizedNumFieldSerializer(many=True)
+    customized_char_fields = CustomizedCharFieldSerializer(
+        many=True, read_only=True)
+    customized_num_fields = CustomizedNumFieldSerializer(
+        many=True, read_only=True)
 
     def as_instance(self):
         return Item.objects.get(pk=self.data['id'])
@@ -116,7 +118,8 @@ class ItemSerializer(serializers.ModelSerializer):
                   "customized_num_fields",
                   )
         read_only_fields = ('previous_owners', "time_created", "requesters",
-                            "owner_profile")
+                            "owner_profile",
+                            "customized_num_fields", "customized_char_fields")
 
 
 class ItemSerializerLite(serializers.ModelSerializer):

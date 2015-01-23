@@ -532,6 +532,7 @@
 
       InfiniteScroll.prototype.params = function(model) {
         var key, params;
+        console.log("InfiniteScroll.params, @init_starts = ", this.init_starts);
         if (model == null) {
           if (this.model_types.length > 1) {
             params = {

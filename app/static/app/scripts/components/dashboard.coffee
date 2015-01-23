@@ -3,14 +3,11 @@ angular.module("continue")
 
 .controller "DashBoardCtrl", [
   "$scope", "Post", "Item", "Feed", "Timeline", "Alert",
-  "InfiniteScroll",
-  ($scope, Post, Item, Feed, Timeline, Alert, InfiniteScroll) ->
+  "InfiniteScroll", "Auth",
+  ($scope, Post, Item, Feed, Timeline, Alert, InfiniteScroll, Auth) ->
 
     # Load in items and posts of the current user
     Alert.show_msg("Downloading your data.")
-    $scope.items = Item.$search({num_of_records: 8}).$then ()->
-      this.tags_handler()
-      Alert.show_msg("Download is finished.")
 
     $scope.layout = {
       creating_new_item: false
@@ -22,6 +19,13 @@ angular.module("continue")
         "timeline": false
         "items": false
     }
+
+    $scope.layout.loading.items = true
+    $scope.items = Item.$search({num_of_records: 8}).$then (response)->
+      this.tags_handler()
+      this.start = this.length    # set the start for future infinite scrolling
+      Alert.show_msg("Download is finished.")
+      $scope.layout.loading.items = false
 
     $scope.items_search = (tag)->
       Alert.show_msg("Searching...")
@@ -51,11 +55,13 @@ angular.module("continue")
 
     # =========== Infinite scrolling for items ===========
     infinite_scroll_items = new InfiniteScroll(Item)
-    infinite_scroll_items.config(
-      model_types: ["Item"]       # Expected model types from the backend
-      init_starts: $scope.items.length
-    )
     $scope.load_items = ()->
+      console.log "$scope.items", $scope.items
+      console.log "$scope.items.length", $scope.items.length
+      infinite_scroll_items.config(
+        model_types: ["Item"]       # Expected model types from the backend
+        init_starts: $scope.items.length
+      )
       $scope.layout.loading.items = true
       $scope.items = infinite_scroll_items.load($scope.items)
       $scope.items.$asPromise().then (response)->
@@ -108,6 +114,7 @@ angular.module("continue")
       $scope.layout.creating_new_item = true
       $scope.layout.display_tab = "items"
       item = Item.$build(Item.init)
+      item.owner = Auth.get_profile().user_id
       item.is_new = true
       $scope.items.splice 0, 0, item
       $("html, body").animate scrollTop: $("#items-display").offset().top - 100

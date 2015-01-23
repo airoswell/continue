@@ -39,7 +39,6 @@ angular.module("continue")
     input = element.find("input")
     # <data> should be the content of the input
     scope.$watch "data", ()->
-      console.log scope.data
       # sometimes AngularJS was not fast enough to pull in the template,
       # and therefore unable to define input; so redefine it.
       if input.length == 0
