@@ -22,7 +22,8 @@
         this.tags_handler();
         this.start = this.length;
         Alert.show_msg("Download is finished.");
-        return $scope.layout.loading.items = false;
+        $scope.layout.loading.items = false;
+        return console.log("Downloaded items");
       });
       $scope.items_search = function(tag) {
         Alert.show_msg("Searching...");

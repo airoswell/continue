@@ -26,6 +26,7 @@ angular.module("continue")
       this.start = this.length    # set the start for future infinite scrolling
       Alert.show_msg("Download is finished.")
       $scope.layout.loading.items = false
+      console.log "Downloaded items"
 
     $scope.items_search = (tag)->
       Alert.show_msg("Searching...")
