@@ -1,14 +1,14 @@
 <style type="text/css">
-  .thumbnail{
+  .bottom-sheet .image-thumbnail{
     cursor: pointer;margin: 5px;
   }
-  .thumbnail img{
+  .bottom-sheet .image-thumbnail img{
     border: 2px solid #aaa;border-radius: 5px;
-    transition: all 0.2s;
+    transition: all 0.2s;height: none;
     opacity: 0.8;
     -webkit-transition: all 0.2s;
   }
-  .thumbnail img:hover{
+  .bottom-sheet .image-thumbnail img:hover{
     border: 2px solid #666;
     opacity: 1;
   }
@@ -24,7 +24,7 @@
   }
 </style>
 
-<div ng-controller="albumCtrl">
+<div class="bottom-sheet" ng-controller="albumCtrl">
   <!-- Facebook albums and photos -->
   <br/>
   <div class='text-large'>
@@ -56,7 +56,7 @@
         <div class='text-large' style='max-width:50px;' layout='column' layout-align='center center'>
           Album list&nbsp;
         </div>
-        <div class="thumbnail" 
+        <div class="image-thumbnail" 
             ng-repeat="album in pagination(Album.albums)"
             ng-click="select_album(album.id)">
           <img height="120" ng-src="{{:: album.cover_photo.images[1].source}}">
@@ -67,7 +67,7 @@
     <div ng-show='!layout.album_list_is_show'>
       <div class='text-large'>Photos</div>
       <div layout='row' layout-align='center'>
-        <div class='thumbnail'
+        <div class='image-thumbnail'
             ng-repeat="photo in pagination(Album.photos)"
             ng-click='select_photo(photo)'>
           <img height="120" ng-src="{{photo.images[2].source}}">

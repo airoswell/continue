@@ -295,7 +295,6 @@ angular.module 'continue.models', [
                 ][0]
       Model:
         init: init
-    histories: {hasMany: "History"}
   })
 ]
 

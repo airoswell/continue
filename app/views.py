@@ -6,11 +6,12 @@ from app.GenericAPI import *
 from app.serializers import *
 from app.CRUD import *
 from app.errors import *
+
 #
 # Django Core
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-
+from django.conf import settings
 # =======Should be removed in production========
 # ================================
 # Other Python module
@@ -347,6 +348,7 @@ def dashboard(request):
             'timeline': timeline,
             'timeline_starts': timeline_starts,
             "subject": "You",
+            'LIVEHOST': settings.LIVEHOST,
         }
     )
 

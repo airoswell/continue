@@ -21,7 +21,8 @@
 <body ng-app="continue">
   <div id="fb-root"></div>
   
-  <div ng-controller="LayoutCtrl" ng-init="view='{{view}}'" style='height:100%;'>
+  <div style='height:100%;' ng-controller="LayoutCtrl"
+      ng-init="view='{{view}}';LIVEHOST='{{LIVEHOST}}'">
     {% include "navbar.html" %}
     {% block navbar %}
     {% endblock navbar %}
@@ -65,7 +66,9 @@
   <!-- - drag and drop -->
   <script type="text/javascript" src="{% static 'app/bower_components/angular-file-dnd/dist/angular-file-dnd.min.js' %}"></script>
   {# End: Bower #}
-
+  <script type='text/javascript'>
+    var LIVEHOST = '{{ LIVEHOST }}'
+  </script>
   <script type="text/javascript" src="{% static 'app/scripts/components/auto-resize.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/scripts/app.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/scripts/modules/auth.js'%}"></script>

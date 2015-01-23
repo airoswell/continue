@@ -386,6 +386,12 @@ input-dropdown[reduced-padding] .input-label{
     background: #f9f9f9;
 }
 
+.timeline-button{
+    padding: 3px;cursor: pointer;
+}
+.timeline-button:hover{
+    background: #f4f4f4;
+}
 /* ======== Django Templates ======== */
 .post-container{
     padding:20px;margin:20px 10px;
@@ -505,6 +511,12 @@ input-num>div:hover, [input-num]>div:hover {
 }
 .choice-option.active{
     background-color:#eee;
+}
+.transfer-button{
+    padding: 5px;
+}
+.transfer-button:hover{
+    background: #eee;
 }
 
 tags-input.custom {

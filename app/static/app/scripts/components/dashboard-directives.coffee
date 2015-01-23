@@ -51,7 +51,7 @@ angular.module("continue")
   restrict: "E"
   templateUrl: "/static/app/directives/post-overview.html"
 
-.directive "dashboardItemOverview", ["History", "Album", "Alert", (History, Album, Alert)->
+.directive "dashboardItemOverview", ["Album", "Alert", (Album, Alert)->
   restrict: "E"
   scope: true
   templateUrl: "/static/app/directives/dashboard-item-overview.html"

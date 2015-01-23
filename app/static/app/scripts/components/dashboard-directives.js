@@ -84,7 +84,7 @@
       templateUrl: "/static/app/directives/post-overview.html"
     };
   }).directive("dashboardItemOverview", [
-    "History", "Album", "Alert", function(History, Album, Alert) {
+    "Album", "Alert", function(Album, Alert) {
       return {
         restrict: "E",
         scope: true,

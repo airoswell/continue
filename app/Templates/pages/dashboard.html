@@ -207,11 +207,10 @@
       </div>
 
       <!-- Item editors list -->
-      <div ng-hide="layout.show_items_search_results"
-          flex-gt-lg="60" flex-lg="65" flex-gt-md="70" flex-md="70"
-          layout='row'>
-        <div flex="10"></div>
-        <div>
+      <div ng-hide="layout.show_items_search_results" layout='row'>
+        <div flex-gt-lg="30" flex-gt-md="20" flex-md="10" flex-sm="0">
+        </div>
+        <div flex-gt-lg="60" flex-gt-md="70" flex-md="80" flex-sm="100">
           <item-editor-pro ng-repeat="item in items"></item-editor-pro>
         </div>
       </div>

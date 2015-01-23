@@ -30,62 +30,72 @@
       </div>
 
     </div>
-    <!-- Request Button -->
-    <!-- Only the third party (neither the owner of the post nor the item) -->
-    <!-- can see the following components  -->
-    <if ng-if="item.owner != profile.user_id">
-      <!-- If the post owner still owns the item -->
-      <if ng-if="(view == 'search' && item.owner == post.owner && item.available != 'No') || (view == 'dashboard' && item.available != 'No' ) || view == 'timeline' && item.available != 'No' ">
-        <!-- ===================================== -->
-        <!-- If the user has requested the item -->
-        <if ng-if="profile.user_id|requested:item">
-          <div layout='column'>
-            <div item-id="{{ item.id }}" class="add-item disabled">
-              <i class="fa fa-check"></i>
+
+    <div>
+      <!-- Request Button -->
+      <!-- Only the third party (neither the owner of the post nor the item) -->
+      <!-- can see the following components  -->
+      <if ng-if="item.owner != profile.user_id">
+        <!-- If the post owner still owns the item -->
+        <if ng-if="(view == 'search' && item.owner == post.owner && item.available != 'No') || (view == 'dashboard' && item.available != 'No' ) || view == 'timeline' && item.available != 'No' ">
+          <!-- ===================================== -->
+          <!-- If the user has requested the item -->
+          <if ng-if="profile.user_id|requested:item">
+            <div layout='column'>
+              <div item-id="{{ item.id }}" class="add-item disabled">
+                <i class="fa fa-check"></i>
+              </div>
             </div>
+          </if>
+          <!-- If the user has NOT requested the item, then show the -->
+          <!-- add item button                                       -->
+          <if ng-if="!(profile.user_id|requested:item)">
+            <div layout='column'>
+              <div item-id="{{ item.id }}" class="add-item"
+                  ng-click="add_item()"
+                  ng-class="{'active': items.indexOf(item_id) > -1}">
+                <i class='fa fa-circle-o'></i>
+              </div>
+            </div>
+          </if>
+        </if>
+      </if>
+      <!-- Transfer button -->
+      <!-- The buttons might show in messages, dashboard,
+            and post search list -->
+      <!-- If the user is  -->
+      <!-- - owner of the post -->
+      <!-- - owner of the item -->
+      <!-- and -->
+      <!-- - there are requesters of the (item in the post) -->
+      <!-- - and the item is transferrable -->
+      <!-- show the transfer menu -->
+      <!-- <if ng-if="post.owner == profile.user_id && item.owner == profile.user_id"> -->
+      <if ng-if="item.owner == profile.user_id">
+        <if ng-if='view == "search" && profile.user_id == post.owner'>
+          <div layout='column' layout-align='space-between'>
+            <angular-item-edit-menu></angular-item-edit-menu>
+            <if ng-if="item.transferrable && item.requesters">
+              <transfer-menu></transfer-menu>  
+            </if>
           </div>
         </if>
-        <!-- If the user has NOT requested the item, then show the -->
-        <!-- add item button                                       -->
-        <if ng-if="!(profile.user_id|requested:item)">
-          <div layout='column'>
-            <div item-id="{{ item.id }}" class="add-item"
-                ng-click="add_item()"
-                ng-class="{'active': items.indexOf(item_id) > -1}">
-              <i class='fa fa-circle-o'></i>
-            </div>
+        <if ng-if="view != 'search'">
+          <div layout='column' layout-align='space-between'>
+            <angular-item-edit-menu></angular-item-edit-menu>
+            <if ng-if="item.requesters && item.transferrable">
+              <angular-transfer-menu></angular-transfer-menu>  
+            </if>
           </div>
         </if>
       </if>
-    </if>
-    <!-- Transfer button -->
-    <!-- The buttons might show in messages, dashboard,
-          and post search list -->
-    <!-- If the user is  -->
-    <!-- - owner of the post -->
-    <!-- - owner of the item -->
-    <!-- and -->
-    <!-- - there are requesters of the (item in the post) -->
-    <!-- - and the item is transferrable -->
-    <!-- show the transfer menu -->
-    <!-- <if ng-if="post.owner == profile.user_id && item.owner == profile.user_id"> -->
-    <if ng-if="item.owner == profile.user_id">
-      <if ng-if='view == "search" && profile.user_id == post.owner'>
-        <div layout='column' layout-align='space-between'>
-          <angular-item-edit-menu></angular-item-edit-menu>
-          <if ng-if="item.transferrable && item.requesters">
-            <transfer-menu></transfer-menu>  
-          </if>
+      <a href="/app/item/{{::item.id}}/timeline">
+        <div class="timeline-button" layout='row' layout-align='center'
+            tooltip="Visit the item's timeline"
+            tooltip-placement='bottom'>
+          <i class='fa fa-clock-o'></i>
         </div>
-      </if>
-      <if ng-if="view != 'search'">
-        <div layout='column' layout-align='space-between'>
-          <angular-item-edit-menu></angular-item-edit-menu>
-          <if ng-if="item.requesters && item.transferrable">
-            <angular-transfer-menu></angular-transfer-menu>  
-          </if>
-        </div>
-      </if>
-    </if>
+      </a>
+    </div>
   </div>
 </div>

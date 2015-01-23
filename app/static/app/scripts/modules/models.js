@@ -425,9 +425,6 @@
           Model: {
             init: init
           }
-        },
-        histories: {
-          hasMany: "History"
         }
       });
     }

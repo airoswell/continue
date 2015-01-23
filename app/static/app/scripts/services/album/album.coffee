@@ -79,6 +79,20 @@ angular.module "continue"
 
     console.log "hahaha this is albumCtrl!!!"
 
+    $scope.$watch "image", ()->
+      if $scope.image
+        Alert.show_msg("Uploading your image ...")
+        $scope.image_resource = Image.$build()
+        $scope.image_resource.image = $scope.image
+        $scope.image_resource.owner = Auth.get_profile().user_id
+        $scope.image_resource.$save().$asPromise().then (response)->
+          $scope.uploaded = "#{settings.UPLOADED_URL}#{response.url}"
+          console.log "$scope.uploaded", $scope.uploaded
+          Alert.show_msg("Your image has been uploaded successfully!")
+          Album.deferred.resolve($scope.uploaded)
+        , ()->
+          Alert.show_error("There was problem uploading your file. Please make sure your file is a valid image file.")
+
     $scope.upload = ()->
       Alert.show_msg("Uploading your image ...")
       $scope.image_resource = Image.$build()
@@ -90,6 +104,7 @@ angular.module "continue"
         Alert.show_msg("Your image has been uploaded successfully!")
       , ()->
         Alert.show_error("There was problem uploading your file. Please make sure your file is a valid image file.")
+        Album.deferred.resolve($scope.uploaded)
 
     $scope.photos_to_display = ()->
       start = ($scope.layout.page - 1) * $scope.layout.num_of_records

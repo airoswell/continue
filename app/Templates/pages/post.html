@@ -31,7 +31,10 @@
     background: #f17483;color: #fff;
   }
   .post-editor tags-input.custom .host{
-    border: none;
+    border: none;border: 1px solid transparent;
+  }
+  .post-editor tags-input.custom .host:hover{
+    background: #f9f9f9;border-color: #f4f4f4;
   }
   .post-editor tags-input.custom .tags.focused{
     box-shadow: none;
@@ -103,7 +106,8 @@
 
       <div style='padding:0px 20px;'>
         <div flex layout='row' layout-align='start center' style='margin-bottom:5px;'>
-          <i class='fa fa-tags'></i>&nbsp; 
+          <i class='fa fa-tags'
+              tooltip="Tag brings better search and organization."></i>&nbsp; 
           <div flex>
             <tags-input class="custom" ng-model='tags_input'
                 placeholder='Tag your post for ease of search.'>
