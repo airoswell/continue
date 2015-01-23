@@ -889,7 +889,7 @@ class FeedList(TimelineAPIView):
     models_str = ("Post", "Item", "ItemEditRecord")
     serializer = (PostSerializer, ItemSerializer, ItemEditRecordSerializer, )
     order_by = ("-time_created", "-time_created", "-time_updated", )
-    filter_type = ["or", "or", "or"]
+    filter_type = ["and", "or", "or"]
 
     def get_query_args(self, request):
         user = request.user
@@ -928,7 +928,7 @@ class FeedList(TimelineAPIView):
             )]
         )
         query_args = [
-            {"area": interested_areas},
+            {"area": interested_areas, "visibility": "Public"},
             item_arg,
             update_arg,
         ]
