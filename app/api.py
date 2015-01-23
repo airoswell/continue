@@ -844,6 +844,8 @@ class TimelineAPIView(APIView):
     REST API for all timelines (cross model requests).
     """
 
+    num_of_records = 8
+
     def get_query_args(self, request, pk=None):
         # default query arguments, should be overwritten in
         # each individual API
@@ -875,17 +877,18 @@ class TimelineAPIView(APIView):
             for model_name in starts_dict:
                 index = self.models_str.index(model_name)
                 starts[index] = starts_dict[model_name]
+
+        num_of_records = self.num_of_records
         if "num_of_records" in params:
             num_of_records = int(params['num_of_records'])
             if num_of_records == 0:
                 return Response(data=[])
-        print("\t\n starts = %s" % (starts, ))
         tl = TimelineManager(*self.models)
         tl.config(
             order_by=self.order_by,
             filter_type=self.filter_type,
             starts=starts,
-            num_of_records=num_of_records
+            num_of_records=num_of_records,
         )
         if "pk" in params:
             pk = params['pk']
