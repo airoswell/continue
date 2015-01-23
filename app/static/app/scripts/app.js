@@ -22,7 +22,7 @@
 
   app.factory("settings", function() {
     var HOST_URL, STATIC_URL, UPLOADED_URL;
-    HOST_URL = "http://localhost:8000";
+    HOST_URL = "http://104.237.144.150";
     STATIC_URL = "" + HOST_URL + "/static";
     UPLOADED_URL = "" + STATIC_URL + "/uploaded/";
     return {
