@@ -29,9 +29,9 @@ app.config [
 ]
 
 app.factory "settings", ()->
-  HOST_URL = "http://localhost:8000"
+  HOST_URL = "http://104.237.144.150"
+  # HOST_URL = "http://localhost:8000"
   STATIC_URL = "#{HOST_URL}/static"
-  # STATIC_URL = "http://104.237.144.150/static/"
   UPLOADED_URL = "#{STATIC_URL}/uploaded/"
   return {
     STATIC_URL: STATIC_URL
