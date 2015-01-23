@@ -281,8 +281,10 @@ class Item(models.Model):
         if not queryset:
             # Deal with the case where the item is not found
             return None, []
-        num_fields_data = validated_data.pop('customized_num_fields')
-        char_fields_data = validated_data.pop('customized_char_fields')
+        if 'customized_num_fields' in validated_data:
+            num_fields_data = validated_data.pop('customized_num_fields')
+        if "customized_char_fields" in validated_data:
+            char_fields_data = validated_data.pop('customized_char_fields')
         item = queryset[0]
         owner_changed = False
         errors = []
