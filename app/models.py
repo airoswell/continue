@@ -251,8 +251,12 @@ class Item(models.Model):
         """
         Item.create()
         """
-        num_fields_data = validated_data.pop('customized_num_fields')
-        char_fields_data = validated_data.pop('customized_char_fields')
+        # Typically validated_data should be feed with empty
+        # customized_num/char_fields, when they are not specified.
+        if "customized_num_fields" in validated_data:
+            num_fields_data = validated_data.pop('customized_num_fields')
+        if "customized_char_fields" in validated_data:
+            char_fields_data = validated_data.pop('customized_char_fields')
         print("\n\tItem.create() ==> validated_data = %s" % (validated_data))
         item = cls.objects.create(**validated_data)
         ItemEditRecord.objects.create(
@@ -339,7 +343,6 @@ class Item(models.Model):
         if owner_changed:
             queryset.update(transferrable=False)
         queryset[0].save()      # To trigger Haystack update_index
-        import pdb; pdb.set_trace()
         print("\t\t Item.update() ==> errors: %s" % (errors))
         return queryset[0], errors
 
