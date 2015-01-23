@@ -188,20 +188,6 @@ def post_create(request):
 
 
 def item_timeline(request, pk):
-    params = request.GET
-    if 'edit_start' in params:
-        edit_start = params['edit_start']
-    else:
-        edit_start = 0
-    if 'transaction_start' in params:
-        transaction_start = params['transaction_start']
-    else:
-        transaction_start = 0
-    if "num_of_records" in params:
-        num_of_records = params['num_of_records']
-    else:
-        num_of_records = 8
-
     queryset = Item.objects.filter(pk=pk)
     if not queryset:
         return render(
@@ -222,12 +208,30 @@ def item_timeline(request, pk):
                 'view': 'timeline'
             }
         )
+    params = request.GET
+    if 'edit_start' in params:
+        edit_start = params['edit_start']
+    else:
+        edit_start = 0
+    if 'transaction_start' in params:
+        transaction_start = params['transaction_start']
+    else:
+        transaction_start = 0
+    if "num_of_records" in params:
+        num_of_records = params['num_of_records']
+    else:
+        num_of_records = 8
     tl = TimelineManager(ItemEditRecord, ItemTransactionRecord)
     tl.config(
         num_of_records=num_of_records,
         starts=(edit_start, transaction_start)
     )
     timeline = tl.get(item=item)[0: tl.num_of_records]
+    print("\t\nitem_timeline returned %s result in timeline" % (len(timeline)))
+    # Prepare the init_starts
+    init_starts = {model.__name__: 0 for model in tl.models}
+    for record in timeline:
+        init_starts[type(record).__name__] += 1
     return render(
         request,
         'pages/item-timeline.html',
@@ -235,6 +239,7 @@ def item_timeline(request, pk):
             'view': 'item-timeline',
             'timeline': timeline,
             "item": item,
+            "init_starts": init_starts,
         }
     )
 

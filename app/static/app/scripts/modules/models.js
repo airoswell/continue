@@ -113,6 +113,16 @@
                       }
                     }
                   }
+                },
+                fetch: function(params) {
+                  var self;
+                  self = this;
+                  this.loading = true;
+                  return this.$fetch(params).$then(function(response) {
+                    if (response.tags_handler != null) {
+                      return response.tags_handler();
+                    }
+                  });
                 }
               },
               Collection: {
@@ -120,7 +130,7 @@
                 loading: false,
                 page: 1,
                 start: 0,
-                num_of_records: 2,
+                num_of_records: 8,
                 next_page: function() {
                   return next_page(this);
                 },
@@ -446,7 +456,7 @@
     }
   ]).factory("ItemTimeline", [
     "Model", function(Model) {
-      return Model.create("/item-timeline/");
+      return Model.create("/timeline/item/");
     }
   ]).factory("Transaction", [
     "Model", function(Model) {
@@ -525,7 +535,6 @@
 
       InfiniteScroll.prototype.params = function(model) {
         var key, params;
-        console.log("InfiniteScroll.params, @init_starts = ", this.init_starts);
         if (model == null) {
           if (this.model_types.length > 1) {
             params = {

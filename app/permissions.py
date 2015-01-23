@@ -41,7 +41,7 @@ class IsGiverOrReceiverOrNoPermission(permissions.BasePermission):
             return False
 
 
-class IsOwnerOrPublicOrNoPermission(permissions.BasePermission):
+class IsOwnerOrPublicOrExOrNoPermission(permissions.BasePermission):
     """
         Only the owner can perform any request on it.
         Typically apply to an <item>.

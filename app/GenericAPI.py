@@ -1,12 +1,10 @@
 from errors import ErrorHandler
 from app.CRUD import *
-from django.utils.six import BytesIO
 # ======== Django Rest Framework ========
 # -*- coding: utf-8 -*-
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status as st
-from rest_framework.parsers import JSONParser
 # ================================
 import json
 
@@ -34,6 +32,10 @@ class XListAPIView(APIView):
         return start, num_of_records
 
     def get_object(self, **search_kwargs):
+        """
+        List API is good for single model listing,
+        check permission of each instance that are queried.
+        """
         queryset = self.model.objects.filter(**search_kwargs)
         if queryset:
             for instance in queryset:

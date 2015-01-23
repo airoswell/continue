@@ -7,7 +7,8 @@
   }
 </style>
 <div class='item-timeline-wrapper' ng-controller='itemTimelineCtrl'
-    layout-gt-md='row' layout-md="row" layout='column'>
+    layout-gt-md='row' layout-md="row" layout='column'
+    ng-init="init_starts = {{init_starts}};item_id={{ item.id }}">
   <div reduced-padding flex-gt-md="30" flex-md="20" flex>
     <div class='section-title section-title-large text-light-gray'>
       <i class='fa fa-clock-o'></i>&nbsp;Timeline
@@ -27,7 +28,7 @@
     <!-- Previous owners -->
   </div>
   <div infinite-scroll="load_timeline()" infinite-scroll-distance="1"
-      infinite-scroll-disabled="layout.display_tab !='timeline' || layout.loading.timeline || scrollTop < 200"
+      infinite-scroll-disabled="layout.loading.timeline || scrollTop < 200"
       flex-gt-md="70" flex-md="80" flex>
 
     <!-- The item at the present -->
@@ -83,7 +84,12 @@
             <div layout='row' flex-gt-md="90">
               <div flex-gt-md='20' flex="15" style='margin-top:20px;text-align:right'>
                 <br/>
-                <div class="text-large" style='color:#666;'>Update</div>
+                <div class="text-large" style='color:#666;'>
+                  <if ng-if='event.field!="creation"'>
+                    Update
+                  </if>
+                  <if ng-if="event.field=='creation'">New item</if>
+                </div>
                 <div style='color:#999;'
                     ng-bind="event.time_updated|date:'MMM/dd/yyyy'">
                 </div>

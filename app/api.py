@@ -230,7 +230,6 @@ class ItemList(XListAPIView):
             return Response(status=st.HTTP_401_UNAUTHORIZED)
         customized_char_fields_data = []
         customized_num_fields_data = []
-        import pdb; pdb.set_trace()
         if "customized_char_fields" in data:
             customized_char_fields_data = data.pop("customized_char_fields")
             data["customized_char_fields"] = []
@@ -309,7 +308,6 @@ class ItemList(XListAPIView):
         # Parse the data into python objects
         data = self.parser(request)
         # Handle the data a little bit, using serializers
-        import pdb; pdb.set_trace()
         data, errors = self.pre_save_handler(request)
         crud = Crud(request.user, Item)
         item = crud.create(data)
@@ -373,7 +371,7 @@ class ItemDetail(XDetailAPIView):
         R, U, D of a given <item, Item>
     '''
     permission_classes = (
-        perms.IsOwnerOrPublicOrNoPermission,
+        perms.IsOwnerOrPublicOrExOrNoPermission,
     )
 
     model = Item
@@ -663,6 +661,9 @@ class TransactionDetail(XDetailAPIView):
 
 
 class TimelineManager:
+    """
+    A class for merging multiple models records into a consistent timeline
+    """
     def __init__(self, *models):
         """
         arguments <models> should take in several models, based on which
@@ -838,20 +839,31 @@ class TimelineManager:
         return timeline
 
 
-class TimelineAPIView(XListAPIView):
+class TimelineAPIView(APIView):
     """
-    API for all timelines (cross model requests).
+    REST API for all timelines (cross model requests).
     """
 
-    def get_query_args(self, request):
+    def get_query_args(self, request, pk=None):
         # default query arguments, should be overwritten in
         # each individual API
         return []
 
-    def get_query_kwargs(self, request):
+    def get_query_kwargs(self, request, pk=None):
         # default query keyword arguments, should be overwritten in
         # each individual API
         return {}
+
+    def get_object(self, **search_kwargs):
+        """
+        List API is good for single model listing,
+        check permission of each instance that are queried.
+        """
+        queryset = self.model.objects.filter(**search_kwargs)
+        if queryset:
+            for instance in queryset:
+                self.check_object_permissions(self.request, instance)
+        return queryset
 
     def get(self, request):
         params = request.query_params
@@ -863,14 +875,25 @@ class TimelineAPIView(XListAPIView):
             for model_name in starts_dict:
                 index = self.models_str.index(model_name)
                 starts[index] = starts_dict[model_name]
+        if "num_of_records" in params:
+            num_of_records = int(params['num_of_records'])
+            if num_of_records == 0:
+                return Response(data=[])
+        print("\t\n starts = %s" % (starts, ))
         tl = TimelineManager(*self.models)
         tl.config(
             order_by=self.order_by,
             filter_type=self.filter_type,
             starts=starts,
+            num_of_records=num_of_records
         )
-        query_args = self.get_query_args(request)
-        query_kwargs = self.get_query_kwargs(request)
+        if "pk" in params:
+            pk = params['pk']
+            query_args = self.get_query_args(request, pk)
+            query_kwargs = self.get_query_kwargs(request, pk)
+        else:
+            query_args = self.get_query_args(request)
+            query_kwargs = self.get_query_kwargs(request)
         results = tl.get(*query_args, **query_kwargs)
         if not results:
             return Response(status=st.HTTP_404_NOT_FOUND)
@@ -880,16 +903,22 @@ class TimelineAPIView(XListAPIView):
             serializer = self.serializer[index]
             record_data = serializer(record).data
             data.append(record_data)
+        print("type(data) %s" % (type(data)))
         return Response(data=data)
 
 
-class FeedList(TimelineAPIView):
+class Feed(TimelineAPIView):
 
     models = (Post, Item, ItemEditRecord, )
     models_str = ("Post", "Item", "ItemEditRecord")
     serializer = (PostSerializer, ItemSerializer, ItemEditRecordSerializer, )
     order_by = ("-time_created", "-time_created", "-time_updated", )
     filter_type = ["and", "or", "or"]
+
+    permission_classes = (
+        permissions.IsAuthenticated,    # view permission
+                                        # no need to call get_object()
+    )
 
     def get_query_args(self, request):
         user = request.user
@@ -935,19 +964,47 @@ class FeedList(TimelineAPIView):
         return query_args
 
 
-class TimelineList(TimelineAPIView):
+class DashboardTimeline(TimelineAPIView):
 
+    model = User
     models = (ItemEditRecord, ItemTransactionRecord)
     models_str = ("ItemEditRecord", "ItemTransactionRecord")
     serializer = (ItemEditRecordSerializer, TransactionSerializer)
     order_by = ("-time_updated", "-time_updated")
     filter_type = ["or", "or"]
 
+    permission_classes = (
+        permissions.IsAuthenticated,    # view permission
+                                        # no need to call get_object()
+    )
+
     def get_query_args(self, request):
         user = request.user
         query_args = [
             {"item__owner": user},
             {"receiver": user, "giver": user}
+        ]
+        return query_args
+
+
+class ItemTimeline(TimelineAPIView):
+
+    models = (ItemEditRecord, ItemTransactionRecord)
+    model = Item
+    models_str = ("ItemEditRecord", "ItemTransactionRecord")
+    serializer = (ItemEditRecordSerializer, TransactionSerializer)
+    order_by = ("-time_updated", "-time_updated")
+    filter_type = ["or", "or"]
+
+    permission_classes = (
+        perms.IsOwnerOrPublicOrExOrNoPermission,
+    )
+
+    def get_query_args(self, request, pk):
+        item = self.get_object(pk=pk)      # call object level permission check
+        query_args = [
+            {"item": item},
+            {"item": item},
         ]
         return query_args
 

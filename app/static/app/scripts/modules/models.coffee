@@ -96,12 +96,18 @@ angular.module 'continue.models', [
                     this.tags = this.tags.split(",")
                   else
                     this.tags = []
+            fetch: (params)->
+              self = this
+              this.loading = true
+              this.$fetch(params).$then (response)->
+                if response.tags_handler?
+                  response.tags_handler()
           Collection:
             path: path
             loading: false
             page: 1
             start: 0
-            num_of_records: 2
+            num_of_records: 8
             next_page: () ->
               next_page(this)
             prev_page: () ->
@@ -314,7 +320,7 @@ angular.module 'continue.models', [
 ]
 
 .factory "ItemTimeline", ["Model", (Model) ->
-  return Model.create("/item-timeline/")
+  return Model.create("/timeline/item/")
 ]
 
 .factory "Transaction", ["Model", (Model)->
@@ -364,7 +370,6 @@ angular.module 'continue.models', [
           else
             parent.tags = []
     params: (model)=>
-      console.log "InfiniteScroll.params, @init_starts = ", @init_starts
       if not model?    # if model does not exist, start the first search
         if @model_types.length > 1
           params = {starts: @init_starts}
@@ -394,7 +399,6 @@ angular.module 'continue.models', [
 
       else if @model_types.length > 1
         response.starts = {}
-
         for model_name of @init_starts
           response.starts[model_name] = @init_starts[model_name]
 
