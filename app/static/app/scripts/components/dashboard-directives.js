@@ -55,7 +55,8 @@
             Alert.show_msg("Downloading your albums ...");
             return Album.get_albums().then(function(response) {
               if (response) {
-                return item.pic = response;
+                item.pic = response;
+                return item.save();
               }
             });
           };

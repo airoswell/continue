@@ -32,6 +32,7 @@ angular.module("continue")
       Album.get_albums().then (response)->
         if response
           item.pic = response
+          item.save()
 ]
 
 .directive "itemEditorProTitle", ()->

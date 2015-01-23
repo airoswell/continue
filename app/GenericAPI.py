@@ -82,13 +82,16 @@ class XDetailAPIView(APIView):
         try:
             # If the model has 'owner' field
             # only the object that is owned by the user can be updated
+            print('\n\tXDetailAPIView.put, data = %s' % (data))
             self.model._meta.get_field("owner")
             instance, errors = crud.update(data, owner=request.user)
             # return Response(data=errors)
         except FieldDoesNotExist:
             # If the model does not have 'owner' field
             # pass in <user> to the model methods, let them decide
-            print("\n\tdata = %s\n" % (data))
+            print(
+                "\n\ttXDetailAPIView: FieldDoesNotExist, data = %s\n" % (data)
+            )
             instance, errors = crud.update(data, user=request.user)
         # ============================================================
         if instance:    # Update was successful

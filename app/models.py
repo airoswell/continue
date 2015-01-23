@@ -281,6 +281,8 @@ class Item(models.Model):
         if not queryset:
             # Deal with the case where the item is not found
             return None, []
+        num_fields_data = validated_data.pop('customized_num_fields')
+        char_fields_data = validated_data.pop('customized_char_fields')
         item = queryset[0]
         owner_changed = False
         errors = []
@@ -323,12 +325,19 @@ class Item(models.Model):
                         errors.push(original_value)
                         errors.push(new_value)
         # Owner change will propagate through here
-        print("\t\t validated_data %s" % (validated_data))
-        queryset.update(**validated_data)
+        print("\t\t Item.update: validated_data %s" % (validated_data))
+        try:
+            queryset.update(**validated_data)
+        except FieldError, e:
+            print("\t\t %s" % ("!*"*10))
+            print("\t\nItem.update: FieldError: %s " % (e.message))
+            print("\t\t %s" % ("!*"*10))
+            return queryset[0], [e.message]
         # A newly created transaction should render the item NOT-transferrable
         if owner_changed:
             queryset.update(transferrable=False)
         queryset[0].save()      # To trigger Haystack update_index
+        import pdb; pdb.set_trace()
         print("\t\t Item.update() ==> errors: %s" % (errors))
         return queryset[0], errors
 

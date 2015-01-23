@@ -53,9 +53,11 @@ class Crud:
         # print "\t\t CRUD.update ==> errors %s" % (errors)
         # return instance, errors
         try:
-            print("\tinstance, errors = self.model.update(validated_data, **kwargs)")
+            print("\tCRUD.update()")
             instance, errors = self.model.update(validated_data, **kwargs)
+            print("\t\t !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
             print "\t\t CRUD.update ==> errors %s" % (errors)
+            print("\t\t !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
             return instance, errors
         except:
             return False, ["Unknown errors"]
