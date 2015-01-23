@@ -217,7 +217,7 @@ def item_timeline(request, pk):
     if not authorized:
         return render(
             request,
-            'pages/unauthorized.html',
+            'unauthorized.html',
             {
                 'view': 'timeline'
             }

@@ -7,7 +7,7 @@
   {%   if transaction.giver.id == request.user.id %}
   <span layout='row' layout-align='start center'>
     <img height=20 src="{{transaction.receiver.photo}}" style='vertical-align:center'>
-    &nbsp;&nbsp;You have <span>{{transaction.status}}</span> <span>{{transaction.receiver.username}}</span> the item <span>{{transaction.item.title}}</span>
+    &nbsp;&nbsp;You have&nbsp;<span>{{transaction.status}}</span>&nbsp;<span>{{transaction.receiver.name}}</span>&nbsp;<span style='color:#00B411'>{{transaction.item.title}}</span>&nbsp;
     <span class='button button-small button-gray'
         ng-click="transaction.revoke(); location.reload()">
       Revoke

@@ -139,7 +139,7 @@ angular.module("continue")
   link: (scope, element, attrs)->
     trigger = element.find("[drop-down-menu-trigger]")
     target = element.find("[drop-down-menu-target]")
-    target.css({"position": "absolute", "display": "none"})
+    target.css({"position": "absolute", "display": "none", "z-index": 1})
 
     trigger.on "click", (e)->
       target.css({"display": ""})

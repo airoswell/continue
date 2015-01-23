@@ -186,7 +186,8 @@
           target = element.find("[drop-down-menu-target]");
           target.css({
             "position": "absolute",
-            "display": "none"
+            "display": "none",
+            "z-index": 1
           });
           trigger.on("click", function(e) {
             target.css({
