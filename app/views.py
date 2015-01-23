@@ -315,7 +315,7 @@ def dashboard(request):
         )]
     )
     query_args = [
-        {"area": interested_areas},
+        {"area": interested_areas, "visibility": "Public"},
         item_arg,
         update_arg,
     ]
