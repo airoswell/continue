@@ -54,12 +54,14 @@ class Crud:
         # return instance, errors
         try:
             print("\tCRUD.update()")
+            import pdb; pdb.set_trace()
             instance, errors = self.model.update(validated_data, **kwargs)
             print("\t\t !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
             print "\t\t CRUD.update ==> errors %s" % (errors)
             print("\t\t !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
             return instance, errors
         except:
+            print("\t\nCRUD.update() ===> ERROR !!!!")
             return False, ["Unknown errors"]
 
     def delete(self):

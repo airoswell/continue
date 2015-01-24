@@ -118,7 +118,7 @@ class ItemSerializer(serializers.ModelSerializer):
                   "customized_num_fields",
                   )
         read_only_fields = ('previous_owners', "time_created", "requesters",
-                            "owner_profile",
+                            "owner_profile", 'requesters',
                             "customized_num_fields", "customized_char_fields")
 
 

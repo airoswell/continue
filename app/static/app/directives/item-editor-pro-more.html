@@ -1,6 +1,21 @@
 <div class="dashboard-item-overview-details">
-  <br/>
 
+  <!-- Description -->
+  <div layout='row' layout='start center'>
+    <div flex><input-text label="'Description'" place-holder="'0-140 characters.'"
+        container-class="'input-container-mid'"
+        input-class="'input-default'"
+        data="item.description">
+    </input-text></div>
+    &nbsp;&nbsp;
+    <div layout='column' layout-align='center'>
+      <i class='fa fa-info-circle'
+          tooltip="Descriptions will be displayed along with the items in your articles."
+          tooltip-placement="bottom"></i>
+    </div>
+  </div>
+
+  <!-- Tags -->
   <div layout='row'>
     <div layout='column' layout-align='center'>
       <div><i class="fa fa-tags" style='font-size:20px;'></i>&nbsp;</div>
@@ -17,6 +32,7 @@
     </div>
   </div>
 
+  <!-- Private Tags -->
   <div layout='row'>
     <div layout='column' layout-align='center'>
       <div>
@@ -35,56 +51,112 @@
     </i>
     </div>
   </div>
-  <div>
-    <input-dropdown label="'Condition'" flex style='margin-left:10px;margin-right:10px;display:inline-block'
-        choices="item.condition_choices" data='item.condition'>
-    </input-dropdown>
-    <input-dropdown label="'Visible to'" flex style='margin-left:10px;margin-right:10px;display:inline-block'
-        choices="item.visibility_choices" data='item.visibility'>
-      </input-dropdown>
-    <input-dropdown label="'Available'" flex style='margin-left:10px;margin-right:10px;display:inline-block'
-        choices="['For Share', 'For Sale', 'No']" data='item.available'>
-    </input-dropdown>
-    <input-dropdown label="'Frequence of use'" flex style='margin-left:10px;margin-right:10px;display:inline-block;'
-        choices="item.utilization_choices" data='item.utilization'>
-    </input-dropdown>
-  </div>
-  <br/>
-  <div layout="row">
-    <div layout='row' layout='center' flex>
-      <input-date label="Acquired on" date="item.acquiring_date">
-      </input-date>
-    </div>
+  
 
-    <div auto-expand data="item.original_value"
-        init-width="60px" min-size="10" flex>
-      <input-num label='Original $' num='item.original_value'>
-      </input-num>
-    </div>
-
-    <div flex data="item.estimated_value" auto-expand init-width="60px"
-        min-size="10">
-      <input-num label='Estimated $' num='item.estimated_value'>
-      </input-num>
-    </div>
-  </div>
   <br/>
-  <input-text label="'Intented use'"
-      place-holder="'e.g. to read e-books ...'"
-      container-class="'input-container-mid'"
-      input-class="'input-default'"
-      data="item.intented_use">
-  </input-text>
-  <input-text label="'Model'" place-holder="'e.g. Ultra sharp 2312..'"
-      container-class="'input-container-mid'"
-      input-class="'input-default'"
-      data="item.model">
-  </input-text>
-  <input-text label="'Description'" place-holder="'helps you and others search for this item.'"
-      tooltip="Descriptions will be displayed along with the items in your articles."
-      tooltip-placement="bottom"
-      container-class="'input-container-mid'"
-      input-class="'input-default'"
-      data="item.description">
-  </input-text>
+  <accordion close-others="oneAtATime">
+  
+    <accordion-group is-open="preset_is_open">
+      <!-- Presets -->
+      <accordion-heading ng-click="preset_is_open=!preset_is_open">
+        <i class="fa fa-cog"></i>&nbsp;Presets &nbsp; 
+        <i ng-show='!preset_is_open' class='fa fa-caret-down'></i>
+        <i ng-show='preset_is_open' class='fa fa-caret-up'></i>
+      </accordion-heading>
+      <div>
+        <input-dropdown label="'Condition'" flex style='margin-left:10px;margin-right:10px;display:inline-block'
+            choices="item.condition_choices" data='item.condition'>
+        </input-dropdown>
+        <input-dropdown label="'Visible to'" flex style='margin-left:10px;margin-right:10px;display:inline-block'
+            choices="item.visibility_choices" data='item.visibility'>
+          </input-dropdown>
+        <input-dropdown label="'Available'" flex style='margin-left:10px;margin-right:10px;display:inline-block'
+            choices="['For Share', 'For Sale', 'No']" data='item.available'>
+        </input-dropdown>
+        <input-dropdown label="'Frequence of use'" flex style='margin-left:10px;margin-right:10px;display:inline-block;'
+            choices="item.utilization_choices" data='item.utilization'>
+        </input-dropdown>
+      </div>
+      <div layout="row">
+        <div style='padding:10px;' layout='row' layout='center' flex>
+          <input-date label="Acquired on" date="item.acquiring_date">
+          </input-date>
+        </div>
+
+        <div auto-expand data="item.original_value"
+            init-width="60px" min-size="10" flex>
+          <input-num label='Original $' num='item.original_value'>
+          </input-num>
+        </div>
+
+        <div flex data="item.estimated_value" auto-expand init-width="60px"
+            min-size="10">
+          <input-num label='Estimated $' num='item.estimated_value'>
+          </input-num>
+        </div>
+      </div>
+    </accordion-group>
+
+
+    <accordion-group is-open="true">
+      <accordion-heading>
+        <i class="fa fa-cogs"></i>&nbsp;Customized Fields &nbsp; 
+      </accordion-heading>
+      <!-- Customized fields -->
+      <!-- - NUMBER fields -->
+      <div ng-repeat="field in item.customized_num_fields"
+          style='display:inline-block;padding:10px;'>
+        <if ng-if="field.id">
+          <div class='text-light-gray' ng-bind="field.title"></div>
+        </if>
+        <if ng-if="!field.id" auto-expand data='field.title' init-width="70px" min-size=10>
+          <input style='font-weight:600;color:#666;' placeholder="Field title" type="text" ng-model="field.title" required>
+        </if>
+        <div layout='row'>
+          <span auto-expand data='field.value' init-width="50px" min-size=5>
+            <input placeholder="value" style='font-weight:600;color:#666;'
+                type="text" ng-model='field.value' required>
+          </span>
+          <span auto-expand data='field.unit' init-width="40px" min-size=5>
+            <input placeholder='unit' style='text-align:center;font-weight:600;color:#666;' type="text"
+                ng-model='field.unit'>
+          </span>
+        </div>
+      </div>
+      <!-- - Char Fields -->
+      <div ng-repeat="field in item.customized_char_fields"
+          style='display:inline-block;padding:10px;'>
+        <if ng-if="field.id">
+          <div class='text-light-gray' ng-bind="field.title"></div>
+        </if>
+        <if ng-if="!field.id" auto-expand data='field.title' init-width="70px" min-size=10>
+          <input style='font-weight:600;color:#666;' placeholder="Field title" type="text" ng-model="field.title">
+        </if>
+        <div auto-expand data='field.value' init-width="100px" min-size=10>
+          <input style='font-weight:600;color:#666;' placeholder="Field value" type="text" ng-model='field.value'>
+        </div>
+      </div>
+
+
+      <!-- Add field button -->
+      <div style='padding:10px;' class="dropdown" dropdown on-toggle="toggled(open)">
+        <a href class="dropdown-toggle" dropdown-toggle>
+          <i class="fa fa-plus"></i>&nbsp;<i class="fa fa-caret-down"></i>
+        </a>
+        <ul class="dropdown-menu">
+          <li role="presentation" class="dropdown-header">
+            Add your customized fields
+          </li>
+          <li ng-click="item.add_customized_char_field()">
+            <a href>Add a text field.</a>
+          </li>
+          <li ng-click="item.add_customized_num_field()">
+            <a href>Add a number field.</a>
+          </li>
+        </ul>
+      </div>
+    </accordion-group>
+  </accordion>
+
+  
 </div>

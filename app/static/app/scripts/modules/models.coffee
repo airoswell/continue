@@ -247,6 +247,18 @@ angular.module 'continue.models', [
     is_new: false
   }
 
+  customized_fields_cleaner = (field_type, field_transformer)->
+    if field_type of self
+      if self[field_type]
+        fields = self[field_type]
+        for field in fields
+          if not (field.value and field.title)
+            index = fields.indexOf(field)
+            self.customized_num_fields.splice index, 1
+          else
+            if field_transformer?
+              field_transformer(field)
+
   is_valid = (self)->
     if not self.title
       false
@@ -280,6 +292,14 @@ angular.module 'continue.models', [
           if "tags_private" of self
             if typeof(self.tags_private) == "object"
               self.tags_private = self.tags_private.join(",")
+          customized_fields_cleaner(
+            "customized_fields_cleaner",
+            (field)->
+              field.value = parseFloat(field.value)
+          )
+          customized_fields_cleaner(
+            "customized_num_fields",
+          )
         tags_handler: ()->
           if "tags" of this
             if not this.tags
@@ -299,6 +319,17 @@ angular.module 'continue.models', [
                 this.tags_private_input = [
                   {"text": tag} for tag in this.tags_private
                 ][0]
+        add_customized_char_field: ()->
+          @customized_char_fields.push({
+            title: ""
+            value: ""
+          })
+        add_customized_num_field: ()->
+          @customized_num_fields.push({
+            title: ""
+            value: ""
+            unit: ""
+          })
       Model:
         init: init
   })

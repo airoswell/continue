@@ -35,8 +35,8 @@
     <div layout='row' layout-align='end'>
       <div class='button button-small button-gray'
           ng-click="expand(item)">
-        <span ng-show="!show_more">More</span>
-        <span ng-show="show_more">Less</span>
+        <span ng-show="!item.expanded">More</span>
+        <span ng-show="item.expanded">Less</span>
       </div>
       &nbsp;
       <div class='button button-small button-gray' ng-if="item.is_new"

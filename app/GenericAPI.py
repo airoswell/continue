@@ -72,11 +72,23 @@ class XDetailAPIView(APIView):
         else:
             handler = ErrorHandler(self.serializer)
         # return Response(data=request.data)
+        customized_char_fields_data = []
+        customized_num_fields_data = []
+        if "customized_char_fields" in request.data:
+            customized_char_fields_data = request.data[
+                'customized_char_fields'
+            ]
+        if "customized_num_fields" in request.data:
+            customized_num_fields_data = request.data['customized_num_fields']
         data = handler.validate(request.data)
+        data["customized_char_fields"] = customized_char_fields_data
+        data["customized_num_fields"] = customized_num_fields_data
         errors = handler.errors
         # if errors:
         #     return Response(data=errors)
         data['id'] = pk         # If the data contains id, should preserve it
+                                # otherwise it will be filtered out by
+                                # serilizer
         # ============================================================
         # Perform update
         crud = Crud(request.user, self.model)
@@ -85,6 +97,7 @@ class XDetailAPIView(APIView):
             # If the model has 'owner' field
             # only the object that is owned by the user can be updated
             print('\n\tXDetailAPIView.put, data = %s' % (data))
+            print("GenericAPI.Detail.put, data = %s" % (data))
             self.model._meta.get_field("owner")
             instance, errors = crud.update(data, owner=request.user)
             # return Response(data=errors)

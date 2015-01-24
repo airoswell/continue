@@ -285,16 +285,28 @@ class Item(models.Model):
         if not queryset:
             # Deal with the case where the item is not found
             return None, []
+        customized_num_fields_data = []
+        customized_char_fields_data = []
         if 'customized_num_fields' in validated_data:
-            num_fields_data = validated_data.pop('customized_num_fields')
+            customized_num_fields_data = validated_data.pop(
+                'customized_num_fields'
+            )
         if "customized_char_fields" in validated_data:
-            char_fields_data = validated_data.pop('customized_char_fields')
+            customized_char_fields_data = validated_data.pop(
+                'customized_char_fields'
+            )
         item = queryset[0]
         owner_changed = False
         errors = []
+        item.update_customized_fields(
+            CustomizedNumField, customized_num_fields_data
+        )
+        item.update_customized_fields(
+            CustomizedCharField, customized_char_fields_data
+        )
         for field in item.tracked_fields:
             print("\t\tfield = %s" % (field))
-            if not field in validated_data:
+            if not (field in validated_data):
                 continue
             original_value = getattr(item, field)
             new_value = validated_data[field]
@@ -330,6 +342,7 @@ class Item(models.Model):
                         errors.push(field)
                         errors.push(original_value)
                         errors.push(new_value)
+                        print("\n\tItem.update: errors %s" % (errors))
         # Owner change will propagate through here
         print("\t\t Item.update: validated_data %s" % (validated_data))
         try:
@@ -345,6 +358,39 @@ class Item(models.Model):
         queryset[0].save()      # To trigger Haystack update_index
         print("\t\t Item.update() ==> errors: %s" % (errors))
         return queryset[0], errors
+
+    def update_customized_fields(self, model, customized_fields_data):
+        for field_data in customized_fields_data:
+            field_data["item"] = self
+            try:
+                if 'id' in field_data:
+                    qs = model.objects.filter(pk=field_data['id'])
+                    if not qs:
+                        pass
+                    existing_field = qs[0]
+                    old_value = existing_field.value
+                    qs.update(**field_data)
+                else:
+                    old_value = None
+                    model.objects.create(
+                        **field_data
+                    )
+                if "unit" in field_data:
+                    new_value = "%s %s" % (
+                        field_data['value'], field_data['unit']
+                    )
+                else:
+                    new_value = field_data['value']
+                if old_value != new_value:
+                    ItemEditRecord.objects.create(
+                        field=existing_field.title,
+                        original_value=old_value,
+                        new_value=new_value,
+                        item=self,
+                    )
+            except:
+                print("item.update_customized_char_fields error")
+        return
 
 
 class CustomizedCharField(models.Model):

@@ -319,7 +319,7 @@
     }
   ]).factory("Item", [
     "Model", function(Model) {
-      var availability_choices, condition_choices, init, is_valid, utilization_choices, visibility_choices;
+      var availability_choices, condition_choices, customized_fields_cleaner, init, is_valid, utilization_choices, visibility_choices;
       condition_choices = ["New", "Like new", "Good", "Functional", "Broken"];
       visibility_choices = ["Public", "Private", "Ex-owners"];
       availability_choices = ["Available", "In use", "Lent", "Given away", "Disposed"];
@@ -335,6 +335,29 @@
         new_status: "",
         expanded: false,
         is_new: false
+      };
+      customized_fields_cleaner = function(field_type, field_transformer) {
+        var field, fields, index, _i, _len, _results;
+        if (field_type in self) {
+          if (self[field_type]) {
+            fields = self[field_type];
+            _results = [];
+            for (_i = 0, _len = fields.length; _i < _len; _i++) {
+              field = fields[_i];
+              if (!(field.value && field.title)) {
+                index = fields.indexOf(field);
+                _results.push(self.customized_num_fields.splice(index, 1));
+              } else {
+                if (field_transformer != null) {
+                  _results.push(field_transformer(field));
+                } else {
+                  _results.push(void 0);
+                }
+              }
+            }
+            return _results;
+          }
+        }
       };
       is_valid = function(self) {
         if (!self.title) {
@@ -374,9 +397,13 @@
               }
               if ("tags_private" in self) {
                 if (typeof self.tags_private === "object") {
-                  return self.tags_private = self.tags_private.join(",");
+                  self.tags_private = self.tags_private.join(",");
                 }
               }
+              customized_fields_cleaner("customized_fields_cleaner", function(field) {
+                return field.value = parseFloat(field.value);
+              });
+              return customized_fields_cleaner("customized_num_fields");
             },
             tags_handler: function() {
               var tag;
@@ -430,6 +457,19 @@
                   }
                 }
               }
+            },
+            add_customized_char_field: function() {
+              return this.customized_char_fields.push({
+                title: "",
+                value: ""
+              });
+            },
+            add_customized_num_field: function() {
+              return this.customized_num_fields.push({
+                title: "",
+                value: "",
+                unit: ""
+              });
             }
           },
           Model: {
