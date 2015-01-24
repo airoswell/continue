@@ -363,6 +363,7 @@ class Item(models.Model):
         for field_data in customized_fields_data:
             field_data["item"] = self
             try:
+                # Get the old value and update/create the field
                 if 'id' in field_data:
                     qs = model.objects.filter(pk=field_data['id'])
                     if not qs:
@@ -375,15 +376,17 @@ class Item(models.Model):
                     model.objects.create(
                         **field_data
                     )
+                # Extract the new_value
                 if "unit" in field_data:
                     new_value = "%s %s" % (
                         field_data['value'], field_data['unit']
                     )
                 else:
                     new_value = field_data['value']
+                print("\n\told_value = %s, new_value = %s" % (old_value, new_value))
                 if old_value != new_value:
                     ItemEditRecord.objects.create(
-                        field=existing_field.title,
+                        field=field_data['title'],
                         original_value=old_value,
                         new_value=new_value,
                         item=self,
