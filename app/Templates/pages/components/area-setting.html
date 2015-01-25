@@ -7,7 +7,8 @@
     width:auto;
   }
 </style>
-<form area-setting-form ng-hide="hide_area_setting" name='area-setting-form' action='/app/user/setting/'
+<form area-setting-form {% if view != "dashboard"  %}ng-hide="hide_area_setting"{% endif %}
+    name='area-setting-form' action='/app/user/setting/'
     layout='row' layout-align='center'>
   <div style=''>
     {% if view != "dashboard"%}<div class='text-small'>Welcome to the community! To begin,</div>{% endif %}
