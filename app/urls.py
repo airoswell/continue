@@ -10,16 +10,21 @@ urlpatterns = patterns(
     url(r'^$', views.index, name='index'),
     url(r'^search/$', views.search, name='search'),
     url(r'^user/dashboard/$', views.dashboard, name='dashboard'),
-    url(r'^post/(?P<pk>\d+)/$',
-        views.post_edit, name='post_edit'),
     url(r'^post/$',
         views.post_create, name='post_create'),
+    url(r'^post/(?P<pk>\d+)/$',
+        views.post_edit, name='post_edit'),
+    url(r'^post/(?P<pk>\d+)/delete/$',
+        views.post_delete, name='post_delete'),
     url(r'^item/(?P<pk>\d+)/timeline/$',
         views.item_timeline, name='item_timeline'),
+    url(r'^item/(?P<pk>\d+)/delete/$',
+        views.item_delete, name='item_delete'),
     url(r'^user/(?P<pk>\d+)/timeline/$',
         views.user_timeline, name='user_timeline'),
     url(r'^donations/$',
         views.donations, name='donations'),
+    url(r'^404/$', views.NotFound, name='404-not-found')
 )
 
 # Django-allauth

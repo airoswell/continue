@@ -4,9 +4,7 @@
     <div layout='row'>
       <!-- User photo -->
       <div>
-        <a ng-href="">
-          <img height=50 ng-src="{{::event.item.owner_profile.photo}}">
-        </a>&nbsp;&nbsp;&nbsp;
+        <img height=50 ng-src="{{::event.item.owner_profile.photo}}">&nbsp;&nbsp;&nbsp;
       </div>
       <!-- User's name and time posted -->
       <div>
@@ -19,22 +17,24 @@
   </div>
   <div flex ng-switch on="event.field">
     <switch ng-switch-when="pic">
-        Item <span ng-bind="event.item.title"></span> has a new photo.</switch>
+        <b><span class='text-blue' ng-bind="event.item.title"></span></b> has a new <b>image</b>.</switch>
 
-    <switch ng-switch-when="status"> Item <b><span ng-bind="event.item.title"></span></b> updated its status </switch>
+    <switch ng-switch-when="status"><b class='text-blue'><span ng-bind="event.item.title"></span></b> updated its <b>status</b> </switch>
 
     <switch ng-switch-when="creation">
       added <b><span ng-bind="event.item.title"></span></b>
     </switch>.
 
     <switch ng-switch-when="description">
-      <b><span ng-bind="event.item.title"></span></b> has a new description.
+      <b><span class='text-blue' ng-bind="event.item.title"></span></b> has a new <b>description</b>.
     </switch>
 
-    <switch ng-switch-default> <b><span ng-bind="event.item.title"></span> </b>updated its <span ng-bind=" event.field "></span>: <span ng-bind="event.new_value">.</switch>
+    <switch ng-switch-default> <b><span class='text-blue' ng-bind="event.item.title"></span> </b>updated its <b><span ng-bind=" event.field "></span></b>: <em><span ng-bind="event.new_value"></em>.</switch>
 
   </div>
+
   <if ng-if="event.field == 'pic'">
+    <br/>
     <div class='picture-container'
         style="background-image: url({{ event.new_value }});">
       <img ng-src="{{ event.new_value }}">

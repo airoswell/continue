@@ -1,5 +1,6 @@
 # Models and serializers
 from app.models import Item, Post
+from app.models import CustomizedCharField, CustomizedNumField
 from app.models import ItemEditRecord, PostItemStatus, ItemTransactionRecord
 from app.api import S, TimelineManager
 from app.GenericAPI import *
@@ -12,56 +13,13 @@ from app.errors import *
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.conf import settings
+from django.views.decorators.cache import cache_control
 # =======Should be removed in production========
 # ================================
 # Other Python module
 import json
 from django.db.models import Q
 import operator
-
-
-# Handel all user-related posts request
-def user_posts(request):
-    data = json.loads(request.body)
-    user = request.user
-    # return all posts by the user
-    if data['type'] == 'get':
-        posts = user_get_posts(user)
-        return HttpResponse(json.dumps(posts))
-    # Create new post
-    elif data['type'] == 'create':
-        post_data = data['post']
-        success, msg, post = user_create_post(post_data, request.user)
-        post = posts_writer([post])
-        return HttpResponse(json.dumps(
-            {
-                'incoming': post_data,
-                'success': success,
-                'msg': msg,
-                'new_post': post[0],
-            }
-        ))
-    # Edit existing post
-    elif data['type'] == 'edit':
-        post_data = data['post']
-        success, msg, post = user_edit_post(post_data, request.user)
-        post = posts_writer([post])
-        return HttpResponse(json.dumps(
-            {
-                'success': success,
-                'msg': msg,
-                'post': post[0],
-            }
-        ))
-    elif data['type'] == 'delete':
-        post_data = data['post']
-        success, msg = user_delete_post(post_data, request.user)
-        if success:
-            return HttpResponse(json.dumps(
-                {
-                    'success': success,
-                }
-            ))
 
 
 def user_info_generator(user):
@@ -87,6 +45,15 @@ def user_info_generator(user):
 
 
 # All pages
+
+def NotFound(request):
+    return render(
+        request,
+        '404-not-found.html',
+        {"target": 'page'},
+    )
+
+
 def index(request):
     return render(
         request,
@@ -156,10 +123,7 @@ def post_edit(request, pk):
         return redirect("index")
     queryset = Post.objects.filter(pk=pk)
     if not queryset:
-        return Response(
-            data={"error": "item with pk value %s Not found" % (pk)},
-            status=st.HTTP_404_NOT_FOUND
-        )
+        return redirect("404-not-found")
     post = queryset[0]
     if user != post.owner:
         return redirect("index")
@@ -175,6 +139,7 @@ def post_edit(request, pk):
     )
 
 
+@cache_control(no_cache=True, must_revalidate=True)
 def post_create(request):
     if request.user.is_anonymous():
         return redirect("index")
@@ -187,12 +152,69 @@ def post_create(request):
     )
 
 
+@cache_control(no_cache=True, must_revalidate=True)
+def post_delete(request, pk):
+    if request.user.is_anonymous():
+        return redirect("index")
+    qs = Post.objects.filter(pk=pk)
+    if not qs:
+        return render(
+            request,
+            '404-not-found.html',
+            {
+                'target': "post"
+            }
+        )
+    post = qs[0]
+    post.delete()
+    return render(
+        request,
+        'pages/post-delete.html',
+        {
+            'view': 'post-delete',
+            'success': True,
+            'message': "The post is successfully deleted."
+        }
+    )
+
+
+def item_delete(request, pk):
+    if request.user.is_anonymous():
+        return redirect("index")
+    qs = Item.objects.filter(pk=pk)
+    if not qs:
+        return render(
+            request,
+            '404-not-found.html',
+            {
+                'target': "item"
+            }
+        )
+    item = qs[0]
+    ItemEditRecord.objects.filter(item=item).delete()
+    CustomizedCharField.objects.filter(item=item).delete()
+    CustomizedNumField.objects.filter(item=item).delete()
+    item.delete()
+    return render(
+        request,
+        'pages/item-delete.html',
+        {
+            'view': 'item-delete',
+            'success': True,
+            'message': "The item is successfully deleted."
+        }
+    )
+
+
 def item_timeline(request, pk):
     queryset = Item.objects.filter(pk=pk)
     if not queryset:
         return render(
             request,
-            'pages/not-found.html'
+            '404-not-found.html',
+            {
+                'target': 'item'
+            }
         )
     item = queryset[0]
     user = request.user
@@ -261,6 +283,7 @@ def user_timeline(request, pk):
     )
 
 
+@cache_control(no_cache=True, must_revalidate=True)
 def dashboard(request):
     """
     A view function that respond to URL '/app/user/', which display

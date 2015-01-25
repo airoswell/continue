@@ -232,6 +232,12 @@ input-dropdown[reduced-padding] .input-label{
 .button-gray:hover{
     background: #ccc;
 }
+.button-red{
+    background: #f1686f;color:#fff;
+}
+.button-red:hover{
+    background: #f13438;
+}
 .button-light-gray{
     background:rgb(249, 249, 249)
 }
@@ -306,7 +312,7 @@ input-dropdown[reduced-padding] .input-label{
     font-weight: 500;
 }
 .text-blue{
-    color: #0f78ff;
+    color: #4184f3;
 }
 .text-gray{
     color:#666;

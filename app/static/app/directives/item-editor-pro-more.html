@@ -95,6 +95,14 @@
           </input-num>
         </div>
       </div>
+      <div layout='row' layout-align='end'>
+        <a href="/app/item/{{item.id}}/delete/">
+          <div class='button button-small button-red'
+              tooltip="Permanently delete the item and all related updates.">
+            <i class='fa fa-trash'></i>&nbsp;Delete the item
+          </div>
+        </a>
+      </div>
     </accordion-group>
 
 
@@ -105,11 +113,33 @@
       <!-- Customized fields -->
       <!-- - NUMBER fields -->
       <div ng-repeat="field in item.customized_num_fields"
-          style='display:inline-block;padding:10px;'>
+          style='display:inline-block;padding:10px;'
+          ng-init="show_title_input=false">
         <if ng-if="field.id">
-          <div class='text-light-gray' ng-bind="field.title"></div>
+          <span dropdown class="dropdown">
+            <a href class="dropdown-toggle" dropdown-toggle>
+              <span class='text-light-gray' ng-bind="field.title"></span>
+              &nbsp;
+              <i class="fa fa-caret-down"></i>
+            </a>
+          <ul class="dropdown-menu">
+            <li role="presentation" class="dropdown-header">
+              Modify your customized log
+            </li>
+            <li>
+              <a href><b>Modify the title</b></a>
+            </li>
+            <li ng-click="">
+              <a href><b>Remove the field</b></a>
+            </li>
+            <li ng-click="">
+              <a href><b>Remove the field and previous records</b></a>
+            </li>
+          </ul>
+          </span>
         </if>
-        <if ng-if="!field.id" auto-expand data='field.title' init-width="70px" min-size=10>
+        <if ng-show="!field.id"
+            auto-expand data='field.title' init-width="70px" min-size=10>
           <input style='font-weight:600;color:#666;' placeholder="Title" type="text" ng-model="field.title" required>
         </if>
         <div layout='row'>
@@ -128,7 +158,8 @@
       <div ng-repeat="field in item.customized_char_fields"
           style='display:inline-block;padding:10px;'>
         <if ng-if="field.id">
-          <div class='text-light-gray' ng-bind="field.title"></div>
+          <span class='text-light-gray' ng-bind="field.title"></span>
+          <span><i class="fa fa-caret-down"></i></span>
         </if>
         <if ng-if="!field.id" auto-expand data='field.title' init-width="70px" min-size=10>
           <input style='font-weight:600;color:#666;' placeholder="Title" type="text" ng-model="field.title">
@@ -140,7 +171,7 @@
 
 
       <!-- Add field button -->
-      <div style='padding:10px;' class="dropdown" dropdown on-toggle="toggled(open)">
+      <div style='padding:10px;' class="dropdown" dropdown>
         <a href class="dropdown-toggle" dropdown-toggle>
           <i class="fa fa-plus"></i>&nbsp;<i class="fa fa-caret-down"></i>
         </a>
@@ -149,10 +180,10 @@
             Add your customized log
           </li>
           <li ng-click="item.add_customized_char_field()">
-            <a href><b>Add a text record.</b></a>
+            <a href><b>Add a text record</b></a>
           </li>
           <li ng-click="item.add_customized_num_field()">
-            <a href><b>Add a number record.</b></a>
+            <a href><b>Add a number record</b></a>
           </li>
         </ul>
       </div>

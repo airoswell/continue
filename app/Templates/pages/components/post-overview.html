@@ -9,9 +9,8 @@
     <div layout='row'>
       <!-- User photo -->
       <div>
-        <a href="{{ post.owner.socialaccount_set.all.0.get_profile_url }}">
-          <img height=50 src="{{ post.owner.profile.all.0.social_account_photo }}">
-        </a>&nbsp;&nbsp;&nbsp;
+        <img height=50
+            src="{{ post.owner.profile.all.0.social_account_photo }}">&nbsp;&nbsp;&nbsp;
       </div>
       <!-- User's name and time posted -->
       <div>

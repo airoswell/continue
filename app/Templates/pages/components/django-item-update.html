@@ -1,37 +1,38 @@
 <div class='post-container' flex>
+  {% with item=event.item %}
   <div class='post-header' layout='row' layout-align='space-between'>
 
     <div layout='row'>
       <!-- User photo -->
       <div>
-        <a href="/">
-          <img height=50 src="{{ event.item.owner.photo }}">
-        </a>&nbsp;&nbsp;&nbsp;
+        <img height=50 src="{{ item.owner.photo }}">&nbsp;&nbsp;&nbsp;
       </div>
       <!-- User's name and time posted -->
       <div>
-        <div class="username"><b>{{ event.item.owner.username }}</b></div>
+        <div class="username"><b>{{ item.owner.username }}</b></div>
         <div class="time-posted">{{ event.time_updated }}</div>
       </div>
     </div>
 
   </div>
 
+  {% with field=event.field %}
+  {% with new_val=event.new_value %}
   <div flex>
-    {% if event.field == "pic" %}
-    <span><b>{{event.item}}</b></span> has a new photo.
+    {% if field == "pic" %}
+    <a href="/app/item/{{item.pk}}/timeline/"><b class="text-blue">{{item}}</b></a> has a new <b>image</b>.
 
-    {% elif event.field == "status"%}
-    <div flex> Item <b>{{event.item}}</b> updated its status </div>
+    {% elif field == "status"%}
+    <div flex><a href="/app/item/{{item.pk}}/timeline/"><b class="text-blue">{{item}}</b></a> updated its <b>status</b> </div>
 
-    {% elif event.field == "creation" %}
-    <span> added <b>{{ event.item }}</b></span>.
+    {% elif field == "creation" %}
+    <span> added <a href="/app/item/{{item.pk}}/timeline/"><b class="text-blue">{{item}}</b></a></span>.
 
-    {% elif event.field == "description" %}
-    <span><b>{{ event.item }}</b></span> has a new description.
+    {% elif field == "description" %}
+    <span><a href="/app/item/{{item.pk}}/timeline/"><b class="text-blue">{{item}}</b></a></span> has a new <b>description</b>.
 
     {% else %}
-    <span> <b>{{ event.item }}</b> updated its {{ event.field }}</span>: <span>{{ event.new_value }}.</span>
+    <span><a href="/app/item/{{item.pk}}/timeline/"><b class="text-blue">{{item}}</b></a> updated its <b>{{ field }}</b></span>: <em><span>{{ new_val }}.</span></em>
 
     {% endif %}
   </div>
@@ -40,28 +41,28 @@
   <div layout='row' flex>
     <div flex>
     {% if event.model_name == "ItemEditRecord" %}
-      {% if event.field == "pic" %}
+      {% if field == "pic" %}
       <div class='picture-container' flex
-          style="background-image: url({{ event.new_value }});">
-        <img src="{{ event.new_value }}">
+          style="background-image: url({{ new_val }});">
+        <img src="{{ new_val }}">
       </div>
-      {% elif event.field == "creation" %}
-      {%   with item=event.item %}
+      {% elif field == "creation" %}
       <div flex>
         {% include 'pages/components/django-item-overview.html' %}
       </div>
-      {% endwith %}
-      {% elif event.field == "status" %}
+      {% elif field == "status" %}
       <div class='event-body status' flex>
-       <i class="fa fa-quote-left"></i>&nbsp;&nbsp;{{ event.new_value }}
+       <i class="fa fa-quote-left"></i>&nbsp;&nbsp;{{ new_val }}
       </div>
-      {% elif event.field == "description" %}
+      {% elif field == "description" %}
       <div class='event-body description' flex>
-      {{ event.new_value }}
+      {{ new_val }}
       </div>
      {% endif %}
     {% endif %}
     </div>
   </div>
-
+  {% endwith %}
+  {% endwith %}
+  {% endwith %}
 </div>
