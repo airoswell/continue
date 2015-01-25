@@ -64,7 +64,6 @@ class UserProfile(models.Model):
 
     @classmethod
     def update(cls, validated_data, **kwargs):
-        import pdb; pdb.set_trace()
         queryset = cls.objects.filter(id=validated_data['id'])
         if kwargs:  # further filter for permission purpose
             queryset = queryset.filter(**kwargs)
