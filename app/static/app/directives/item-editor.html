@@ -91,12 +91,6 @@
               </div>
             </div>
           </div>
-          <div>
-            <a href="/app/item/{{ item.id }}/timeline/">
-            <div class='button button-small button-gray'>
-            <i class='fa fa-pencil-square' style='font-size:26px;'></i>
-            </div></a>
-          </div>
         </div>
         
         <div layout='row' ng-switch on="item.visibility">
@@ -109,6 +103,7 @@
       <!-- status input area -->
       <div class='text-default item-status' style='line-height:22px;color:#666;' ng-bind="item.status"></div>
       <textarea
+          style='border-color:#ccc;'
           placeholder="What's new with it? (up to 300 characters ...)"
           rows='3'
           ng-model="item.new_status">
@@ -155,17 +150,6 @@
       </div>
       <br/>
       <br/>
-      <input-text label="'Intented use'"
-          place-holder="'e.g. to read e-books ...'"
-          container-class="'input-container-mid'"
-          input-class="'input-default'"
-          data="item.intented_use">
-      </input-text>
-      <input-text label="'Model'" place-holder="'e.g. Ultra sharp 2312..'"
-          container-class="'input-container-mid'"
-          input-class="'input-default'"
-          data="item.model">
-      </input-text>
       <input-text label="'Description'" place-holder="'helps you and others search for this item.'"
           container-class="'input-container-mid'"
           input-class="'input-default'"

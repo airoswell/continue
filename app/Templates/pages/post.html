@@ -49,7 +49,7 @@
   {% endif %}
   <form name='postEditor' ng-controller="postCtrl" ng-cloak
       style='padding:20px;'
-      {% if post.id %} ng-init="id={{ post.id }}" {% endif %}
+      {% if post.id %} ng-init="id={{ post.id }};show_cheat_sheet=false" {% endif %}
       layout='row' layout-align='center'>
     <div  class='post-editor' flex-gt-md="80" flex="100">
       <div style='background:#f9f9f9;padding:20px;border-bottom:1px dashed #ddd;'>
@@ -120,6 +120,8 @@
           <i class="fa fa-align-left"></i>&nbsp;&nbsp;
           <div flex>
             {% if post %}
+            <div>
+            </div>
             <div class="post-detail" ng-show="!layout.detail_input"
                 ng-click="show_detail_editor()">
               {{ post.detail|markdown }}
@@ -130,12 +132,24 @@
                   {% if not post %} style='height:250px;' {% endif %}
                   placeholder="Post body goes here ... You can use the [ TAB ] key to indent.">
               </textarea>
+              
+              <div layout='row' layout-align='start center' style="padding-top:5px;color:#666;">
+                <a href="https://guides.github.com/features/mastering-markdown/">
+                  <img height=20 src="/static/app/images/markdown.png" alt="">
+                  &nbsp;Markdown supported
+                </a>
+                &nbsp;
+                <span class='button button-small button-gray'
+                    ng-click="show_cheat_sheet = !show_cheat_sheet">
+                  Cheat sheet
+                </span>
+              </div>
+              <div ng-show="show_cheat_sheet">{% markdown_cheatsheet %}</div>
               <br/>
               <div class='text-large' style='padding:10px 0px;'>
                 <i class="fa fa-eye"></i>&nbsp;Preview
               </div>
               <div marked="post.detail" class="post-preview">
-                
               </div>
             </div>
           </div>
