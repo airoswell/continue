@@ -169,9 +169,9 @@ def post_delete(request, pk):
     post.delete()
     return render(
         request,
-        'pages/post-delete.html',
+        'pages/delete.html',
         {
-            'view': 'post-delete',
+            'view': 'delete',
             'success': True,
             'message': "The post is successfully deleted."
         }
@@ -197,10 +197,10 @@ def item_delete(request, pk):
     item.delete()
     return render(
         request,
-        'pages/item-delete.html',
+        'pages/delete.html',
         {
-            'view': 'item-delete',
-            'success': True,
+            'view': 'delete',
+            "target": "item",
             'message': "The item is successfully deleted."
         }
     )
