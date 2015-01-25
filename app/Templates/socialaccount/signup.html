@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% load url from future %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+
+{% block content %}
+
+<div style="padding:40px 20px;" layout='row' layout-align='center'>
+
+  <div flex-gt-md="80" flex="100">
+    <div class="section-title section-title-large">{% trans "Sign Up" %}</div> 
+    {% blocktrans with provider_name=account.get_provider.name site_name=site.name %}
+    <p>You are about to use your {{provider_name}} account to login to
+{{site_name}}. However the email associated with the {{provider_name}} account has already a registered account at WorldSheet.</p>
+    {% endblocktrans %}
+
+    <p>You can either create a new account with a new email, or log in with the existing account.</p>
+
+    <form class="signup" id="signup_form" method="post" action="{% url 'socialaccount_signup' %}">
+      {% csrf_token %}
+      {{ form.as_p }}
+      {% if redirect_field_value %}
+      <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+      {% endif %}
+      <button type="submit">{% trans "Sign Up" %} &raquo;</button>
+    </form>
+  </div>
+
+
+</div>
+
+
+{% endblock %}
