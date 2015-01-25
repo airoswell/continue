@@ -110,7 +110,7 @@
           <div class='text-light-gray' ng-bind="field.title"></div>
         </if>
         <if ng-if="!field.id" auto-expand data='field.title' init-width="70px" min-size=10>
-          <input style='font-weight:600;color:#666;' placeholder="Field title" type="text" ng-model="field.title" required>
+          <input style='font-weight:600;color:#666;' placeholder="Title" type="text" ng-model="field.title" required>
         </if>
         <div layout='row'>
           <span auto-expand data='field.value' init-width="50px" min-size=5>
@@ -123,6 +123,7 @@
           </span>
         </div>
       </div>
+
       <!-- - Char Fields -->
       <div ng-repeat="field in item.customized_char_fields"
           style='display:inline-block;padding:10px;'>
@@ -130,10 +131,10 @@
           <div class='text-light-gray' ng-bind="field.title"></div>
         </if>
         <if ng-if="!field.id" auto-expand data='field.title' init-width="70px" min-size=10>
-          <input style='font-weight:600;color:#666;' placeholder="Field title" type="text" ng-model="field.title">
+          <input style='font-weight:600;color:#666;' placeholder="Title" type="text" ng-model="field.title">
         </if>
         <div auto-expand data='field.value' init-width="100px" min-size=10>
-          <input style='font-weight:600;color:#666;' placeholder="Field value" type="text" ng-model='field.value'>
+          <input style='font-weight:600;color:#666;' placeholder="Value" type="text" ng-model='field.value'>
         </div>
       </div>
 
@@ -145,13 +146,13 @@
         </a>
         <ul class="dropdown-menu">
           <li role="presentation" class="dropdown-header">
-            Add your customized fields
+            Add your customized log
           </li>
           <li ng-click="item.add_customized_char_field()">
-            <a href>Add a text field.</a>
+            <a href><b>Add a text record.</b></a>
           </li>
           <li ng-click="item.add_customized_num_field()">
-            <a href>Add a number field.</a>
+            <a href><b>Add a number record.</b></a>
           </li>
         </ul>
       </div>

@@ -16,6 +16,7 @@ angular.module("continue")
       item.tags_private = tags_private
       success_handler = (item)->
         item.expanded = false
+        item.new_status = ""
       item.save(success_handler).$asPromise()
 
     scope.expand = (item) ->

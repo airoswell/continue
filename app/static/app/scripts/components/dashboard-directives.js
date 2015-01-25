@@ -38,7 +38,8 @@
             item.tags = tags;
             item.tags_private = tags_private;
             success_handler = function(item) {
-              return item.expanded = false;
+              item.expanded = false;
+              return item.new_status = "";
             };
             return item.save(success_handler).$asPromise();
           };
