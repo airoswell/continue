@@ -31,10 +31,14 @@ angular.module("continue")
     if scope.initWidth == undefined
       scope.initWidth = "80px"
     auto_expand = (data) ->
+      console.log "auto_expand"
       size = Math.floor(data.toString().length/5) * 5 + 6
+      if data == "Tall"
+        console.log "data = ", data
+        console.log size
       if size > scope.minSize
-        input.attr({"size": size})
         input.css({"width": "auto"})
+        input.attr({"size": size})
 
     input = element.find("input")
     # <data> should be the content of the input
@@ -44,7 +48,7 @@ angular.module("continue")
       if input.length == 0
         input = element.find("input")
       if not scope.data
-        input.css({"width": scope.initWidth})
+        input.css({"width": scope.initWidth, "max-width": "500px"})
       if scope.data
         auto_expand(scope.data)
 

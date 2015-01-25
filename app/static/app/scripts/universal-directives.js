@@ -45,13 +45,18 @@
         }
         auto_expand = function(data) {
           var size;
+          console.log("auto_expand");
           size = Math.floor(data.toString().length / 5) * 5 + 6;
+          if (data === "Tall") {
+            console.log("data = ", data);
+            console.log(size);
+          }
           if (size > scope.minSize) {
-            input.attr({
-              "size": size
-            });
-            return input.css({
+            input.css({
               "width": "auto"
+            });
+            return input.attr({
+              "size": size
             });
           }
         };
@@ -62,7 +67,8 @@
           }
           if (!scope.data) {
             input.css({
-              "width": scope.initWidth
+              "width": scope.initWidth,
+              "max-width": "500px"
             });
           }
           if (scope.data) {
