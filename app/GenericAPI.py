@@ -71,18 +71,9 @@ class XDetailAPIView(APIView):
             handler = ErrorHandler(self.deSerializer)
         else:
             handler = ErrorHandler(self.serializer)
-        # return Response(data=request.data)
-        customized_char_fields_data = []
-        customized_num_fields_data = []
-        if "customized_char_fields" in request.data:
-            customized_char_fields_data = request.data[
-                'customized_char_fields'
-            ]
-        if "customized_num_fields" in request.data:
-            customized_num_fields_data = request.data['customized_num_fields']
-        data = handler.validate(request.data)
-        data["customized_char_fields"] = customized_char_fields_data
-        data["customized_num_fields"] = customized_num_fields_data
+        data = request.data
+        if hasattr(self, "data_handler"):
+            data = self.data_handler(request)
         errors = handler.errors
         # if errors:
         #     return Response(data=errors)
@@ -97,18 +88,18 @@ class XDetailAPIView(APIView):
             # If the model has 'owner' field
             # only the object that is owned by the user can be updated
             print('\n\tXDetailAPIView.put, data = %s' % (data))
-            print("GenericAPI.Detail.put, data = %s" % (data))
             self.model._meta.get_field("owner")
             instance, errors = crud.update(data, owner=request.user)
             # return Response(data=errors)
-        except FieldDoesNotExist:
+        except FieldDoesNotExist, e:
             # If the model does not have 'owner' field
             # pass in <user> to the model methods, let them decide
             print(
-                "\n\ttXDetailAPIView: FieldDoesNotExist, data = %s\n" % (data)
+                "\n\ttXDetailAPIView: FieldDoesNotExist, error = %s\n" % (e.message)
             )
             instance, errors = crud.update(data, user=request.user)
         # ============================================================
+        print("\n\tGenericAPI.put, after crud.update(): errors = %s" % (errors))
         if instance:    # Update was successful
             data = self.serializer(instance).data
         else:           # Update failed

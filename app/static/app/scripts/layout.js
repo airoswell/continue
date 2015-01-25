@@ -68,16 +68,33 @@
         return $scope.$apply();
       });
       return Auth.fetch_profile().then(function(response) {
+        var profile, tag;
         Auth.store_profile(response[0]);
         $scope.profile = Auth.get_profile();
-        return $scope.photo = Auth.get_profile().social_account_photo;
+        profile = $scope.profile;
+        $scope.primary_area = profile.primary_area;
+        $scope.interested_areas_array = profile.interested_areas.split(",");
+        $scope.interested_areas_tags = [
+          (function() {
+            var _i, _len, _ref, _results;
+            _ref = $scope.interested_areas_array;
+            _results = [];
+            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+              tag = _ref[_i];
+              _results.push({
+                text: tag
+              });
+            }
+            return _results;
+          })()
+        ][0];
+        return $scope.photo = profile.social_account_photo;
       });
     }
   ]).directive("areaSettingForm", [
     "Auth", "Alert", function(Auth, Alert) {
       return {
         restrict: "A",
-        scope: true,
         link: function(scope, element, attrs) {
           var validate;
           validate = function() {
@@ -91,7 +108,7 @@
             }
             return true;
           };
-          return scope.submit = function() {
+          return scope.submit_areas_setting = function() {
             var profile, tag, zip_codes, _i, _len, _ref;
             if (!validate()) {
               Alert.show_error("Zip code can only contain 5 numeric digits.", 2000);

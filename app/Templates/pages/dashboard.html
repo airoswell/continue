@@ -228,9 +228,52 @@
         <item-editor-pro ng-repeat="item in items_search_results">
         </item-editor-pro>
       </div>
-
     </div>
 
+    <!-- User Settings -->
+    <div ng-show='layout.display_tab == "settings" ' layout>
+      <br/>
+      <div flex-gt-md="5"></div>
+      <div flex>
+
+        <div style='background:#fff;box-shadow: 0px 2px 8px #ccc;padding:20px;' layout-gt-md="row" layout="column" layout-align='start center'>
+          <div layout='row' layout-align='start center'>
+            {% verbatim %}
+            <img height=80 ng-src="{{profile.social_account_photo}}" alt="">
+            {% endverbatim %}
+            &nbsp;&nbsp;
+            <div>
+              <div class="text-large" style='margin-bottom:10px;'>{{request.user.name}}</div>
+              <div class="text-light-gray"
+                  ng-click="change_profile_photo()">
+                <a href>Change profile photo</a>
+              </div>
+              <div class="text-light-gray">Change password</div>
+            </div>
+          </div>
+          <div flex="10"></div>
+          <div layout>
+            <div style="padding:0px 10px;">
+              <div class='text-large text-blue'>Posts</div>
+              <div style='text-align:center' class="text-large">1</div>
+            </div>
+            <div style='padding:0px 10px;'>
+              <div class='text-large text-blue'>Items</div>
+              <div style='text-align:center' class="text-large">2</div>
+            </div>
+            <div style='padding:0px 10px;'>
+              <div class='text-large text-blue'>Transfers</div>
+              <div style='text-align:center' class="text-large">2</div>
+            </div>
+          </div>
+        </div>
+        <!-- Other settings -->
+        <br/>
+        <div>
+          {% include 'pages/components/area-setting.html' %}
+        </div>
+      </div>
+    </div>
     
   </div>
 </div>

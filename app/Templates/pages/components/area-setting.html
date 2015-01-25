@@ -1,7 +1,16 @@
+<style>
+  [area-setting-form]{
+    background: #fff;box-shadow: 2px 2px 8px #ccc;
+    width:100%;padding:40px 20px 20px 20px;
+  }
+  [area-setting-form] tags-input .tags .input{
+    width:auto;
+  }
+</style>
 <form area-setting-form ng-hide="hide_area_setting" name='area-setting-form' action='/app/user/setting/'
-    style='width:100%;padding:40px 20px 20px 20px;background: #f4f4f4' layout='row' layout-align='center'>
+    layout='row' layout-align='center'>
   <div style=''>
-    <div class='text-small'>Welcome to the community! To begin,</div>
+    {% if view != "dashboard"%}<div class='text-small'>Welcome to the community! To begin,</div>{% endif %}
     <div class='text-large'>set up your primary and interested areas</div>
     <div layout='column' layout-gt-md='row'>
       <div class='text-default' style='margin: 20px 20px 20px 0px;'>
@@ -21,16 +30,14 @@
         <div mg-tb-10 class='text-small' style='max-width:400px;'>Articles from interested areas will automatically show on your news feeds.</div>
         <div area-validation>
           <tags-input class='custom' ng-model="interested_areas_tags"
-              allowed-tags-pattern="^\d{5}$">
+              allowed-tags-pattern="^\d{5}$"
+              placeholder="Area zip codes">
           </tags-input>
         </div>
       </div>
     </div>
-    <div class='button button-small button-gray' ng-click="submit()">
+    <div class='button button-small button-gray' ng-click="submit_areas_setting()">
       OK
-    </div>
-    <div class='button button-small button-gray' ng-click="validate()">
-      test
     </div>
   </div>
 </form>

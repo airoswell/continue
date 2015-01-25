@@ -29,10 +29,11 @@
     <bottom-sheet></bottom-sheet>
     <b-s></b-s>
     <div test style='height:60px;'></div>
+
     {% if request.user.profile.all.0.primary_area == "" and not request.user.profile.all.0.already_set %}
-    
     {% include 'pages/components/area-setting.html'%}
     {% endif %}
+
     <div id='content-wrapper'>
       {% block content %}
       {% endblock %}

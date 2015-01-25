@@ -385,6 +385,20 @@ class ItemDetail(XDetailAPIView):
             status.delete()
         return super(ItemDetail, self).put(request, pk, format=None)
 
+    def data_handler(self, request):
+        customized_char_fields_data = []
+        customized_num_fields_data = []
+        if "customized_char_fields" in request.data:
+            customized_char_fields_data = request.data[
+                'customized_char_fields'
+            ]
+        if "customized_num_fields" in request.data:
+            customized_num_fields_data = request.data['customized_num_fields']
+        data = handler.validate(request.data)
+        data["customized_char_fields"] = customized_char_fields_data
+        data["customized_num_fields"] = customized_num_fields_data
+        return data
+
 
 class UserDetails(XDetailAPIView):
 
@@ -433,6 +447,14 @@ class UserDetails(XDetailAPIView):
             return Response(data=[data], status=st.HTTP_200_OK)
         else:
             return Response(status=st.HTTP_404_NOT_FOUND)
+
+    def data_handler(self, request):
+        data = request.data
+        extra_fields = ["is_anonymous", "access_token", "user_id"]
+        for field in extra_fields:
+            if field in data:
+                data.pop(field)
+        return data
 
 
 from haystack.query import SearchQuerySet

@@ -3,11 +3,9 @@ angular.module("continue")
 
 .controller "DashBoardCtrl", [
   "$scope", "Post", "Item", "Feed", "Timeline", "Alert",
-  "InfiniteScroll", "Auth",
-  ($scope, Post, Item, Feed, Timeline, Alert, InfiniteScroll, Auth) ->
+  "InfiniteScroll", "Auth", "Album",
+  ($scope, Post, Item, Feed, Timeline, Alert, InfiniteScroll, Auth, Album) ->
 
-    # Load in items and posts of the current user
-    Alert.show_msg("Downloading your data.")
 
     $scope.layout = {
       creating_new_item: false
@@ -17,16 +15,23 @@ angular.module("continue")
         "posts": false
         "feeds": false
         "timeline": false
-        "items": false
+        "items": true
     }
 
-    $scope.layout.loading.items = true
-    $scope.items = Item.$search({num_of_records: 8}).$then (response)->
-      this.tags_handler()
-      this.start = this.length    # set the start for future infinite scrolling
-      Alert.show_msg("Download is finished.")
-      $scope.layout.loading.items = false
-      console.log "Downloaded items"
+    $scope.load_first_items = ()->
+      # Load the first few items when user click the `Gallery`
+      Alert.show_msg("Downloading your data ...")
+      $scope.items = Item.$search({num_of_records: 8}).$then (response)->
+        this.tags_handler()       # Handle the tags and private-tags
+        # set the start for future infinite scrolling
+        this.start = this.length
+        Alert.show_msg("Download is finished.")
+        $scope.layout.loading.items = false
+      , (e)->
+        if e.$response.status == 404
+          Alert.show_msg("No data is found.")
+        else
+          Alert.show_error("There is problem retrieving your data.")
 
     $scope.items_search = (tag)->
       Alert.show_msg("Searching...")
@@ -103,6 +108,13 @@ angular.module("continue")
 
     $scope.display_tab = (tab_name)->
       $scope.layout.display_tab = tab_name
+      if tab_name == "items"
+        $scope.load_first_items()
+      if tab_name == "settings"
+        profile = $scope.profile
+        $scope.primary_area = profile.primary_area
+        $scope.interested_areas_array = profile.interested_areas.split(",")
+        $scope.interested_areas_tags = [{text: tag} for tag in $scope.interested_areas_array][0]
 
     $scope.scroll_to_post = (id)->
       top = $("#post-#{id}").offset().top
@@ -121,4 +133,8 @@ angular.module("continue")
       $("html, body").animate scrollTop: $("#items-display").offset().top - 100
       true
 
+    $scope.change_profile_photo = ()->
+      Album.get_albums().then (response)->
+        $scope.profile.social_account_photo = response
+        $scope.profile.$save()
 ]

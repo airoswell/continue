@@ -27,6 +27,7 @@ angular.module("continue")
   ($scope, Auth, Alert) ->
 
     $scope.search = ()->
+      # Search from the dropdown search panel in the navbar
       areas = $scope.tags_to_string($scope.areas_tags)
       tags = $scope.tags_to_string($scope.tags_tags)
       $("input[name=areas]").val(areas)
@@ -58,13 +59,16 @@ angular.module("continue")
     Auth.fetch_profile().then (response)->
       Auth.store_profile(response[0])
       $scope.profile = Auth.get_profile()
-      $scope.photo = Auth.get_profile().social_account_photo
-   
+      profile = $scope.profile
+      $scope.primary_area = profile.primary_area
+      $scope.interested_areas_array = profile.interested_areas.split(",")
+      $scope.interested_areas_tags = [{text: tag} for tag in $scope.interested_areas_array][0]
+      $scope.photo = profile.social_account_photo
+
 ]
 
 .directive "areaSettingForm", ["Auth", "Alert", (Auth, Alert)->
   restrict: "A"
-  scope: true
   link: (scope, element, attrs)->
 
     validate = ()->
@@ -72,7 +76,7 @@ angular.module("continue")
         if not /^\d{5}$/.test(tag.text)
           return false
       return  true
-    scope.submit = ()->
+    scope.submit_areas_setting = ()->
       if not validate()
         Alert.show_error("Zip code can only contain 5 numeric digits.", 2000)
         return
@@ -82,6 +86,7 @@ angular.module("continue")
       scope.interested_areas = zip_codes.join() 
       console.log scope.interested_areas
       Alert.show_msg("Submitting ...")
+
       profile = Auth.get_profile()
       profile.primary_area = scope.primary_area
       profile.interested_areas = scope.interested_areas
