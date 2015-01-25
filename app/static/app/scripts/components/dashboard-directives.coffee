@@ -58,7 +58,6 @@ angular.module("continue")
   templateUrl: "/static/app/directives/dashboard-item-overview.html"
   link: (scope, element, attrs) ->
     
-
     element.on "click", (e)->
       if "trigger" of e.target.attributes
         scope.expand(scope.item)

@@ -72,23 +72,25 @@
         Auth.store_profile(response[0]);
         $scope.profile = Auth.get_profile();
         profile = $scope.profile;
-        $scope.primary_area = profile.primary_area;
-        $scope.interested_areas_array = profile.interested_areas.split(",");
-        $scope.interested_areas_tags = [
-          (function() {
-            var _i, _len, _ref, _results;
-            _ref = $scope.interested_areas_array;
-            _results = [];
-            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-              tag = _ref[_i];
-              _results.push({
-                text: tag
-              });
-            }
-            return _results;
-          })()
-        ][0];
-        return $scope.photo = profile.social_account_photo;
+        if (!profile.is_anonymous) {
+          $scope.primary_area = profile.primary_area;
+          $scope.interested_areas_array = profile.interested_areas.split(",");
+          $scope.interested_areas_tags = [
+            (function() {
+              var _i, _len, _ref, _results;
+              _ref = $scope.interested_areas_array;
+              _results = [];
+              for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                tag = _ref[_i];
+                _results.push({
+                  text: tag
+                });
+              }
+              return _results;
+            })()
+          ][0];
+          return $scope.photo = profile.social_account_photo;
+        }
       });
     }
   ]).directive("areaSettingForm", [

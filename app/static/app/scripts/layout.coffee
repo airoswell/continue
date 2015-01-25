@@ -60,10 +60,11 @@ angular.module("continue")
       Auth.store_profile(response[0])
       $scope.profile = Auth.get_profile()
       profile = $scope.profile
-      $scope.primary_area = profile.primary_area
-      $scope.interested_areas_array = profile.interested_areas.split(",")
-      $scope.interested_areas_tags = [{text: tag} for tag in $scope.interested_areas_array][0]
-      $scope.photo = profile.social_account_photo
+      if not profile.is_anonymous
+        $scope.primary_area = profile.primary_area
+        $scope.interested_areas_array = profile.interested_areas.split(",")
+        $scope.interested_areas_tags = [{text: tag} for tag in $scope.interested_areas_array][0]
+        $scope.photo = profile.social_account_photo
 
 ]
 
