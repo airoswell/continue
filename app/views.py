@@ -316,7 +316,8 @@ def user_profile(request):
     # Build a combined timeline of ItemEditRecord and ItemTransactionRecord
     # of the current user.
     tl = TimelineManager(ItemEditRecord, ItemTransactionRecord)
-    tl.config(num_of_records=16)
+    num_of_records = 10     # overwrite number of initial return here
+    tl.config(num_of_records=num_of_records)
 
     if user.is_anonymous():
         Q_perm = Q(item__visibility="Public")
@@ -374,18 +375,6 @@ def dashboard(request):
     if user.is_anonymous() and not ("user_id" in params):
         return redirect('/app/user/login/')
     post_kwargs = {"owner": user}
-    if "user_id" in params:
-        if request.user.id != params["user_id"] or request.user.is_anonymous():
-            qs = User.objects.filter(pk=params['user_id'])
-            if not qs:
-                return render(
-                    request,
-                    "404-not-found.html",
-                    {"view": 'user-profile', "target": "page", }
-                )
-            target_user = qs[0]
-            post_kwargs = {"owner": target_user, "visibility": "Public"}
-
     # Load posts
     numOfPosts = 10
     if "numOfPosts" in params:

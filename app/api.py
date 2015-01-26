@@ -62,11 +62,19 @@ class PostList(XListAPIView):
             return Response(data=self.serializer(posts, many=True).data)
         # Display list of posts of a specified user
         elif "user_id" in params:
+            user = request.user
+            target_user_id = params["user_id"]
+            if user.id == target_user_id:   # if requested by poster himself
+                # query all his own posts
+                query_args = Q(owner__id=target_user_id)
+            else:                           # if someone else is making request
+                # only return public posts of the target user
+                query_args = Q(visibility="Public", owner__id=target_user_id)
             return run_and_respond(
                 retrieve_records,
                 Post, PostSerializerLite,
                 start, num_of_records,
-                owner__id=params["user_id"]
+                query_args,
             )
         # Display all posts of the current user
         data, status = retrieve_records(
@@ -479,7 +487,6 @@ class S:
     def __search__(self, content="", areas="", tags="", **kwargs):
         start = self.start
         end = start + self.num_of_records
-        # import pdb; pdb.set_trace()
         if not content:
             sqs = SearchQuerySet().models(*self.models).all()
         else:
@@ -893,7 +900,10 @@ class TimelineAPIView(APIView):
         return queryset
 
     def get(self, request):
+        # Prepare the starting point and number of returned
+        # record of the query
         params = request.query_params
+        user = request.user
         starts_dict = {model_name: 0 for model_name in self.models_str}
         starts = [0] * len(self.models)
         if "starts" in params:
@@ -915,13 +925,16 @@ class TimelineAPIView(APIView):
             starts=starts,
             num_of_records=num_of_records,
         )
-        if "pk" in params:
-            pk = params['pk']
-            query_args = self.get_query_args(request, pk)
-            query_kwargs = self.get_query_kwargs(request, pk)
+        if "item_id" in params:
+            target_id = int(params['item_id'])
+        elif "user_id" in params:
+            target_id = int(params["user_id"])
+        # If no parameter is present, default to return the current
+        # user's timeline
         else:
-            query_args = self.get_query_args(request)
-            query_kwargs = self.get_query_kwargs(request)
+            target_id = None
+        query_args = self.get_query_args(request, target_id)
+        query_kwargs = self.get_query_kwargs(request, target_id)
         results = tl.get(*query_args, **query_kwargs)
         if not results:
             return Response(status=st.HTTP_404_NOT_FOUND)
@@ -948,7 +961,7 @@ class Feed(TimelineAPIView):
                                         # no need to call get_object()
     )
 
-    def get_query_args(self, request):
+    def get_query_args(self, request, pk=None):
         user = request.user
         interested_areas = user.interested_areas().split(",")
         Ex_owners_Q = Q(
@@ -1028,12 +1041,53 @@ class ItemTimeline(TimelineAPIView):
         perms.IsOwnerOrPublicOrExOrNoPermission,
     )
 
-    def get_query_args(self, request, pk):
-        item = self.get_object(pk=pk)      # call object level permission check
+    def get_query_args(self, request, item_id):
+        # call object level permission check
+        item = self.get_object(pk=item_id)
         query_args = [
             {"item": item},
             {"item": item},
         ]
+        return query_args
+
+
+class UserTimeline(TimelineAPIView):
+
+    models = (ItemEditRecord, ItemTransactionRecord)
+    model = Item
+    models_str = ("ItemEditRecord", "ItemTransactionRecord")
+    serializer = (ItemEditRecordSerializer, TransactionSerializer)
+    order_by = ("-time_updated", "-time_updated")
+    filter_type = ["and", "or"]
+
+    # No permission required
+
+    def get_query_args(self, request, user_id):
+        user = request.user
+        if user.is_anonymous():
+            self.filter_type = ["and", "or"]
+            query_args = [
+                {"item__visibility": "Public", "item__owner__id": user_id},
+                {"giver__id": user_id, "receiver__id": user_id}
+            ]
+        else:
+            Q_perm = reduce(operator.or_, (
+                Q(item__visibility="Public"), reduce(operator.and_, (
+                    Q(item__visibility="Ex-owners"),
+                    Q(item__previous_owners__id=user.id)
+                ))
+            ))
+            update_kwargs = reduce(operator.and_, [
+                Q(item__owner=target_user), Q_perm
+            ])
+            transaction_kwargs = reduce(operator.and_, [
+                reduce(operator.or_, [
+                    Q(giver=target_user),
+                    Q(receiver=target_user)
+                ]),
+                Q_perm,
+            ])
+            query_args = [update_kwargs, transaction_kwargs]
         return query_args
 
 

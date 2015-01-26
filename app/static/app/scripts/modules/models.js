@@ -498,6 +498,10 @@
     "Model", function(Model) {
       return Model.create("/timeline/item/");
     }
+  ]).factory("UserTimeline", [
+    "Model", function(Model) {
+      return Model.create("/timeline/user/");
+    }
   ]).factory("Transaction", [
     "Model", function(Model) {
       return Model.create("/transactions/").mix({

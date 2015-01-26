@@ -52,23 +52,23 @@
               </angular-field-text>
               <angular-field-text title='Frequence of use'
                   value='{{::item.utilization}}'
-                  ng-show="::item.utilization != 'Inapplicable'">
+                  ng-if="::item.utilization != 'Inapplicable'">
               </angular-field-text>
             </div>
             <div>
               <angular-field-text title='Acquired on'
                   value='{{::item.acquiring_date}}'
-                  ng-if="{{::item.acquiring_date}}">
+                  ng-if="::item.acquiring_date">
               </angular-field-text>
 
               <angular-field-text title='Original $'
                   value='{{::item.original_value}}'
-                  ng-if="{{::item.original_value}}">
+                  ng-if="::item.original_value">
               </angular-field-text>
 
               <angular-field-text title='Estimated $'
                   value='{{::item.estimated_value}}'
-                  ng-if='{{::item.estimated_value}}'>
+                  ng-if='::item.estimated_value'>
               </angular-field-text>
             </div>
           </accordion-group>

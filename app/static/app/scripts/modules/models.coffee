@@ -347,11 +347,18 @@ angular.module 'continue.models', [
 ]
 
 .factory "Timeline", ["Model", (Model) ->
+  # For current user's dashboard timeline
   return Model.create("/timeline/")
 ]
 
 .factory "ItemTimeline", ["Model", (Model) ->
+  # for the timeline of an item
   return Model.create("/timeline/item/")
+]
+
+.factory "UserTimeline", ["Model", (Model) ->
+  # for the timeline of a specific user
+  return Model.create("/timeline/user/")
 ]
 
 .factory "Transaction", ["Model", (Model)->
