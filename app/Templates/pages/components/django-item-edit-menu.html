@@ -8,6 +8,8 @@
         <i class='fa fa-pencil-square' style='font-size:16px;'></i> &nbsp;Edit the item
       </div>
     </div>
+    {% if post.id %}
+    {{ post }}
     <div post-item-delete-button ng-click="double_check()"
         post-id={{ post.id }} item-id={{ item.id }}>
       <div class='option'>
@@ -23,6 +25,7 @@
         <i class='fa fa-trash' style='font-size:16px;'></i>&nbsp;&nbsp;Yes, REMOVE it.
       </div>
     </div>
+    {% endif %}
     
   </div>
 </div>

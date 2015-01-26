@@ -78,14 +78,6 @@ angular.module("continue")
       scope.$apply()
 
 
-.directive "angularItemEditMenu", ()->
-  restrict: "E"
-  templateUrl: "/static/app/directives/item-edit-menu.html"
-  link: (scope, element, attrs)->
-    scope.refresh = false
-    if "refresh" in attrs
-      scope.refresh = attrs["refresh"]
-
 .directive "followButtonArea", ["Auth", "Alert", (Auth, Alert)->
   restrict: "A"
   link: (scope, element, attrs)->
@@ -100,6 +92,15 @@ angular.module("continue")
         profile.$save().$then (response)->
           Alert.show_msg("Successfully followed #{area}")
 ]
+
+
+.directive "angularItemEditMenu", ()->
+  restrict: "E"
+  templateUrl: "/static/app/directives/item-edit-menu.html"
+  link: (scope, element, attrs)->
+    scope.refresh = false
+    if "refresh" in attrs
+      scope.refresh = attrs["refresh"]
 
 
 .directive "itemEditButton", ["ItemEditor", "$rootScope", (ItemEditor, $rootScope)->

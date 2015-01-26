@@ -17,6 +17,7 @@
       {{ item.title }}
     </div>
     <!-- current owner -->
+    <a href="/app/user/?user_id={{ item.owner.id }}">
     <div style='padding:0px 20px;' layout="row" layout-align='start center'>
       <img src="{{ item.owner.photo }}" alt="" height=45>
       &nbsp;&nbsp;
@@ -25,6 +26,7 @@
         <div class='text-large'>{{item.owner.name}}</div>
       </div>
     </div>
+    </a>
     <!-- Previous owners -->
   </div>
   <div infinite-scroll="load_timeline()" infinite-scroll-distance="1"

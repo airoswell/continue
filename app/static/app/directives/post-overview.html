@@ -8,11 +8,11 @@
     <div layout='row'>
       <!-- User photo -->
       <div>
-        <img height=50 ng-src="{{::post.owner_photo}}">&nbsp;&nbsp;&nbsp;
+        <a href="/app/user/?user_id={{post.owner}}"><img height=50 ng-src="{{::post.owner_photo}}"></a>&nbsp;&nbsp;&nbsp;
       </div>
       <!-- User's name and time posted -->
       <div>
-        <div class="username"><b ng-bind="post.owner_name"></b></div>
+        <a href="/app/user/?user_id={{post.owner}}"><div class="username"><b ng-bind="post.owner_name"></b></div></a>
         <div class="time-posted" ng-bind="post.time_created|date: 'MMM dd yyyy H: mm a'"></div>
       </div>
     </div>

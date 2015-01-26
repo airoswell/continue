@@ -876,6 +876,8 @@ class TimelineAPIView(APIView):
     REST API for all timelines (cross model requests).
     """
 
+    # Default num_of_records returned
+    # overwrite it by including a GET param <num_of_records>
     num_of_records = 8
 
     def get_query_args(self, request, pk=None):
@@ -1078,12 +1080,12 @@ class UserTimeline(TimelineAPIView):
                 ))
             ))
             update_kwargs = reduce(operator.and_, [
-                Q(item__owner=target_user), Q_perm
+                Q(item__owner__id=user_id), Q_perm
             ])
             transaction_kwargs = reduce(operator.and_, [
                 reduce(operator.or_, [
-                    Q(giver=target_user),
-                    Q(receiver=target_user)
+                    Q(giver__id=user_id),
+                    Q(receiver__id=user_id)
                 ]),
                 Q_perm,
             ])

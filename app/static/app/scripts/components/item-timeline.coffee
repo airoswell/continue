@@ -1,8 +1,8 @@
 angular.module "continue"
 
 .controller "itemTimelineCtrl", [
-  "$scope", "InfiniteScroll", "UserTimeline", "Alert",
-  ($scope, InfiniteScroll, UserTimeline, Alert)->
+  "$scope", "InfiniteScroll", "ItemTimeline", "Alert",
+  ($scope, InfiniteScroll, ItemTimeline, Alert)->
 
     # Prevent the infinite scroll to load at the beginning.
     $scope.layout = {

@@ -108,7 +108,7 @@
   }).directive("angularItemEditMenu", function() {
     return {
       restrict: "E",
-      templateUrl: "/static/app/directives/item-edit-menu.html",
+      templateUrl: "/static/app/directives/angular-item-edit-menu.html",
       link: function(scope, element, attrs) {
         scope.refresh = false;
         if (__indexOf.call(attrs, "refresh") >= 0) {

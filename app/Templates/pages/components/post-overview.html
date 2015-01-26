@@ -9,12 +9,17 @@
     <div layout='row'>
       <!-- User photo -->
       <div>
-        <img height=50
-            src="{{ post.owner.profile.all.0.social_account_photo }}">&nbsp;&nbsp;&nbsp;
+        <a href="/app/user/?user_id={{post.owner.id}}">
+          <img height=50
+              src="{{ post.owner.profile.all.0.social_account_photo }}">
+              &nbsp;&nbsp;&nbsp;
+        </a>
       </div>
       <!-- User's name and time posted -->
       <div>
-        <div class="username"><b>{{ post.owner.username }}</b></div>
+        <a href="/app/user/?user_id={{post.owner.id}}">
+          <div class="username"><b>{{ post.owner.username }}</b></div>
+        </a>
         <div class="time-posted">{{ post.time_created }}</div>
       </div>
     </div>

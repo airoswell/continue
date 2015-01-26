@@ -13,7 +13,7 @@
     </div>
 
     <!-- Remove item button -->
-    <div post-item-delete-button ng-click="double_check()"
+    <div ng-if="post.id" post-item-delete-button ng-click="double_check()"
         post-id="{{ post.id }}" item-id="{{ item.id }}">
       <div class='option'>
         <i class='fa fa-trash' style='font-size:16px;'></i> &nbsp;Remove from this post
