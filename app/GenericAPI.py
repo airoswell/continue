@@ -61,7 +61,6 @@ class XDetailAPIView(APIView):
         )
 
     def put(self, request, pk, format=None):
-        import pdb; pdb.set_trace()
         # ============================================================
         # Data processing
         instance, status = self.get_object(pk=pk)  # Object permission purpose

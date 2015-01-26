@@ -941,7 +941,6 @@ class TimelineAPIView(APIView):
         starts = [0] * len(self.models)
         if "starts" in params:
             import json
-            import pdb; pdb.set_trace()
             starts_dict = json.loads(params['starts'])
             for model_name in starts_dict:
                 index = self.models_str.index(model_name)
