@@ -15,12 +15,15 @@
           item_id: $scope.item_id,
           num_of_records: 0
         }).$then(function(response) {
-          return $scope.layout.loading.timeline = false;
+          $scope.layout.loading.timeline = false;
+          console.log("$scope.init_starts", $scope.init_starts);
+          return response.starts = $scope.init_starts;
         });
       });
       infinite_scroll_timeline = new InfiniteScroll(ItemTimeline);
       $scope.load_timeline = function() {
         $scope.layout.loading.timeline = true;
+        console.log("$scope.timeline.starts", $scope.timeline.starts);
         infinite_scroll_timeline.config({
           init_starts: $scope.init_starts,
           model_types: ["ItemEditRecord", "ItemTransactionRecord"],
@@ -30,6 +33,7 @@
         });
         $scope.timeline = infinite_scroll_timeline.load($scope.timeline);
         return $scope.timeline.$asPromise().then(function(response) {
+          console.log("response", response);
           infinite_scroll_timeline.success_handler(response);
           return $scope.layout.loading.timeline = false;
         }, function() {

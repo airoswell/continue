@@ -18,12 +18,15 @@ angular.module "continue"
         num_of_records: 0
       ).$then (response)->
         $scope.layout.loading.timeline = false
+        console.log "$scope.init_starts", $scope.init_starts
+        response.starts = $scope.init_starts
 
 
     infinite_scroll_timeline = new InfiniteScroll(ItemTimeline)
 
     $scope.load_timeline = ()->
       $scope.layout.loading.timeline = true
+      console.log "$scope.timeline.starts", $scope.timeline.starts
       infinite_scroll_timeline.config(
         init_starts: $scope.init_starts
         model_types: ["ItemEditRecord", "ItemTransactionRecord"]
@@ -32,6 +35,7 @@ angular.module "continue"
       )
       $scope.timeline = infinite_scroll_timeline.load($scope.timeline)
       $scope.timeline.$asPromise().then (response)->
+        console.log "response", response
         infinite_scroll_timeline.success_handler(response)
         $scope.layout.loading.timeline = false
       , ()->

@@ -652,7 +652,7 @@ class PostItemStatus(models.Model):
 
 
 class ItemEditRecord(models.Model):
-    item = models.ForeignKey(Item, related_name='history_event')
+    item = models.ForeignKey(Item, related_name='update_event')
     field = models.CharField(max_length=100)
     original_value = models.CharField(max_length=500, blank=True, null=True)
     new_value = models.CharField(max_length=500)
@@ -663,7 +663,7 @@ class ItemEditRecord(models.Model):
         return type(self).__name__
 
     def __unicode__(self):
-        return unicode(self.item)
+        return unicode("%s updated field %s" % (self.item, self.field))
 
 
 class PostAndItemsRequest(models.Model):

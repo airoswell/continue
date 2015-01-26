@@ -19,6 +19,15 @@ import operator
 from django.db.models import Q
 
 
+ItemEditRecord.objects.all()
+index = 0
+for record in ItemEditRecord.objects.all():
+    try:
+        print(record.item.title)
+    except:
+        print(index)
+    index += 1
+
 for item in Item.objects.all():
     item.available = "For Share"
     item.save()

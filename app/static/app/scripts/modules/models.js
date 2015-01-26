@@ -634,6 +634,7 @@
           for (model_name in this.init_starts) {
             response.starts[model_name] = this.init_starts[model_name];
           }
+          console.log("A: In handler ==> response.starts", response.starts);
           for (_i = 0, _len = response.length; _i < _len; _i++) {
             record = response[_i];
             model_name = record.model_name;

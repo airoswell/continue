@@ -937,15 +937,15 @@ class TimelineAPIView(APIView):
         # Prepare the starting point and number of returned
         # record of the query
         params = request.query_params
-        user = request.user
         starts_dict = {model_name: 0 for model_name in self.models_str}
         starts = [0] * len(self.models)
         if "starts" in params:
             import json
+            import pdb; pdb.set_trace()
             starts_dict = json.loads(params['starts'])
             for model_name in starts_dict:
                 index = self.models_str.index(model_name)
-                starts[index] = starts_dict[model_name]
+                starts[index] = int(starts_dict[model_name])
 
         num_of_records = self.num_of_records
         if "num_of_records" in params:
@@ -1078,17 +1078,10 @@ class ItemTimeline(TimelineAPIView):
     def get_query_args(self, request, item_id):
         # call object level permission check
         item = self.get_object(pk=item_id)
-        if "field" in request.query_params:
-            field = request.query_params["field"]
-            query_args = [
-                {"item": item},
-                {"item": item},
-            ]
-        else:
-            query_args = [
-                {"item": item},
-                {"item": item},
-            ]
+        query_args = [
+            {"item": item},
+            {"item": item},
+        ]
         return query_args
 
 
