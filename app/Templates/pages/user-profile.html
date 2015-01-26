@@ -1,0 +1,151 @@
+{% extends 'layout.html'%}
+
+{% block content %}
+
+{% load filters %}
+<div id='dashboard-wrapper' ng-controller="userProfileCtrl"
+    ng-init="numOfPosts='{{ numOfPosts }}';timeline_starts={{ timeline_starts }};user_id={{target_user.pk}}"
+    layout='row' layout-align='end'>
+  
+  <div flex-gt-md="80" flex="100">
+
+    <!-- Main interface -->
+    <!-- Create item and post button -->
+    <div trigger style='position:fixed;top:100px;right:20px;z-index:1'>
+      <md-button class="md-fab" aria-label="New document"
+          ng-click="create_item()">
+        <i class="fa fa-plus" style='font-size:20px;line-height:50px;'></i>
+      </md-button>
+      &nbsp;
+      <a href="/app/post/">
+        <md-button class="md-fab" aria-label="New document">
+          <i class="fa fa-align-left" style='font-size:20px;line-height:50px;'></i>
+        </md-button>
+      </a>
+    </div>
+
+    <!-- Side navigation bar -->
+    <!-- The nav bar on the left when on big windlw -->
+    <div>
+      {% include 'pages/components/sidebar.html'%}
+    </div>
+    <!-- END: Side navigation bar -->
+
+    <!-- timeline -->
+    <div ng-show='layout.display_tab == "timeline" '
+        infinite-scroll="load_timeline()" infinite-scroll-distance="1"
+        infinite-scroll-disabled="layout.display_tab !='timeline' || layout.loading.timeline || scrollTop < 200">
+      {% for event in timeline %}
+      {%  if event.model_name == 'ItemEditRecord' %}
+      <div layout='row' flex-gt-md="90" flex="100">
+        <div hide-sm flex-gt-md='20' flex="15" style='margin-top:20px;text-align:right'>
+          <br/>
+          <div class='text-large' style='color:#666'>
+            {% if event.field != "creation"%}
+            Update
+            {% else %}
+            New Item
+            {% endif %}
+          </div>
+          <div style='color:#999'>{{ event.time_updated|date:"M/d/Y" }}</div>
+        </div>
+        <div flex>
+          {% include 'pages/components/django-item-update.html' %}
+        </div>
+      </div>
+      {%  elif event.model_name == 'ItemTransactionRecord' %}
+      <div layout='row' flex-gt-md="90">
+        <div hide-sm flex-gt-md='20' flex="15" style='margin-top:20px;text-align:right'>
+          <br/>
+          <div class='text-large' style='color:#666'>Transfer</div>
+          <div style='color:#999'>{{ event.time_updated|date:"M/d/Y" }}</div>
+        </div>
+        <div flex>
+          {% include 'pages/components/django-item-transaction.html' %}
+        </div>
+      </div>
+      {%   endif %}
+      {% endfor %}
+        <div ng-repeat="record in timeline">
+          <switch ng-switch on="record.model_name">
+
+            <switch ng-switch-when="ItemEditRecord" ng-init='event=record'>
+              <div layout='row' flex-gt-md="90">
+                <div flex-gt-md='20' flex="15" style='margin-top:20px;text-align:right'>
+                  <br/>
+                  <div class="text-large" style='color:#666;'>Update</div>
+                  <div style='color:#999;'
+                      ng-bind="event.time_updated|date:'MMM/dd/yyyy'">
+                  </div>
+                </div>
+                <div flex>
+                  <angular-item-update></angular-item-update>
+                </div>
+              </div>
+            </switch>
+
+            <switch ng-switch-when="ItemTransactionRecord" ng-init="event=record">
+              <angular-item-transaction></angular-item-transaction>
+            </switch>
+
+          </switch>
+        </div>
+    </div>
+
+    <!-- Post list -->
+    <div infinite-scroll="load_posts()" infinite-scroll-distance="1"
+        infinite-scroll-disabled="layout.display_tab !='posts' || layout.loading.posts || scrollTop < 600"
+        ng-show="layout.display_tab == 'posts'" layout='row'>
+      <div flex-gt-md="10"></div>
+      <div flex-gt-md="80" flex>
+        {% for post in posts %}
+        <div>
+        {%   include 'pages/components/post-overview.html'%}
+        </div>
+        {% endfor %}
+        <div ng-repeat="post in posts">
+          <post-overview></post-overview>
+        </div>
+      </div>
+    </div>
+
+    <!-- Item list -->
+    <div id='items-display' ng-show='layout.display_tab == "items" '
+        infinite-scroll="load_items()" infinite-scroll-distance="0"
+        infinite-scroll-disabled="layout.display_tab !='items' || layout.loading.items || scrollTop < 600" >
+      <div class="section-title-large" layout='row'>
+        <div flex="10"></div>
+        <div>Your Gallery</div>
+      </div>
+
+      <!-- Item editors list -->
+      <div ng-hide="layout.show_items_search_results" layout='row'>
+        <div flex-gt-lg="30" flex-gt-md="20" flex-md="10" flex-sm="0">
+        </div>
+        <div flex-gt-lg="60" flex-gt-md="70" flex-md="80" flex-sm="100">
+          <div ng-repeat="item in items" class='post-container'>
+            <angular-item-overview></angular-item-overview>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search result -->
+      <div ng-show="layout.show_items_search_results"
+          flex-gt-lg="65" flex-gt-md="75" flex-md="70"
+          offset="10">
+        <div class="text-large">Search results: <b><span ng-bind="layout.items_search_keyword"></span></b></div>
+        <div layout='row' layout-align='end'>
+          <div class='button button-small button-gray' ng-click="layout.show_items_search_results = false">
+            Back to inventory
+          </div>
+        </div>
+        <item-editor-pro ng-repeat="item in items_search_results">
+        </item-editor-pro>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+
+{% endblock content %}

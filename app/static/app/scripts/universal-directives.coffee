@@ -187,3 +187,14 @@ angular.module("continue")
 .directive "angularItemOverview", ()->
   restrict: "E"
   templateUrl: "/static/app/directives/angular-item-overview.html"
+
+.directive "angularFieldText", ()->
+  restrict: "E"
+  templateUrl: "/static/app/directives/angular-field-text.html"
+  replace: true
+  scope: {}
+  link: (scope, element, attrs)->
+    scope.title = attrs["title"]
+    scope.value = attrs['value']
+    if 'unit' of attrs
+      scope.unit = attrs['unit']

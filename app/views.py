@@ -283,23 +283,116 @@ def user_timeline(request, pk):
     )
 
 
+def user_profile(request):
+    """
+    A view function that respond to URL '/app/user/?user_id', which display
+    the user profile page of the specified user
+    """
+    user = request.user
+    params = request.GET
+    if not ("user_id" in params):
+        return redirect('/app/')
+
+    if not user.is_anonymous():
+        if user.id == params["user_id"]:
+            return redirect("dashboard")
+
+    qs = User.objects.filter(pk=params['user_id'])
+    if not qs:
+        return render(
+            request,
+            "404-not-found.html",
+            {"view": 'user-profile', "target": "page", }
+        )
+    target_user = qs[0]
+
+    # Load posts
+    numOfPosts = 10
+    if "numOfPosts" in params:
+        numOfPosts = params["numOfPosts"]
+    posts = (Post.objects
+             .filter(owner=target_user, visibility="Public")[:numOfPosts])
+
+    # Build a combined timeline of ItemEditRecord and ItemTransactionRecord
+    # of the current user.
+    tl = TimelineManager(ItemEditRecord, ItemTransactionRecord)
+    tl.config(num_of_records=16)
+
+    if user.is_anonymous():
+        Q_perm = Q(item__visibility="Public")
+    else:
+        Q_perm = reduce(operator.or_, (
+            Q(item__visibility="Public"), reduce(operator.and_, (
+                Q(item__visibility="Ex-owners"),
+                Q(item__previous_owners__id=user.id)
+            ))
+        ))
+
+    update_args = reduce(operator.and_, [
+        Q(item__owner=target_user), Q_perm
+    ])
+    transfer_args = reduce(operator.and_, [
+        reduce(operator.or_, [
+            Q(giver=target_user),
+            Q(receiver=target_user)
+        ]),
+        Q_perm,
+    ])
+    timeline = tl.get(
+        update_args,
+        transfer_args,
+    )
+    timeline_starts = {model.__name__: 0 for model in tl.models}
+    for record in timeline:
+        timeline_starts[type(record).__name__] += 1
+    return render(
+        request,
+        'pages/user-profile.html',
+        {
+            'view': 'user-profile',
+            'posts': posts,
+            'numOfPosts': numOfPosts,
+            'timeline': timeline,
+            'timeline_starts': timeline_starts,
+            'LIVEHOST': settings.LIVEHOST,
+            "target_user": target_user,
+        }
+    )
+
+
 @cache_control(no_cache=True, must_revalidate=True)
 def dashboard(request):
     """
-    A view function that respond to URL '/app/user/', which display
+    A view function that respond to URL '/app/user/dashboard/', which display
     the admin page of the current user.
 
     If the current user is not logged in, redirect to '/app/login/'
     page
     """
     user = request.user
-    if user.is_anonymous():
-        return redirect('/app/user/login/')
     params = request.GET
+    if user.is_anonymous() and not ("user_id" in params):
+        return redirect('/app/user/login/')
+    post_kwargs = {"owner": user}
+    if "user_id" in params:
+        if request.user.id != params["user_id"] or request.user.is_anonymous():
+            qs = User.objects.filter(pk=params['user_id'])
+            if not qs:
+                return render(
+                    request,
+                    "404-not-found.html",
+                    {"view": 'user-profile', "target": "page", }
+                )
+            target_user = qs[0]
+            post_kwargs = {"owner": target_user, "visibility": "Public"}
+
+    # Load posts
     numOfPosts = 10
     if "numOfPosts" in params:
         numOfPosts = params["numOfPosts"]
-    posts = Post.objects.filter(owner=user)[:numOfPosts]
+    posts = Post.objects.filter(**post_kwargs)[:numOfPosts]
+
+    # Feeds
     # Build feeds (posts are from interested area)
     # need to include more stuffs in the future
     interested_areas = user.profile.all()[0].interested_areas

@@ -1,11 +1,10 @@
 
 angular.module("continue")
 
-.controller "DashBoardCtrl", [
+.controller "userProfileCtrl", [
   "$scope", "Post", "Item", "Feed", "Timeline", "Alert",
   "InfiniteScroll", "Auth", "Album",
   ($scope, Post, Item, Feed, Timeline, Alert, InfiniteScroll, Auth, Album) ->
-
 
     $scope.layout = {
       creating_new_item: false
@@ -22,7 +21,10 @@ angular.module("continue")
       # Load the first few items when user click the `Gallery`
       if not $scope.items?
         Alert.show_msg("Downloading your data ...")
-        $scope.items = Item.$search({num_of_records: 8}).$then (response)->
+        $scope.items = Item.$search(
+          num_of_records: 8
+          user_id: $scope.user_id
+        ).$then (response)->
           this.tags_handler()       # Handle the tags and private-tags
           # set the start for future infinite scrolling
           this.start = this.length
@@ -68,6 +70,7 @@ angular.module("continue")
       infinite_scroll_items.config(
         model_types: ["Item"]       # Expected model types from the backend
         init_starts: $scope.items.length
+        user_id: $scope.user_id
       )
       $scope.layout.loading.items = true
       $scope.items = infinite_scroll_items.load($scope.items)
@@ -76,22 +79,6 @@ angular.module("continue")
         $scope.layout.loading.items = false
       , ()->
         Alert.show_msg("All items are downloaded ...")
-
-    # =========== Infinite scrolling for feeds ===========
-    infinite_scroll_feeds = new InfiniteScroll(Feed)
-    $scope.load_feeds = ()->
-      $scope.layout.loading.feeds = true
-      infinite_scroll_feeds.config(
-        model_types: ["ItemEditRecord", "Post", "Item"]
-        init_starts: $scope.feed_starts
-      )
-      $scope.feeds = infinite_scroll_feeds.load($scope.feeds)
-      $scope.feeds.$asPromise().then (response)->
-        infinite_scroll_feeds.success_handler(response)
-        $scope.layout.loading.feeds = false
-      , ()->
-        Alert.show_msg("All feeds are downloaded ...")
-
 
     infinite_scroll_timeline = new InfiniteScroll(Timeline)
     $scope.load_timeline = ()->

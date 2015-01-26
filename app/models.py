@@ -28,8 +28,6 @@ def pending_transactions(self):
     )
     return transactions
 
-User.pending_transactions = pending_transactions
-
 
 def name(self):
     return self.profile.all()[0].name
@@ -38,10 +36,14 @@ def name(self):
 def interested_areas(self):
     return self.profile.all()[0].interested_areas
 
+
+def primary_area(self):
+    return self.profile.all()[0].primary_area
+
+User.pending_transactions = pending_transactions
 User.interested_areas = interested_areas
-
 User.name = name
-
+User.primary_area = primary_area
 
 class UserProfile(models.Model):
     user = models.ForeignKey(User, related_name='profile')
@@ -164,11 +166,12 @@ class Item(models.Model):
         default="Private",
     )
     condition_choices = (
+        ("Inapplicable", "Inapplicable"),
         ('New', 'New'),
         ('Like new', 'Like new'),
         ('Good', 'Good'),
         ('Functional', 'Functional'),
-        ('Broken', 'Broken')
+        ('Broken', 'Broken'),
     )
     condition = models.CharField(
         max_length=20,
@@ -195,6 +198,8 @@ class Item(models.Model):
     detail = models.TextField(default='', blank=True)
     intented_use = models.CharField(max_length=140, default="", blank=True)
     utilization_choices = (
+        ("Inapplicable", "Inapplicable"),
+        ("Daily", "Daily"),
         ('Frequent', 'Frequent'),
         ('Sometimes', 'Sometimes'),
         ('Rarely', 'Rarely'),

@@ -18,7 +18,7 @@
         &nbsp;&nbsp;<i class="fa fa-quote-left"></i>&nbsp;&nbsp;<span ng-bind="item.description"></span>
       </div>
 
-      <!-- Item thumbnail -->
+      <!-- Item image -->
       <div click-to-show-target>
         <a ng-if='item.pic' href="/app/item/{{item.id}}/timeline/">
           <br/>
@@ -27,7 +27,79 @@
             <img ng-src="{{item.pic}}" style='width:98%;opacity:0'>
           </div>
         </a>
+
+        <br/>
+        <!-- Presets and customized Fields -->
+        <accordion close-others="oneAtATime">
+        
+          <accordion-group is-open="preset_is_open">
+            <!-- Presets -->
+            <accordion-heading ng-click="preset_is_open=!preset_is_open">
+              <i class="fa fa-cog"></i>&nbsp;Presets &nbsp; 
+              <i ng-show='!preset_is_open' class='fa fa-caret-down'></i>
+              <i ng-show='preset_is_open' class='fa fa-caret-up'></i>
+            </accordion-heading>
+            <div>
+              <angular-field-text title='Condition'
+                  value='{{::item.condition}}'
+                  ng-if="item.condition != 'Inapplicable'">
+              </angular-field-text>
+              <angular-field-text title='Visible to'
+                  value='{{::item.visibility}}'>
+              </angular-field-text>
+              <angular-field-text title='Available'
+                  value='{{::item.available}}'>
+              </angular-field-text>
+              <angular-field-text title='Frequence of use'
+                  value='{{::item.utilization}}'
+                  ng-show="::item.utilization != 'Inapplicable'">
+              </angular-field-text>
+            </div>
+            <div>
+              <angular-field-text title='Acquired on'
+                  value='{{::item.acquiring_date}}'
+                  ng-if="{{::item.acquiring_date}}">
+              </angular-field-text>
+
+              <angular-field-text title='Original $'
+                  value='{{::item.original_value}}'
+                  ng-if="{{::item.original_value}}">
+              </angular-field-text>
+
+              <angular-field-text title='Estimated $'
+                  value='{{::item.estimated_value}}'
+                  ng-if='{{::item.estimated_value}}'>
+              </angular-field-text>
+            </div>
+          </accordion-group>
+
+
+          <div ng-if="item.customized_num_fields.length * item.customized_char_fields.length">
+            <accordion-group is-open="true" >
+              <accordion-heading>
+                <i class="fa fa-cogs"></i>&nbsp;Customized Fields &nbsp; <i class="fa fa-caret-down"></i>
+              </accordion-heading>
+              <!-- Customized fields -->
+              <!-- - NUMBER fields -->
+              <angular-field-text title='{{::field.title}}'
+                  value='{{::field.value}}' unit="{{::field.unit}}"
+                  ng-repeat="field in item.customized_num_fields">
+              </angular-field-text>
+
+              <!-- - Char Fields -->
+              <angular-field-text title='{{::field.title}}' value='{{::field.value}}'
+                  ng-repeat="field in item.customized_char_fields">
+              </angular-field-text>
+              
+              
+
+            </accordion-group>
+          </div>
+        </accordion>
       </div>
+
+
+      
 
     </div>
 

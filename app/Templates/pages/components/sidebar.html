@@ -1,15 +1,40 @@
 {% load filters %}
+
+<style>
+  .sidebar-header{
+    padding: 20px;
+  }
+</style>
 <div ng-cloak class='sidebar' hide-sm hide-md show-gt-md>
-  <div class="sidebar-title text-large" 
-      style='background:#eee;padding:5px 10px;'>
-    <i class='fa fa-list'></i>&nbsp;Navigation
+  <div class="sidebar-header">
+    <div layout='row' layout-align='start center'>
+      <img height=50 alt=""
+          {% if view == "user-profile" %}
+          src="{{ target_user.photo }}"
+          {% elif view == "dashboard" %}
+          src="{{ request.user.photo }}"
+          {% endif %}>
+      &nbsp;&nbsp;
+      <div>
+        {% if view == "user-profile" %}
+        <div class='text-large'>{{ target_user.name }}</div>
+        <div>{{ target_user.primary_area }}</div>
+        {% elif view == "dashboard" %}
+        <div class='text-large'>{{ request.user.name }}</div>
+        <div>{{ request.user.primary_area }}</div>
+        {% endif %}
+      </div>
+    </div>
   </div>
+
   <div class='sidebar-body' style=''>
+    {% if view == 'dashboard' %}
     <div ng-click="display_tab('feeds')">
       <div class='text-default sidebar-item'>
         <i class="fa fa-rss"></i>&nbsp;Feeds
       </div>
     </div>
+    {% endif %}
     <div ng-click="display_tab('timeline')">
       <div class='text-default sidebar-item'>
         <i class="fa fa-clock-o"></i>&nbsp;Timeline
@@ -39,11 +64,13 @@
         Gallery
       </div>
     </div>
+    {% if view == "dashboard" %}
     <div ng-click='display_tab("settings")'>
       <div class="text-default sidebar-item">
         Settings
       </div>
     </div>
+    {% endif %}
   </div>
 </div>
 

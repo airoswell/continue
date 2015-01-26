@@ -228,10 +228,10 @@ angular.module 'continue.models', [
 
 .factory "Item", ["Model", (Model) ->
 
-  condition_choices = ["New", "Like new", "Good", "Functional", "Broken"]
+  condition_choices = ["Inapplicable", "New", "Like new", "Good", "Functional", "Broken"]
   visibility_choices = ["Public", "Private", "Ex-owners"]
   availability_choices = ["Available", "In use", "Lent", "Given away", "Disposed"]
-  utilization_choices = ["Frequent", "Sometimes", "Rarely", "Never"]
+  utilization_choices = ["Inapplicable", "Daily", "Frequent", "Sometimes", "Rarely", "Never"]
 
   # For brand new and existing items to be edited
   init = {

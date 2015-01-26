@@ -253,16 +253,28 @@ class ItemList(XListAPIView):
         # #######################################
         # get list of items owned by a specific user
         # Don't need any authentication
-        if request.GET.get("user_id"):
+        params = request.GET
+        if params.get("user_id"):
+            if request.user.is_anonymous():
+                Q_perm = Q(visibility="Public")
+            else:
+                Q_perm = reduce(operator.or_, [
+                    Q(visibility="Public"),
+                    Q(visibility="Ex-owners",
+                      previous_owners__id=request.user.id)
+                ])
+            Q_kwargs = reduce(operator.and_, [
+                Q(owner__id=params["user_id"]),
+                Q_perm,
+            ])
             return run_and_respond(
                 retrieve_records,
                 Item, ItemSerializer,
                 start, num_of_records,
-                owner__id=request.GET.get("user_id"),
-                visibility="Public",
+                Q_kwargs,
             )
-        if request.GET.get("tags"):
-            tags = request.GET.get("tags").split(",")
+        if params.get("tags"):
+            tags = params.get("tags").split(",")
             kwargs_tags = {"tags": tag for tag in tags}
             kwargs_tags_private = {"tags_private": tag for tag in tags}
             kwargs = dict(kwargs_tags.items() + kwargs_tags_private.items())
@@ -276,15 +288,6 @@ class ItemList(XListAPIView):
                 return Response(status=st.HTTP_404_NOT_FOUND)
             sqs = [sq.object for sq in sqs]
             return Response(data=self.serializer(sqs, many=True).data)
-        # For accessing items of a post
-        # No authentication required
-        elif post_id:
-            return run_and_respond(
-                retrieve_records,
-                Item, ItemSerializer,
-                start, num_of_records,
-                status_in_post__post__id=post_id,
-            )
         # get list of items of the current authenticated user
         elif not request.user.is_anonymous():
             data, status = retrieve_records(
@@ -385,7 +388,7 @@ class ItemDetail(XDetailAPIView):
             status.delete()
         return super(ItemDetail, self).put(request, pk, format=None)
 
-    def data_handler(self, request):
+    def data_handler(self, request, handler):
         customized_char_fields_data = []
         customized_num_fields_data = []
         if "customized_char_fields" in request.data:
@@ -448,7 +451,7 @@ class UserDetails(XDetailAPIView):
         else:
             return Response(status=st.HTTP_404_NOT_FOUND)
 
-    def data_handler(self, request):
+    def data_handler(self, request, handler):
         data = request.data
         extra_fields = ["is_anonymous", "access_token", "user_id"]
         for field in extra_fields:

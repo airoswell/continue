@@ -320,10 +320,10 @@
   ]).factory("Item", [
     "Model", function(Model) {
       var availability_choices, condition_choices, customized_fields_cleaner, init, is_valid, utilization_choices, visibility_choices;
-      condition_choices = ["New", "Like new", "Good", "Functional", "Broken"];
+      condition_choices = ["Inapplicable", "New", "Like new", "Good", "Functional", "Broken"];
       visibility_choices = ["Public", "Private", "Ex-owners"];
       availability_choices = ["Available", "In use", "Lent", "Given away", "Disposed"];
-      utilization_choices = ["Frequent", "Sometimes", "Rarely", "Never"];
+      utilization_choices = ["Inapplicable", "Daily", "Frequent", "Sometimes", "Rarely", "Never"];
       init = {
         title: "",
         quantity: 1,

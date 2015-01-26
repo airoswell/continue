@@ -67,7 +67,8 @@ class Crud:
         return
 
 
-def retrieve_records(model, serializer, start, num_of_records, **search_kwargs):
+def retrieve_records(model, serializer, start, num_of_records,
+                     *args, **search_kwargs):
     """
         Retrieve records.
         Return:
@@ -78,7 +79,7 @@ def retrieve_records(model, serializer, start, num_of_records, **search_kwargs):
     # start = (page - 1) * num_of_records
     # end = page * num_of_records
     end = start + num_of_records
-    queryset = (model.objects.filter(**search_kwargs)
+    queryset = (model.objects.filter(*args, **search_kwargs)
                 .order_by('-pk')[start: end]
                 )
     print("\n\tretrieve_records() returns queryset %s" % (queryset))

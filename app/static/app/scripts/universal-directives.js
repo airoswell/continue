@@ -259,6 +259,20 @@
       restrict: "E",
       templateUrl: "/static/app/directives/angular-item-overview.html"
     };
+  }).directive("angularFieldText", function() {
+    return {
+      restrict: "E",
+      templateUrl: "/static/app/directives/angular-field-text.html",
+      replace: true,
+      scope: {},
+      link: function(scope, element, attrs) {
+        scope.title = attrs["title"];
+        scope.value = attrs['value'];
+        if ('unit' in attrs) {
+          return scope.unit = attrs['unit'];
+        }
+      }
+    };
   });
 
 }).call(this);
