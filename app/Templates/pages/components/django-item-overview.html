@@ -113,15 +113,22 @@
             <!-- Customized fields -->
             <!-- - NUMBER fields -->
             {% for field in item.customized_num_fields.all %}
-            <django-field-text title='{{field.title}}'
-                value='{{field.value}}' unit="{{field.unit}}">
-            </django-field-text>
+            {% with value=field.value %}
+            {% with field_title=field.title %}
+            {% with unit=field.unit %}
+            {% include 'pages/components/django-field-text.html' %}
+            {% endwith %}
+            {% endwith %}
+            {% endwith %}
             {% endfor %}
-
-            {% for field in item.customized_char_fields.all %}
+            
             <!-- - Char Fields -->
-            <django-field-text title='{{field.title}}' value='{{field.value}}'>
-            </django-field-text>
+            {% for field in item.customized_char_fields.all %}
+            {% with value=field.value %}
+            {% with field_title=field.title %}
+            {% include 'pages/components/django-field-text.html' %}
+            {% endwith %}
+            {% endwith %}
             {% endfor %}
           </accordion-group>
           {% endif %}

@@ -221,10 +221,11 @@ input-dropdown[reduced-padding] .input-label{
     background: #0c9900;color: #eee;
 }
 .button-blue{
-    background: #eee;color: #666;
+    background-color: #4889F0;color: #fff;
 }
 .button-blue:hover{
-    background: #098407;color: #eee;
+    background: -webkit-linear-gradient(top,#3c7ae4,#3f76d3);
+    background: #3c78dc;
 }
 .button-gray{
     background: #eee;color:666;

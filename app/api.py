@@ -608,7 +608,7 @@ class MessageList(XListAPIView):
         return Response(status=st.HTTP_200_OK)
 
 
-class HistoryList(XListAPIView):
+class ItemUpdateList(XListAPIView):
 
     model = ItemEditRecord
     serializer = ItemEditRecordSerializer
@@ -618,34 +618,66 @@ class HistoryList(XListAPIView):
 
     def get(self, request, pk=None, item_id=None):
         start, num_of_records = self.paginator(request)
-        if request.user.is_anonymous():
-            return Response(
-                data={"error": "Unauthorized",
-                      "error_detail": "Please log in."},
-                status=st.HTTP_401_UNAUTHORIZED,
-            )
-        elif pk:
+        user = request.user
+        params = request.query_params
+        if "item_id" in params:
+            item_id = params["item_id"]
+            qs = Item.objects.filter(pk=item_id)
+            if not qs:
+                return Response(
+                    data="item with id %s is not found." % (item_id),
+                    status=st.HTTP_404_NOT_FOUND,
+                )
+            item = qs[0]
+            if user.is_anonymous() and item.visibility != "Public":
+                return Response(
+                    data="You are not authorized to view the item.",
+                    status=st.HTTP_401_UNAUTHORIZED,
+                )
+            elif not ((user in item.previous_owners.all() and
+                       item.visibility == "Ex-owners") or
+                      item.owner == user):
+                return Response(
+                    data="You are not authorized to view the item.",
+                    status=st.HTTP_401_UNAUTHORIZED,
+                )
+            else:
+                if "field" in params:
+                    query_args = Q(item=item, field=params["field"])
+                else:
+                    query_args = Q(item=item)
+                return run_and_respond(
+                    retrieve_records,
+                    self.model, self.serializer,
+                    start, num_of_records,
+                    query_args,
+                )
+        elif pk:    # query specific update event
             return run_and_respond(
                 retrieve_records,
                 self.model, self.serializer,
                 start, num_of_records,
                 pk=pk,
             )
-        elif item_id:
+        # elif item_id:
+        #     return run_and_respond(
+        #         retrieve_records,
+        #         self.model, self.serializer,
+        #         start, num_of_records,
+        #         item__id=item_id,
+        #     )
+        elif user.is_anonymous():
+            return Response(
+                    data="Please sign in.",
+                    status=st.HTTP_401_UNAUTHORIZED,
+                )
+        elif not request.user.is_anonymous():
             return run_and_respond(
                 retrieve_records,
                 self.model, self.serializer,
                 start, num_of_records,
-                item__id=item_id,
+                item__owner__id=request.user.id,
             )
-        else:
-            if not request.user.is_anonymous():
-                return run_and_respond(
-                    retrieve_records,
-                    self.model, self.serializer,
-                    start, num_of_records,
-                    item__owner__id=request.user.id,
-                )
 
 
 class TransactionList(XListAPIView):
@@ -1046,10 +1078,17 @@ class ItemTimeline(TimelineAPIView):
     def get_query_args(self, request, item_id):
         # call object level permission check
         item = self.get_object(pk=item_id)
-        query_args = [
-            {"item": item},
-            {"item": item},
-        ]
+        if "field" in request.query_params:
+            field = request.query_params["field"]
+            query_args = [
+                {"item": item},
+                {"item": item},
+            ]
+        else:
+            query_args = [
+                {"item": item},
+                {"item": item},
+            ]
         return query_args
 
 

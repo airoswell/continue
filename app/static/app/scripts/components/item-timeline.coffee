@@ -1,13 +1,15 @@
 angular.module "continue"
 
 .controller "itemTimelineCtrl", [
-  "$scope", "InfiniteScroll", "ItemTimeline", "Alert",
-  ($scope, InfiniteScroll, ItemTimeline, Alert)->
+  "$scope", "InfiniteScroll", "ItemTimeline", "Update", "Alert",
+  ($scope, InfiniteScroll, ItemTimeline, Update, Alert)->
 
     # Prevent the infinite scroll to load at the beginning.
     $scope.layout = {
       loading:
         timeline: true
+      display_section: "timeline"
+      display_record: undefined
     }
 
     $scope.$watch "item_id", ()->
@@ -35,5 +37,19 @@ angular.module "continue"
       , ()->
         Alert.show_msg("All timeline events are downloaded ...")
 
+
+    $scope.search_field = (field_title)->
+      Alert.show_msg("Downloading your data ...")
+      $scope.layout.display_section = "field-records"
+      $scope.layout.display_record = field_title
+      $scope.field_records = Update.$search(
+        item_id: $scope.item_id
+        field: field_title
+      )
+      $scope.field_records.$then (response)->
+        console.log "response", response
+        Alert.show_msg("Done.")
+      , (e)->
+        console.log "error"
 
 ]

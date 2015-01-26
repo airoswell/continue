@@ -134,7 +134,7 @@ angular.module 'continue.models', [
   }
 ]
 
-.factory 'Post', ["$q", "Model", "Item", "Auth", ($q, Model, Item, Auth) ->
+.factory 'Post', ["Model", "Item", "Auth", (Model, Item, Auth) ->
 
   condition_choices = ["New", "Like new", "Good", "Functional", "Broken"]
 
@@ -387,6 +387,12 @@ angular.module 'continue.models', [
   )
 ]
 
+.factory "Update", ["Model", (Model)->
+
+  return Model.create("/updates/")
+
+]
+
 .factory "InfiniteScroll", ()->
 
   return class InfiniteScroll
@@ -451,13 +457,13 @@ angular.module 'continue.models', [
             @tags_handler(record.item)
       return response
 
-
 .factory "Image", ["Model", (Model) ->
   return Model.create("/images/").mix(
     $extend:
       record:""
   )
 ]
+
 .factory "Profile", ["Model", (Model) ->
   return Model.create("/profiles/").mix(
     $extend:

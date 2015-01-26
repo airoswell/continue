@@ -178,7 +178,7 @@
       };
     }
   ]).factory('Post', [
-    "$q", "Model", "Item", "Auth", function($q, Model, Item, Auth) {
+    "Model", "Item", "Auth", function(Model, Item, Auth) {
       var add_item, condition_choices, init, is_valid, search, visibility_choices;
       condition_choices = ["New", "Like new", "Good", "Functional", "Broken"];
       init = {
@@ -536,6 +536,10 @@
           }
         }
       });
+    }
+  ]).factory("Update", [
+    "Model", function(Model) {
+      return Model.create("/updates/");
     }
   ]).factory("InfiniteScroll", function() {
     var InfiniteScroll;
