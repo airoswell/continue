@@ -26,17 +26,108 @@
       {% endif %}
 
       <!-- Item thumbnail -->
-      {% if item.pic %}
       <div click-to-show-target>
         <br/>
+        {% if item.pic %}
         <a href="/app/item/{{item.id}}/timeline/">
           <div class='picture-container'
               style="background: url({{item.pic}});background-size:100%">
             <img src="{{item.pic}}" style='width:98%;opacity:0'>
           </div>
         </a>
+        <br/>
+        {% endif %}
+        <!-- Presets and customized Fields -->
+        <accordion close-others="oneAtATime">
+        
+          <accordion-group>
+            <!-- Presets -->
+            <accordion-heading>
+              <i class="fa fa-cog"></i>&nbsp;Presets &nbsp; 
+              <i ng-show='!preset_is_open' class='fa fa-caret-down'></i>
+              <i ng-show='preset_is_open' class='fa fa-caret-up'></i>
+            </accordion-heading>
+            <div>
+              {% if item.condition != 'Inapplicable'%}
+              {% with value=item.condition %}
+              {% with field_title='Condition' %}
+              {% include 'pages/components/django-field-text.html' %}
+              {% endwith %}
+              {% endwith %}
+              {% endif %}
+
+              {% with value=item.visibility %}
+              {% with field_title='Visible to' %}
+              {% include 'pages/components/django-field-text.html' %}
+              {% endwith %}
+              {% endwith %}
+
+              {% with value=item.available %}
+              {% with field_title='Available' %}
+              {% include 'pages/components/django-field-text.html' %}
+              {% endwith %}
+              {% endwith %}
+
+              {% if item.utilization != 'Inapplicable' %}
+              {% with value=item.utilization %}
+              {% with field_title='Frequence of use' %}
+              {% include 'pages/components/django-field-text.html' %}
+              {% endwith %}
+              {% endwith %}
+              {% endif %}
+            </div>
+            <div>
+
+              {% if item.acquiring_date %}
+              {% with value=item.acquiring_date %}
+              {% with field_title='Acquired on' %}
+              {% include 'pages/components/django-field-text.html' %}
+              {% endwith %}
+              {% endwith %}
+              {% endif %}
+
+              {% if item.original_value %}
+              {% with value=item.original_value %}
+              {% with field_title='Original $' %}
+              {% include 'pages/components/django-field-text.html' %}
+              {% endwith %}
+              {% endwith %}
+              {% endif %}
+
+              {% if item.estimated_value %}
+              {% with value=item.estimated_value %}
+              {% with field_title='Estimated $' %}
+              {% include 'pages/components/django-field-text.html' %}
+              {% endwith %}
+              {% endwith %}
+              {% endif %}
+            </div>
+          </accordion-group>
+
+
+          {% if item.customized_num_fields.all|length > 0 or item.customized_char_fields.all|length > 0  %}
+          <accordion-group is-open="true" >
+            <accordion-heading>
+              <i class="fa fa-cogs"></i>&nbsp;Customized Fields &nbsp; <i class="fa fa-caret-down"></i>
+            </accordion-heading>
+            <!-- Customized fields -->
+            <!-- - NUMBER fields -->
+            {% for field in item.customized_num_fields.all %}
+            <django-field-text title='{{field.title}}'
+                value='{{field.value}}' unit="{{field.unit}}">
+            </django-field-text>
+            {% endfor %}
+
+            {% for field in item.customized_char_fields.all %}
+            <!-- - Char Fields -->
+            <django-field-text title='{{field.title}}' value='{{field.value}}'>
+            </django-field-text>
+            {% endfor %}
+          </accordion-group>
+          {% endif %}
+        </accordion>
       </div>
-      {% endif %}
+      
 
     </div>
 
