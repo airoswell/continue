@@ -5,11 +5,14 @@
     <div layout='row'>
       <!-- User photo -->
       <div>
-        <img height=50 src="{{ item.owner.photo }}">&nbsp;&nbsp;&nbsp;
+        <a href="/app/user/?user_id={{ item.owner.pk }}"><img height=50 src="{{ item.owner.photo }}"></a>
+        &nbsp;&nbsp;&nbsp;
       </div>
       <!-- User's name and time posted -->
       <div>
-        <div class="username"><b>{{ item.owner.username }}</b></div>
+        <a href="/app/user/?user_id={{ item.owner.pk }}">
+          <div class="username"><b>{{ item.owner.username }}</b></div>
+        </a>
         <div class="time-posted">{{ event.time_updated }}</div>
       </div>
     </div>

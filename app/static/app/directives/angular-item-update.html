@@ -4,12 +4,17 @@
     <div layout='row'>
       <!-- User photo -->
       <div>
-        <img height=50 ng-src="{{::event.item.owner_profile.photo}}">&nbsp;&nbsp;&nbsp;
+        <a href="/app/user/?user_id={{ item.owner }}">
+          <img height=50 ng-src="{{::event.item.owner_profile.photo}}">
+        </a>
+        &nbsp;&nbsp;&nbsp;
       </div>
       <!-- User's name and time posted -->
       <div>
-        <div class="username"><b ng-bind="event.item.owner_profile.name"></b>
-        </div>
+        <a href="/app/user/?user_id={{ item.owner }}">
+          <div class="username"><b ng-bind="event.item.owner_profile.name"></b>
+          </div>
+        </a>
         <div class="time-posted" ng-bind="event.time_updated|date: 'MMM dd yyyy H: mm a'"></div>
       </div>
     </div>
@@ -17,19 +22,34 @@
   </div>
   <div flex ng-switch on="event.field">
     <switch ng-switch-when="pic">
-        <b><span class='text-blue' ng-bind="event.item.title"></span></b> has a new <b>image</b>.</switch>
+      <a href="/app/item/{{item.pk}}/timeline/">
+        <b><span class='text-blue' ng-bind="event.item.title"></span></b>
+      </a> has a new <b>image</b>.
+    </switch>
 
-    <switch ng-switch-when="status"><b class='text-blue'><span ng-bind="event.item.title"></span></b> updated its <b>status</b> </switch>
+    <switch ng-switch-when="status">
+      <a href="/app/item/{{item.pk}}/timeline/">
+        <b class='text-blue'><span ng-bind="event.item.title"></span></b>
+      </a> updated its <b>status</b>
+    </switch>
 
     <switch ng-switch-when="creation">
-      added <b><span ng-bind="event.item.title"></span></b>
+      added
+      <a href="/app/item/{{item.pk}}/timeline/">
+        <b><span class='text-blue' ng-bind="event.item.title"></span></b>
+      </a>
     </switch>
 
     <switch ng-switch-when="description">
-      <b><span class='text-blue' ng-bind="event.item.title"></span></b> has a new <b>description</b>.
+      <a href="/app/item/{{item.pk}}/timeline/">
+        <b><span class='text-blue' ng-bind="event.item.title"></span></b>
+      </a> has a new <b>description</b>.
     </switch>
 
-    <switch ng-switch-default> <b><span class='text-blue' ng-bind="event.item.title"></span> </b>updated its <b><span ng-bind=" event.field "></span></b>: <em><span ng-bind="event.new_value"></em>.</switch>
+    <switch ng-switch-default>
+      <a href="/app/item/{{item.pk}}/timeline/">
+        <b><span class='text-blue' ng-bind="event.item.title"></span></b>
+      </a>updated its <b><span ng-bind=" event.field "></span></b>: <em><span ng-bind="event.new_value"></em>.</switch>
 
   </div>
 
