@@ -2,12 +2,12 @@
 
 {% block content %}
 <div id='search-results-wrapper'
-    layout='column' layout-align='start center'
+    flex
     ng-init="q='{{q}}';tags='{{tags}}';areas='{{areas}}'; init_post_num={{init_post_num}}"
     ng-controller="SearchResultsCtrl">
   
   <!-- Side navigation bar -->
-  <div class='sidebar' hide-sm hide-md>
+  <div class='sidebar' hide-sm>
     <div class="text-large" style='padding:10px;background:#eee'>
       <i class="fa fa-list"></i>&nbsp;Posts list
     </div>
@@ -35,11 +35,13 @@
   </div>
   {% else %}
 
+
+  <!-- the Post list -->
   <div class='search-results-list'
-      flex layout='row'
+      layout='row' flex
       infinite-scroll="load_posts()" infinite-scroll-distance="1"
       infinite-scroll-disabled="layout.loading.posts || scrollTop < 600">
-    <div flex-gt-md="30"></div>
+    <div flex-gt-md="30" flex-md="35"></div>
     <div flex-gt-md="70" flex-gt-lg="60">
       {% for post in posts %}
 
