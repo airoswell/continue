@@ -40,10 +40,24 @@ def interested_areas(self):
 def primary_area(self):
     return self.profile.all()[0].primary_area
 
+
+def statistics(self):
+    post_count = Post.objects.filter(owner=self).count()
+    item_count = Item.objects.filter(owner=self).count()
+    transaction_count = (ItemTransactionRecord.objects
+                         .filter(item__owner=self).count())
+    return {
+        "post_count": post_count,
+        "item_count": item_count,
+        "transaction_count": transaction_count,
+    }
+
 User.pending_transactions = pending_transactions
 User.interested_areas = interested_areas
 User.name = name
 User.primary_area = primary_area
+User.statistics = statistics
+
 
 class UserProfile(models.Model):
     user = models.ForeignKey(User, related_name='profile')
@@ -681,4 +695,12 @@ class Image(models.Model):
         User, related_name='uploaded_item_images',
         blank=False,
     )
+    time_created = models.DateTimeField(auto_now_add=True)
+
+
+class Tag(models.Model):
+    title = models.CharField(
+        max_length=144, blank=False,
+    )
+    count = models.PositiveIntegerField(blank=False, default=0)
     time_created = models.DateTimeField(auto_now_add=True)

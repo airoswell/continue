@@ -35,17 +35,20 @@
   </div>
   {% else %}
 
-  <div class='search-results-list' style='width:700px;'
+  <div class='search-results-list'
+      flex layout='row'
       infinite-scroll="load_posts()" infinite-scroll-distance="1"
       infinite-scroll-disabled="layout.loading.posts || scrollTop < 600">
+    <div flex-gt-md="30"></div>
+    <div flex-gt-md="70" flex-gt-lg="60">
+      {% for post in posts %}
 
-    {% for post in posts %}
+        {% include 'pages/components/post-overview.html' %}
 
-      {% include 'pages/components/post-overview.html' %}
-
-    {% endfor %} {# posts iteration end #}
-    <div ng-repeat="post in posts">
-      <post-overview></post-overview>
+      {% endfor %} {# posts iteration end #}
+      <div ng-repeat="post in posts">
+        <post-overview></post-overview>
+      </div>
     </div>
   </div>
 

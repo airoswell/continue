@@ -64,9 +64,10 @@
             <i class="fa fa-check"></i>
           </div>
           &nbsp;&nbsp;
-          <div layout='column' layout-align='center'>
-            <i style='color:#666;' class="fa fa-info-circle" tooltip-placement="bottom"
-              tooltip="Following an area: public posts and items from the area will appear in your news feeds."></i>
+          <div ng-show="!profile.is_anonymous" layout='column' layout-align='center'>
+            <i style='color:#666;' class="fa fa-info-circle" 
+                tooltip-placement="bottom"
+                tooltip="Following an area: public posts and items from the area will appear in your news feeds."></i>
           </div>
         </div>
       </div>

@@ -246,18 +246,26 @@
           </div>
           <div flex="10"></div>
           <div layout>
+            {% with statistics=request.user.statistics %}
             <div style="padding:0px 10px;">
               <div class='text-large text-blue'>Posts</div>
-              <div style='text-align:center' class="text-large">1</div>
+              <div style='text-align:center' class="text-large">
+                {{statistics.post_count}}
+              </div>
             </div>
             <div style='padding:0px 10px;'>
               <div class='text-large text-blue'>Items</div>
-              <div style='text-align:center' class="text-large">2</div>
+              <div style='text-align:center' class="text-large">
+                {{statistics.item_count}}
+              </div>
             </div>
             <div style='padding:0px 10px;'>
               <div class='text-large text-blue'>Transfers</div>
-              <div style='text-align:center' class="text-large">2</div>
+              <div style='text-align:center' class="text-large">
+                {{statistics.transaction_count}}
+              </div>
             </div>
+            {% endwith %}
           </div>
         </div>
         <!-- Other settings -->
