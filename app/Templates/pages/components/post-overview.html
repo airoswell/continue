@@ -20,7 +20,7 @@
         <a href="/app/user/?user_id={{post.owner.id}}">
           <div class="username"><b>{{ post.owner.username }}</b></div>
         </a>
-        <div class="time-posted">{{ post.time_created }}</div>
+        <div class="time-posted">{{ post.time_created|date:"M d Y H:i" }}</div>
       </div>
     </div>
     <!-- Expiration time -->

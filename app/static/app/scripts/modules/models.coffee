@@ -436,6 +436,7 @@ angular.module 'continue.models', [
       if @extra_params?
         for key of @extra_params
           params[key] = @extra_params[key] or ""
+      console.log "param handling is finished: params = ", params
       return params
     load: (model) =>
       params = @params(model)

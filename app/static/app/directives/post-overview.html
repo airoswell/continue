@@ -13,7 +13,7 @@
       <!-- User's name and time posted -->
       <div>
         <a href="/app/user/?user_id={{post.owner}}"><div class="username"><b ng-bind="post.owner_name"></b></div></a>
-        <div class="time-posted" ng-bind="post.time_created|date: 'MMM dd yyyy H: mm a'"></div>
+        <div class="time-posted" ng-bind="post.time_created|date: 'MMM dd yyyy H: mm'"></div>
       </div>
     </div>
     <!-- Expiration time -->

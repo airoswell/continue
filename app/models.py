@@ -640,7 +640,6 @@ class ItemTransactionRecord(models.Model):
             giver = validated_data['giver']
             receiver = validated_data["receiver"]
             transaction.status = new_status
-            import pdb; pdb.set_trace()
             if new_status == "Received":
                 item.owner = receiver
                 item.visibility = "Ex-owners"

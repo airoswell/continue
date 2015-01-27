@@ -37,25 +37,37 @@ class PostList(XListAPIView):
         self.get_object()
         params = request.query_params
         start, num_of_records = self.paginator(request)
-        print "start = %s." % (start)
         if "q" in params:
+            content = params['q']
             areas = ""
             tags = ""
-            content = params['q']
+            secret_key = ""
             if "areas" in params:
                 areas = params["areas"]
             if "tags" in params:
                 tags = params["tags"]
-            s = S(Post)
-            s.config(
+            if "secret_key" in params:
+                secret_key = params['secret_key']
+            sc = S(Post)
+            sc.config(
                 num_of_records=8,
                 start=start,
             )
-            posts = s.__search__(
-                content=content,
-                areas=areas,
-                tags=tags,
-            )
+            if secret_key:
+                posts = sc.__search__(
+                    content=content,
+                    areas=areas,
+                    tags=tags,
+                    visibility="Invitation",
+                    secret_key=secret_key
+                )
+            else:
+                posts = sc.__search__(
+                    content=content,
+                    areas=areas,
+                    tags=tags,
+                    visibility="Public",
+                )
             if not posts:
                 return Response(status=st.HTTP_404_NOT_FOUND)
             posts = [post.object for post in posts]

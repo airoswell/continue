@@ -34,19 +34,6 @@
           });
         }
       });
-      $scope.getLocation = function(val) {
-        return $http.get("https://maps.googleapis.com/maps/api/geocode/json?", {
-          params: {
-            address: val,
-            sensor: false,
-            key: "AIzaSyDNJtDnxxV-COPYMrZqR3hZDd9CbcK766Q"
-          }
-        }).then(function(response) {
-          return response.data.results.map(function(item) {
-            return item.formatted_address;
-          });
-        });
-      };
       $scope.show_detail_editor = function() {
         return $scope.layout.detail_input = true;
       };
@@ -97,7 +84,13 @@
         ];
         tags = tags_array.join(",");
         $scope.post.tags = tags;
-        return $scope.post.save().$then(function(response) {});
+        return $scope.post.save().$then(function(response) {
+          if ("id" in response) {
+            return window.location.replace("/app/post/" + response.id + "/");
+          }
+        }, function(e) {
+          return console.log(e);
+        });
       };
     }
   ]);

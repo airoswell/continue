@@ -609,6 +609,7 @@
             params[key] = this.extra_params[key] || "";
           }
         }
+        console.log("param handling is finished: params = ", params);
         return params;
       };
 

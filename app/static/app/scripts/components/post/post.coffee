@@ -19,18 +19,6 @@ angular.module "continue"
           if $scope.post.tags
             $scope.tags_input = [{"text": tag} for tag in $scope.post.tags][0]
 
-    $scope.getLocation = (val) ->
-      $http.get("https://maps.googleapis.com/maps/api/geocode/json?",
-        params:
-          address: val
-          sensor: false
-          key: "AIzaSyDNJtDnxxV-COPYMrZqR3hZDd9CbcK766Q"
-      ).then (response) ->
-        response.data.results.map (item) ->
-          item.formatted_address
-
-
-
     $scope.show_detail_editor = ()->
       $scope.layout.detail_input = true
 
@@ -67,7 +55,9 @@ angular.module "continue"
       tags = tags_array.join(",")
       $scope.post.tags = tags
       $scope.post.save().$then (response)->
-        # if "id" of response
-        #   window.location.replace("/app/post/#{response.id}/")
+        if "id" of response
+          window.location.replace("/app/post/#{response.id}/")
+      , (e)->
+        console.log e
 
 ]
