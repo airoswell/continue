@@ -1,15 +1,16 @@
 <!-- A transaction record -->
 
 {% load filters %}
-{% with giver = transaction.giver %}
-{% with receiver = transaction.receiver %}
+{% with giver=transaction.giver %}
+{% with receiver=transaction.receiver %}
 <div transaction transaction-id="{{ transaction.id }}">
   {% if transaction.status == "Sent" %}
 
   {%   if giver.id == request.user.id %}
   <span layout='row' layout-align='start center'>
-    <img height=20 src="{{receiver.photo}}" style='vertical-align:center'>
-    &nbsp;&nbsp;{{giver.name}} have&nbsp;<span>{{transaction.status}}</span>&nbsp;<span>{{receiver.name}}</span>&nbsp;<span style='color:#00B411'>{{transaction.item.title}}</span>&nbsp;
+    <img height=20 src="{{giver.photo}}" style='vertical-align:center'>
+    &nbsp;<span class='text-bold'>You</span>&nbsp;have&nbsp;<span>{{transaction.status}}</span>&nbsp;<img height=20 src="{{giver.photo}}" style='vertical-align:center'>
+    &nbsp;<span>{{receiver.name}}</span>&nbsp;<span style='color:#00B411'>{{transaction.item.title}}</span>&nbsp;
     <span class='button button-small button-blue'
         ng-click="transaction.revoke(); location.reload()">
       Revoke
@@ -18,12 +19,9 @@
 
   {%   else %}
   <span layout='row' layout-align='start center'>
-    <img height=20 src="{{giver.photo}}" style='vertical-align:center'>
-    <span class='text-bold'>
-      {{giver.name}}</span> has <span>{{transaction.status|lower}}
-    </span>
-    <span class='text-bold'>{{receiver.name}}</span>
-    an item <span class='text-bold text-blue'>{{transaction.item.title}}</span>
+    <img height=20 src="{{giver.photo}}" style='vertical-align:center'>&nbsp;<span class='text-bold'>{{giver.name}}</span>&nbsp;has&nbsp;<span>{{transaction.status|lower}}
+    </span>&nbsp;
+    <img height=20 src="{{receiver.photo}}" style='vertical-align:center'>&nbsp;<span class='text-bold'>you&nbsp;</span><span class='text-bold text-blue'>{{transaction.item.title}}</span>&nbsp;
     <span class='button button-small button-blue'
         ng-click="transaction.dismiss()">
       Dismiss
@@ -37,24 +35,28 @@
   {%   endif %}
 
   {% elif transaction.status == "Received" %}
-  <span class='text-bold'>{{ receiver.name }}</span> has <span>{{transaction.status|lower}}</span> an item <span class='text-bold text-blue'>{{transaction.item.title}}</span> from <span class='text-bold'>{{ giver.name }}</span>
+
+  {%    if request.user = giver %}
+  <img height=20 src="{{receiver.photo}}" style='vertical-align:center'>&nbsp;<span class='text-bold'>{{ receiver.name }}</span> has <span>{{transaction.status|lower}}</span> an item <span class='text-bold text-blue'>{{transaction.item.title}}</span> from <img height=20 src="{{giver.photo}}" style='vertical-align:center'>&nbsp;<span class='text-bold'>you</span>
+  {%    elif request.user = receiver %}
+  <img height=20 src="{{receiver.photo}}" style='vertical-align:center'>&nbsp;<span class='text-bold'>You</span> have <span>{{transaction.status|lower}}</span> an item <span class='text-bold text-blue'>{{transaction.item.title}}</span> from <img height=20 src="{{giver.photo}}" style='vertical-align:center'>&nbsp;<span class='text-bold'>{{ giver.name }}</span>
   {% endif %}
 
   {% elif transaction.status == "Dismissed" %}
-  {%   if giver.id == request.user.id %}
-  <span>{{giver.name}}</span> has <span>{{transaction.status|lower}}</span> the item <span class='text-bold text-blue'>{{transaction.item.title}}</span>
-  </span>
+  {%   if giver == request.user %}
+  <span class='text-bold text-blue'>{{transaction.item.title}}</span> you sent to <span class="text-bold">{{ receiver.name }}</span> has been dismissed.
   {% else %}
-  You received an item <span>{{transaction.item.title}}</span> from <span>{{giver.name}}</span>
+  <span class="text-bold">You</span> have dismissed <span class="text-bold text-blue">{{ transaction.titem.title }}</span> sent by <span class="text-bold">{{ giver.name }}</span>
   {% endif %}
 
   {% elif transaction.status == "Revoked" %}
   {%   if giver.id == request.user.id %}
-  <span>{{}}</span> have  <span>{{transaction.status|lower}}</span> the item <span>{{transaction.item.title}}</span> that were sent to <span>{{giver.name}}</span>.
+  <span class='text-bold'>You</span> have  <span class='text-bold'>{{transaction.status|lower}}</span> the item <span class="text-bold text-blue">{{transaction.item.title}}</span> that were sent to <span class="text-bold">{{receiver.name}}</span>.
     </span>
   {%   else %} 
-  The item <span>{{transaction.item.title}}</span> from <span>{{giver.name}}</span> has been <span>{{transaction.status|lower}}</span>
+  The item <span class='text-bold text-blue'>{{transaction.item.title}}</span> from <span class='text-bold'>{{giver.name}}</span> has been <span class='text-bold'>{{transaction.status|lower}}</span>
   {%   endif %}
   {% endif %}
-
+{% endwith %}
+{% endwith %}
 </div><!-- END A transaction record -->

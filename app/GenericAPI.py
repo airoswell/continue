@@ -63,17 +63,25 @@ class XDetailAPIView(APIView):
     def put(self, request, pk, format=None):
         # ============================================================
         # Data processing
+        import pdb; pdb.set_trace()
         instance, status = self.get_object(pk=pk)  # Object permission purpose
         if status is st.HTTP_404_NOT_FOUND:
             return Response(data=instance, status=status)
         # Filter the data
+        # - First setup handler
         if hasattr(self, "deSerializer"):
             handler = ErrorHandler(self.deSerializer)
         else:
             handler = ErrorHandler(self.serializer)
         data = request.data
         if hasattr(self, "data_handler"):
+            # - If the api has its own data_handler
+            #   for further processing of the data
+            #   before passing through handler.validate()
             data = self.data_handler(request, handler)
+        else:
+            # - If no, just use the handler.validate()
+            data = handler.validate(request.data)
         errors = handler.errors
         # if errors:
         #     return Response(data=errors)

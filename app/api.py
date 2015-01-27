@@ -465,6 +465,7 @@ class UserDetails(XDetailAPIView):
         for field in extra_fields:
             if field in data:
                 data.pop(field)
+        data = handler.validate(request.data)
         return data
 
 
