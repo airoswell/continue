@@ -93,23 +93,4 @@ angular.module "continue"
       else if (scope.expanded)
         target.css({"max-height": max_height, "overflow": "hidden"})
         scope.expanded = false
-
-
-# Add extra transfer functionality to the drop-down-menu
-.directive "transferMenu", ["Item", (Item)->
-  restrict: "A"
-  link: (scope, element, attrs)->
-    scope.new_owner = undefined
-    item_id = attrs["itemId"]
-    item = Item.$find(item_id)
-    scope.transfer = ()->
-      item.new_owner = scope.new_owner
-      console.log "transferring", scope.item
-      item.save()
-      location.reload()
-    scope.select = (requester_id, requester_name)->
-      scope.new_owner = {
-        id: requester_id
-        username: requester_name
-      }
-]      
+      

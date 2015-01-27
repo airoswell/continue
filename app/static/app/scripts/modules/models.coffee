@@ -213,6 +213,10 @@ angular.module 'continue.models', [
           # Deal with the tags of the items
           if self.items?
             for item in self.items
+              # Set all attached items (that belong to the post owner)
+              # to be public visible
+
+              # Handle the tags of the items
               if item.tags?
                 if typeof(item.tags) == "object"
                   item.tags = item.tags.join(",")
@@ -225,6 +229,7 @@ angular.module 'continue.models', [
         init: init
   })
 ]
+
 
 .factory "Item", ["Model", (Model) ->
 
@@ -248,6 +253,7 @@ angular.module 'continue.models', [
   }
 
   customized_fields_cleaner = (field_type, field_transformer)->
+    # remove empty customized_fields
     if field_type of self
       if self[field_type]
         fields = self[field_type]
@@ -277,7 +283,8 @@ angular.module 'continue.models', [
           is_valid(this)
         pre_save_handler: ()->
           self = this
-          # But if the owner choose a new owner, use the new owner.
+          # In [transfer-menu] directive
+          # transferring will attach a new_owner property
           if "new_owner" of self
             if self["new_owner"]
               self.owner = self['new_owner'].id
@@ -335,9 +342,11 @@ angular.module 'continue.models', [
   })
 ]
 
+
 .factory "BulkItems", ["Model", (Model)->
   return Model.create("/bulk-items/")
 ]
+
 
 .factory "Feed", ["Model", (Model) ->
   return Model.create("/feeds/").mix(

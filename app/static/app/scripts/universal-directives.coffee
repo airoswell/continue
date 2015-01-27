@@ -96,7 +96,7 @@ angular.module("continue")
 
 .directive "angularItemEditMenu", ()->
   restrict: "E"
-  templateUrl: "/static/app/directives/item-edit-menu.html"
+  templateUrl: "/static/app/directives/angular-item-edit-menu.html"
   link: (scope, element, attrs)->
     scope.refresh = false
     if "refresh" in attrs
@@ -172,6 +172,28 @@ angular.module("continue")
         item.remove_from_post = post_id
         item.save()
 ]
+
+
+# Add extra transfer functionality to the drop-down-menu
+.directive "transferMenu", ["Item", (Item)->
+  restrict: "A"
+  scope: true
+  link: (scope, element, attrs)->
+    scope.new_owner = undefined
+    item_id = attrs["itemId"]
+    item = Item.$find(item_id)
+    scope.transfer = ()->
+      item.new_owner = scope.new_owner
+      console.log "transferring", scope.item
+      item.save()
+      location.reload()
+    scope.select = (requester_id, requester_name)->
+      scope.new_owner = {
+        id: requester_id
+        username: requester_name
+      }
+]
+
 
 .directive "itemTitle", ()->
   restrct: "E"

@@ -272,6 +272,8 @@ class Item(models.Model):
         """
         # Typically validated_data should be feed with empty
         # customized_num/char_fields, when they are not specified.
+        num_fields_data = []
+        char_fields_data = []
         if "customized_num_fields" in validated_data:
             num_fields_data = validated_data.pop('customized_num_fields')
         if "customized_char_fields" in validated_data:
@@ -283,12 +285,16 @@ class Item(models.Model):
             original_value="", new_value=""
         )
         item.save()
-        for data in num_fields_data:
-            data['item'] = item
-            field = CustomizedNumField.objects.create(
-                **data
-            )
-            print(field)
+        fields_data = {
+            CustomizedNumField: num_fields_data,
+            CustomizedCharField: char_fields_data
+        }
+
+        for model, field_data in fields_data.items():
+            for data in field_data:
+                data['item'] = item
+                model.objects.create(**data)
+
         return item
 
     @classmethod
@@ -495,7 +501,9 @@ class Post(models.Model):
         if queryset.update(**post_data) == 0:
             return None, ["Updated zero posts."]
         post = queryset[0]
-        if items_data is None:
+        # If there is no further items to be handled
+        # just return
+        if not items_data:
             return post, errors
         current_item_list = [item.id for item in post.items.all()]
         for item_data in items_data:
@@ -519,7 +527,8 @@ class Post(models.Model):
                 except Item.DoesNotExist, e:
                     errors.append(e.message)
                     pass
-            else:       # Items that are brand new
+            # Items that are brand new
+            else:
                 post.add_item(item_data)
         post.save()     # To trigger Haystack to run update_index
         return post, errors

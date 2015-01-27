@@ -56,7 +56,7 @@ angular.module "continue"
 
 
 
-.factory "ItemEditor", ["Item", "BS", (Item, BS)->
+.factory "ItemEditor", ["Item", "BS", "Auth", (Item, BS, Auth)->
   return{
     item: {}
     monitor: 0
@@ -92,9 +92,10 @@ angular.module "continue"
           self.monitor += 1
           console.log "self.deferred.promise", self.deferred.promise
           return self.deferred.promise
-      else
+      else    # create brand new item
         self.item = Item.$build(Item.init)
         self.item.is_new = true
+        self.item.owner = Auth.get_profile().user_id
         # the item should be Public
         # since the bottom sheet is called in post editor
         self.item.visibility = "Public"

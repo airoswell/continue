@@ -97,11 +97,7 @@
         ];
         tags = tags_array.join(",");
         $scope.post.tags = tags;
-        return $scope.post.save().$then(function(response) {
-          if ("id" in response) {
-            return window.location.replace("/app/post/" + response.id + "/");
-          }
-        });
+        return $scope.post.save().$then(function(response) {});
       };
     }
   ]);

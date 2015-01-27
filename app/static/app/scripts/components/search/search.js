@@ -100,30 +100,6 @@
         });
       }
     };
-  }).directive("transferMenu", [
-    "Item", function(Item) {
-      return {
-        restrict: "A",
-        link: function(scope, element, attrs) {
-          var item, item_id;
-          scope.new_owner = void 0;
-          item_id = attrs["itemId"];
-          item = Item.$find(item_id);
-          scope.transfer = function() {
-            item.new_owner = scope.new_owner;
-            console.log("transferring", scope.item);
-            item.save();
-            return location.reload();
-          };
-          return scope.select = function(requester_id, requester_name) {
-            return scope.new_owner = {
-              id: requester_id,
-              username: requester_name
-            };
-          };
-        }
-      };
-    }
-  ]);
+  });
 
 }).call(this);

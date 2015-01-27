@@ -53,7 +53,7 @@
       };
     }
   ]).factory("ItemEditor", [
-    "Item", "BS", function(Item, BS) {
+    "Item", "BS", "Auth", function(Item, BS, Auth) {
       return {
         item: {},
         monitor: 0,
@@ -88,6 +88,7 @@
           } else {
             self.item = Item.$build(Item.init);
             self.item.is_new = true;
+            self.item.owner = Auth.get_profile().user_id;
             self.item.visibility = "Public";
             self.deferred = BS.bringUp("item-editor");
             self.monitor += 1;

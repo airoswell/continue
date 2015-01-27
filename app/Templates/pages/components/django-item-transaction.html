@@ -31,33 +31,19 @@
   
   <div>
   {% load filters %}
-  {% if event.model_name == "ItemTransactionRecord" %}
-        <div>
+    {% if event.model_name == "ItemTransactionRecord" %}
+    <div>
         {% if event.status == "Sent"%}
-
-          {% if event.giver == request.user %}
-          <span>{{ subject }} have sent item {{ event.item }}</span> to {{ event.receiver }}
-
-          {% elif event.receiver == request.user %}
           <span>
-           {{ event.giver }} has sent {{ subject|proper_case }} an item {{ event.item }}
+            <span class='text-bold'>{{ event.giver.name }}</span> has sent <span class='text-bold'>{{ event.receiver.name }}</span> an <span class='text-bold text-blue'>item {{ event.item.title }}</span>
           </span>
-          {% endif %}
 
         {% elif event.status == "Received" or event.status == "Rejected" %}
-          {% if event.giver == request.user %}
-          <span>{{event.receiver}} has {{event.status}} item {{ event.item}} from you. </span>
-          {% elif event.receiver == request.user %}
-          <span>{{ subject }} {{event.status}} item {{event.item}} from {{ event.giver }}</span>
-          {% endif %}
+          <span>{{ event.receiver.name }} {{event.status}} item {{event.item}} from {{ event.giver }}</span>
 
         {% elif event.status == "Revoked" %}
-          {% if event.giver == request.user %}
-          <span>{{ subject }} have revoked item {{ event.item}} that were sent to {{ event.receiver }}. </span>
-          {% elif event.receiver == request.user %}
           <span>Item {{event.item}} from {{ event.giver }} has been revoked.</span>
         {% endif %}
-      {% endif %}
     </div>        
 
   {% endif %}

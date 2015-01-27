@@ -105,17 +105,6 @@
         });
       }
     };
-  }).directive("angularItemEditMenu", function() {
-    return {
-      restrict: "E",
-      templateUrl: "/static/app/directives/angular-item-edit-menu.html",
-      link: function(scope, element, attrs) {
-        scope.refresh = false;
-        if (__indexOf.call(attrs, "refresh") >= 0) {
-          return scope.refresh = attrs["refresh"];
-        }
-      }
-    };
   }).directive("followButtonArea", [
     "Auth", "Alert", function(Auth, Alert) {
       return {
@@ -141,7 +130,18 @@
         }
       };
     }
-  ]).directive("itemEditButton", [
+  ]).directive("angularItemEditMenu", function() {
+    return {
+      restrict: "E",
+      templateUrl: "/static/app/directives/angular-item-edit-menu.html",
+      link: function(scope, element, attrs) {
+        scope.refresh = false;
+        if (__indexOf.call(attrs, "refresh") >= 0) {
+          return scope.refresh = attrs["refresh"];
+        }
+      }
+    };
+  }).directive("itemEditButton", [
     "ItemEditor", "$rootScope", function(ItemEditor, $rootScope) {
       return {
         restrict: "A",
@@ -234,6 +234,31 @@
               item.remove_from_post = post_id;
               return item.save();
             });
+          };
+        }
+      };
+    }
+  ]).directive("transferMenu", [
+    "Item", function(Item) {
+      return {
+        restrict: "A",
+        scope: true,
+        link: function(scope, element, attrs) {
+          var item, item_id;
+          scope.new_owner = void 0;
+          item_id = attrs["itemId"];
+          item = Item.$find(item_id);
+          scope.transfer = function() {
+            item.new_owner = scope.new_owner;
+            console.log("transferring", scope.item);
+            item.save();
+            return location.reload();
+          };
+          return scope.select = function(requester_id, requester_name) {
+            return scope.new_owner = {
+              id: requester_id,
+              username: requester_name
+            };
           };
         }
       };

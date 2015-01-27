@@ -67,7 +67,7 @@ angular.module "continue"
       tags = tags_array.join(",")
       $scope.post.tags = tags
       $scope.post.save().$then (response)->
-        if "id" of response
-          window.location.replace("/app/post/#{response.id}/")
+        # if "id" of response
+        #   window.location.replace("/app/post/#{response.id}/")
 
 ]
