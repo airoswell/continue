@@ -77,7 +77,7 @@
 
     <!-- item list of the post -->
     <div ng-repeat="item in post.items"
-         ng-if="(item.visibility == 'Public' && item.owner == post.owner) || (item.visibility == 'Ex-owners' && (profile.user_id|previously_owned:item)) "layout='row' flex>
+         ng-if="(item.visibility == 'Public') || (item.visibility == 'Ex-owners' && (profile.user_id|previously_owned:item))" layout='row' flex>
       <angular-item-overview flex></angular-item-overview>
     </div>
   </div> <!-- post body end -->

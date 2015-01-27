@@ -7,8 +7,8 @@
   {%   if transaction.giver.id == request.user.id %}
   <span layout='row' layout-align='start center'>
     <img height=20 src="{{transaction.receiver.photo}}" style='vertical-align:center'>
-    &nbsp;&nbsp;You have&nbsp;<span>{{transaction.status}}</span>&nbsp;<span>{{transaction.receiver.name}}</span>&nbsp;<span style='color:#00B411'>{{transaction.item.title}}</span>&nbsp;
-    <span class='button button-small button-gray'
+    &nbsp;&nbsp;{{transaction.giver.name}} have&nbsp;<span>{{transaction.status}}</span>&nbsp;<span>{{transaction.receiver.name}}</span>&nbsp;<span style='color:#00B411'>{{transaction.item.title}}</span>&nbsp;
+    <span class='button button-small button-blue'
         ng-click="transaction.revoke(); location.reload()">
       Revoke
     </span>
@@ -17,14 +17,17 @@
   {%   else %}
   <span layout='row' layout-align='start center'>
     <img height=20 src="{{transaction.giver.photo}}" style='vertical-align:center'>
-    <span>{{transaction.giver.username}}</span> has <span>{{transaction.status|lower}}</span> you
-    an item <span>{{transaction.item.title}}</span>
-    <span class='button button-small button-gray'
+    <span class='text-bold'>
+      {{transaction.giver.username}}</span> has <span>{{transaction.status|lower}}
+    </span>
+    <span class='text-bold'>{{transaction.receiver.name}}</span>
+    an item <span class='text-bold text-blue'>{{transaction.item.title}}</span>
+    <span class='button button-small button-blue'
         ng-click="transaction.dismiss()">
       Dismiss
     </span>
     &nbsp;
-    <span class='button button-small button-gray'
+    <span class='button button-small button-blue'
         ng-click="transaction.receive()">
       Receive
     </span>
