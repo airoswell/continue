@@ -37,6 +37,13 @@
     </div>
     &nbsp;&nbsp;&nbsp;&nbsp;
     {% endif %}
+    {% if item.available != "No" %}
+    <div>
+      <div style='color: #999'>Available</div>
+      <div style='font-weight:600'>{{ item.available }}</div>
+    </div>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    {% endif %}
   {% if view == "search" %}
     <!-- In a post, if the item has a different owner than the post -->
     <!-- that means the item has been transferred. -->
