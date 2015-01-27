@@ -63,7 +63,6 @@ class XDetailAPIView(APIView):
     def put(self, request, pk, format=None):
         # ============================================================
         # Data processing
-        import pdb; pdb.set_trace()
         instance, status = self.get_object(pk=pk)  # Object permission purpose
         if status is st.HTTP_404_NOT_FOUND:
             return Response(data=instance, status=status)

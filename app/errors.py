@@ -19,7 +19,6 @@ class ErrorHandler:
             return data_serialized.validated_data
         self.errors = data_serialized.errors
         print("\t\nErrorHandler.validate() ==> %s" % (self.errors))
-        import pdb; pdb.set_trace()
         for field in data_serialized.errors:
             for msg in data_serialized.errors[field]:
                 if msg != "This field may not be blank.":
