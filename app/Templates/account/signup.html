@@ -30,69 +30,89 @@
   .social-account.facebook{
     background: #3B5998;
   }
+  .social-account.weibo{
+    background: #E6162D;
+  }
 </style>
-<div layout="row" layout-sm='column' layout-align='center'>
-  <div style='background: #f9f9f9;padding:20px 40px;border:1px solid #eee;margin:10px;'>
-    <div class='section-title section-title-large'
-        style='border-bottom:2px solid #ccc;padding-bottom:10px;'>
-      Sign up for a <b>Continue</b> account
-    </div>
 
-    <div class="text-default" style='line-height:40px;'>
-      {% blocktrans %}
-      Already have an account? Then please <b style='background:#eee;padding:5px 10px;'><a href="{{ login_url }}">sign in</a></b>.
-      {% endblocktrans %}
-    </div>
+<br/><br/>
+<div layout='row' layout-align='center'>
+  <div layout="row" layout-sm='column' layout-align='center'>
+    <div style='background: #fff;padding:20px 40px;border:1px solid #eee;margin:10px;'>
+      <div class='section-title section-title-large text-blue'
+          style='border-bottom:2px solid #ccc;padding-bottom:10px;'>
+        Sign up for a <b>WorldSheet</b> account
+      </div>
 
-    <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
-      {% csrf_token %}
-      {{ form.as_p }}
-      {% if redirect_field_value %}
-      <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-      {% endif %}
-      <button class='button button-default' type="submit">{% trans "Sign Up" %} &raquo;</button>
-    </form>
-  </div>
+      <div class="text-default" style='line-height:40px;'>
+        {% blocktrans %}
+        Already have an account? Then please <a href="{{ login_url }}"><span class='button button-small button-blue'>sign in</span></a>.
+        {% endblocktrans %}
+      </div>
 
-  <div layout='column' layout-align='start center' style='background: #f9f9f9;padding:20px 40px;border:1px solid #eee;margin:10px;'>
-    <div class='section-title section-title-large'>
-      Or sign up with your online accounts 
-    </div>
-    <div class='text-large'>
-      <b>(Google below is NOT available, not until we have an official domain )</b>
-    </div>
-    <div class='text-large'>
-      <b>Please try Facebook or manual sign up on the left.</b>
-    </div>
-    <br/>
-    <div layout>
-    <a href="/app/user/google/login/?process=login">
-      <div class="social-account google" layout='row'>
-        <div style='border-right:1px solid #ddd;' layout='column' layout-align='center'>
-          <div style='font-family:times new Roman;font-size:24px;line-height:5px;padding-left:5px;'>&nbsp;g<i class="fa fa-plus" style='font-size:10px;padding-left:2px;padding-right:10px'></i></div>
+      <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+        {% endif %}
+        <div layout='row' layout-align='end'>
+          <button class='button button-default button-blue' type="submit">
+            {% trans "Sign Up" %} &raquo;
+          </button>
         </div>
-        <div layout='column' layout-align='center'>
-          <div style='padding:10px 20px;'>Sign in with Google</div>
+      </form>
+    </div>
+
+    <div layout='column' layout-align='start center' style='background: #fff;padding:20px 40px;border:1px solid #eee;margin:10px;'>
+      <div class='section-title section-title-large'>
+        Or sign up with your online accounts 
+      </div>
+      <br/>
+      <div>
+        <div layout>
+          <a href="/app/user/google/login/?process=login">
+            <div class="social-account google" layout='row'>
+              <div style='border-right:1px solid #ddd;padding-left:15px;padding-right:15px;' layout='column' layout-align='center'>
+                <i class="fa fa-google-plus"></i>
+              </div>
+              <div layout='column' layout-align='center'>
+                <div style='padding:10px 20px;'>Sign in with Google</div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <br/>
+        <div layout>
+          <a href="/app/user/facebook/login/?process=login">
+            <div class="social-account facebook" layout='row'>
+              <div style='border-right:1px solid #ddd;padding-right:15px;padding-left:15px;' layout='column' layout-align='center'>
+                <i class="fa fa-facebook-official"></i>
+              </div>
+              <div layout='column' layout-align='center'>
+                <div style='padding:10px 20px;'>Sign in with Facebook</div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <br/>
+        <div layout>
+          <a title="Weibo" href="/app/user/weibo/login/?process=login">
+            <div class="social-account weibo" layout='row'>
+              <div style='border-right:1px solid #ddd;padding-right:15px;padding-left:15px;' layout='column' layout-align='center'>
+                <i class="fa fa-weibo"></i>
+              </div>
+              <div layout='column' layout-align='center'>
+                <div style='padding:10px 20px;'>Sign in with Weibo</div>
+              </div>
+            </div>
+          </a>
         </div>
       </div>
-    </a>
-  </div>
-  <br/>
-  <div layout>
-    <a href="/app/user/facebook/login/?process=login">
-      <div class="social-account facebook" layout='row'>
-        <div style='padding-right:5px;' layout='column' layout-align='center'>
-          <div style='font-family:Source Code Pro;background:#fff;color:#3B5998;font-size:22px;border-radius:2px;margin-left:10px'>&nbsp;f</div>
-        </div>
-        <div layout='column' layout-align='center'>
-          <div style='padding:10px 20px;'>Sign in with Facebook</div>
-        </div>
-      </div>
-    </a>
-  </div>
-  <br/>
-  </div>
+      
+    </div>
 
+  </div>
 </div>
 
 {% endblock %}

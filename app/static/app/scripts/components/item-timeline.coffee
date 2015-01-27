@@ -10,7 +10,10 @@ angular.module "continue"
         timeline: true
       display_section: "timeline"
       display_record: undefined
+      display_records: []
     }
+
+    $scope.field_records_dict = {}
 
     $scope.$watch "item_id", ()->
       $scope.timeline = ItemTimeline.$search(
@@ -41,19 +44,28 @@ angular.module "continue"
       , ()->
         Alert.show_msg("All timeline events are downloaded ...")
 
-
-    $scope.search_field = (field_title)->
+    $scope.add_field = (field_title)->
       Alert.show_msg("Downloading your data ...")
       $scope.layout.display_section = "field-records"
-      $scope.layout.display_record = field_title
-      $scope.field_records = Update.$search(
+      field_record = Update.$search(
         item_id: $scope.item_id
         field: field_title
       )
-      $scope.field_records.$then (response)->
+      $scope.field_records_dict[field_title] = (field_record)
+      field_record.$then (response)->
         console.log "response", response
         Alert.show_msg("Done.")
       , (e)->
         console.log "error"
+
+
+    $scope.clear = ()->
+      $scope.layout.display_section = "timeline"
+      $scope.field_records_dict = {}
+
+    $scope.is_displaying = (field_title)->
+      if field_title of $scope.field_records_dict
+        return true
+      false
 
 ]

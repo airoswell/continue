@@ -8,8 +8,10 @@
           timeline: true
         },
         display_section: "timeline",
-        display_record: void 0
+        display_record: void 0,
+        display_records: []
       };
+      $scope.field_records_dict = {};
       $scope.$watch("item_id", function() {
         return $scope.timeline = ItemTimeline.$search({
           item_id: $scope.item_id,
@@ -40,20 +42,31 @@
           return Alert.show_msg("All timeline events are downloaded ...");
         });
       };
-      return $scope.search_field = function(field_title) {
+      $scope.add_field = function(field_title) {
+        var field_record;
         Alert.show_msg("Downloading your data ...");
         $scope.layout.display_section = "field-records";
-        $scope.layout.display_record = field_title;
-        $scope.field_records = Update.$search({
+        field_record = Update.$search({
           item_id: $scope.item_id,
           field: field_title
         });
-        return $scope.field_records.$then(function(response) {
+        $scope.field_records_dict[field_title] = field_record;
+        return field_record.$then(function(response) {
           console.log("response", response);
           return Alert.show_msg("Done.");
         }, function(e) {
           return console.log("error");
         });
+      };
+      $scope.clear = function() {
+        $scope.layout.display_section = "timeline";
+        return $scope.field_records_dict = {};
+      };
+      return $scope.is_displaying = function(field_title) {
+        if (field_title in $scope.field_records_dict) {
+          return true;
+        }
+        return false;
       };
     }
   ]);

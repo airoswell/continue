@@ -46,28 +46,32 @@
 
       <div><b>Numerics</b></div>
       <div style='margin-top:10px;'>
-        {% for field in item.customized_char_fields.all %}
+        {% for field in item.customized_num_fields.all %}
         <span class="button button-small button-gray"
-            ng-class="{'displaying': layout.display_record == '{{field.title}}'}"
-            ng-click="search_field('{{field.title}}')">
+            ng-class="{'displaying': is_displaying('{{field.title}}')}"
+            ng-click="add_field('{{field.title}}')">
           {{field.title}}
         </span>
+        {% empty %}
+        <span>No customized numeric record</span>
         {% endfor %}
       </div>
       <br/>
 
       <div><b>Texts</b></div>
       <div style='margin-top:10px;'>
-        {% for field in item.customized_num_fields.all %}
+        {% for field in item.customized_char_fields.all %}
         <span class="button button-small button-gray"
-            ng-class="{'displaying': layout.display_record == '{{field.title}}'}"
-            ng-click="search_field('{{field.title}}')">{{field.title}}</span>
+            ng-class="{'displaying': is_displaying('{{field.title}}')}"
+            ng-click="add_field('{{field.title}}')">{{field.title}}</span>
+        {% empty %}
+        <span>No customized text record</span>
         {% endfor %}
       </div>
 
       <div layout='row' layout-align='end'>
         <div class='button button-small button-blue'
-            ng-click="layout.display_section='timeline';layout.display_record=undefined">
+            ng-click="clear()">
           Clear
         </div>
       </div>
@@ -95,7 +99,7 @@
     </div>
 
     <!-- ==== Updates of specific fields ==== -->
-    <div ng-show="layout.display_section == 'field-records' ">
+    <!-- <div ng-show="layout.display_section == 'field-records' ">
       <div ng-repeat="event in field_records">
         <div layout='row' flex-gt-md="90">
           <div style='margin-top:20px;text-align:right'
@@ -111,6 +115,27 @@
           <div flex>
             <angular-item-update></angular-item-update>
           </div>
+        </div>
+      </div>
+    </div> -->
+
+    <div ng-show="layout.display_section == 'field-records' "
+        ng-repeat="(field_title, field_records) in field_records_dict" ng-cloak flex-gt-md="90" flex="100" layout='row'>
+
+
+      <div style='margin-top:20px;text-align:right' flex-gt-md="20"></div>
+      <div class="post-container">
+        <div>
+          <span class="text-large" ng-bind="field_title"></span>
+          <span class="text-gray" ng-bind="field_records[field_records.length - 1].time_updated|date: 'MMM dd yyyy'"></span> - 
+          <span class="text-gray" ng-bind="field_records[0].time_updated|date: 'MMM dd yyyy'">
+          </span>
+        </div>
+        <br/>
+        <div style='padding:5px;' ng-repeat="event in field_records">
+          <span style='padding:10px;' class='text-light-gray'
+              ng-bind="event.time_updated|date: 'MMM dd yyyy'"></span>
+          <b><span style='padding:10px;' class='text-blue' ng-bind="event.new_value"></span></b>
         </div>
       </div>
     </div>
