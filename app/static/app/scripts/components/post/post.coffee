@@ -21,6 +21,8 @@ angular.module "continue"
 
     $scope.show_detail_editor = ()->
       $scope.layout.detail_input = true
+      $("textarea").resize()
+      return true
 
     $scope.select_item = ()->
       Alert.show_msg("Loading your items ...")

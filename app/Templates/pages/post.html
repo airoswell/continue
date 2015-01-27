@@ -8,6 +8,7 @@
   }
   .post-editor{
     min-height: 680px;background: #fff;box-shadow: 0px 3px 8px #ccc;
+    padding-bottom: 40px;
   }
   .post-editor .post-title{
     background:#f9f9f9;padding:20px;border-bottom:1px dashed #ddd;
@@ -181,14 +182,21 @@
 
         <!-- ======== Buttons ======== -->
         <div layout='row' layout-align='end'>
-          <div class='button button-small button-gray'
-              ng-click="add_new_item()">Add new item</div>
-          <div class='button button-small button-gray'
-              ng-click="select_item()">Add existing item</div>
-          <div ng-click="reset()" class='button button-small button-gray'>
-            Reset
+          <div class='button button-small button-blue'
+              ng-click="add_new_item()">
+            <i class='fa fa-plus'></i>&nbsp;Add new item</div>
+          &nbsp;
+          <div class='button button-small button-blue'
+              ng-click="select_item()">
+            <i class='fa fa-plus'></i>&nbsp;Add existing item</div>
+          &nbsp;
+          <div ng-click="reset()" class='button button-small button-blue'>
+            <i class="fa fa-refresh"></i>&nbsp;Reset
           </div>
-          <div ng-click="save()" class='button button-small button-gray'>Save</div>
+          &nbsp;
+          <div ng-click="save()" class='button button-small button-blue'>
+            <i class="fa fa-floppy-o"></i>&nbsp;Save
+          </div>
         </div>
       </div>
     </div>

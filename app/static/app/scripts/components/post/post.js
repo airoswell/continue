@@ -35,7 +35,9 @@
         }
       });
       $scope.show_detail_editor = function() {
-        return $scope.layout.detail_input = true;
+        $scope.layout.detail_input = true;
+        $("textarea").resize();
+        return true;
       };
       $scope.select_item = function() {
         Alert.show_msg("Loading your items ...");
