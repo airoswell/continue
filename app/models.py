@@ -285,15 +285,15 @@ class Item(models.Model):
             original_value="", new_value=""
         )
         item.save()
-        fields_data = {
+        model_data_pairs = {
             CustomizedNumField: num_fields_data,
             CustomizedCharField: char_fields_data
         }
 
-        for model, field_data in fields_data.items():
-            for data in field_data:
-                data['item'] = item
-                model.objects.create(**data)
+        for model, field_data in model_data_pairs.items():
+            item.update_or_create_customized_fields(
+                model, field_data,
+            )
 
         return item
 
@@ -323,10 +323,12 @@ class Item(models.Model):
         item = queryset[0]
         owner_changed = False
         errors = []
-        item.update_customized_fields(
+
+        # update customized fields
+        item.update_or_create_customized_fields(
             CustomizedNumField, customized_num_fields_data
         )
-        item.update_customized_fields(
+        item.update_or_create_customized_fields(
             CustomizedCharField, customized_char_fields_data
         )
         for field in item.tracked_fields:
@@ -384,7 +386,10 @@ class Item(models.Model):
         print("\t\t Item.update() ==> errors: %s" % (errors))
         return queryset[0], errors
 
-    def update_customized_fields(self, model, customized_fields_data):
+    def update_or_create_customized_fields(
+            self, model, customized_fields_data
+    ):
+        import pdb; pdb.set_trace()
         for field_data in customized_fields_data:
             field_data["item"] = self
             try:
