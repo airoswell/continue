@@ -2,12 +2,12 @@
   <div>
     
     <!-- Header -->
-    <div layout='column' layout-gt-lg="row">
-      <item-editor-pro-title></item-editor-pro-title>
-      <item-editor-pro-basics flex></item-editor-pro-basics>
+    <div class='item-editor-pro-header' layout='column' layout-gt-lg="row">
+      <item-editor-pro-title flex></item-editor-pro-title>
+      <item-editor-pro-basics></item-editor-pro-basics>
     </div>
 
-    <div ng-if="item.tags || item.tags_private">
+    <div style='padding:5px;' ng-if="item.tags.length * item.tags_private.length">
       <span class='tag tag-small tag-gray'
         ng-repeat="tag in item.tags" ng-bind='tag' ng-click="items_search(tag)">
       </span>
@@ -15,7 +15,7 @@
         ng-repeat="tag in item.tags_private" ng-bind='tag' ng-click="items_search(tag)">
       </span>
     </div>
-    <div class='text-default' style="color:#999;letter-spacing:0.2px;line-height:1.5;" ng-show='item.status'>
+    <div style='padding:5px;' class='text-default' style="color:#999;letter-spacing:0.2px;line-height:1.5;" ng-show='item.status'>
       &nbsp;<i class="fa fa-quote-left"></i>&nbsp;&nbsp;<span ng-bind="item.status" ></span>
     </div>
     <textarea
@@ -30,9 +30,11 @@
       </div>
     </div>
 
-    <item-editor-pro-more ng-show='item.expanded'></item-editor-pro-more>
+    <div style='padding:10px;'>
+      <item-editor-pro-more ng-show='item.expanded'></item-editor-pro-more>
+    </div>
 
-    <div layout='row' layout-align='end'>
+    <div style="padding:10px;" layout='row' layout-align='end'>
       <div class='button button-small button-gray'
           ng-click="expand(item)">
         <span ng-show="!item.expanded">More</span>

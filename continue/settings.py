@@ -213,7 +213,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'postman.context_processors.inbox',     # Django-postman
 )
 
-LOGIN_REDIRECT_URL = "/app/"
+LOGIN_REDIRECT_URL = "/app/user/dashboard/"
 ROOT_URL = '/app/'
 
 # ====================
