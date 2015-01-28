@@ -137,14 +137,12 @@
       
 
     </div>
-
     <div>
       {% if item.owner != request.user %}
       <!-- Request Button or check mark -->
       <!-- Only the third party (neither the owner of the post nor the item) -->
       <!-- can see the following components                                  -->
       {%   if view == "search" and item.owner == post.owner and item.available != "No" or view == "dashboard" and item.available != "No" or view == 'timeline' and item.available != "No" %}
-      <!-- If the post owner still owns the item -->
       {%       if request.user in item.requesters.all %}
         <div layout='column'>
           <div item-id="{{ item.id }}" class="add-item disabled">
@@ -154,7 +152,9 @@
       <!-- If the user has NOT requested the item, then show the -->
       <!-- add item button                                       -->
       {%       else %}
+
         <div layout='column'>
+         owner = {{ item.owner.id }}{{request.user.id}}
           <div item-id="{{ item.id }}" class="add-item"
               ng-click="add_item()"
               ng-class="{'active': items.indexOf(item_id) > -1}">
@@ -166,6 +166,7 @@
 
 
       {% elif request.user == item.owner %}
+      owner = {{ item.owner.id }}{{request.user.id}}
       {%   if view == "search" and request.user == post.owner %}
       <div>
       {%     include 'pages/components/django-item-edit-menu.html' %}

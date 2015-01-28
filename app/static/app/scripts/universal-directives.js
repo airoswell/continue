@@ -250,8 +250,7 @@
           scope.transfer = function() {
             item.new_owner = scope.new_owner;
             console.log("transferring", scope.item);
-            item.save();
-            return location.reload();
+            return item.save();
           };
           return scope.select = function(requester_id, requester_name) {
             return scope.new_owner = {

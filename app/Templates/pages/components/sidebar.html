@@ -20,7 +20,7 @@
         <div class='text-large'>{{ target_user.name }}</div>
         <div>{{ target_user.primary_area }}</div>
         {% elif view == "dashboard" %}
-        <div class='text-large'>{{ request.user.name }}</div>
+        <div class='text-large'>{{ request.user.name }}{{request.user.id}}</div>
         <div>{{ request.user.primary_area }}</div>
         {% endif %}
       </div>

@@ -186,7 +186,7 @@ angular.module("continue")
       item.new_owner = scope.new_owner
       console.log "transferring", scope.item
       item.save()
-      location.reload()
+      # location.reload()
     scope.select = (requester_id, requester_name)->
       scope.new_owner = {
         id: requester_id

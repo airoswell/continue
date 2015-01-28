@@ -187,7 +187,7 @@
         detail: "",
         items: [],
         is_new: true,
-        visibility: "Private"
+        visibility: "Public"
       };
       add_item = function(self) {
         var item;

@@ -323,7 +323,6 @@ class Item(models.Model):
         item = queryset[0]
         owner_changed = False
         errors = []
-
         # update customized fields
         item.update_or_create_customized_fields(
             CustomizedNumField, customized_num_fields_data
@@ -389,7 +388,6 @@ class Item(models.Model):
     def update_or_create_customized_fields(
             self, model, customized_fields_data
     ):
-        import pdb; pdb.set_trace()
         for field_data in customized_fields_data:
             field_data["item"] = self
             try:

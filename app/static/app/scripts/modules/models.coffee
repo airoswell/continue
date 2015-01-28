@@ -144,7 +144,7 @@ angular.module 'continue.models', [
     detail: ""
     items: []
     is_new: true
-    visibility: "Private"
+    visibility: "Public"
   }
 
   # Record method
