@@ -32,13 +32,16 @@
         var areas, tags;
         areas = $scope.tags_to_string($scope.areas_tags);
         tags = $scope.tags_to_string($scope.tags_tags);
+        console.log(tags);
         $("input[name=areas]").val(areas);
         $("input[name=tags]").val(tags);
+        console.log($("input[name=tags]").val());
         document.getElementById('search-form').submit();
         $("input").val("");
       };
       $scope.tags_to_string = function(input_tags) {
         var areas, tag;
+        console.log("tags_to_string", input_tags);
         if (input_tags) {
           areas = [
             (function() {

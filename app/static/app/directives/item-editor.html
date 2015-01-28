@@ -3,6 +3,7 @@
   .dashboard-item-overview{
       padding: 10px 15px;
       box-shadow: 0px 3px 5px #ddd;
+      background: #fff;
   }
 
 
@@ -41,7 +42,7 @@
   }
   .choice-result{
       font-size:14px;cursor: pointer;
-      border: 2px;font-weight: 600;padding: 0px 10px 5px 10px;
+      border: 2px;font-weight: 600;
   }
   .choice-option {
       padding: 10px 15px;font-size: 14px;cursor: pointer;
@@ -67,104 +68,106 @@
   }
 </style>
 
-<form item-editor transition class='dashboard-item-overview' name='{{"item-form-" + item["id"]}}' flex>
+<div layout='row' layout-align='center'>
+  <form item-editor transition class='dashboard-item-overview' name='{{"item-form-" + item["id"]}}' flex-gt-lg="80" flex-gt-md="90" flex="100">
 
-  <div layout='row'>
-    <div layout='column' layout-align='center' ng-if='item.pic' flex>
-      <img ng-src="{{item.pic}}" style='margin:10px;width:80%'>
-    </div>
-    <!-- ================================== -->
-    <!-- ======== Left basic panel ======== -->
-    <div flex style='margin:20px 10px 10px;'>
-      <!-- Title & quantity -->
-      <div layout='row' layout-align='space-between center'>
-        <div layout='row'>
-          <div class='post-item'>
-            <div layout='row' layout-align='space-between center' flex>
-              <auto-expand short-title data='item.title'>
-                <input type='text' style='border:none'
-                    ng-model="item.title" placeholder="Item title">
-              </auto-expand>
-              <div>
-                <input type='text' ng-model="item.quantity" style='width: 35px;
-    border: none;background: #fff;text-align: center;padding: 5px;color: #00B411;font-weight: 600;'>
+    <div layout='row'>
+      <div layout='column' layout-align='center' ng-if='item.pic' flex>
+        <img ng-src="{{item.pic}}" style='margin:10px;width:80%'>
+      </div>
+      <!-- ================================== -->
+      <!-- ======== Left basic panel ======== -->
+      <div flex style='margin:20px 10px 10px;'>
+        <!-- Title & quantity -->
+        <div layout='row' layout-align='space-between center'>
+          <div layout='row'>
+            <div class='post-item'>
+              <div layout='row' layout-align='space-between center' flex>
+                <auto-expand short-title data='item.title'>
+                  <input type='text' style='border:none'
+                      ng-model="item.title" placeholder="Item title">
+                </auto-expand>
+                <div>
+                  <input type='text' ng-model="item.quantity" style='width: 35px;
+      border: none;background: #fff;text-align: center;padding: 5px;color: #00B411;font-weight: 600;'>
+                </div>
               </div>
             </div>
           </div>
+          
+          <div layout='row' ng-switch on="item.visibility">
+            <i class="fa fa-globe" style='font-size:20px;' ng-switch-when="Public"></i>
+            <i class="fa fa-lock" style='font-size:20px;' ng-switch-when="Private"></i>
+            <i class="fa fa-users" style='font-size:20px;' ng-switch-when="Ex-owners"></i>
+          </div>
         </div>
-        
-        <div layout='row' ng-switch on="item.visibility">
-          <i class="fa fa-globe" style='font-size:20px;' ng-switch-when="Public"></i>
-          <i class="fa fa-lock" style='font-size:20px;' ng-switch-when="Private"></i>
-          <i class="fa fa-users" style='font-size:20px;' ng-switch-when="Ex-owners"></i>
-        </div>
+
+        <!-- status input area -->
+        <div class='text-default item-status' style='line-height:22px;color:#666;' ng-bind="item.status"></div>
+        <textarea
+            style='border-color:#ccc;'
+            placeholder="What's new with it? (up to 300 characters ...)"
+            rows='3'
+            ng-model="item.new_status">
+        </textarea>
       </div>
 
-      <!-- status input area -->
-      <div class='text-default item-status' style='line-height:22px;color:#666;' ng-bind="item.status"></div>
-      <textarea
-          style='border-color:#ccc;'
-          placeholder="What's new with it? (up to 300 characters ...)"
-          rows='3'
-          ng-model="item.new_status">
-      </textarea>
+      <!-- ================================== -->
+      <!-- ======== Right detail panel ======== -->
+      <div class="dashboard-item-overview-details" flex>
+        <br/>
+        <div layout='row'>
+          <input-dropdown label="'condition'" flex
+              choices="item.condition_choices" data='item.condition'>
+          </input-dropdown>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <input-dropdown label="'Available'" flex
+              choices="['No', 'For Share', 'For Sale']" data="item.availability">
+          </input-dropdown>
+          <input-dropdown label="'visibility'" flex
+              choices="item.visibility_choices" data='item.visibility'>
+          </input-dropdown>
+          <input-dropdown label="'utilization'" flex
+              choices="item.utilization_choices" data='item.utilization'>
+          </input-dropdown>
+        </div>
+        <br/>
+        <div layout="row">
+          <div style='padding:10px;' layout='row' layout='center' flex>
+            <input-date label="Acquired on" date="item.acquiring_date">
+            </input-date>
+          </div>
+
+          <div auto-expand data="item.original_value"
+              init-width="60px" min-size="10" flex>
+            <input-num label='Original $' num='item.original_value'>
+            </input-num>
+          </div>
+
+          <div flex data="item.estimated_value" auto-expand init-width="60px"
+              min-size="10">
+            <input-num label='Estimated $' num='item.estimated_value'>
+            </input-num>
+          </div>
+        </div>
+        <br/>
+        <br/>
+        <input-text label="'Description'" place-holder="'helps you and others search for this item.'"
+            container-class="'input-container-mid'"
+            input-class="'input-default'"
+            data="item.description">
+        </input-text>
+      </div>
     </div>
 
-    <!-- ================================== -->
-    <!-- ======== Right detail panel ======== -->
-    <div class="dashboard-item-overview-details" flex>
-      <br/>
-      <div layout='row'>
-        <input-dropdown label="'condition'" flex
-            choices="item.condition_choices" data='item.condition'>
-        </input-dropdown>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <input-dropdown label="'availability'" flex
-            choices="item.availability_choices" data="item.availability">
-        </input-dropdown>
-        <input-dropdown label="'visibility'" flex
-            choices="item.visibility_choices" data='item.visibility'>
-        </input-dropdown>
-        <input-dropdown label="'utilization'" flex
-            choices="item.utilization_choices" data='item.utilization'>
-        </input-dropdown>
+    <div layout='row' layout-align='end'>
+      <div class='button button-small button-blue' ng-show="!item.is_new" type='button'
+          ng-click="update_item(item)">
+        update
       </div>
-      <br/>
-      <div layout="row">
-        <div layout='row' layout='center' flex>
-          <input-date label="Acquired on" date="item.acquiring_date">
-          </input-date>
-        </div>
-
-        <div auto-expand data="item.original_value"
-            init-width="60px" min-size="10" flex>
-          <input-num label='Original $' num='item.original_value'>
-          </input-num>
-        </div>
-
-        <div flex data="item.estimated_value" auto-expand init-width="60px"
-            min-size="10">
-          <input-num label='Estimated $' num='item.estimated_value'>
-          </input-num>
-        </div>
+      <div class='button button-small button-blue' ng-show='item.is_new' type='button' ng-click="add_to_post()">
+        OK
       </div>
-      <br/>
-      <br/>
-      <input-text label="'Description'" place-holder="'helps you and others search for this item.'"
-          container-class="'input-container-mid'"
-          input-class="'input-default'"
-          data="item.description">
-      </input-text>
     </div>
-  </div>
-
-  <div layout='row' layout-align='end'>
-    <md-button ng-show="!item.is_new" type='button'
-        ng-click="update_item(item)">
-      update
-    </md-button>
-    <md-button ng-show='item.is_new' type='button' ng-click="add_to_post()">
-      OK
-    </md-button>
-  </div>
-</form>
+  </form>
+</div>

@@ -185,7 +185,6 @@
     "$timeout", function($timeout) {
       return {
         restrict: "A",
-        scope: true,
         link: function(scope, element, attrs) {
           var target, trigger;
           trigger = element.find("[drop-down-menu-trigger]");

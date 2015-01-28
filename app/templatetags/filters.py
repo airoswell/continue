@@ -35,6 +35,11 @@ def count(queryset):
     return queryset.count()
 
 
+@register.filter(name='type')
+def type(arg):
+    return type(arg)
+
+
 @register.filter(name='unread_count')
 def unread_count(queryset):
     return queryset.filter(read_at=None).count()
@@ -46,7 +51,7 @@ def model_name(record):
 
 
 @register.filter(name='split')
-def filter(string, delimiter):
+def split(string, delimiter):
     if not string:
         return []
     return string.split(delimiter)

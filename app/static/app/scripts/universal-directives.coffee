@@ -140,7 +140,7 @@ angular.module("continue")
 
 .directive "dropDownMenu", ["$timeout", ($timeout)->
   restrict: "A"
-  scope: true
+  # scope: true
   link: (scope, element, attrs)->
     trigger = element.find("[drop-down-menu-trigger]")
     target = element.find("[drop-down-menu-target]")

@@ -43,7 +43,7 @@
       <div>
         <div class="text-large" ng-bind="post.title"></div>
         <div layout='row'>
-          <div>Location: <bind ng-bind="post.area"></bind></div>&nbsp;&nbsp;
+          <div>Location: <a href="/app/search/?areas={{post.area}}"><bind ng-bind="post.area"></bind></a></div>&nbsp;&nbsp;
           <div style="color:#999;cursor:pointer;border:1px solid #eee;padding:0px 5px;"
               follow-button-area area='{{post.area}}' ng-cloak ng-show="!is_followed(post.area) && !profile.is_anonymous"
               ng-click="follow(post.area)">

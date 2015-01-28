@@ -30,14 +30,17 @@ angular.module("continue")
       # Search from the dropdown search panel in the navbar
       areas = $scope.tags_to_string($scope.areas_tags)
       tags = $scope.tags_to_string($scope.tags_tags)
+      console.log tags
       $("input[name=areas]").val(areas)
       $("input[name=tags]").val(tags)
+      console.log $("input[name=tags]").val()
       document.getElementById('search-form').submit()
       # clear the input to prevent going back and see the input
       $("input").val("")
       return
 
     $scope.tags_to_string = (input_tags)->
+      console.log "tags_to_string", input_tags
       if input_tags
         areas = [tag.text for tag in input_tags]
         areas = areas.join(",")

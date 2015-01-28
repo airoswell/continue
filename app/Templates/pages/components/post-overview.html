@@ -53,7 +53,11 @@
       <div>
         <div class="text-large">{{ post.title }}</div>
         <div layout='row' layout='start center'>
-          <div> Location: {{ post.area }}</div>
+          <div> Location: 
+            <a href="/app/search/?areas={{post.area}}">
+              <span style="background:#f4f4f4;padding:0px 5px;">{{ post.area }}</span>
+            </a>
+          </div>
           &nbsp;&nbsp;
           <div style="color:#999;cursor:pointer;border:1px solid #eee;padding:0px 5px;"
               follow-button-area area='{{post.area}}' ng-cloak ng-show="!is_followed({{post.area}}) && !profile.is_anonymous"

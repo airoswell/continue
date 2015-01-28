@@ -269,6 +269,12 @@ input-dropdown[reduced-padding] .input-label{
 .tag-purple:hover{
     border: 1px solid #CA5EFA;
 }
+.tag-blue{
+    background: #4889F0; color:#fff;
+}
+.tag-blue:hover{
+    background: #4889F0;
+}
 .tag-default{
     font-size: 14px;
     padding: 5px 15px;
@@ -277,12 +283,6 @@ input-dropdown[reduced-padding] .input-label{
     display:inline-block;margin-bottom: 10px;margin-top: 10px;
 }
 
-.tag-blue{
-    background: #547bce;color: #fff;
-}
-.tag-blue:hover{
-    background: #3F5C9B;cursor:default;
-}
 
 /* Texts */
 
