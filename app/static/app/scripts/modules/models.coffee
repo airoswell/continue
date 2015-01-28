@@ -288,7 +288,6 @@ angular.module 'continue.models', [
           if "new_owner" of self
             if self["new_owner"]
               self.owner = self['new_owner'].id
-              self.visibility = "Ex-owners"
           # if the self.tags is in array type,
           # merge them into string.
           if self.new_status
