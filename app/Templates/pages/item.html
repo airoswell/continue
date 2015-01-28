@@ -1,0 +1,118 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<style type="text/css">
+  
+  .donation-forms-wrapper{
+    background: #fff;padding:20px;box-shadow: 0px 3px 8px #ccc;
+  }
+  .donation-forms-wrapper tags-input.custom .host{
+    max-width: none;
+  }
+  .donation-forms-wrapper tags-input.custom input{
+    font-size:18px;min-width: 190px;height: 40px;
+  }
+  .donation-forms-wrapper tags-input.custom .tags .tag-item{
+    height: 40px;font-size: 18px;padding-left: 10px;padding-right: 10px;
+    line-height: 40px;
+  }
+  .tab {
+      background: #f4f4f4;height:40px;
+      cursor: pointer;font-weight: 600;
+      min-width:120px;padding: 0px 15px;
+      border-bottom:2px solid #4889F0;
+      transition:all 0.2s;
+      -webkit-transition:all 0.2s;
+  }
+  .tab:hover{
+      background: #ddd;
+  }
+  .tab.active{
+      background: #4889F0;color: #fff;
+      border-color: #4889F0;
+  }
+  
+  .tab-content{
+    border-right: 2px solid #4889F0;
+    border-left: 2px solid #4889F0;
+    border-bottom: 2px solid #4889F0;
+  }
+
+
+</style>
+<div style="padding:40px;min-height: 600px;">
+
+  <div flex layout='row' layout-align='center'
+      ng-controller="itemCtrl">
+    
+    <div class='donation-forms-wrapper' flex-gt-md="80" flex="100">
+
+      <step-one>
+        <div class='text-xlarge'>Create your items</div>
+        <div class='text-large text-light-gray'>Start by entering the items' names</div>
+        <div flex>
+          <tags-input class='custom long' ng-model='items_tag' placeholder="Type your items' name">
+          </tags-input>
+        </div>
+      </step-one>
+
+      <br/>
+      <!-- Step Two -->
+      <step-two ng-cloak ng-show="items.length > 0">
+        
+        <!-- TABS -->
+        <div class="tabs" layout='row' layout-align='start'
+            hide-sm>
+          <div class='tab' layout='row' layout-align='center center'
+              ng-repeat="item in items"
+              ng-class="{'active': layout.display_tab == $index}"
+              ng-click='layout.display_tab = $index'>
+            <div ng-bind="item.title"></div>
+          </div>
+          <div class='tab' layout='row' layout-align='center center'
+              ng-click="add_item()">
+            <i class='fa fa-plus'></i>
+          </div>
+          <div flex style='border-bottom:2px solid #4889F0;'></div>
+        </div>
+        
+        <!-- Forms -->
+        <div class='tab-content'>
+          <form class='item-detail-form'
+              ng-show='layout.display_tab == ($index)'
+              ng-repeat="item in items">
+            <div style='background:#4889F0;padding:20px 10px 10px 10px;;color:#fff;' layout='row' layout-align='space-between center'>
+              <div flex>
+                <div>Name of the item</div>
+                <input style='font-size:24px;border:none;color:#fff;font-weight:600;' type="text" placeholder="Title of the item"
+                    ng-model="item.title" required
+                    ng-minlength=3>
+              </div>
+              <div class='button button-small button-red'
+                  ng-click="remove(item)">
+                <i class='fa fa-trash'></i>&nbsp;Remove
+              </div>
+            </div>
+            <div style='padding:20px;'>
+              <item-editor-pro-more item="item"></item-editor-pro-more>
+            </div>
+          </form>
+
+        <br/><br/>
+        </div>
+
+      </step-two>
+      
+
+      <div layout='row' layout-align='end'>
+        <div class='button button-small button-blue' ng-click="submit()">
+          <i class="fa fa-send"></i>&nbsp;Submit
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+{% endblock content %}

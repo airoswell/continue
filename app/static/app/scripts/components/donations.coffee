@@ -15,7 +15,7 @@ angular.module "continue"
     $scope.items_title = []
     $scope.items_tag = []
 
-    customized_num_fields = [
+    $scope.customized_num_fields = [
       {
         title: "Age"
         unit: "year"
@@ -49,7 +49,6 @@ angular.module "continue"
           item.title = tag.text
           item.owner = 5
           item.type = "donation"
-          item.customized_num_fields = customized_num_fields
           $scope.items.push(item)
           $scope.items_title.push(item.title)
         $scope.step_one_done = true

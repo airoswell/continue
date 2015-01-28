@@ -79,6 +79,14 @@
       restrict: "E",
       templateUrl: "/static/app/directives/item-editor-pro-more.html"
     };
+  }).directive("itemFieldEditMenu", function() {
+    return {
+      restrict: "E",
+      templateUrl: "/static/app/directives/item-field-edit-menu.html",
+      link: function(scope) {
+        return console.log(scope.item);
+      }
+    };
   }).directive("postOverview", function() {
     return {
       restrict: "E",

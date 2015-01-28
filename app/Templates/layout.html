@@ -101,6 +101,8 @@
   <script type="text/javascript" src="{% static 'app/scripts/components/post/post.js'%}"></script>
   {% elif view == 'item-timeline'%}
   <script type="text/javascript" src="{% static 'app/scripts/components/item-timeline.js'%}"></script>
+  {% elif view == 'item' %}
+  <script type="text/javascript" src="{% static 'app/scripts/components/item/item.js'%}"></script>
   {% endif %}
 
   <script type="text/javascript">
@@ -120,6 +122,7 @@
   <!-- {% compile "app/scripts/components/search/search.coffee" %} -->
   <!-- {% compile "app/scripts/components/messages/messages.coffee" %} -->
   <!-- {% compile "app/scripts/components/post/post.coffee" %} -->
+  <!-- {% compile "app/scripts/components/item/item.coffee" %} -->
   <!-- {% compile "app/scripts/modules/models.coffee" %} -->
   <!-- {% compile "app/scripts/modules/auth.coffee" %} -->
   <!-- {% compile "app/scripts/modules/social-accounts.coffee" %} -->

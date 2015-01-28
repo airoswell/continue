@@ -231,6 +231,9 @@ input-dropdown[reduced-padding] .input-label{
     background: #eee;color:666;
 }
 .button-gray:hover{
+    background: #ddd;
+}
+.button-gray:active{
     background: #ccc;
 }
 .button-red{
@@ -494,6 +497,12 @@ input-dropdown[reduced-padding] .input-label{
 }
 [drop-down-menu] .option.active{
     background: #ccc;
+}
+[drop-down-menu] .drop-down-menu-input{
+    padding: 5px 15px;font-size: 14px;background: #f4f4f4;
+}
+[drop-down-menu] .drop-down-menu-input span{
+    padding-left: 15px;
 }
 [trigger]{
     cursor: pointer;

@@ -65,20 +65,6 @@ angular.module "continue"
         scope.items.splice scope.items.indexOf(scope.item_id), 1
 
 
-# .directive "clickToShowTrigger", ()->
-#   restrict: "A"
-#   link: (scope, element, attrs)->
-#     scope.expanded = false
-#     click_to_show = element.find("[click-to-show]")
-#     click_to_show.css({"display":"none"})
-#     element.on "click", (e)->
-#       if not scope.expanded
-#         click_to_show.css({"display": "inherit"})
-#       else if scope.expanded and not ("click-to-show" of e.target.attributes)
-#         click_to_show.css({"display": "none"})
-#       scope.expanded = !scope.expanded
-#       scope.$apply()
-
 .directive "clickToExpand", ()->
   restrict: "A"
   link: (scope, element, attrs)->

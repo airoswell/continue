@@ -69,7 +69,7 @@
         </input-dropdown>
         <input-dropdown label="'Visible to'" flex style='margin-left:10px;margin-right:10px;display:inline-block'
             choices="item.visibility_choices" data='item.visibility'>
-          </input-dropdown>
+        </input-dropdown>
         <input-dropdown label="'Available'" flex style='margin-left:10px;margin-right:10px;display:inline-block'
             choices="['For Share', 'For Sale', 'No']" data='item.available'>
         </input-dropdown>
@@ -95,7 +95,7 @@
           </input-num>
         </div>
       </div>
-      <div layout='row' layout-align='end'>
+      <div ng-if='item.id' layout='row' layout-align='end'>
         <a href="/app/item/{{item.id}}/delete/">
           <div class='button button-small button-red'
               tooltip="Permanently delete the item and all related updates.">
@@ -108,35 +108,21 @@
 
     <accordion-group is-open="true">
       <accordion-heading>
-        <i class="fa fa-cogs"></i>&nbsp;Customized Fields &nbsp; 
+        <i class="fa fa-cogs"></i>&nbsp;Customized Fields &nbsp; <i class='fa fa-caret-down'></i>
       </accordion-heading>
       <!-- Customized fields -->
       <!-- - NUMBER fields -->
       <div ng-repeat="field in item.customized_num_fields"
           style='display:inline-block;padding:10px;'
           ng-init="show_title_input=false">
-        <if ng-if="field.id">
-          <span dropdown class="dropdown">
-            <a href class="dropdown-toggle" dropdown-toggle>
-              <span class='text-light-gray' ng-bind="field.title"></span>
-              &nbsp;
-              <i class="fa fa-caret-down"></i>
-            </a>
-          <ul class="dropdown-menu">
-            <li role="presentation" class="dropdown-header">
-              Modify your customized log
-            </li>
-            <li>
-              <a href><b>Modify the title</b></a>
-            </li>
-            <li ng-click="">
-              <a href><b>Remove the field</b></a>
-            </li>
-            <li ng-click="">
-              <a href><b>Remove the field and previous records</b></a>
-            </li>
-          </ul>
+        <if drop-down-menu ng-if="field.id">
+          <span drop-down-menu-trigger>
+            <span class='text-light-gray' ng-bind="field.title"></span>
+            <span><i class="fa fa-caret-down"></i></span>
           </span>
+          <div drop-down-menu-target>
+            <item-field-edit-menu></item-field-edit-menu>
+          </div>
         </if>
         <if ng-show="!field.id"
             auto-expand data='field.title' init-width="70px" min-size=10>
@@ -157,9 +143,14 @@
       <!-- - Char Fields -->
       <div ng-repeat="field in item.customized_char_fields"
           style='display:inline-block;padding:10px;'>
-        <if ng-if="field.id">
-          <span class='text-light-gray' ng-bind="field.title"></span>
-          <span><i class="fa fa-caret-down"></i></span>
+        <if drop-down-menu ng-if="field.id">
+          <span drop-down-menu-trigger>
+            <span class='text-light-gray' ng-bind="field.title"></span>
+            <span><i class="fa fa-caret-down"></i></span>
+          </span>
+          <div drop-down-menu-target>
+            <item-field-edit-menu></item-field-edit-menu>
+          </div>
         </if>
         <if ng-if="!field.id" auto-expand data='field.title' init-width="70px" min-size=10>
           <input style='font-weight:600;color:#666;' placeholder="Title" type="text" ng-model="field.title">
@@ -190,5 +181,4 @@
     </accordion-group>
   </accordion>
 
-  
 </div>

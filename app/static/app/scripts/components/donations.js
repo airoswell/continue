@@ -6,7 +6,6 @@
 
   angular.module("continue").controller("donationsCtrl", [
     "$scope", "Item", "BulkItems", "Alert", function($scope, Item, BulkItems, Alert) {
-      var customized_num_fields;
       $scope.layout = {
         display_tab: 0
       };
@@ -14,7 +13,7 @@
       $scope.items = [];
       $scope.items_title = [];
       $scope.items_tag = [];
-      customized_num_fields = [
+      $scope.customized_num_fields = [
         {
           title: "Age",
           unit: "year",
@@ -47,7 +46,6 @@
             item.title = tag.text;
             item.owner = 5;
             item.type = "donation";
-            item.customized_num_fields = customized_num_fields;
             $scope.items.push(item);
             $scope.items_title.push(item.title);
           }

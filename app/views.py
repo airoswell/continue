@@ -153,6 +153,19 @@ def post_create(request):
 
 
 @cache_control(no_cache=True, must_revalidate=True)
+def item_create(request):
+    if request.user.is_anonymous():
+        return redirect("index")
+    return render(
+        request,
+        'pages/item.html',
+        {
+            'view': 'item',
+        }
+    )
+
+
+@cache_control(no_cache=True, must_revalidate=True)
 def post_delete(request, pk):
     if request.user.is_anonymous():
         return redirect("index")

@@ -92,7 +92,7 @@ angular.module 'continue.models', [
             tags_handler: ()->
               if this.tags?
                 if typeof(this.tags) == "string"
-                  if this.tags
+                  if this.tags.length > 0
                     this.tags = this.tags.split(",")
                   else
                     this.tags = []
@@ -245,7 +245,7 @@ angular.module 'continue.models', [
     condition: "Good"
     utilization: "Sometimes"
     visibility: "Private"
-    availability: "Available"
+    available: "No"
     status: ""
     new_status: ""
     expanded: false
@@ -313,7 +313,7 @@ angular.module 'continue.models', [
               this.tags = []
               this.tags_input = []
             if typeof(this.tags) == "string"
-              if this.tags
+              if this.tags.length > 0
                 this.tags = this.tags.split(",")
                 this.tags_input = [{"text": tag} for tag in this.tags][0]
           if "tags_private" of this
@@ -321,17 +321,21 @@ angular.module 'continue.models', [
               this.tags_private = []
               this.tags_private_input = []
             if typeof(this.tags_private) == "string"
-              if this.tags_private
+              if this.tags_private.length > 0
                 this.tags_private = this.tags_private.split(",")
                 this.tags_private_input = [
                   {"text": tag} for tag in this.tags_private
                 ][0]
         add_customized_char_field: ()->
+          if not @customized_char_fields
+            @customized_char_fields = []
           @customized_char_fields.push({
             title: ""
             value: ""
           })
         add_customized_num_field: ()->
+          if not @customized_num_fields
+            @customized_num_fields = []
           @customized_num_fields.push({
             title: ""
             value: ""

@@ -48,6 +48,12 @@ angular.module("continue")
   restrict: "E"
   templateUrl: "/static/app/directives/item-editor-pro-more.html"
 
+.directive "itemFieldEditMenu", ()->
+  restrict: "E"
+  templateUrl: "/static/app/directives/item-field-edit-menu.html"
+  link: (scope)->
+    console.log scope.item
+
 .directive "postOverview", ->
   restrict: "E"
   templateUrl: "/static/app/directives/post-overview.html"

@@ -106,7 +106,7 @@
                 tags_handler: function() {
                   if (this.tags != null) {
                     if (typeof this.tags === "string") {
-                      if (this.tags) {
+                      if (this.tags.length > 0) {
                         return this.tags = this.tags.split(",");
                       } else {
                         return this.tags = [];
@@ -330,7 +330,7 @@
         condition: "Good",
         utilization: "Sometimes",
         visibility: "Private",
-        availability: "Available",
+        available: "No",
         status: "",
         new_status: "",
         expanded: false,
@@ -413,7 +413,7 @@
                   this.tags_input = [];
                 }
                 if (typeof this.tags === "string") {
-                  if (this.tags) {
+                  if (this.tags.length > 0) {
                     this.tags = this.tags.split(",");
                     this.tags_input = [
                       (function() {
@@ -438,7 +438,7 @@
                   this.tags_private_input = [];
                 }
                 if (typeof this.tags_private === "string") {
-                  if (this.tags_private) {
+                  if (this.tags_private.length > 0) {
                     this.tags_private = this.tags_private.split(",");
                     return this.tags_private_input = [
                       (function() {
@@ -459,12 +459,18 @@
               }
             },
             add_customized_char_field: function() {
+              if (!this.customized_char_fields) {
+                this.customized_char_fields = [];
+              }
               return this.customized_char_fields.push({
                 title: "",
                 value: ""
               });
             },
             add_customized_num_field: function() {
+              if (!this.customized_num_fields) {
+                this.customized_num_fields = [];
+              }
               return this.customized_num_fields.push({
                 title: "",
                 value: "",

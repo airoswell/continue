@@ -15,7 +15,7 @@
             var tag;
             $scope.post.tags_handler();
             $('textarea').val($scope.post.detail).trigger('autosize.resize');
-            if ($scope.post.tags) {
+            if ($scope.post.tags.length > 0) {
               return $scope.tags_input = [
                 (function() {
                   var _i, _len, _ref, _results;
