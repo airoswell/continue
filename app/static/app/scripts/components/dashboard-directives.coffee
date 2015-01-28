@@ -1,39 +1,60 @@
 angular.module("continue")
 
-.directive "itemEditorPro", ["Alert", "Album", (Alert, Album)->
-  restrict: "E"
-  templateUrl: "/static/app/directives/item-editor-pro.html"
-  scope: true
-  link: (scope)->
+.directive "itemEditorPro", [
+  "Alert", "Album", "Auth", "$upload", "settings"
+  (Alert, Album, Auth, $upload, settings)->
+    restrict: "E"
+    templateUrl: "/static/app/directives/item-editor-pro.html"
+    scope: true
+    link: (scope)->
 
-    scope.show_more = false
-    $('textarea').autosize()
+      scope.show_more = false
+      $('textarea').autosize()
 
-    scope.save = (item, success_handler)->
-      tags = [tag.text for tag in item.tags_input][0].join(",")
-      tags_private = [tag.text for tag in item.tags_private_input][0].join(",")
-      item.tags = tags
-      item.tags_private = tags_private
-      success_handler = (item)->
-        item.expanded = false
-        item.new_status = ""
-      item.save(success_handler).$asPromise()
+      scope.$watch "files", ()->
+        if scope.files
+          scope.upload = $upload.upload(
+            url: "/app/images/"
+            data:
+              owner: Auth.get_profile().user_id
+            file: scope.files
+          ).progress((evt) ->
+            console.log "progress: " + parseInt(100.0 * evt.loaded / evt.total) + "% file :" + evt.config.file.name
+            return
+          ).then (response)->
+            url_rel = response.data.url
+            url_abs = "#{settings.UPLOADED_URL}#{url_rel}"
+            item = scope.item
+            item.pic = url_abs
+            scope.save(item)
+          , ()->
+            Alert.show_error("There was problem uploading your file. Please make sure your file is a valid image file.")
 
-    scope.expand = (item) ->
-      if item.expanded isnt true
-        console.log "expand"
-        item.expanded = true
-      else
-        console.log "fold"
-        item.expanded = false
-      return
+      scope.save = (item)->
+        tags = [tag.text for tag in item.tags_input][0].join(",")
+        tags_private = [tag.text for tag in item.tags_private_input][0].join(",")
+        item.tags = tags
+        item.tags_private = tags_private
+        success_handler = (item)->
+          item.expanded = false
+          item.new_status = ""
+        item.save(success_handler).$asPromise()
 
-    scope.get_albums = (item)->
-      Alert.show_msg("Downloading your albums ...")
-      Album.get_albums().then (response)->
-        if response
-          item.pic = response
-          item.save()
+      scope.expand = (item) ->
+        if item.expanded isnt true
+          console.log "expand"
+          item.expanded = true
+        else
+          console.log "fold"
+          item.expanded = false
+        return
+
+      scope.get_albums = (item)->
+        Alert.show_msg("Downloading your albums ...")
+        Album.get_albums().then (response)->
+          if response
+            item.pic = response
+            item.save()
 ]
 
 .directive "itemEditorProTitle", ()->

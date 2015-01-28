@@ -12,7 +12,7 @@ app = angular.module("continue", [
   "ngTagsInput"
   "infinite-scroll"
   "hc.marked"
-  "omr.angularFileDnD"
+  "angularFileUpload"
 ])
 
 app.config [

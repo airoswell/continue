@@ -2,6 +2,7 @@
     <img height=60 ng-src="{{item.pic}}" ng-if='item.pic' ng-click="get_albums(item)" style='cursor:pointer;display:inline-block'>
     <div style='padding:15px 10px;' flex>
       <input type='text' style='border:none;width:100%;display:inline-block'
-          ng-model="item.title" placeholder="Item title">
+          ng-model="item.title" placeholder="Item title (3-144 characters)"
+          ng-maxlength='144' ng-minlength="3">
     </div>
 </div>

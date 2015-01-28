@@ -1065,7 +1065,7 @@ class DashboardTimeline(TimelineAPIView):
                                         # no need to call get_object()
     )
 
-    def get_query_args(self, request):
+    def get_query_args(self, request, pk=None):
         user = request.user
         query_args = [
             {"item__owner": user},
@@ -1154,11 +1154,17 @@ class ImageList(XListAPIView):
         return Response(data=request.query_params)
 
     def post(self, request):
-        data = request.data
+        data = {
+            "owner": request.data['owner'],
+            "image": request.data["file"]
+        }
         serialized = ImageSerializer(data=data)
         if serialized.is_valid():
             image = serialized.save()
+            print("\n\t Upload success!!!")
             print(image.image.url)
+        if not serialized.is_valid():
+            print("\n\tserialized.errors = %s " % (serialized.errors))
         return Response(
             data={"url": image.image.url}
         )

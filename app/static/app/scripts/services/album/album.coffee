@@ -65,8 +65,8 @@ angular.module "continue"
 ]
 
 .controller "albumCtrl", [
-  "$scope", "settings", "Album", "Image", "Auth", "Alert",
-  ($scope, settings, Album, Image, Auth, Alert) ->
+  "$scope", "settings", "Album", "Image", "Auth", "Alert", "$upload",
+  ($scope, settings, Album, Image, Auth, Alert, $upload) ->
     $scope.layout = {
       album_list_is_show: true
       page: 1
@@ -77,7 +77,24 @@ angular.module "continue"
     $scope.image = ""
     $scope.uploaded = ""
 
-    console.log "hahaha this is albumCtrl!!!"
+    $scope.$watch "files", ()->
+
+      if $scope.files
+        $scope.upload = $upload.upload(
+          url: "/app/images/"
+          data:
+            owner: Auth.get_profile().user_id
+          file: $scope.files
+        ).progress((evt) ->
+          console.log "progress: " + parseInt(100.0 * evt.loaded / evt.total) + "% file :" + evt.config.file.name
+          return
+        ).then (response)->
+          Alert.show_msg("Your image has been uploaded successfully!")
+          url = response.data.url
+          $scope.uploaded = "#{settings.UPLOADED_URL}#{url}"
+          Album.deferred.resolve($scope.uploaded)
+        , ()->
+          Alert.show_error("There was problem uploading your file. Please make sure your file is a valid image file.")
 
     $scope.$watch "image", ()->
       if $scope.image
@@ -92,19 +109,6 @@ angular.module "continue"
           Album.deferred.resolve($scope.uploaded)
         , ()->
           Alert.show_error("There was problem uploading your file. Please make sure your file is a valid image file.")
-
-    $scope.upload = ()->
-      Alert.show_msg("Uploading your image ...")
-      $scope.image_resource = Image.$build()
-      $scope.image_resource.image = $scope.image
-      $scope.image_resource.owner = Auth.get_profile().user_id
-      $scope.image_resource.$save().$asPromise().then (response)->
-        $scope.uploaded = "#{settings.UPLOADED_URL}#{response.url}"
-        console.log "$scope.uploaded", $scope.uploaded
-        Alert.show_msg("Your image has been uploaded successfully!")
-      , ()->
-        Alert.show_error("There was problem uploading your file. Please make sure your file is a valid image file.")
-        Album.deferred.resolve($scope.uploaded)
 
     $scope.photos_to_display = ()->
       start = ($scope.layout.page - 1) * $scope.layout.num_of_records

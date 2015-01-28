@@ -1,12 +1,15 @@
-<form class='item-editor-pro' name='item-editor-{{item.id}}' enctype='application/json'>
+<form class='item-editor-pro' name='item-editor-{{item.id}}'
+    enctype='application/json'
+    ng-file-drop ng-model="files"
+    drag-over-class="{accept:'acceptClass', reject:'rejectClass',delay:100}"  accept="image/*">
   <div>
-    
-    <!-- Header -->
-    <div class='item-editor-pro-header' layout='column' layout-gt-lg="row">
+    <!-- ======== Header ======== -->
+    <div class='item-editor-pro-header' layout='row'>
       <item-editor-pro-title flex></item-editor-pro-title>
       <item-editor-pro-basics></item-editor-pro-basics>
     </div>
 
+    <!-- ======== Tags ======== -->
     <div style='padding:5px;' ng-if="item.tags.length * item.tags_private.length">
       <span class='tag tag-small tag-gray'
         ng-repeat="tag in item.tags" ng-bind='tag' ng-click="items_search(tag)">
@@ -15,6 +18,8 @@
         ng-repeat="tag in item.tags_private" ng-bind='tag' ng-click="items_search(tag)">
       </span>
     </div>
+
+    <!-- ======== Status ======== -->
     <div style='padding:5px;' class='text-default' style="color:#999;letter-spacing:0.2px;line-height:1.5;" ng-show='item.status'>
       &nbsp;<i class="fa fa-quote-left"></i>&nbsp;&nbsp;<span ng-bind="item.status" ></span>
     </div>
@@ -23,12 +28,14 @@
         rows='3'
         ng-model="item.new_status">
     </textarea>
-    <div toggle-partial-img ng-if="item.pic" max-height="400px">
+    <div toggle-partial-img ng-if="item.pic" max-height="400px"
+        style='cursor:pointer'>
       <div class='image-container'>
         <img ng-src="{{item.pic}}" style='width:100%;'>
       </div>
     </div>
 
+    <!-- ======== Buttons ======== -->
     <div style='padding:10px;'>
       <item-editor-pro-more ng-show='item.expanded'></item-editor-pro-more>
     </div>
@@ -36,23 +43,27 @@
     <div style="padding:10px;" layout='row' layout-align='end'>
       <div class='button button-small button-gray'
           ng-click="expand(item)">
-        <span ng-show="!item.expanded">More</span>
-        <span ng-show="item.expanded">Less</span>
+        <span ng-show="!item.expanded">
+          More &nbsp; <i class="fa fa-caret-down"></i>
+        </span>
+        <span ng-show="item.expanded">
+          Less&nbsp;<i class="fa fa-caret-up"></i>
+        </span>
       </div>
       &nbsp;
       <div class='button button-small button-gray' ng-if="item.is_new"
           ng-click="reset(item)">
-        Reset
+        <i class='fa fa-refresh'></i>&nbsp;Reset
       </div>
       &nbsp;
       <div class='button button-small button-gray' ng-if="!item.is_new"
           ng-click="save(item, item_update_successHandler)">
-        Update
+        <i class='fa fa-save'></i>&nbsp;Update
       </div>
       &nbsp;
       <div class='button button-small button-gray' ng-if="item.is_new"
           ng-click="save(item, item_create_successHandler)">
-        Create
+        <i class='fa fa-plus'></i>&nbsp;Create
       </div>
     </div>
   </div>

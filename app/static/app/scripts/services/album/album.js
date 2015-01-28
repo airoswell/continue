@@ -66,7 +66,7 @@
       };
     }
   ]).controller("albumCtrl", [
-    "$scope", "settings", "Album", "Image", "Auth", "Alert", function($scope, settings, Album, Image, Auth, Alert) {
+    "$scope", "settings", "Album", "Image", "Auth", "Alert", "$upload", function($scope, settings, Album, Image, Auth, Alert, $upload) {
       $scope.layout = {
         album_list_is_show: true,
         page: 1,
@@ -76,7 +76,27 @@
       $scope.Album = Album;
       $scope.image = "";
       $scope.uploaded = "";
-      console.log("hahaha this is albumCtrl!!!");
+      $scope.$watch("files", function() {
+        if ($scope.files) {
+          return $scope.upload = $upload.upload({
+            url: "/app/images/",
+            data: {
+              owner: Auth.get_profile().user_id
+            },
+            file: $scope.files
+          }).progress(function(evt) {
+            console.log("progress: " + parseInt(100.0 * evt.loaded / evt.total) + "% file :" + evt.config.file.name);
+          }).then(function(response) {
+            var url;
+            Alert.show_msg("Your image has been uploaded successfully!");
+            url = response.data.url;
+            $scope.uploaded = "" + settings.UPLOADED_URL + url;
+            return Album.deferred.resolve($scope.uploaded);
+          }, function() {
+            return Alert.show_error("There was problem uploading your file. Please make sure your file is a valid image file.");
+          });
+        }
+      });
       $scope.$watch("image", function() {
         if ($scope.image) {
           Alert.show_msg("Uploading your image ...");
@@ -93,20 +113,6 @@
           });
         }
       });
-      $scope.upload = function() {
-        Alert.show_msg("Uploading your image ...");
-        $scope.image_resource = Image.$build();
-        $scope.image_resource.image = $scope.image;
-        $scope.image_resource.owner = Auth.get_profile().user_id;
-        return $scope.image_resource.$save().$asPromise().then(function(response) {
-          $scope.uploaded = "" + settings.UPLOADED_URL + response.url;
-          console.log("$scope.uploaded", $scope.uploaded);
-          return Alert.show_msg("Your image has been uploaded successfully!");
-        }, function() {
-          Alert.show_error("There was problem uploading your file. Please make sure your file is a valid image file.");
-          return Album.deferred.resolve($scope.uploaded);
-        });
-      };
       $scope.photos_to_display = function() {
         var end, start;
         start = ($scope.layout.page - 1) * $scope.layout.num_of_records;

@@ -248,7 +248,10 @@ class TransactionSerializerLite(serializers.ModelSerializer):
 
 
 class ImageSerializer(serializers.ModelSerializer):
-    image = Base64ImageField(
+    # image = Base64ImageField(
+    #     max_length=None, use_url=True,
+    # )
+    image = serializers.ImageField(
         max_length=None, use_url=True,
     )
 

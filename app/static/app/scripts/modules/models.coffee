@@ -439,7 +439,6 @@ angular.module 'continue.models', [
       if @extra_params?
         for key of @extra_params
           params[key] = @extra_params[key] or ""
-      console.log "param handling is finished: params = ", params
       return params
     load: (model) =>
       params = @params(model)
@@ -458,7 +457,6 @@ angular.module 'continue.models', [
         response.starts = {}
         for model_name of @init_starts
           response.starts[model_name] = @init_starts[model_name]
-        console.log "A: In handler ==> response.starts", response.starts
         for record in response
           model_name = record.model_name
           response.starts[model_name] += 1
