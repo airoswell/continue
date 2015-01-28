@@ -18,7 +18,7 @@
       <!-- User's name and time posted -->
       <div>
         <a href="/app/user/?user_id={{post.owner.id}}">
-          <div class="username"><b>{{ post.owner.username }}</b></div>
+          <div class="username"><b>{{ post.owner.name }}</b></div>
         </a>
         <div class="time-posted">{{ post.time_created|date:"M d Y H:i" }}</div>
       </div>

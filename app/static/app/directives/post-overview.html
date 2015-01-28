@@ -61,8 +61,10 @@
       </div>
     </div>
     <div>
-      <span ng-repeat="tag in post.tags" class='tag tag-small tag-gray'>
-        #<bind ng-bind="tag"></bind>
+      <span ng-repeat="tag in post.tags">
+        <a href="/app/search?tags={{tag}}">
+          <span class='tag tag-small tag-gray'>#<bind ng-bind="tag"></bind></span>
+        </a>
       </span>
     </div>
     <div ng-if="post.detail" click-to-expand max-height='125px'>

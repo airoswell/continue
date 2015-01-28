@@ -1,16 +1,20 @@
+{% with giver=event.giver %}
+{% with receiver=event.receiver %}
 <div  class='post-container'>
   <div class='post-header' layout='row' layout-align='space-between'>
 
     <div layout='row'>
       <!-- User photo -->
       <div>
-        <a href="/">
-          <img height=50 src="{{ event.giver.photo }}">
+        <a href="/app/user/?user_id={{giver.id}}">
+          <img height=50 src="{{ giver.photo }}">
         </a>&nbsp;&nbsp;&nbsp;
       </div>
       <!-- User's name and time posted -->
       <div>
-        <div class="username"><b>{{ event.giver.name }}</b></div>
+        <a href="/app/user/?user_id={{giver.id}}">
+          <div class="username"><b>{{ giver.name }}</b></div>
+        </a>
         <div class="time-posted">{{ event.time_updated }}</div>
       </div>
       <div layout='column' layout-align='center'
@@ -18,12 +22,14 @@
         <i class="fa fa-long-arrow-right fa-2x"></i>
       </div>
       <div>
-        <a href="/">
-          <img height=50 src="{{ event.receiver.photo }}">
+        <a href="/app/user/?user_id={{receiver.id}}">
+          <img height=50 src="{{ receiver.photo }}">
         </a>&nbsp;&nbsp;&nbsp;
       </div>
       <div>
-        <div class="username"><b>{{ event.receiver.name }}</b></div>
+        <a href="/app/user/?user_id={{receiver.id}}">
+          <div class="username"><b>{{ receiver.name }}</b></div>
+        </a>
         <div class="time-posted">{{ event.time_updated }}</div>
       </div>
     </div>
@@ -35,14 +41,14 @@
     <div>
         {% if event.status == "Sent"%}
           <span>
-            <span class='text-bold'>{{ event.giver.name }}</span> has sent <span class='text-bold'>{{ event.receiver.name }}</span> an <span class='text-bold text-blue'>item {{ event.item.title }}</span>
+            <span class='text-bold'>{{ giver.name }}</span> has sent <span class='text-bold'>{{ receiver.name }}</span> an <span class='text-bold text-blue'>item {{ event.item.title }}</span>
           </span>
 
         {% elif event.status == "Received" or event.status == "Rejected" %}
-          <span>{{ event.receiver.name }} {{event.status}} item {{event.item}} from {{ event.giver }}</span>
+          <span>{{ receiver.name }} {{event.status}} item {{event.item}} from {{ giver }}</span>
 
         {% elif event.status == "Revoked" %}
-          <span>Item {{event.item}} from {{ event.giver }} has been revoked.</span>
+          <span>Item {{event.item}} from {{ giver }} has been revoked.</span>
         {% endif %}
     </div>        
 
@@ -54,3 +60,5 @@
   </div>
 
 </div>
+{% endwith %}
+{% endwith %}
