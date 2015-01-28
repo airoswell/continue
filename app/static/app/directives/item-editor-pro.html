@@ -23,9 +23,8 @@
         rows='3'
         ng-model="item.new_status">
     </textarea>
-    <div>
-      <br/>
-      <div ng-if="item.pic">
+    <div toggle-partial-img ng-if="item.pic" max-height="400px">
+      <div class='image-container'>
         <img ng-src="{{item.pic}}" style='width:100%;'>
       </div>
     </div>

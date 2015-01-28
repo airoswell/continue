@@ -105,6 +105,37 @@
         });
       }
     };
+  }).directive("togglePartialImg", function() {
+    return {
+      restrict: "A",
+      link: function(scope, element, attrs) {
+        var max_height, unwatch;
+        max_height = "300px";
+        if ("maxHeight" in attrs) {
+          max_height = attrs['maxHeight'];
+        }
+        return unwatch = scope.$watch("item.pic", function() {
+          var container;
+          container = element.find(".image-container");
+          container.css({
+            "overflow": "hidden",
+            "max-height": max_height
+          });
+          container.on("click", function() {
+            if (container.css("max-height") !== "none") {
+              return container.css({
+                "max-height": "none"
+              });
+            } else {
+              return container.css({
+                "max-height": max_height
+              });
+            }
+          });
+          return unwatch();
+        });
+      }
+    };
   }).directive("followButtonArea", [
     "Auth", "Alert", function(Auth, Alert) {
       return {

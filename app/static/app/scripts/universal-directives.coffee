@@ -78,6 +78,22 @@ angular.module("continue")
       scope.$apply()
 
 
+.directive "togglePartialImg", ()->
+  restrict: "A"
+  link: (scope, element, attrs)->
+    max_height = "300px"
+    if "maxHeight" of attrs
+      max_height = attrs['maxHeight']
+    unwatch = scope.$watch "item.pic", ()->
+      container = element.find(".image-container")
+      container.css({"overflow": "hidden", "max-height": max_height})
+      container.on "click", ()->
+        if container.css("max-height") != "none"
+          container.css({"max-height": "none"})
+        else
+          container.css({"max-height": max_height})
+      unwatch()
+
 .directive "followButtonArea", ["Auth", "Alert", (Auth, Alert)->
   restrict: "A"
   link: (scope, element, attrs)->
