@@ -384,7 +384,6 @@
               if ("new_owner" in self) {
                 if (self["new_owner"]) {
                   self.owner = self['new_owner'].id;
-                  self.visibility = "Ex-owners";
                 }
               }
               if (self.new_status) {

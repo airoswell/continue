@@ -166,7 +166,6 @@
 
 
       {% elif request.user == item.owner %}
-      owner = {{ item.owner.id }}{{request.user.id}}
       {%   if view == "search" and request.user == post.owner %}
       <div>
       {%     include 'pages/components/django-item-edit-menu.html' %}
