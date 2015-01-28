@@ -142,6 +142,9 @@
         if ($scope.layout.creating_new_item) {
           return;
         }
+        if ($scope.items == null) {
+          $scope.items = [];
+        }
         $scope.layout.creating_new_item = true;
         $scope.layout.display_tab = "items";
         item = Item.$build(Item.init);

@@ -125,6 +125,8 @@ angular.module("continue")
     $scope.create_item = () ->
       if $scope.layout.creating_new_item
         return
+      if not $scope.items?
+        $scope.items = []
       $scope.layout.creating_new_item = true
       $scope.layout.display_tab = "items"
       item = Item.$build(Item.init)
