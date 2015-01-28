@@ -154,7 +154,6 @@
       {%       else %}
 
         <div layout='column'>
-         owner = {{ item.owner.id }}{{request.user.id}}
           <div item-id="{{ item.id }}" class="add-item"
               ng-click="add_item()"
               ng-class="{'active': items.indexOf(item_id) > -1}">
