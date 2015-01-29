@@ -731,12 +731,3 @@ class Tag(UUIDModel):
         max_length=144, blank=False,
     )
     count = models.PositiveIntegerField(blank=False, default=0)
-
-
-class Parent(UUIDModel):
-    title = models.CharField(max_length=100, blank=False, default="")
-
-
-class Child(UUIDModel):
-    parent = models.ForeignKey(Parent, related_name="children")
-    title = models.CharField(max_length=100, blank=False, default="")
