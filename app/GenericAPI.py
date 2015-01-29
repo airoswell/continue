@@ -91,7 +91,6 @@ class XDetailAPIView(APIView):
                                 # serilizer
         # ============================================================
         # Perform update
-        import pdb; pdb.set_trace()
         crud = Crud(request.user, self.model)
         from django.db.models.fields import FieldDoesNotExist
         try:
