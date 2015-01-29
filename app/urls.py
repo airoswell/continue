@@ -40,9 +40,6 @@ urlpatterns += patterns(
 # =================== Django-Rest-Framework API ======================
 urlpatterns += patterns(
     "api",
-    url(r'^parents/?$', api.ParentList.as_view(), name='post_list'),
-    # url(r'^parents/(?P<pk>[a-z0-9]+)/$',
-    #     api.ParentDetail.as_view(), name='post_detail'),
     url(r'^posts/?$', api.PostList.as_view(), name='post_list'),
     url(r'^posts/(?P<pk>[a-z0-9]+)/$',
         api.PostDetail.as_view(), name='post_detail'),

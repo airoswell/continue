@@ -224,18 +224,3 @@ class ImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image
         fields = ("id", 'image', 'owner', 'time_created', )
-
-
-class ChildSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Child
-        fields = ("id", 'title', 'time_created')
-
-
-class ParentSerializer(serializers.ModelSerializer):
-    children = ChildSerializer(many=True)
-
-    class Meta:
-        model = Parent
-        fields = ("id", 'title', 'time_created', "children")

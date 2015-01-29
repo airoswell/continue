@@ -1159,7 +1159,6 @@ class ImageList(XListAPIView):
             "owner": request.data['owner'],
             "image": request.data["file"]
         }
-        import pdb; pdb.set_trace()
         serialized = ImageSerializer(data=data)
         if serialized.is_valid():
             image = serialized.save()
@@ -1170,22 +1169,3 @@ class ImageList(XListAPIView):
         return Response(
             data={"url": image.image.url}
         )
-
-
-class ParentList(XListAPIView):
-    model = Parent
-    serializer = PostSerializer
-    num_of_records = 10
-
-    def get(self, request):
-        return run_and_respond(
-            retrieve_records,
-            Parent, ParentSerializer,
-            0, 8,
-        )
-
-
-class ChildList(XListAPIView):
-    model = Child
-    serializer = ChildSerializer
-    num_of_records = 10
