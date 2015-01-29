@@ -23,7 +23,9 @@ class UUIDModel(models.Model):
         max_length=100, unique=True, default=id_generator,
         primary_key=True,
     )
-    time_updated = models.DateTimeField(auto_now=True)
+    time_updated = models.DateTimeField(
+        auto_now=True, default=datetime.day.today
+    )
     time_created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
