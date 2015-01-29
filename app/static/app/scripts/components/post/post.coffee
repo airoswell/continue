@@ -96,8 +96,8 @@ angular.module "continue"
       $scope.post.save().$then (response)->
         if "id" of response
           return
-          # window.location.replace("/app/post/#{response.id}/")
+          window.location.replace("/app/post/#{response.id}/")
       , (e)->
-        console.log e
+        Alert.show_error("There is error saving your post.")
 
 ]
