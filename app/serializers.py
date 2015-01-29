@@ -2,7 +2,6 @@
 from app.models import Item, Post, UserProfile, Image
 from app.models import CustomizedCharField, CustomizedNumField
 from app.models import ItemEditRecord, PostItemStatus, ItemTransactionRecord
-from app.models import Parent, Child
 from django.contrib.auth.models import User
 from postman.models import Message
 

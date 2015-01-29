@@ -2,7 +2,6 @@
 # Models and serializers
 from app.models import Item, Post, UserProfile, Image
 from app.models import ItemEditRecord, ItemTransactionRecord, PostItemStatus
-from app.models import Parent, Child
 from app.serializers import *
 import app.permissions as perms
 from app.errors import *
