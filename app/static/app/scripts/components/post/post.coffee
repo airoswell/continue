@@ -92,6 +92,7 @@ angular.module "continue"
         tags_array = [tag.text for tag in $scope.tags_input]
         tags = tags_array.join(",")
         $scope.post.tags = tags
+      $scope.post.owner = Auth.get_profile().id
       $scope.post.save().$then (response)->
         if "id" of response
           return

@@ -148,6 +148,7 @@
           tags = tags_array.join(",");
           $scope.post.tags = tags;
         }
+        $scope.post.owner = Auth.get_profile().id;
         return $scope.post.save().$then(function(response) {
           if ("id" in response) {
 

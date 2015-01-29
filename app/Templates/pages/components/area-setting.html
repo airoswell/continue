@@ -7,18 +7,21 @@
     width:auto;
   }
 </style>
-<form area-setting-form {% if view != "dashboard"  %}ng-hide="hide_area_setting"{% endif %}
+<form area-setting-form {% if view != "dashboard"  %} ng-hide="hide_area_setting"{% endif %}
     name='area-setting-form' action='/app/user/setting/'
     layout='row' layout-align='center'>
   <div style=''>
     {% if view != "dashboard"%}<div class='text-small'>Welcome to the community! To begin,</div>{% endif %}
-    <div class='text-large'>set up your primary and interested areas</div>
+    <div reduced-padding>
+      <div class='section-title section-title-large'>To enable news feeds</div>
+      <div class='text-large text-light-gray'>set up your primary area and interested areas</div>
+    </div>
     <div layout='column' layout-gt-md='row'>
       <div class='text-default' style='margin: 20px 20px 20px 0px;'>
         <div layout layout-align='start center'>
           <b>Primary area</b>:&nbsp;&nbsp;
         </div>
-        <div mg-tb-10 class='text-small' style='max-width:400px;'> A primary area will be used to pre-specified the area of your post. You can of course set different area for each post manually.</div>
+        <div mg-tb-10 class='text-small' style='max-width:400px;'>Indicate the general area where you want your articles and collections to be associated to.</div>
         <div>
           Area zip code: 
           <input type='text'style='width:60px;text-align:center'
@@ -28,7 +31,7 @@
       </div>
       <div class='text-default' style='margin: 20px 20px 20px 0px;'>
         <div><b>Interested areas</b></div>
-        <div mg-tb-10 class='text-small' style='max-width:400px;'>Articles from interested areas will automatically show on your news feeds.</div>
+        <div mg-tb-10 class='text-small' style='max-width:400px;'>Articles and items from interested areas will automatically display on your news feeds.</div>
         <div area-validation>
           <tags-input class='custom' ng-model="interested_areas_tags"
               allowed-tags-pattern="^\d{5}$"

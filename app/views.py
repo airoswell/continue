@@ -381,11 +381,12 @@ def dashboard(request):
     # Feeds
     # Build feeds (posts are from interested area)
     # need to include more stuffs in the future
+    import pdb; pdb.set_trace()
     interested_areas = user.profile.interested_areas
     tl = TimelineManager(Post, Item, ItemEditRecord, )
     tl.config(
         order_by=("-time_created", "-time_created", "-time_updated", ),
-        filter_type = ["and", "or", "or"],
+        filter_type = ["or", "or", "or"],
         num_of_records=10,
     )
     interested_areas = user.interested_areas().split(",")

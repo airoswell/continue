@@ -151,7 +151,7 @@ angular.module 'continue.models', [
   add_item = (self) ->
     if 'items' of self
       item = Item.$build(Item.init)
-      item.owner = Auth.get_user().user_id
+      item.owner = Auth.get_user().id
       item.is_new = true
       self['items'].push(item)
       return item

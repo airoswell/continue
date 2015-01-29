@@ -113,7 +113,7 @@ class PostSerializer(serializers.ModelSerializer):
     and can be simplified (just use the <id>).
     """
     owner = ownerField(
-        read_only=True,
+        queryset=User.objects.all(),
     )
     items = ItemSerializer(many=True, read_only=True)
 
