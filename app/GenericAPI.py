@@ -42,6 +42,9 @@ class XListAPIView(APIView):
                 self.check_object_permissions(self.request, instance)
         return queryset
 
+    def post(self, request):
+        data = request.data
+
 
 class XDetailAPIView(APIView):
     def get_object(self, **search_kwargs):

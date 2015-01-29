@@ -2,6 +2,7 @@
 # Models and serializers
 from app.models import Item, Post, UserProfile, Image
 from app.models import ItemEditRecord, ItemTransactionRecord, PostItemStatus
+from app.models import Parent, Child
 from app.serializers import *
 import app.permissions as perms
 from app.errors import *
@@ -1168,3 +1169,22 @@ class ImageList(XListAPIView):
         return Response(
             data={"url": image.image.url}
         )
+
+
+class ParentList(XListAPIView):
+    model = Parent
+    serializer = PostSerializer
+    num_of_records = 10
+
+    def get(self, request):
+        return run_and_respond(
+            retrieve_records,
+            Parent, ParentSerializer,
+            0, 8,
+        )
+
+
+class ChildList(XListAPIView):
+    model = Child
+    serializer = ChildSerializer
+    num_of_records = 10

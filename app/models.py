@@ -2,17 +2,32 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.exceptions import FieldError
-from rest_framework import status as st
 from postman.models import Message
 from dateutil.relativedelta import relativedelta
 
 from allauth.account.signals import user_logged_in
 
 from django.db.models import Q
-import operator
+import uuid
 import datetime
 
 # Create your models here.
+
+
+def id_generator():
+    return str(uuid.uuid4().hex)
+
+
+class UUIDModel(models.Model):
+    id = models.CharField(
+        max_length=100, unique=True, default=id_generator,
+        primary_key=True,
+    )
+    time_updated = models.DateTimeField(auto_now=True)
+    time_created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        abstract = True
 
 
 # ======== Modifying User class ========
@@ -59,7 +74,7 @@ User.primary_area = primary_area
 User.statistics = statistics
 
 
-class UserProfile(models.Model):
+class UserProfile(UUIDModel):
     user = models.ForeignKey(User, related_name='profile')
     name = models.CharField(max_length=100, default="", blank=True)
     primary_area = models.CharField(max_length=5, default="", blank=True)
@@ -76,7 +91,6 @@ class UserProfile(models.Model):
                                            max_length=500)
     social_account_photo = models.URLField(default="", blank=True)
     already_set = models.BooleanField(default=False)
-    time_created = models.DateTimeField(auto_now_add=True)
 
     @classmethod
     def update(cls, validated_data, **kwargs):
@@ -151,7 +165,7 @@ def CheckAndUpdateProfile(sender, **kwargs):
     return
 
 
-class Item(models.Model):
+class Item(UUIDModel):
     title = models.CharField(max_length=144, blank=False)
     owner = models.ForeignKey(User, related_name="inventory")
     area = models.CharField(max_length=5, default="", blank=True)
@@ -241,7 +255,6 @@ class Item(models.Model):
     estimated_value = models.IntegerField(blank=True, null=True)
     link = models.URLField(default='', blank=True)
     pic = models.URLField(max_length=500, default='', blank=True)
-    time_created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ['-time_created']
@@ -424,24 +437,20 @@ class Item(models.Model):
         return
 
 
-class CustomizedCharField(models.Model):
+class CustomizedCharField(UUIDModel):
     item = models.ForeignKey(Item, related_name="customized_char_fields")
     title = models.CharField(max_length=144, blank=False)
     value = models.CharField(max_length=500, blank=True, default="")
-    time_updated = models.DateTimeField(auto_now=True)
-    time_created = models.DateTimeField(auto_now_add=True)
 
 
-class CustomizedNumField(models.Model):
+class CustomizedNumField(UUIDModel):
     item = models.ForeignKey(Item, related_name="customized_num_fields")
     title = models.CharField(max_length=144, blank=False)
     value = models.DecimalField(max_digits=10, decimal_places=3, blank=False)
     unit = models.CharField(max_length=20, blank=True, default="")
-    time_updated = models.DateTimeField(auto_now=True)
-    time_created = models.DateTimeField(auto_now_add=True)
 
 
-class Post(models.Model):
+class Post(UUIDModel):
     title = models.CharField(max_length=144, blank=False)
     owner = models.ForeignKey(User)
     items = models.ManyToManyField(
@@ -475,7 +484,6 @@ class Post(models.Model):
     today = datetime.date.today()
     day = today + relativedelta(months=1)
     expiration_date = models.DateField(default=day)
-    time_created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ['-time_created']
@@ -593,11 +601,10 @@ class Post(models.Model):
         return unicode(self.title)
 
 
-class Review(models.Model):
+class Review(UUIDModel):
     item = models.ForeignKey(Item, related_name="related_reviews")
     author = models.ForeignKey(User, related_name='related_reviews')
     body = models.TextField(default="", blank=True, null=True)
-    time_created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ['-time_created']
@@ -606,7 +613,7 @@ class Review(models.Model):
         return unicode(self.item)
 
 
-class ItemTransactionRecord(models.Model):
+class ItemTransactionRecord(UUIDModel):
     item = models.ForeignKey(Item, related_name='transaction_records')
     giver = models.ForeignKey(
         User,
@@ -626,7 +633,6 @@ class ItemTransactionRecord(models.Model):
         max_length=20, default='Sent',
         choices=status_choices
     )
-    time_updated = models.DateTimeField(auto_now=True)
     time_sent = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -671,7 +677,7 @@ class ItemTransactionRecord(models.Model):
         return unicode(self.item)
 
 
-class PostItemStatus(models.Model):
+class PostItemStatus(UUIDModel):
     item = models.ForeignKey(Item, related_name='status_in_post')
     post = models.ForeignKey(Post, related_name='status_in_post')
     item_requesters = models.ManyToManyField(User)
@@ -680,13 +686,12 @@ class PostItemStatus(models.Model):
         return unicode(self.item.title)
 
 
-class ItemEditRecord(models.Model):
+class ItemEditRecord(UUIDModel):
     item = models.ForeignKey(Item, related_name='update_event')
     field = models.CharField(max_length=100)
     original_value = models.CharField(max_length=500, blank=True, null=True)
     new_value = models.CharField(max_length=500)
     note = models.CharField(max_length=500, default="", blank=True, null=True)
-    time_updated = models.DateTimeField(auto_now_add=True)
 
     def model_name(self):
         return type(self).__name__
@@ -695,7 +700,7 @@ class ItemEditRecord(models.Model):
         return unicode("%s updated field %s" % (self.item, self.field))
 
 
-class PostAndItemsRequest(models.Model):
+class PostAndItemsRequest(UUIDModel):
     post = models.ForeignKey(Post)
     items = models.ManyToManyField(Item)
     message = models.ForeignKey(Message, related_name='request')
@@ -704,18 +709,25 @@ class PostAndItemsRequest(models.Model):
         return unicode(self.message)
 
 
-class Image(models.Model):
+class Image(UUIDModel):
     image = models.ImageField(upload_to='item_images')
     owner = models.ForeignKey(
         User, related_name='uploaded_item_images',
         blank=False,
     )
-    time_created = models.DateTimeField(auto_now_add=True)
 
 
-class Tag(models.Model):
+class Tag(UUIDModel):
     title = models.CharField(
         max_length=144, blank=False,
     )
     count = models.PositiveIntegerField(blank=False, default=0)
-    time_created = models.DateTimeField(auto_now_add=True)
+
+
+class Parent(UUIDModel):
+    title = models.CharField(max_length=100, blank=False, default="")
+
+
+class Child(UUIDModel):
+    parent = models.ForeignKey(Parent, related_name="children")
+    title = models.CharField(max_length=100, blank=False, default="")

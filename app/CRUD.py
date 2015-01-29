@@ -39,7 +39,7 @@ class Crud:
     def retrieve(self, start, num_of_records, **search_kwargs):
         end = start + num_of_records
         queryset = (self.model.objects.filter(**search_kwargs)
-                    .order_by('-pk')[start: end])
+                    .order_by('-time_created')[start: end])
         if not queryset:
             self.status = st.HTTP_404_NOT_FOUND
         return queryset
@@ -67,7 +67,7 @@ class Crud:
         return
 
 
-def retrieve_records(model, serializer, start, num_of_records,
+def retrieve_records(model, serializer, start=0, num_of_records=8,
                      *args, **search_kwargs):
     """
         Retrieve records.
@@ -80,7 +80,7 @@ def retrieve_records(model, serializer, start, num_of_records,
     # end = page * num_of_records
     end = start + num_of_records
     queryset = (model.objects.filter(*args, **search_kwargs)
-                .order_by('-pk')[start: end]
+                .order_by('-time_created')[start: end]
                 )
     print("\n\tretrieve_records() returns queryset %s" % (queryset))
     # ================================================================

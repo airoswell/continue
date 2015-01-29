@@ -1,0 +1,83 @@
+Facebook
+838251579531523
+22b7e305edb9fc7b3f1265bf27c0db1a
+http://104.237.144.150
+
+Google
+76360694040-92n2iqkloe9m48ckvv94me7dkbc7eltb.apps.googleusercontent.com
+ZZywVYETTsnWAXCVHMpZvvC4
+
+Weibo
+3813534927
+fe005d954b81c5b3062d626cf0d65a96
+
+
+
+Updating your items
+#### Updating your item is easy.
+
+Go to the **collection** section in your **Dashboard**. Your items are there waiting for you.
+
+- To update the image, you can
+  - Drag and drop your image file onto the item; the image will automatically update.
+  - Click on the ![](http://104.237.144.150/static/uploaded/item_images/Screen_Shot_2015-01-28_at_11.20.50_PM.png) button, you are provided with further options to choose your image, by **uploading** or your **social accounts** (currently supporting **Facebook**; more will come)
+
+- To Add more fields of your choice, like "**scratches**" for your iPad, **weight** of your puppy, **color** of the leaves of your lucky bamboo, simply click the + button in the *customized fields* section within your item editor.
+- Save your updates!
+
+
+## Timeline
+
+####Each item has its timeline.
+
+- After an item is created, it has its timeline page, by clicking the ![](http://104.237.144.150/static/uploaded/item_images/Screen_Shot_2015-01-28_at_10.54.13_PM.png) button next to it. For instance, when browsing posts or news feeds, you will see it on the right.
+
+![](http://104.237.144.150/static/uploaded/item_images/Screen_Shot_2015-01-28_at_10.55.17_PM.png)
+
+- On the timeline page of the item, you can see all the past updates of its status, image, all customized fields like color, weight, height, etc. Clicking on the *fields* on the left will bring up a condensed time table of the updates of the selected fields. **As a demonstration**, here is a record of how an iPad got scratches
+
+![](http://104.237.144.150/static/uploaded/item_images/Screen_Shot_2015-01-28_at_11.08.45_PM_copy.png)
+
+- Have logging your item! More features, including info graphics will come!
+
+
+## Creating items
+is easy. You only need to
+
+- Register and login.
+- The fastest way to create a several items is by clicking the ![](http://104.237.144.150/static/uploaded/item_images/Screen_Shot_2015-01-28_at_10.43.42_PM.png) button in your navigation bar. When you see the page
+![](http://104.237.144.150/static/uploaded/item_images/Screen_Shot_2015-01-28_at_10.41.40_PM.png)
+
+just type in your items' name and hit **enter**. You will have a form to further **customize** your items. Add customized fields, like *weight*, *color*, you name it:
+
+![](http://104.237.144.150/static/uploaded/item_images/Screen_Shot_2015-01-28_at_10.44.37_PM.png)
+
+- Save your items.
+
+- You can also do a similar thing in your **dashboard** panel, where you will see the whole list of all your stuffs, including timeline, news feeds.
+
+## Next: Timeline
+
+
+
+
+## Welcome to World Sheet
+
+#### 1. What's this for?
+
+*Originally* the idea was very mundane. In the past few years, the authors of the site and their friends have been moving from place to place, and in the process, huge number of no-longer-needed but still perfectly functional items were left behind, or even worse, discarded. So there comes the **thoughts**:
+
+- It was a huge waste throwing away so many stuffs.
+
+- There should be a better way of getting the info about these items out quickly. Well there is a solution for this, we have **craigslist**, indeed. But for most of those stuffs, which weren't valuable enough for us to put down a price and write a post on **craigslist**, whose user interface is also a bit 'hostile'.
+
+- We imagine there could be a platform for free small items circulation.
+
+So the main purpose was to have a platform dedicated to the circulation of **free** stuffs, just to **reduce waste**.
+
+Then the idea underwent further development.
+
+- What should we do to really better **utilize** our stuffs?
+- What should we do to truly appreciate their impact on our lives, other than using the items for a while, and throwing them away?
+
+### Then the answer becomes clear: we need a place to keep track of everything around ourselves and how we have interacted with them. We have our own Facebook page to record everything about ourselves, while things (lifeless or living things, like your pets, plants, the world) around us deserve such a platform dedicated to them.
