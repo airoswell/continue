@@ -25,7 +25,7 @@
     background: #eee;
   }
   .post-editor textarea{
-    border: 1px solid #ddd;
+    border: 1px solid #ddd;overflow: hidden;
   }
   .post-editor .post-preview{
     padding:10px;background:#f4f4f4;border:1px solid #ddd;
@@ -45,7 +45,7 @@
   }
 </style>
 
-<div id='post-editor-wrapper'>
+<div id='post-editor-wrapper' mobile-padding-less>
   {% if not post %}
   <div class='section-title section-title-large'>
     <i class="fa fa-align-left"></i> &nbsp;New post
@@ -159,9 +159,13 @@
                   </i>
                 </div>
                 <div auto-expand init-width="120px" min-size="20" data='img.url'
+                    style="overflow: scroll"
                     ng-repeat="img in images_list">
-                  <img ng-src="{{img.url}}" alt="" height="30">&nbsp;
-                  <input style='text-align:center'
+                  <span class='text-bold' ng-bind="$index + 1"></span>&nbsp;
+                  <span>
+                    <img ng-src="{{img.url}}" alt="" height="32" style="border: 1px solid #ddd;">&nbsp;
+                  </span>
+                  <input style='text-align:center;max-width:400px;'
                       class='tag tag-small tag-light-gray'
                       ng-model="img.markdown" ng-disabled="true">
                 </div>

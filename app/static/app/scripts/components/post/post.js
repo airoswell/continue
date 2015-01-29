@@ -55,7 +55,6 @@
         }
       });
       $scope.$watch("images", function() {
-        console.log("image found!");
         if ($scope.images) {
           return $scope.upload = $upload.upload({
             url: "/app/images/",

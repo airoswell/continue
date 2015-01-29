@@ -30,7 +30,6 @@ angular.module "continue"
             } for url in images_url_list][0]
 
     $scope.$watch "images", ()->
-      console.log "image found!"
       if $scope.images
         $scope.upload = $upload.upload(
           url: "/app/images/"
