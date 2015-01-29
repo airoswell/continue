@@ -469,6 +469,9 @@ class Post(models.Model):
     secret_key = models.CharField(
         max_length=100, blank=True, default=''
     )
+    images = models.CharField(
+        max_length=1000, blank=True, default="",
+    )
     today = datetime.date.today()
     day = today + relativedelta(months=1)
     expiration_date = models.DateField(default=day)

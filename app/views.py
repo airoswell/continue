@@ -135,6 +135,7 @@ def post_edit(request, pk):
             'view': 'post',
             'post': post,
             "items": items,
+            'LIVEHOST': settings.LIVEHOST,
         }
     )
 
@@ -148,6 +149,7 @@ def post_create(request):
         'pages/post.html',
         {
             'view': 'post',
+            'LIVEHOST': settings.LIVEHOST,
         }
     )
 
@@ -161,6 +163,7 @@ def item_create(request):
         'pages/item.html',
         {
             'view': 'item',
+            'LIVEHOST': settings.LIVEHOST,
         }
     )
 
@@ -175,7 +178,8 @@ def post_delete(request, pk):
             request,
             '404-not-found.html',
             {
-                'target': "post"
+                'target': "post",
+                'LIVEHOST': settings.LIVEHOST,
             }
         )
     post = qs[0]
@@ -186,7 +190,8 @@ def post_delete(request, pk):
         {
             'view': 'delete',
             'success': True,
-            'message': "The post is successfully deleted."
+            'message': "The post is successfully deleted.",
+            'LIVEHOST': settings.LIVEHOST,
         }
     )
 
@@ -200,7 +205,8 @@ def item_delete(request, pk):
             request,
             '404-not-found.html',
             {
-                'target': "item"
+                'target': "item",
+                'LIVEHOST': settings.LIVEHOST,
             }
         )
     item = qs[0]
@@ -214,7 +220,8 @@ def item_delete(request, pk):
         {
             'view': 'delete',
             "target": "item",
-            'message': "The item is successfully deleted."
+            'message': "The item is successfully deleted.",
+            'LIVEHOST': settings.LIVEHOST,
         }
     )
 
@@ -226,7 +233,8 @@ def item_timeline(request, pk):
             request,
             '404-not-found.html',
             {
-                'target': 'item'
+                'target': 'item',
+                'LIVEHOST': settings.LIVEHOST,
             }
         )
     item = queryset[0]

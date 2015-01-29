@@ -22,11 +22,13 @@
 
   app.factory("settings", function() {
     var HOST_URL, STATIC_URL, UPLOADED_URL;
+    console.log("settings factory");
     if (LIVEHOST === "True") {
       HOST_URL = "http://104.237.144.150";
     } else if (LIVEHOST === "False") {
       HOST_URL = "http://localhost:8000";
     }
+    console.log("LIVEHOST = ", LIVEHOST);
     STATIC_URL = "" + HOST_URL + "/static";
     UPLOADED_URL = "" + STATIC_URL + "/uploaded/";
     return {

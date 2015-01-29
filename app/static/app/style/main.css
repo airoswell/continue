@@ -211,7 +211,7 @@ input-dropdown[reduced-padding] .input-label{
     border: 1px solid #ddd;
 }
 .button-small{
-    font-size: 12px;padding: 7px 12px;border-radius: 2px;
+    font-size: 12px;padding: 5px 10px;border-radius: 2px;
 }
 /* .button-color */
 .button-green{
@@ -228,7 +228,7 @@ input-dropdown[reduced-padding] .input-label{
     background: #3c78dc;
 }
 .button-gray{
-    background: #eee;color:666;
+    background: #eee;color:666;border: 1px solid #ddd;
 }
 .button-gray:hover{
     background: #ddd;
@@ -265,6 +265,9 @@ input-dropdown[reduced-padding] .input-label{
 }
 .tag-gray:hover{
     border: 1px solid #aaa;
+}
+.tag-light-gray{
+    background: #f9f9f9;color: #999;
 }
 .tag-purple{
     background: #CA5EFA;color: #fff;

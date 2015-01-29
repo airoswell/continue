@@ -1,23 +1,58 @@
 angular.module "continue"
 
-.controller "postCtrl", [
-  "$scope", "Post", "ItemSelector", "ItemEditor", "Alert", "$http"
-  ($scope, Post, ItemSelector, ItemEditor, Alert, $http)->
+.controller "postEditorCtrl", [
+  "$scope", "Post", "ItemSelector", "ItemEditor", "Alert", "$upload", "Auth", "settings",
+  ($scope, Post, ItemSelector, ItemEditor, Alert, $upload, Auth, settings)->
     $scope.new_items = []
+    $scope.images_list = []
+    $scope.test_image = "http://localhost:8000/static/uploaded/item_images/ipad_4UnR7b1.jpg  
+"
     $scope.post = Post.$build(Post.init)
     $scope.layout = {
       detail_input: false
     }
+    console.log settings.UPLOADED_URL
     $scope.submission_error = false
     # If 'id' is specified, load the post from server.
     $scope.$watch "id", ()->
       if $scope.id?
         $scope.post = Post.$find($scope.id)
         $scope.post.$then (response)->
-          $scope.post.tags_handler()
-          $('textarea').val($scope.post.detail).trigger('autosize.resize')
-          if $scope.post.tags.length > 0
-            $scope.tags_input = [{"text": tag} for tag in $scope.post.tags][0]
+          this.tags_handler()
+          $('textarea').val(this.detail).trigger('autosize.resize')
+          if this.tags.length > 0
+            $scope.tags_input = [{"text": tag} for tag in this.tags][0]
+          if this.images
+            images_url_list = this.images.split(",")
+            $scope.images_list = [{
+              url: url
+              markdown: "![](#{url})"
+            } for url in images_url_list][0]
+
+    $scope.$watch "images", ()->
+      console.log "image found!"
+      if $scope.images
+        $scope.upload = $upload.upload(
+          url: "/app/images/"
+          data:
+            owner: Auth.get_profile().user_id
+          file: $scope.images
+        ).progress((evt) ->
+          console.log "progress: " + parseInt(100.0 * evt.loaded / evt.total) + "% file :" + evt.config.file.name
+          return
+        ).then (response)->
+          console.log response
+          url_rel = response.data.url
+          url = "#{settings.UPLOADED_URL}#{url_rel}"
+          post = $scope.post
+          img = {
+            url: url
+            markdown: "![](#{url})"
+          }
+          $scope.images_list.push(img)
+          $scope.images = undefined
+        , ()->
+          Alert.show_error("There was problem uploading your file. Please make sure your file is a valid image file.")
 
     $scope.show_detail_editor = ()->
       $scope.layout.detail_input = true
@@ -42,7 +77,6 @@ angular.module "continue"
 
 
     $scope.reset = ()->
-      console.log "reseting."
       $scope.post.$fetch()
       $scope.new_items = []
 
@@ -53,9 +87,13 @@ angular.module "continue"
         return
       if $scope.post.visibility == "Invitation" and not $scope.post.secret_key
         $scope.missing_key = true
-      tags_array = [tag.text for tag in $scope.tags_input]
-      tags = tags_array.join(",")
-      $scope.post.tags = tags
+      if $scope.images_list.length
+        images = [img.url for img in $scope.images_list].join(",")
+        $scope.post.images = images
+      if $scope.tags_input.length
+        tags_array = [tag.text for tag in $scope.tags_input]
+        tags = tags_array.join(",")
+        $scope.post.tags = tags
       $scope.post.save().$then (response)->
         if "id" of response
           window.location.replace("/app/post/#{response.id}/")

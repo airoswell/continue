@@ -1,7 +1,7 @@
 <form class='item-editor-pro' name='item-editor-{{item.id}}'
     enctype='application/json'
     ng-file-drop ng-model="files"
-    drag-over-class="{accept:'acceptClass', reject:'rejectClass',delay:100}"  accept="image/*">
+    drag-over-class="{accept:'acceptClass', reject:'rejectClass', delay:100}"  accept="image/*">
   <div>
     <!-- ======== Header ======== -->
     <div class='item-editor-pro-header' layout='row'>
@@ -24,7 +24,7 @@
       &nbsp;<i class="fa fa-quote-left"></i>&nbsp;&nbsp;<span ng-bind="item.status" ></span>
     </div>
     <textarea
-        placeholder="What's new with it?"
+        placeholder="What's new?"
         rows='3'
         ng-model="item.new_status">
     </textarea>

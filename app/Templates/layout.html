@@ -105,11 +105,9 @@
   {% elif view == 'item' %}
   <script type="text/javascript" src="{% static 'app/scripts/components/item/item.js'%}"></script>
   {% endif %}
-
   <script type="text/javascript">
     $("#content-wrapper").css({"min-height": $("body").height() + "px"});
   </script>
-
   {% load compile_static %}
   <!-- {% compile "app/scripts/app.coffee" %} -->
   <!-- {% compile "app/scripts/layout.coffee" %} -->

@@ -51,7 +51,7 @@
     <i class="fa fa-align-left"></i> &nbsp;New post
   </div>
   {% endif %}
-  <form name='postEditor' ng-controller="postCtrl" ng-cloak
+  <form name='postEditor' ng-controller="postEditorCtrl" ng-cloak
       style='padding:20px;'
       {% if post.id %} ng-init="id={{ post.id }};show_cheat_sheet=false" {% endif %}
       layout='row' layout-align='center'>
@@ -69,9 +69,11 @@
                 placeholder="Post title here">
           </div>
         </div>
+        {% if post.id %}
         <div>
           <a href="delete/"><i class="fa fa-trash"></i>&nbsp;Delete post</a>
         </div>
+        {% endif %}
       </div>
 
       <div layout='row' style='padding:0px 20px;'>  
@@ -137,12 +139,36 @@
               {{ post.detail|markdown }}
             </div>
             {% endif %}
-            <div {% if post %} ng-show="layout.detail_input" {% endif %}>
+            <div {% if post %} ng-show="layout.detail_input" {% endif %}
+                ng-file-drop ng-model="images"
+                drag-over-class="{accept:'acceptClass', reject:'rejectClass', delay:100}"  accept="image/*">
+
+              <!-- Test area -->
               <textarea ng-model='post.detail'
                   {% if not post %} style='height:250px;' {% endif %}
                   placeholder="Post body goes here ... You can use the [ TAB ] key to indent.">
               </textarea>
+
+              <!-- uploaded images -->
+              {% verbatim %}
+              <div style='padding:10px;margin-bottom:10px;'>
+                <div>
+                  <i class='fa fa-upload'></i>&nbsp;Uploaded images: 
+                  <i class="fa fa-info-circle"
+                      tooltip="Drag your image onto the text area above, when image is loaded, copy the markdown code into your post.">
+                  </i>
+                </div>
+                <div auto-expand init-width="120px" min-size="20" data='img.url'
+                    ng-repeat="img in images_list">
+                  <img ng-src="{{img.url}}" alt="" height="30">&nbsp;
+                  <input style='text-align:center'
+                      class='tag tag-small tag-light-gray'
+                      ng-model="img.markdown" ng-disabled="true">
+                </div>
+              </div>
+              {% endverbatim %}
               
+              <!-- Formating guide -->
               <div layout='row' layout-align='start center' style="padding-top:5px;color:#666;">
                 <a href="https://guides.github.com/features/mastering-markdown/">
                   <img height=20 src="/static/app/images/markdown.png" alt="">
@@ -156,6 +182,8 @@
               </div>
               <div ng-show="show_cheat_sheet">{% markdown_cheatsheet %}</div>
               <br/>
+
+              <!-- Preview -->
               <div class='text-large' style='padding:10px 0px;'>
                 <i class="fa fa-eye"></i>&nbsp;Preview
               </div>

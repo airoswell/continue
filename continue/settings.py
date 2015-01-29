@@ -68,7 +68,8 @@ if socket.gethostname().startswith('airoswell'):
     LIVEHOST = True
 else:
     LIVEHOST = False
-print("\t\t socket.gethostname() = %s" % (socket.gethostname()))
+print("\n\t\t socket.gethostname() = %s\n" % (socket.gethostname()))
+print "\n\t\tLIVEHOST = %s \n" % (LIVEHOST)
 
 
 
