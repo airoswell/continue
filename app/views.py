@@ -381,7 +381,6 @@ def dashboard(request):
     # Feeds
     # Build feeds (posts are from interested area)
     # need to include more stuffs in the future
-    import pdb; pdb.set_trace()
     interested_areas = user.profile.interested_areas
     tl = TimelineManager(Post, Item, ItemEditRecord, )
     tl.config(
