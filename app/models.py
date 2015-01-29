@@ -26,7 +26,9 @@ class UUIDModel(models.Model):
     time_updated = models.DateTimeField(
         auto_now=True, default=datetime.datetime.now
     )
-    time_created = models.DateTimeField(auto_now_add=True)
+    time_created = models.DateTimeField(
+        auto_now_add=True, default=datetime.datetime.now
+    )
 
     class Meta:
         abstract = True
