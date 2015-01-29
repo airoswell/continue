@@ -24,7 +24,7 @@ class UUIDModel(models.Model):
         primary_key=True,
     )
     time_updated = models.DateTimeField(
-        auto_now=True, default=datetime.day.today
+        auto_now=True, default=datetime.datetime.now
     )
     time_created = models.DateTimeField(auto_now_add=True)
 
