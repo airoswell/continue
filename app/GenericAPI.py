@@ -42,9 +42,6 @@ class XListAPIView(APIView):
                 self.check_object_permissions(self.request, instance)
         return queryset
 
-    def post(self, request):
-        data = request.data
-
 
 class XDetailAPIView(APIView):
     def get_object(self, **search_kwargs):
@@ -76,6 +73,8 @@ class XDetailAPIView(APIView):
         else:
             handler = ErrorHandler(self.serializer)
         data = request.data
+        if "id" in data:
+            data.pop("id")      # id should be expected to be pk
         if hasattr(self, "data_handler"):
             # - If the api has its own data_handler
             #   for further processing of the data
@@ -92,6 +91,7 @@ class XDetailAPIView(APIView):
                                 # serilizer
         # ============================================================
         # Perform update
+        import pdb; pdb.set_trace()
         crud = Crud(request.user, self.model)
         from django.db.models.fields import FieldDoesNotExist
         try:

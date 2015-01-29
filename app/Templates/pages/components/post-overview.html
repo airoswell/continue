@@ -1,7 +1,7 @@
 {% load filters %}
 <div id='post-{{ post.id }}' class='post-container'
     search-post-overview ng-cloak
-    owner-id="{{ post.owner.id }}" post-id="{{ post.id }}">
+    owner-id="{{ post.owner.uid }}" post-id="{{ post.id }}">
 
   <!-- Post header (title, area, owner, etc.) -->
   <div class='post-header' layout='row' layout-align='space-between'>
@@ -9,15 +9,15 @@
     <div layout='row'>
       <!-- User photo -->
       <div>
-        <a href="/app/user/?user_id={{post.owner.id}}">
+        <a href="/app/user/?user_id={{post.owner.uid}}">
           <img height=50
-              src="{{ post.owner.profile.all.0.social_account_photo }}">
+              src="{{ post.owner.profile.social_account_photo }}">
               &nbsp;&nbsp;&nbsp;
         </a>
       </div>
       <!-- User's name and time posted -->
       <div>
-        <a href="/app/user/?user_id={{post.owner.id}}">
+        <a href="/app/user/?user_id={{post.owner.uid}}">
           <div class="username"><b>{{ post.owner.name }}</b></div>
         </a>
         <div class="time-posted">{{ post.time_created|date:"M d Y H:i" }}</div>

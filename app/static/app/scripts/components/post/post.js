@@ -9,7 +9,6 @@
       $scope.layout = {
         detail_input: false
       };
-      console.log(settings.UPLOADED_URL);
       $scope.submission_error = false;
       $scope.$watch("id", function() {
         if ($scope.id != null) {
@@ -59,7 +58,7 @@
           return $scope.upload = $upload.upload({
             url: "/app/images/",
             data: {
-              owner: Auth.get_profile().user_id
+              owner: Auth.get_profile().id
             },
             file: $scope.images
           }).progress(function(evt) {
@@ -151,7 +150,7 @@
         }
         return $scope.post.save().$then(function(response) {
           if ("id" in response) {
-            return window.location.replace("/app/post/" + response.id + "/");
+
           }
         }, function(e) {
           return console.log(e);

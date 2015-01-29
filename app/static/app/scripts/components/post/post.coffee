@@ -11,7 +11,6 @@ angular.module "continue"
     $scope.layout = {
       detail_input: false
     }
-    console.log settings.UPLOADED_URL
     $scope.submission_error = false
     # If 'id' is specified, load the post from server.
     $scope.$watch "id", ()->
@@ -34,7 +33,7 @@ angular.module "continue"
         $scope.upload = $upload.upload(
           url: "/app/images/"
           data:
-            owner: Auth.get_profile().user_id
+            owner: Auth.get_profile().id
           file: $scope.images
         ).progress((evt) ->
           console.log "progress: " + parseInt(100.0 * evt.loaded / evt.total) + "% file :" + evt.config.file.name
@@ -95,7 +94,8 @@ angular.module "continue"
         $scope.post.tags = tags
       $scope.post.save().$then (response)->
         if "id" of response
-          window.location.replace("/app/post/#{response.id}/")
+          return
+          # window.location.replace("/app/post/#{response.id}/")
       , (e)->
         console.log e
 

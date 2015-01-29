@@ -9,6 +9,14 @@ from postman.models import Message
 from rest_framework import serializers
 
 
+class ownerField(serializers.RelatedField):
+    def to_representation(self, value):
+        return value.uid()
+
+    def to_internal_value(self, value):
+        return User.objects.get(profile__id=value)
+
+
 class UserProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -21,11 +29,11 @@ class UserProfileSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
 
     # expect to have several profiles in rare cases
-    profile = UserProfileSerializer(many=True)
+    profile = UserProfileSerializer()
 
     class Meta:
         model = User
-        fields = ('id', 'username', "profile")
+        fields = ('id', 'username', "uid", "profile")
 
 
 class CustomizedCharFieldSerializer(serializers.ModelSerializer):
@@ -43,12 +51,19 @@ class CustomizedNumFieldSerializer(serializers.ModelSerializer):
 
 
 class ItemSerializer(serializers.ModelSerializer):
-    requesters = UserSerializer(many=True, read_only=True)
     transferrable = serializers.BooleanField(read_only=True)
     customized_char_fields = CustomizedCharFieldSerializer(
         many=True, read_only=True)
     customized_num_fields = CustomizedNumFieldSerializer(
         many=True, read_only=True)
+    owner = ownerField(
+        queryset=User.objects.all()
+    )
+    previous_owners = ownerField(
+        many=True,
+        read_only=True,
+    )
+    requesters = UserSerializer(many=True, read_only=True)
 
     def as_instance(self):
         return Item.objects.get(pk=self.data['id'])
@@ -98,6 +113,9 @@ class PostSerializer(serializers.ModelSerializer):
     sub items are needed, while the owner of the posts is not necessary
     and can be simplified (just use the <id>).
     """
+    owner = ownerField(
+        read_only=True,
+    )
     items = ItemSerializer(many=True, read_only=True)
 
     @classmethod
@@ -197,11 +215,11 @@ class TransactionSerializerLite(serializers.ModelSerializer):
 
 
 class ImageSerializer(serializers.ModelSerializer):
-    # image = Base64ImageField(
-    #     max_length=None, use_url=True,
-    # )
     image = serializers.ImageField(
         max_length=None, use_url=True,
+    )
+    owner = ownerField(
+        queryset=User.objects.all()
     )
 
     class Meta:

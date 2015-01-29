@@ -56,6 +56,7 @@ class PostItemStatusAdmin(admin.ModelAdmin):
         )
     )
 
+
 admin.site.register(Item, ItemAdmin)
 admin.site.register(Post, PostAdmin)
 admin.site.register(PostItemStatus, PostItemStatusAdmin)

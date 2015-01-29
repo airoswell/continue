@@ -27,4 +27,7 @@ parent = Parent.objects.all()[0]
 son = Child.objects.filter(title="son")
 daughter = Child.objects.filter(title="daughter")
 
-ParentSerializer(parent)
+ai = User.objects.all()[2]
+data = {"owner": ai.uid(), "title": "another item"}
+s = ItemSerializer(data=data)
+s.is_valid()

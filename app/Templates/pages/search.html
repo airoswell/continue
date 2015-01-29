@@ -14,7 +14,7 @@
     <div style='max-height:650px;overflow:scroll'>
       {% for post in posts %}
       <div class='text-default sidebar-item'
-          ng-click="scroll_to_post({{post.id}})">
+          ng-click="scroll_to_post('{{post.id}}')">
           {% load filters %}
         <i class='fa fa-circle-o'></i>&nbsp;&nbsp;{{ post.title|truncate:40 }}
       </div>

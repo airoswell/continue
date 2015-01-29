@@ -83,7 +83,7 @@ angular.module "continue"
         $scope.upload = $upload.upload(
           url: "/app/images/"
           data:
-            owner: Auth.get_profile().user_id
+            owner: Auth.get_profile().id
           file: $scope.files
         ).progress((evt) ->
           console.log "progress: " + parseInt(100.0 * evt.loaded / evt.total) + "% file :" + evt.config.file.name
@@ -101,7 +101,7 @@ angular.module "continue"
         Alert.show_msg("Uploading your image ...")
         $scope.image_resource = Image.$build()
         $scope.image_resource.image = $scope.image
-        $scope.image_resource.owner = Auth.get_profile().user_id
+        $scope.image_resource.owner = Auth.get_profile().id
         $scope.image_resource.$save().$asPromise().then (response)->
           $scope.uploaded = "#{settings.UPLOADED_URL}#{response.url}"
           console.log "$scope.uploaded", $scope.uploaded

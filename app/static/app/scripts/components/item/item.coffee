@@ -29,7 +29,7 @@ angular.module "continue"
         if not (tag.text in $scope.items_title)
           item = Item.$build(Item.init)
           item.title = tag.text
-          item.owner = Auth.get_profile().user_id
+          item.owner = Auth.get_profile().id
           item.type = "normal"
           $scope.items.push(item)
           $scope.items_title.push(item.title)

@@ -39,7 +39,8 @@
       <div style='font-weight:600' ng-bind='item.available'></div>
     </div>
     &nbsp;&nbsp;&nbsp;&nbsp;
-    <div ng-if="!item.transferrable || item.owner != profile.user_id">
+    <div ng-if="!item.transferrable">
+      <div ng-bind="item.transferrable"></div>
       <div style='color: #999'>Unavailable</div>
       <div style='font-weight:600'>Currently out</div>
     </div>

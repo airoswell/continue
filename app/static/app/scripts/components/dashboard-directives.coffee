@@ -16,7 +16,7 @@ angular.module("continue")
           scope.upload = $upload.upload(
             url: "/app/images/"
             data:
-              owner: Auth.get_profile().user_id
+              owner: Auth.get_profile().id
             file: scope.files
           ).progress((evt) ->
             console.log "progress: " + parseInt(100.0 * evt.loaded / evt.total) + "% file :" + evt.config.file.name

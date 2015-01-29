@@ -28,7 +28,7 @@
           self.pm.items = items;
           profile = Auth.get_profile();
           if (!profile.is_anonymous) {
-            self.pm.sender = profile.user_id;
+            self.pm.sender = profile.id;
           } else {
             self.pm.sender = "";
           }

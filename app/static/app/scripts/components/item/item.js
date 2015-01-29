@@ -36,7 +36,7 @@
           if (!(_ref1 = tag.text, __indexOf.call($scope.items_title, _ref1) >= 0)) {
             item = Item.$build(Item.init);
             item.title = tag.text;
-            item.owner = Auth.get_profile().user_id;
+            item.owner = Auth.get_profile().id;
             item.type = "normal";
             $scope.items.push(item);
             _results.push($scope.items_title.push(item.title));

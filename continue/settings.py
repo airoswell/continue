@@ -122,7 +122,7 @@ if LIVEHOST:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'db_continue',
+            'NAME': 'db_worldsheet',
             'USER': 'airoswell',
             'PASSWORD': '299792458',
             'HOST': '104.237.144.150',

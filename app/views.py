@@ -22,28 +22,6 @@ from django.db.models import Q
 import operator
 
 
-def user_info_generator(user):
-    """
-    Take in a User object, return a simple objects containing
-    basic information about the User.
-    """
-    user_info = {
-        'name': '',
-        'id': '',
-        'is_anonymous': True,
-        'social_account_provider': ""
-    }
-    if not user.is_anonymous():
-        user_info['name'] = user.username
-        user_info['id'] = user.id
-        user_info["is_anonymous"] = False
-        if user.socialaccount_set.all():
-            provider = user.socialaccount_set.all()[0]
-            user_info['social_account_provider'] = provider.get_provider().name
-            user_info['social_account_photo'] = provider.get_avatar_url()
-    return user_info
-
-
 # All pages
 
 def NotFound(request):
@@ -61,7 +39,6 @@ def index(request):
         'index.html',
         {
             'view': 'index',
-            "user": user_info_generator(request.user)
         }
     )
 
@@ -107,7 +84,6 @@ def search(request):
         {
             'view': 'search',
             "posts": posts,
-            "user": user_info_generator(request.user),
             "q": content,
             "areas": areas,
             "tags": tags,
@@ -315,10 +291,10 @@ def user_profile(request):
         return redirect('/app/')
 
     if not user.is_anonymous():
-        if user.id == int(params["user_id"]):
+        if user.uid() == params["user_id"]:
             return redirect("dashboard")
 
-    qs = User.objects.filter(pk=params['user_id'])
+    qs = User.objects.filter(profile__id=params['user_id'])
     if not qs:
         return render(
             request,
@@ -346,7 +322,7 @@ def user_profile(request):
         Q_perm = reduce(operator.or_, (
             Q(item__visibility="Public"), reduce(operator.and_, (
                 Q(item__visibility="Ex-owners"),
-                Q(item__previous_owners__id=user.id)
+                Q(item__previous_owners__id=user.uid())
             ))
         ))
 
@@ -405,7 +381,7 @@ def dashboard(request):
     # Feeds
     # Build feeds (posts are from interested area)
     # need to include more stuffs in the future
-    interested_areas = user.profile.all()[0].interested_areas
+    interested_areas = user.profile.interested_areas
     tl = TimelineManager(Post, Item, ItemEditRecord, )
     tl.config(
         order_by=("-time_created", "-time_created", "-time_updated", ),
@@ -414,7 +390,7 @@ def dashboard(request):
     )
     interested_areas = user.interested_areas().split(",")
     Ex_owners_Q = Q(
-        visibility='Ex-owners', previous_owners__id=request.user.id
+        visibility='Ex-owners', previous_owners=request.user
     )
     public_Q = Q(visibility='Public')
     areas_Q = Q(area__in=interested_areas)
@@ -430,7 +406,8 @@ def dashboard(request):
         )]
     )
     update_Ex_owners_Q = Q(
-        item__visibility='Ex-owners', item__previous_owners__id=request.user.id
+        item__visibility='Ex-owners',
+        item__previous_owners=request.user
     )
     update_public_Q = Q(item__visibility='Public')
     update_areas_Q = Q(item__area__in=interested_areas)

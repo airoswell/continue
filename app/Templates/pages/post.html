@@ -53,8 +53,9 @@
   {% endif %}
   <form name='postEditor' ng-controller="postEditorCtrl" ng-cloak
       style='padding:20px;'
-      {% if post.id %} ng-init="id={{ post.id }};show_cheat_sheet=false" {% endif %}
+      {% if post.id %} ng-init="id='{{ post.id }}';show_cheat_sheet=false" {% endif %}
       layout='row' layout-align='center'>
+
     <div  class='post-editor' flex-gt-md="80" flex="100">
       <div class="post-title"
           layout-gt-md="row" layout='column' layout-align='space-between center'>
@@ -83,7 +84,7 @@
             <input style='width:44px;padding:0px;font-weight:600' type='text'
                 ng-model="post.area" 
                 ng-class="{'submission-error': submission_error}"
-                ng-init="post.area='{{ request.user.profile.all.0.primary_area}}'"
+                ng-init="post.area='{{ request.user.profile.primary_area}}'"
                 required ng-maxlength="5" ng-minlength='5'>
           </div>
         </div>

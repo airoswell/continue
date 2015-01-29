@@ -22,7 +22,7 @@ angular.module "continue"
         self.pm.items = items     # only store id of items
         profile = Auth.get_profile()
         if not profile.is_anonymous
-          self.pm.sender = profile.user_id
+          self.pm.sender = profile.id
         else
           self.pm.sender = ""
         self.pm.recipient_profile.$then (response)->

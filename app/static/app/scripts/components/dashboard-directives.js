@@ -14,7 +14,7 @@
               return scope.upload = $upload.upload({
                 url: "/app/images/",
                 data: {
-                  owner: Auth.get_profile().user_id
+                  owner: Auth.get_profile().id
                 },
                 file: scope.files
               }).progress(function(evt) {

@@ -85,6 +85,7 @@ def retrieve_records(model, serializer, start=0, num_of_records=8,
     print("\n\tretrieve_records() returns queryset %s" % (queryset))
     # ================================================================
     # Deal with serialization errors
+    import pdb; pdb.set_trace()
     try:
         serialized = serializer(queryset, many=True)
         print("\n\t serialized.data = %s" % (serialized.data))

@@ -107,12 +107,12 @@
       <!-- Request Button -->
       <!-- Only the third party (neither the owner of the post nor the item) -->
       <!-- can see the following components  -->
-      <if ng-if="item.owner != profile.user_id">
+      <if ng-if="item.owner != profile.id">
         <!-- If the post owner still owns the item -->
         <if ng-if="(view == 'search' && item.owner == post.owner && item.available != 'No') || (view == 'dashboard' && item.available != 'No' ) || view == 'timeline' && item.available != 'No' ">
           <!-- ===================================== -->
           <!-- If the user has requested the item -->
-          <if ng-if="profile.user_id|requested:item">
+          <if ng-if="profile.id|requested:item">
             <div layout='column'>
               <div item-id="{{ item.id }}" class="add-item disabled">
                 <i class="fa fa-check"></i>
@@ -121,7 +121,7 @@
           </if>
           <!-- If the user has NOT requested the item, then show the -->
           <!-- add item button                                       -->
-          <if ng-if="!(profile.user_id|requested:item)">
+          <if ng-if="!(profile.id|requested:item)">
             <div layout='column'>
               <div item-id="{{ item.id }}" class="add-item"
                   ng-click="add_item()"
@@ -142,9 +142,9 @@
       <!-- - there are requesters of the (item in the post) -->
       <!-- - and the item is transferrable -->
       <!-- show the transfer menu -->
-      <!-- <if ng-if="post.owner == profile.user_id && item.owner == profile.user_id"> -->
-      <if ng-if="item.owner == profile.user_id">
-        <if ng-if='view == "search" && profile.user_id == post.owner'>
+      <!-- <if ng-if="post.owner == profile.id && item.owner == profile.id"> -->
+      <if ng-if="item.owner == profile.id">
+        <if ng-if='view == "search" && profile.id == post.owner'>
           <div layout='column' layout-align='space-between'>
             <angular-item-edit-menu></angular-item-edit-menu>
             <if ng-if="item.transferrable && item.requesters">

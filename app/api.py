@@ -93,7 +93,7 @@ class PostList(XListAPIView):
         data, status = retrieve_records(
             Post, PostSerializer,
             start, num_of_records,
-            owner__id=request.user.id
+            owner=request.user
         )
         return Response(data=data, status=status)
 
@@ -104,7 +104,7 @@ class PostList(XListAPIView):
         self.get_object()       # For permissions purpose.
         # Parse the <MergeDict> data
         data = self.parser(request)
-        data['owner'] = request.user.id
+        data['owner'] = request.user.uid()
         # ============================================================
         # First process and validate and rearrange the data
         items_data = []
@@ -112,11 +112,11 @@ class PostList(XListAPIView):
         if "items" in data:
             for item_data in data.pop("items"):
                 if not "owner" in item_data:
-                    item_data["owner"] = request.user.id
+                    item_data["owner"] = request.user.uid()
                 # if the item belongs to some one else
                 # do not proceed. This happens when a posted item is
                 # transferred.
-                elif item_data['owner'] != request.user.id:
+                elif item_data['owner'] != request.user.uid():
                     continue
                 item_id = item_data['id'] if "id" in item_data else None
                 item_error_handler = ErrorHandler(ItemSerializer)
@@ -167,7 +167,7 @@ class PostDetail(XDetailAPIView):
         post_error_handler = ErrorHandler(PostSerializer)
         # - 1. Extract valid post data
         if "id" in request.data:
-            post_id = request.data['id']
+            post_id = request.data.pop("id")
         data = post_error_handler.validate(request.data)
         data['id'] = post_id
         post_data_errors = post_error_handler.errors
@@ -177,14 +177,14 @@ class PostDetail(XDetailAPIView):
             items_errors = []
             for item_data in request.data.pop("items"):
                 if not "owner" in item_data:
-                    item_data["owner"] = request.user.id
-                elif item_data['owner'] != request.user.id:
+                    item_data["owner"] = request.user.uid()
+                elif item_data['owner'] != request.user.uid():
                     # if the item belongs to some one else
                     # do not proceed
                     continue
                 # Store the id,
                 # as serializers will remove any existing id
-                item_id = item_data['id'] if "id" in item_data else None
+                item_id = item_data.pop('id') if "id" in item_data else None
                 item_error_handler = ErrorHandler(ItemSerializer)
                 item_data = item_error_handler.validate(item_data)
                 if item_error_handler.errors:
@@ -243,7 +243,7 @@ class ItemList(XListAPIView):
             if not (data['type'] == "donation"):
                 # if not donation
                 # Make sure owner present and correct
-                data['owner'] = request.user.id
+                data['owner'] = request.user.uid()
                 item_type = "normal"
             elif data['type'] == 'donation':
                 item_type = "donation"
@@ -282,7 +282,7 @@ class ItemList(XListAPIView):
                 Q_perm = reduce(operator.or_, [
                     Q(visibility="Public"),
                     Q(visibility="Ex-owners",
-                      previous_owners__id=request.user.id)
+                      previous_owners=request.user)
                 ])
             Q_kwargs = reduce(operator.and_, [
                 Q(owner__id=params["user_id"]),
@@ -314,7 +314,7 @@ class ItemList(XListAPIView):
             data, status = retrieve_records(
                 Item, ItemSerializer,
                 start, num_of_records,
-                owner__id=request.user.id,
+                owner=request.user,
             )
             print("\n\tdata = %s" % (data))
             return Response(data=data, status=status)
@@ -361,7 +361,7 @@ class BulkItemCreation(XListAPIView):
                 if not (data['type'] == "donation"):
                     # if not donation
                     # Make sure owner present and correct
-                    data['owner'] = request.user.id
+                    data['owner'] = request.user.uid()
                     item_type = "normal"
                 elif data['type'] == 'donation':
                     item_type = "donation"
@@ -418,6 +418,7 @@ class ItemDetail(XDetailAPIView):
             ]
         if "customized_num_fields" in request.data:
             customized_num_fields_data = request.data['customized_num_fields']
+        # Validate
         data = handler.validate(request.data)
         data["customized_char_fields"] = customized_char_fields_data
         data["customized_num_fields"] = customized_num_fields_data
@@ -436,31 +437,25 @@ class UserDetails(XDetailAPIView):
 
     def get(self, request, pk=None):
         if "user_id" in request.query_params:
-            user = User.objects.filter(pk=request.query_params['user_id'])
+            user = User.objects.filter(
+                profile__id=request.query_params['user_id']
+            )
             if not user:
                 return Response(status=st.HTTP_404_NOT_FOUND)
             return Response(
-                data=UserProfileSerializer(user[0].profile.all()[0]).data
+                data=UserProfileSerializer(user[0].profile).data
             )
         if request.user.is_anonymous():
             return Response(
                 data=[{"is_anonymous": True}], status=st.HTTP_200_OK)
         profile = None
-        from django.core.exceptions import MultipleObjectsReturned
         # In case multiple user profiles were created,
         # choose the latest one
         user = request.user
-        try:
-            profile = UserProfile.objects.get(user__id=user.id)
-        except AssertionError:
-            profile = (UserProfile.objects.filter(user__id=user.id)
-                                  .order_by('-time_created')[0])
-        except MultipleObjectsReturned:
-            profile = (UserProfile.objects.filter(user__id=user.id)
-                                  .order_by('-time_created')[0])
+        profile = user.profile
         if profile:
             data = self.serializer(profile).data
-            data['user_id'] = request.user.id
+            data['user_id'] = request.user.uid()
             data["is_anonymous"] = user.is_anonymous()
             if user.socialaccount_set.all():
                 provider = user.socialaccount_set.all()[0]
@@ -588,6 +583,12 @@ class MessageList(XListAPIView):
                         items.append(item)
                 data.pop("items")
             data.pop("post_id")
+        if "sender" in data and not user.is_anonymous():
+            data['sender'] = User.objects.get(profile__id=data['sender']).id
+        if "recipient" in data:
+            data['recipient'] = User.objects.get(
+                profile__id=data['recipient']
+            ).id
         # filter and reassemble the data
         handler = ErrorHandler(MessageSerializer)
         message_data = handler.validate(data)
@@ -690,7 +691,7 @@ class ItemUpdateList(XListAPIView):
                 retrieve_records,
                 self.model, self.serializer,
                 start, num_of_records,
-                item__owner__id=request.user.id,
+                item__owner=request.user,
             )
 
 
@@ -973,9 +974,9 @@ class TimelineAPIView(APIView):
             num_of_records=num_of_records,
         )
         if "item_id" in params:
-            target_id = int(params['item_id'])
+            target_id = params['item_id']
         elif "user_id" in params:
-            target_id = int(params["user_id"])
+            target_id = params["user_id"]
         # If no parameter is present, default to return the current
         # user's timeline
         else:
@@ -1012,7 +1013,7 @@ class Feed(TimelineAPIView):
         user = request.user
         interested_areas = user.interested_areas().split(",")
         Ex_owners_Q = Q(
-            visibility='Ex-owners', previous_owners__id=request.user.id
+            visibility='Ex-owners', previous_owners=request.user
         )
         public_Q = Q(visibility='Public')
         areas_Q = Q(area__in=interested_areas)
@@ -1029,7 +1030,7 @@ class Feed(TimelineAPIView):
         )
         update_Ex_owners_Q = Q(
             item__visibility='Ex-owners',
-            item__previous_owners__id=request.user.id
+            item__previous_owners=request.user
         )
         update_public_Q = Q(item__visibility='Public')
         update_areas_Q = Q(item__area__in=interested_areas)
@@ -1159,6 +1160,7 @@ class ImageList(XListAPIView):
             "owner": request.data['owner'],
             "image": request.data["file"]
         }
+        import pdb; pdb.set_trace()
         serialized = ImageSerializer(data=data)
         if serialized.is_valid():
             image = serialized.save()

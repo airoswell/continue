@@ -127,7 +127,7 @@ angular.module("continue")
       $scope.layout.creating_new_item = true
       $scope.layout.display_tab = "items"
       item = Item.$build(Item.init)
-      item.owner = Auth.get_profile().user_id
+      item.owner = Auth.get_profile().id
       item.is_new = true
       $scope.items.splice 0, 0, item
       $("html, body").animate scrollTop: $("#items-display").offset().top - 100

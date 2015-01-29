@@ -36,7 +36,7 @@ class UUIDModel(models.Model):
 
 # ======== Modifying User class ========
 def photo(self):
-    return self.profile.all()[0].social_account_photo
+    return self.profile.social_account_photo
 
 User.photo = photo
 
@@ -49,15 +49,19 @@ def pending_transactions(self):
 
 
 def name(self):
-    return self.profile.all()[0].name
+    return self.profile.name
 
 
 def interested_areas(self):
-    return self.profile.all()[0].interested_areas
+    return self.profile.interested_areas
 
 
 def primary_area(self):
-    return self.profile.all()[0].primary_area
+    return self.profile.primary_area
+
+
+def uid(self):
+    return self.profile.id
 
 
 def statistics(self):
@@ -71,6 +75,7 @@ def statistics(self):
         "transaction_count": transaction_count,
     }
 
+User.uid = uid
 User.pending_transactions = pending_transactions
 User.interested_areas = interested_areas
 User.name = name
@@ -79,7 +84,7 @@ User.statistics = statistics
 
 
 class UserProfile(UUIDModel):
-    user = models.ForeignKey(User, related_name='profile')
+    user = models.OneToOneField(User, related_name='profile')
     name = models.CharField(max_length=100, default="", blank=True)
     primary_area = models.CharField(max_length=5, default="", blank=True)
     interested_areas = models.CharField(

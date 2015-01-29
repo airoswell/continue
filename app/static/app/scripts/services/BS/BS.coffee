@@ -95,7 +95,7 @@ angular.module "continue"
       else    # create brand new item
         self.item = Item.$build(Item.init)
         self.item.is_new = true
-        self.item.owner = Auth.get_profile().user_id
+        self.item.owner = Auth.get_profile().id
         # the item should be Public
         # since the bottom sheet is called in post editor
         self.item.visibility = "Public"

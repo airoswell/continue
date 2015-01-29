@@ -39,7 +39,7 @@
     <b-s></b-s>
     <div test style='height:60px;'></div>
 
-    {% if request.user.profile.all.0.primary_area == "" and not request.user.profile.all.0.already_set %}
+    {% if request.user.profile.primary_area == "" and not request.user.profile.already_set %}
     {% include 'pages/components/area-setting.html'%}
     {% endif %}
 

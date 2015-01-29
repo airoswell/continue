@@ -12,7 +12,7 @@
     <if ng-if="post">
     {%   for requester in item.requesters %}
     <div drop-down-menu-option class='option' layout='row'
-        ng-click="select({{requester.id}},'{{requester.username}}')"
+        ng-click="select('{{requester.uid}}','{{requester.username}}')"
         ng-class="{active: new_owner.id == {{ requester.id }}}">
       <img height=20
           src='{{ requester.profile.0.social_account_photo }}'>
@@ -28,7 +28,7 @@
         ng-click="select({{requester.id}},'{{requester.username}}')"
         ng-class="{active: new_owner.id == {{ requester.id }}}">
       <img height=20
-          src='{{ requester.profile.all.0.social_account_photo }}'>
+          src='{{ requester.profile.social_account_photo }}'>
         &nbsp;&nbsp;
       <div user-id={{ requester.id }}>
         {{ requester.username }}

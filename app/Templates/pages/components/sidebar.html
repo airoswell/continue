@@ -47,7 +47,7 @@
       <div style='max-height:400px;overflow:scroll' click-to-show-target>
         {% for post in posts %}
         <div class='text-small sidebar-item'
-            ng-click="scroll_to_post({{post.id}})">
+            ng-click="scroll_to_post('{{post.id}}')">
           {{ post.title|truncate:38 }}
         </div>
         {% endfor %}
