@@ -151,10 +151,10 @@
         $scope.post.owner = Auth.get_profile().id;
         return $scope.post.save().$then(function(response) {
           if ("id" in response) {
-
+            return window.location.replace("/app/post/" + response.id + "/");
           }
         }, function(e) {
-          return console.log(e);
+          return Alert.show_error("There is error saving your post.");
         });
       };
     }
