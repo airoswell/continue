@@ -6,13 +6,13 @@
     <div layout='row'>
       <!-- User photo -->
       <div>
-        <a href="/app/user/?user_id={{giver.id}}">
+        <a href="/app/user/?user_id={{giver.uid}}">
           <img height=50 src="{{ giver.photo }}">
         </a>&nbsp;&nbsp;&nbsp;
       </div>
       <!-- User's name and time posted -->
       <div>
-        <a href="/app/user/?user_id={{giver.id}}">
+        <a href="/app/user/?user_id={{giver.uid}}">
           <div class="username"><b>{{ giver.name }}</b></div>
         </a>
         <div class="time-posted">{{ event.time_updated }}</div>
@@ -22,12 +22,12 @@
         <i class="fa fa-long-arrow-right fa-2x"></i>
       </div>
       <div>
-        <a href="/app/user/?user_id={{receiver.id}}">
+        <a href="/app/user/?user_id={{receiver.uid}}">
           <img height=50 src="{{ receiver.photo }}">
         </a>&nbsp;&nbsp;&nbsp;
       </div>
       <div>
-        <a href="/app/user/?user_id={{receiver.id}}">
+        <a href="/app/user/?user_id={{receiver.uid}}">
           <div class="username"><b>{{ receiver.name }}</b></div>
         </a>
         <div class="time-posted">{{ event.time_updated }}</div>

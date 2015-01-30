@@ -297,7 +297,7 @@ def user_profile(request):
     if not user.is_anonymous():
         if user.uid() == params["user_id"]:
             return redirect("dashboard")
-
+    import pdb; pdb.set_trace()
     qs = User.objects.filter(profile__id=params['user_id'])
     if not qs:
         return render(
@@ -326,7 +326,7 @@ def user_profile(request):
         Q_perm = reduce(operator.or_, (
             Q(item__visibility="Public"), reduce(operator.and_, (
                 Q(item__visibility="Ex-owners"),
-                Q(item__previous_owners__id=user.uid())
+                Q(item__previous_owners__profile__id=user.uid())
             ))
         ))
 
