@@ -93,16 +93,19 @@ def search(request):
     )
 
 
-def post_edit(request, pk):
-    user = request.user
-    if user.is_anonymous():
-        return redirect("index")
+def post(request, pk):
     queryset = Post.objects.filter(pk=pk)
     if not queryset:
         return redirect("404-not-found")
     post = queryset[0]
-    if user != post.owner:
-        return redirect("index")
+    if post.visibility != "Public":
+        return render(
+            request,
+            'unauthorized.html',
+            {
+                'view': 'post'
+            }
+        )
     items = post.items.all()
     return render(
         request,
@@ -112,6 +115,7 @@ def post_edit(request, pk):
             'post': post,
             "items": items,
             'LIVEHOST': settings.LIVEHOST,
+            'is_owner': request.user == post.owner
         }
     )
 

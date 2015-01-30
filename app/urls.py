@@ -14,7 +14,7 @@ urlpatterns = patterns(
     url(r'^post/$',
         views.post_create, name='post_create'),
     url(r'^post/(?P<pk>[a-z0-9]+)/$',
-        views.post_edit, name='post_edit'),
+        views.post, name='post'),
     url(r'^post/(?P<pk>[a-z0-9]+)/delete/$',
         views.post_delete, name='post_delete'),
     url(r'^item/$',

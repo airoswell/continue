@@ -10,8 +10,11 @@
     min-height: 680px;background: #fff;box-shadow: 0px 3px 8px #ccc;
     padding-bottom: 40px;
   }
-  .post-editor .post-title{
+  .post-editor .post-editor-header{
     background:#f9f9f9;padding:20px;border-bottom:1px dashed #ddd;
+  }
+  .post-editor .post-editor-title{
+    font-size: 25px;padding-left:0px;border:none;line-height:40px;width:100%;
   }
   .post-editor .post-detail{
     background:#f9f9f9;padding:20px;cursor:pointer;
@@ -24,6 +27,16 @@
   .post-editor .post-detail:active{
     background: #eee;
   }
+  .post-editor .disabled.post-detail{
+    cursor: auto;
+  }
+  .post-editor .disabled.post-detail:hover{
+    background: #f9f9f9;
+  }
+  .post-editor .disabled.post-detail:active{
+    background: #f9f9f9;
+  }
+
   .post-editor textarea{
     border: 1px solid #ddd;overflow: hidden;
   }
@@ -57,26 +70,32 @@
       layout='row' layout-align='center'>
 
     <div  class='post-editor' flex-gt-md="80" flex="100">
-      <div class="post-title"
+      <div class="post-editor-header"
           layout-gt-md="row" layout='column' layout-align='space-between center'>
         <div flex>
-          <div class='text-small' style='color:#999'>Click to edit</div>
+          {% if is_owner %}<div class='text-small' style='color:#999'>Click to edit</div>{% endif %}
           <div flex>
-            <input type='text' class='text-blue'
-                style="font-size: 25px;padding-left:0px;border:none;line-height:40px;width:100%;"
+            {% if is_owner %}
+            <input type='text' class='text-blue post-editor-title'
                 ng-class="{'submission-error': submission_error}"
                 ng-model="post.title" required
                 ng-init="post.title = '{{post.title}}'"
                 placeholder="Post title here">
+            {% else %}
+            <div class='text-blue post-editor-title'>
+              {{ post.title }}
+            </div>
+            {% endif %}
           </div>
         </div>
-        {% if post.id %}
+        {% if post.id and is_owner %}
         <div>
           <a href="delete/"><i class="fa fa-trash"></i>&nbsp;Delete post</a>
         </div>
         {% endif %}
       </div>
-
+      
+      {% if is_owner %}
       <div layout='row' style='padding:0px 20px;'>  
         <div style='padding:10px;'>
           <div style='color:#999;margin-bottom:5px;border-color:transparent;'>Area (zip code) &nbsp;</div>
@@ -114,17 +133,37 @@
           </div>
         </div>
       </div>
+
+      {% else %}
+
+      <div style='padding:20px 40px;'>
+        <div style='color:#999;margin-bottom:5px;border-color:transparent;'>Area (zip code) &nbsp;</div>
+        <div>
+          <div><b>{{ post.area }}</b></div>
+        </div>
+      </div>
+
+      {% endif %}
       
       <!-- ======== Tags ======== -->
-
+      {% load filters %}
       <div style='padding:0px 20px;'>
         <div flex layout='row' layout-align='start center' style='margin-bottom:5px;'>
           <i class='fa fa-tags'
               tooltip="Tag brings better search and organization."></i>&nbsp; 
           <div flex>
+            {% if is_owner %}
             <tags-input class="custom" ng-model='tags_input'
                 placeholder='Tag your post for ease of search.'>
             </tags-input>
+            {% else %}
+            &nbsp;
+            {% for tag in post.tags|split:"," %}
+            <a href="/app/search/?tags=tag">
+              <span class='tag tag-small tag-blue'>{{ tag }}</span>
+            </a>
+            {% endfor %}
+            {% endif %}
           </div>
         </div>
 
@@ -133,13 +172,18 @@
           <i class="fa fa-align-left"></i>&nbsp;&nbsp;
           <div flex>
             {% if post %}
-            <div>
-            </div>
+            {%   if is_owner %}
             <div class="post-detail" ng-show="!layout.detail_input"
                 ng-click="show_detail_editor()">
               {{ post.detail|markdown }}
             </div>
+            {%   else %}
+            <div class="post-detail disabled">
+              {{ post.detail|markdown }}
+            </div>
+            {%   endif %}
             {% endif %}
+            {% if is_owner %}
             <div {% if post %} ng-show="layout.detail_input" {% endif %}
                 ng-file-drop ng-model="images"
                 drag-over-class="{accept:'acceptClass', reject:'rejectClass', delay:100}"  accept="image/*">
@@ -195,9 +239,10 @@
               <div marked="post.detail" class="post-preview">
               </div>
             </div>
+            {% endif %}
           </div>
         </div>
-
+        
         <br/>
         <div>
           {% for item in items %}
@@ -213,6 +258,8 @@
           </div>
         </div>
 
+
+        {% if is_owner %}
         <!-- ======== Buttons ======== -->
         <div layout='row' layout-align='end'>
           <div class='button button-small button-blue'
@@ -231,6 +278,7 @@
             <i class="fa fa-floppy-o"></i>&nbsp;Save
           </div>
         </div>
+        {% endif %}
       </div>
     </div>
   </form>
