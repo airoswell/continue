@@ -29,19 +29,22 @@
 
   <div class='sidebar-body' style=''>
     {% if view == 'dashboard' %}
-    <div ng-click="display_tab('feeds')">
+    <div ng-click="display_tab('feeds')"
+        ng-class="{'text-blue': layout.display_tab == 'feeds'}">
       <div class='text-default sidebar-item'>
         <i class="fa fa-rss"></i>&nbsp;Feeds
       </div>
     </div>
     {% endif %}
     <div ng-click="display_tab('timeline')">
-      <div class='text-default sidebar-item'>
+      <div class='text-default sidebar-item'
+          ng-class="{'text-blue': layout.display_tab == 'timeline'}">
         <i class="fa fa-clock-o"></i>&nbsp;Timeline
       </div>
     </div>
     <div ng-click="display_tab('posts')" click-to-show>
-      <div click-to-show-trigger class="text-default sidebar-item">
+      <div click-to-show-trigger class="text-default sidebar-item"
+          ng-class="{'text-blue': layout.display_tab == 'posts'}">
         <i class="fa fa-newspaper-o"></i>&nbsp;Posts&nbsp;<i class="fa fa-caret-down"></i>
       </div>
       <div style='max-height:400px;overflow:scroll' click-to-show-target>
@@ -59,13 +62,15 @@
         </div>
       </div>
     </div>
-    <div ng-click='display_tab("items")'>
+    <div ng-click='display_tab("items")'
+        ng-class="{'text-blue': layout.display_tab == 'items'}">
       <div class="text-default sidebar-item">
-        Gallery
+        Collections
       </div>
     </div>
     {% if view == "dashboard" %}
-    <div ng-click='display_tab("settings")'>
+    <div ng-click='display_tab("settings")'
+        ng-class="{'text-blue': layout.display_tab == 'settings'}">
       <div class="text-default sidebar-item">
         Settings
       </div>
