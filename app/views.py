@@ -297,7 +297,6 @@ def user_profile(request):
     if not user.is_anonymous():
         if user.uid() == params["user_id"]:
             return redirect("dashboard")
-    import pdb; pdb.set_trace()
     qs = User.objects.filter(profile__id=params['user_id'])
     if not qs:
         return render(
