@@ -16,6 +16,7 @@
   <link rel="stylesheet" type="text/css" href="{% static 'app/bower_components/angular-material/angular-material.css'%}">
   <link rel="stylesheet" type="text/css" href="{% static 'app/bower_components/bootstrap/dist/css/bootstrap.min.css'%}">
   <link rel="stylesheet" type="text/css" href="{% static 'app/bower_components/font-awesome/css/font-awesome.css'%}">
+  <link rel="stylesheet" type="text/css" href="{% static 'app/bower_components/jquery-minicolors/jquery.minicolors.css'%}">
   <link rel="stylesheet" type="text/css" href="{% static 'app/style/main.css'%}">
   <link rel="stylesheet" type="text/css" href="{% static 'app/style/search.css'%}">
   <link rel="stylesheet" type="text/css" href="{% static 'app/style/search.css'%}">
@@ -69,9 +70,11 @@
   <!--  - markdown -->
   <script type="text/javascript" src="{% static 'app/bower_components/marked/lib/marked.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/bower_components/angular-marked/angular-marked.js'%}"></script>
-  <!-- - drag and drop -->
-  <script type="text/javascript" src="{% static 'app/bower_components/angular-file-dnd/dist/angular-file-dnd.min.js' %}"></script>
+  <!-- - File upload -->
   <script type="text/javascript" src="{% static 'app/bower_components/ng-file-upload/angular-file-upload.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'app/bower_components/jquery-minicolors/jquery.minicolors.js' %}"></script>
+  <script type="text/javascript" src="{% static 'app/bower_components/angular-minicolors/angular-minicolors.js' %}"></script>
+
   {# End: Bower #}
   <script type='text/javascript'>
     var LIVEHOST = '{{ LIVEHOST }}'

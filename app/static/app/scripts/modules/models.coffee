@@ -332,6 +332,13 @@ angular.module 'continue.models', [
             title: ""
             value: ""
           })
+        add_customized_color_field: ()->
+          if not @customized_color_fields
+            @customized_color_fields = []
+          @customized_color_fields.push({
+            title: ""
+            value: ""
+          })
         add_customized_num_field: ()->
           if not @customized_num_fields
             @customized_num_fields = []

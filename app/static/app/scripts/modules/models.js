@@ -466,6 +466,15 @@
                 value: ""
               });
             },
+            add_customized_color_field: function() {
+              if (!this.customized_color_fields) {
+                this.customized_color_fields = [];
+              }
+              return this.customized_color_fields.push({
+                title: "",
+                value: ""
+              });
+            },
             add_customized_num_field: function() {
               if (!this.customized_num_fields) {
                 this.customized_num_fields = [];

@@ -578,3 +578,14 @@ tags-input.custom.purple .tags .tag-item{
 #content-wrapper .tooltip{
     font-size:16px;opacity: 0.6;letter-spacing: 0.5px;
 }
+
+.minicolors-theme-bootstrap .minicolors-swatch{
+    top: 1px;
+    left: 1px;
+    width: 22px;
+    height: 22px;
+    border-radius: 3px;
+}
+.minicolors input.ng-valid.minicolors-input{
+    width: 120px;
+}

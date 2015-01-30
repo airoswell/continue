@@ -13,6 +13,7 @@ app = angular.module("continue", [
   "infinite-scroll"
   "hc.marked"
   "angularFileUpload"
+  "minicolors"
 ])
 
 app.config [

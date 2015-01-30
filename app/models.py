@@ -296,10 +296,13 @@ class Item(UUIDModel):
         # customized_num/char_fields, when they are not specified.
         num_fields_data = []
         char_fields_data = []
+        color_fields_data = []
         if "customized_num_fields" in validated_data:
             num_fields_data = validated_data.pop('customized_num_fields')
         if "customized_char_fields" in validated_data:
             char_fields_data = validated_data.pop('customized_char_fields')
+        if "customized_color_fields" in validated_data:
+            color_fields_data = validated_data.pop("customized_color_fields")
         print("\n\tItem.create() ==> validated_data = %s" % (validated_data))
         item = cls.objects.create(**validated_data)
         ItemEditRecord.objects.create(
@@ -309,7 +312,8 @@ class Item(UUIDModel):
         item.save()
         model_data_pairs = {
             CustomizedNumField: num_fields_data,
-            CustomizedCharField: char_fields_data
+            CustomizedCharField: char_fields_data,
+            CustomizedColorField: color_fields_data
         }
 
         for model, field_data in model_data_pairs.items():
@@ -342,6 +346,10 @@ class Item(UUIDModel):
             customized_char_fields_data = validated_data.pop(
                 'customized_char_fields'
             )
+        if "customized_color_fields" in validated_data:
+            customized_color_fields_data = validated_data.pop(
+                'customized_color_fields'
+            )
         item = queryset[0]
         owner_changed = False
         errors = []
@@ -351,6 +359,9 @@ class Item(UUIDModel):
         )
         item.update_or_create_customized_fields(
             CustomizedCharField, customized_char_fields_data
+        )
+        item.update_or_create_customized_fields(
+            CustomizedColorField, customized_color_fields_data
         )
         for field in item.tracked_fields:
             print("\t\tfield = %s" % (field))
@@ -455,8 +466,15 @@ class CustomizedCharField(UUIDModel):
 class CustomizedNumField(UUIDModel):
     item = models.ForeignKey(Item, related_name="customized_num_fields")
     title = models.CharField(max_length=144, blank=False)
-    value = models.DecimalField(max_digits=10, decimal_places=3, blank=False)
+    value = models.DecimalField(
+        max_digits=10, decimal_places=3, blank=False, default=0)
     unit = models.CharField(max_length=20, blank=True, default="")
+
+
+class CustomizedColorField(UUIDModel):
+    item = models.ForeignKey(Item, related_name="customized_color_fields")
+    title = models.CharField(max_length=144, blank=False)
+    value = models.CharField(max_length=7, blank=False, default="#000000")
 
 
 class Post(UUIDModel):

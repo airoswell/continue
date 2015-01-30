@@ -411,16 +411,25 @@ class ItemDetail(XDetailAPIView):
     def data_handler(self, request, handler):
         customized_char_fields_data = []
         customized_num_fields_data = []
+        customized_color_fields_data = []
         if "customized_char_fields" in request.data:
             customized_char_fields_data = request.data[
                 'customized_char_fields'
             ]
         if "customized_num_fields" in request.data:
-            customized_num_fields_data = request.data['customized_num_fields']
-        # Validate
+            customized_num_fields_data = request.data[
+                'customized_num_fields'
+            ]
+        if "customized_color_fields" in request.data:
+            customized_color_fields_data = request.data[
+                'customized_color_fields'
+            ]
+        # ======== Validate ========
         data = handler.validate(request.data)
+        # ==========================
         data["customized_char_fields"] = customized_char_fields_data
         data["customized_num_fields"] = customized_num_fields_data
+        data["customized_color_fields"] = customized_color_fields_data
         return data
 
 

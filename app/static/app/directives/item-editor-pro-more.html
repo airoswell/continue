@@ -166,6 +166,26 @@
         </div>
       </div>
 
+      <!-- - Color Fields -->
+      <div ng-repeat="field in item.customized_color_fields"
+          style='display:inline-block;padding:10px;'>
+        <if drop-down-menu ng-if="field.id">
+          <span drop-down-menu-trigger>
+            <span class='text-light-gray' ng-bind="field.title"></span>
+            <span><i class="fa fa-caret-down"></i></span>
+          </span>
+          <div drop-down-menu-target>
+            <item-field-edit-menu></item-field-edit-menu>
+          </div>
+        </if>
+        <if ng-if="!field.id" auto-expand data='field.title' init-width="70px" min-size=10>
+          <input style='font-weight:600;color:#666;' placeholder="Title" type="text" ng-model="field.title">
+        </if>
+        <div auto-expand data='field.value' init-width="100px" min-size=5>
+          <input minicolors="{position:'bottom left'}" style='font-weight:600;color:#666;' placeholder="Value" type="text" ng-model='field.value'>
+        </div>
+      </div>
+
 
       <!-- Add field button -->
       <div style='padding:10px;' class="dropdown" dropdown>
@@ -181,6 +201,9 @@
           </li>
           <li ng-click="item.add_customized_num_field()">
             <a href><b>Add a number record</b></a>
+          </li>
+          <li ng-click="item.add_customized_color_field()">
+            <a href><b>Add a color record</b></a>
           </li>
         </ul>
       </div>

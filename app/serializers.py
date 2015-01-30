@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from app.models import Item, Post, UserProfile, Image
 from app.models import CustomizedCharField, CustomizedNumField
+from app.models import CustomizedColorField
 from app.models import ItemEditRecord, PostItemStatus, ItemTransactionRecord
 from django.contrib.auth.models import User
 from postman.models import Message
@@ -42,6 +43,13 @@ class CustomizedCharFieldSerializer(serializers.ModelSerializer):
                   "time_updated", "time_created")
 
 
+class CustomizedColorFieldSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomizedColorField
+        fields = ("id", "item", "title", "value",
+                  "time_updated", "time_created")
+
+
 class CustomizedNumFieldSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomizedNumField
@@ -52,9 +60,12 @@ class CustomizedNumFieldSerializer(serializers.ModelSerializer):
 class ItemSerializer(serializers.ModelSerializer):
     transferrable = serializers.BooleanField(read_only=True)
     customized_char_fields = CustomizedCharFieldSerializer(
-        many=True, read_only=True)
+        many=True)
+    customized_color_fields = CustomizedColorFieldSerializer(
+        many=True)
     customized_num_fields = CustomizedNumFieldSerializer(
-        many=True, read_only=True)
+        many=True)
+
     owner = ownerField(
         queryset=User.objects.all()
     )
@@ -79,6 +90,7 @@ class ItemSerializer(serializers.ModelSerializer):
                   "available", 'area',
                   "customized_char_fields",
                   "customized_num_fields",
+                  "customized_color_fields",
                   )
         read_only_fields = ('previous_owners', "time_created", "requesters",
                             "owner_profile", 'requesters',
