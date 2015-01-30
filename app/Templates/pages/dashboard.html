@@ -205,7 +205,7 @@
         infinite-scroll-disabled="layout.display_tab !='items' || layout.loading.items || scrollTop < 600" >
       <div layout='row'>
         <div flex="10"></div>
-        <div>
+        <div reduced-padding>
           <div class="section-title-large">
             Your Gallery
           </div>
@@ -214,6 +214,8 @@
           </div>
         </div>
       </div>
+
+      <br/>
 
       <!-- Item editors list -->
       <div ng-hide="layout.show_items_search_results" layout='row'>
@@ -225,17 +227,20 @@
       </div>
 
       <!-- Search result -->
-      <div ng-show="layout.show_items_search_results"
-          flex-gt-lg="65" flex-gt-md="75" flex-md="70"
-          offset="10">
-        <div class="text-large">Search results: <b><span ng-bind="layout.items_search_keyword"></span></b></div>
-        <div layout='row' layout-align='end'>
-          <div class='button button-small button-gray' ng-click="layout.show_items_search_results = false">
-            Back to inventory
+      <div ng-show="layout.show_items_search_results" layout='row'>
+
+        <div flex-sm="0" flex="10"></div>
+        <div flex-gt-lg="70" flex-gt-md="80" flex-md="80" flex-sm="100">
+          <div class="text-large">Search results: <b><span ng-bind="layout.items_search_keyword"></span></b></div>
+          <div layout='row' layout-align='end'>
+            <div class='button button-small button-gray' ng-click="layout.show_items_search_results = false">
+              Back to inventory
+            </div>
           </div>
+          <item-editor-pro ng-repeat="item in items_search_results">
+          </item-editor-pro>
         </div>
-        <item-editor-pro ng-repeat="item in items_search_results">
-        </item-editor-pro>
+        
       </div>
     </div>
 

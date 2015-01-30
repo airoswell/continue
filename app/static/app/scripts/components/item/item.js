@@ -65,9 +65,40 @@
         return true;
       };
       return $scope.submit = function() {
+        var item, tag, tags, tags_private, _i, _len, _ref;
         if (!$scope.is_valid()) {
           Alert.show_error("There are no items or necessary info are not provided.");
           return;
+        }
+        _ref = $scope.items;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          item = _ref[_i];
+          tags = [
+            (function() {
+              var _j, _len1, _ref1, _results;
+              _ref1 = item.tags_input;
+              _results = [];
+              for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+                tag = _ref1[_j];
+                _results.push(tag.text);
+              }
+              return _results;
+            })()
+          ][0].join(",");
+          tags_private = [
+            (function() {
+              var _j, _len1, _ref1, _results;
+              _ref1 = item.tags_private_input;
+              _results = [];
+              for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+                tag = _ref1[_j];
+                _results.push(tag.text);
+              }
+              return _results;
+            })()
+          ][0].join(",");
+          item.tags = tags;
+          item.tags_private = tags_private;
         }
         $scope.bulk_items.items = $scope.items;
         Alert.show_msg("Submitting your data ...");

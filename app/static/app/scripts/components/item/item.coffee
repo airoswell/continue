@@ -52,6 +52,11 @@ angular.module "continue"
       if not $scope.is_valid()
         Alert.show_error("There are no items or necessary info are not provided.")
         return
+      for item in $scope.items
+        tags = [tag.text for tag in item.tags_input][0].join(",")
+        tags_private = [tag.text for tag in item.tags_private_input][0].join(",")
+        item.tags = tags
+        item.tags_private = tags_private
       $scope.bulk_items.items = $scope.items
       Alert.show_msg("Submitting your data ...")
       $scope.bulk_items.$save().$then (response)->
