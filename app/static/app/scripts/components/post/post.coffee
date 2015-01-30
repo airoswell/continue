@@ -1,3 +1,5 @@
+console.log "post.coffee"
+
 angular.module "continue"
 
 .controller "postEditorCtrl", [

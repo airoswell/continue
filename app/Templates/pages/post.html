@@ -49,6 +49,7 @@
   }
   .post-editor tags-input.custom .host{
     border: none;border: 1px solid transparent;
+    max-width: none;
   }
   .post-editor tags-input.custom .host:hover{
     background: #f9f9f9;border-color: #f4f4f4;
@@ -66,16 +67,21 @@
   {% endif %}
   <form name='postEditor' ng-controller="postEditorCtrl" ng-cloak
       style='padding:20px;'
-      {% if post.id %} ng-init="id='{{ post.id }}';show_cheat_sheet=false" {% endif %}
+      {% if post.id %}
+      ng-init="id='{{ post.id }}';show_cheat_sheet=false"
+      {% endif %}
+      ng-init="show_cheat_sheet=false"
       layout='row' layout-align='center'>
 
     <div  class='post-editor' flex-gt-md="80" flex="100">
       <div class="post-editor-header"
           layout-gt-md="row" layout='column' layout-align='space-between center'>
         <div flex>
-          {% if post and is_owner or not post %}<div class='text-small' style='color:#999'>Click to edit</div>{% endif %}
+          {% if post and is_owner or view == "post_create" %}
+          <div class='text-small' style='color:#999'>Click to edit</div>
+          {% endif %}
           <div flex>
-            {% if post and is_owner or not post %}
+            {% if post and is_owner or view == "post_create" %}
             <input type='text' class='text-blue post-editor-title'
                 ng-class="{'submission-error': submission_error}"
                 ng-model="post.title" required
@@ -95,7 +101,7 @@
         {% endif %}
       </div>
       
-      {% if post and is_owner or not post %}
+      {% if post and is_owner or view == "post_create" %}
       <div layout='row' style='padding:0px 20px;'>  
         <div style='padding:10px;'>
           <div style='color:#999;margin-bottom:5px;border-color:transparent;'>Area (zip code) &nbsp;</div>
@@ -152,7 +158,7 @@
           <i class='fa fa-tags'
               tooltip="Tag brings better search and organization."></i>&nbsp; 
           <div flex>
-            {% if post and is_owner or not post %}
+            {% if post and is_owner or view == "post_create" %}
             <tags-input class="custom" ng-model='tags_input'
                 placeholder='Tag your post for ease of search.'>
             </tags-input>
@@ -183,7 +189,7 @@
             </div>
             {%   endif %}
             {% endif %}
-            {% if post and is_owner or not post %}
+            {% if post and is_owner or view == "post_create" %}
             <div {% if post %} ng-show="layout.detail_input" {% endif %}
                 ng-file-drop ng-model="images"
                 drag-over-class="{accept:'acceptClass', reject:'rejectClass', delay:100}"  accept="image/*">
@@ -259,7 +265,7 @@
         </div>
 
 
-        {% if post and is_owner or not post %}
+        {% if post and is_owner or view == "post_create" %}
         <!-- ======== Buttons ======== -->
         <div layout='row' layout-align='end'>
           <div class='button button-small button-blue'

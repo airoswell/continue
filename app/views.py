@@ -128,7 +128,7 @@ def post_create(request):
         request,
         'pages/post.html',
         {
-            'view': 'post',
+            'view': 'post_create',
             'LIVEHOST': settings.LIVEHOST,
         }
     )

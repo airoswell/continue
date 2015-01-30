@@ -94,7 +94,7 @@
   <script type="text/javascript" src="{% static 'app/scripts/components/dashboard.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/scripts/components/user-profile.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/scripts/components/dashboard-directives.js'%}"></script>
-  {% if view == 'post' %}
+  {% if view == 'post' or view == 'post_create' %}
   <script type="text/javascript" src="{% static 'app/scripts/components/post/post.js'%}"></script>
   {% elif view == 'item-timeline'%}
   <script type="text/javascript" src="{% static 'app/scripts/components/item-timeline.js'%}"></script>
