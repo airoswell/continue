@@ -360,6 +360,7 @@ class Item(UUIDModel):
         item.update_or_create_customized_fields(
             CustomizedCharField, customized_char_fields_data
         )
+        import pdb; pdb.set_trace()
         item.update_or_create_customized_fields(
             CustomizedColorField, customized_color_fields_data
         )
@@ -716,6 +717,7 @@ class PostItemStatus(UUIDModel):
 class ItemEditRecord(UUIDModel):
     item = models.ForeignKey(Item, related_name='update_event')
     field = models.CharField(max_length=100)
+    widget = models.CharField(max_length=100, blank=False, default="text")
     original_value = models.CharField(max_length=500, blank=True, null=True)
     new_value = models.CharField(max_length=500)
     note = models.CharField(max_length=500, default="", blank=True, null=True)

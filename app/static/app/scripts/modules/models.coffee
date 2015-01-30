@@ -13,6 +13,7 @@ angular.module 'continue.models', [
 .factory "Model", ['restmod', "Alert", "Auth", (restmod, Alert, Auth) ->
 
   save = (self, successHandler, errorHandler) ->
+    console.log ".save()"
     # Prepare for saving
     if not self.is_valid()
       Alert.show_error("Your input is not complete or contains invalid data.")

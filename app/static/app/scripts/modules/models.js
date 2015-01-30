@@ -15,6 +15,7 @@
     'restmod', "Alert", "Auth", function(restmod, Alert, Auth) {
       var copy, next_page, prev_page, save;
       save = function(self, successHandler, errorHandler) {
+        console.log(".save()");
         if (!self.is_valid()) {
           Alert.show_error("Your input is not complete or contains invalid data.");
           return false;
