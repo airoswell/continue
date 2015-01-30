@@ -9,10 +9,13 @@
       <item-editor-pro-basics></item-editor-pro-basics>
     </div>
 
+
+
     <!-- ======== Tags ======== -->
-    <div style='padding:5px;' ng-if="item.tags.length * item.tags_private.length">
+    <div style='padding:5px;'>
       <span class='tag tag-small tag-gray'
-        ng-repeat="tag in item.tags" ng-bind='tag' ng-click="items_search(tag)">
+        ng-repeat="tag in item.tags"
+          ng-bind='tag' ng-click="items_search(tag)">
       </span>
       <span class='tag tag-small tag-purple'
         ng-repeat="tag in item.tags_private" ng-bind='tag' ng-click="items_search(tag)">
