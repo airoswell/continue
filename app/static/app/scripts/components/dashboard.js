@@ -132,6 +132,7 @@
       $scope.scroll_to_post = function(id) {
         var top;
         console.log("id", id);
+        console.log($("#post-" + id));
         top = $("#post-" + id).offset().top;
         console.log("top = " + top);
         $("html, body").animate({

@@ -119,6 +119,7 @@ angular.module("continue")
 
     $scope.scroll_to_post = (id)->
       console.log "id", id
+      console.log $("#post-#{id}")
       top = $("#post-#{id}").offset().top
       console.log "top = #{top}"
       $("html, body").animate scrollTop: top - 100
