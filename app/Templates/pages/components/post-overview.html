@@ -51,7 +51,9 @@
   <div class='post-body'>
     <div layout='column' layout-gt-md='row' layout-align='space-between center'>
       <div>
-        <div class="text-large">{{ post.title }}</div>
+        <a href="/app/post/{{post.id}}">
+          <div class="text-large text-blue">{{ post.title }}</div>
+        </a>
         <div layout='row' layout='start center'>
           <div> Location: 
             <a href="/app/search/?areas={{post.area}}">
