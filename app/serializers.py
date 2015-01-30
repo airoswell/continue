@@ -59,13 +59,14 @@ class CustomizedNumFieldSerializer(serializers.ModelSerializer):
 
 class ItemSerializer(serializers.ModelSerializer):
     transferrable = serializers.BooleanField(read_only=True)
+    # These customized fields will be treated individually
+    # hence read_only
     customized_char_fields = CustomizedCharFieldSerializer(
         many=True, read_only=True)
     customized_color_fields = CustomizedColorFieldSerializer(
         many=True, read_only=True)
     customized_num_fields = CustomizedNumFieldSerializer(
         many=True, read_only=True)
-
     owner = ownerField(
         queryset=User.objects.all()
     )

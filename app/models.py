@@ -360,7 +360,6 @@ class Item(UUIDModel):
         item.update_or_create_customized_fields(
             CustomizedCharField, customized_char_fields_data
         )
-        import pdb; pdb.set_trace()
         item.update_or_create_customized_fields(
             CustomizedColorField, customized_color_fields_data
         )
