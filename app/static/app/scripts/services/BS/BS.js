@@ -112,6 +112,33 @@
             return scope.item = {};
           };
           return scope.update_item = function(item) {
+            var tag, tags, tags_private;
+            tags = [
+              (function() {
+                var _i, _len, _ref, _results;
+                _ref = item.tags_input;
+                _results = [];
+                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                  tag = _ref[_i];
+                  _results.push(tag.text);
+                }
+                return _results;
+              })()
+            ][0].join(",");
+            tags_private = [
+              (function() {
+                var _i, _len, _ref, _results;
+                _ref = item.tags_private_input;
+                _results = [];
+                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                  tag = _ref[_i];
+                  _results.push(tag.text);
+                }
+                return _results;
+              })()
+            ][0].join(",");
+            item.tags = tags;
+            item.tags_private = tags_private;
             ItemEditor.deferred.resolve(item);
             return item.save().$then(function(response) {
               return scope.item = {};

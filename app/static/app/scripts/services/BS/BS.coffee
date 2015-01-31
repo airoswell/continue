@@ -116,6 +116,10 @@ angular.module "continue"
       ItemEditor.item = {}
       scope.item = {}
     scope.update_item = (item)->
+      tags = [tag.text for tag in item.tags_input][0].join(",")
+      tags_private = [tag.text for tag in item.tags_private_input][0].join(",")
+      item.tags = tags
+      item.tags_private = tags_private
       # resolve the previous Item.$find(), otherwise
       # it will not run the new save() request.
       ItemEditor.deferred.resolve(item)
