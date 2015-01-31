@@ -65,14 +65,14 @@
     <div ng-click='display_tab("items")'
         ng-class="{'text-blue': layout.display_tab == 'items'}">
       <div class="text-default sidebar-item">
-        Collections
+        <i class='fa fa-th'></i>&nbsp;Collections
       </div>
     </div>
     {% if view == "dashboard" %}
     <div ng-click='display_tab("settings")'
         ng-class="{'text-blue': layout.display_tab == 'settings'}">
       <div class="text-default sidebar-item">
-        Settings
+        <i class='fa fa-cog'></i>&nbsp;Settings
       </div>
     </div>
     {% endif %}
