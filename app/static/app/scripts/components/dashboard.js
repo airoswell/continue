@@ -112,7 +112,9 @@
         if (tab_name === "settings") {
           profile = $scope.profile;
           $scope.primary_area = profile.primary_area;
-          $scope.interested_areas_array = profile.interested_areas.split(",");
+          if (profile.interested_areas.length > 0) {
+            $scope.interested_areas_array = profile.interested_areas.split(",");
+          }
           return $scope.interested_areas_tags = [
             (function() {
               var _i, _len, _ref, _results;

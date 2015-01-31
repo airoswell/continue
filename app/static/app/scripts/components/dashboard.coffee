@@ -114,7 +114,8 @@ angular.module("continue")
       if tab_name == "settings"
         profile = $scope.profile
         $scope.primary_area = profile.primary_area
-        $scope.interested_areas_array = profile.interested_areas.split(",")
+        if profile.interested_areas.length > 0
+          $scope.interested_areas_array = profile.interested_areas.split(",")
         $scope.interested_areas_tags = [{text: tag} for tag in $scope.interested_areas_array][0]
 
     $scope.scroll_to_post = (id)->
