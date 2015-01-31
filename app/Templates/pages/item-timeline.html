@@ -61,7 +61,7 @@
       <div><b>Texts</b></div>
       <div style='margin-top:10px;'>
         {% for field in item.customized_char_fields.all %}
-        <span class="button button-small button-gray"
+        <span class="button button-small button-gray" style='margin-top:10px;margin-bottom:10px;display:inline-block'
             ng-class='{"displaying": is_displaying("{{field.title}}")}'
             ng-click='add_field("{{field.title}}")'>{{field.title}}</span>
         {% empty %}
