@@ -17,6 +17,7 @@ class ErrorHandler:
         data_serialized = self.serializer(data=data)
         if data_serialized.is_valid():
             return data_serialized.validated_data
+        print("\n\tverifying data for data = %s" % (data))
         self.errors = data_serialized.errors
         print("\n\t !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         print("\t\nErrorHandler.validate() ==> %s" % (self.errors))

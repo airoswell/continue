@@ -14,6 +14,7 @@ angular.module("continue")
       loading:
         "items": true
     }
+    $scope.tags = []    # A list of tags that will be searched against
 
     $scope.load_first_items = ()->
       # Load the first few items when user click the `Gallery`
@@ -33,15 +34,6 @@ angular.module("continue")
 
     $scope.load_first_items()
 
-    $scope.items_search = (tag)->
-      Alert.show_msg("Searching...")
-      $scope.layout.items_search_keyword = tag
-      $scope.layout.show_items_search_results = true
-      $scope.items_search_results = Item.search(
-        tags: tag
-      )
-
-
     # =========== Infinite scrolling for items ===========
     infinite_scroll_items = new InfiniteScroll(Item)
     $scope.load_items = ()->
@@ -58,6 +50,29 @@ angular.module("continue")
         $scope.layout.loading.items = false
       , ()->
         Alert.show_msg("All items are downloaded ...")
+
+    search = (params)->
+      Alert.show_msg("Searching...")
+      $scope.layout.show_items_search_results = true
+      $scope.items_search_results = Item.search(
+        params
+      )
+
+    $scope.search_by_tag = (tag)->
+      if tag in $scope.tags
+        index = $scope.tags.indexOf(tag)
+        $scope.tags.splice index, 1
+      else
+        $scope.tags.push(tag)
+      if $scope.tags.length > 0
+        tags = $scope.tags.join(",")
+        params = {"tags": tags}
+        search(params)
+      else
+        $scope.items_search_results = []
+
+    $scope.is_searched = (tag)->
+      tag in $scope.tags
 
     $scope.create_item = () ->
       if $scope.layout.creating_new_item

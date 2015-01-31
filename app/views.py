@@ -491,12 +491,15 @@ def collection(request):
             for tag in tags:
                 if not (tag in available_tags):
                     available_tags.append(tag)
+
+    available_tags = sorted(available_tags)
     return render(
         request,
         'pages/collection.html',
         {
             'view': 'collection',
             'LIVEHOST': settings.LIVEHOST,
+            'available_tags': available_tags,
         }
     )
 

@@ -2,12 +2,21 @@
 
 {% block content %}
 {% load filters %}
-<div id='dashboard-wrapper' ng-controller="collectionCtrl"
+
+<style>
+  .tag.tag-gray.selected{
+    background-color: #4889F0;color: #fff;
+  }
+</style>
+
+<div id='collection-wrapper' ng-controller="collectionCtrl"
     layout='row' layout-align='end'>
   
   
   <div flex-gt-md="80" flex="100">
 
+
+    <!-- Add item button -->
     <div trigger style='position:fixed;top:100px;right:20px;z-index:1'>
       <md-button class="md-fab" aria-label="New document"
           ng-click="create_item()" style='background:#4184f3;color:#fff;'>
@@ -20,6 +29,24 @@
           <i class="fa fa-align-left" style='font-size:20px;line-height:50px;'></i>
         </md-button>
       </a>
+    </div>
+
+
+    <!-- Available tags -->
+    <div class='sidebar' hide-md hide-sm>
+
+      <div class='text-large sidebar-body'>
+        Available tags
+      </div>
+      <div class='sidebar-body'>
+        {% for tag in available_tags %}
+        <span class='tag tag-small tag-gray'
+            ng-click="search_by_tag('{{tag}}')"
+            ng-class='{"selected": is_searched("{{tag}}")}'>
+          {{tag}}
+        </span>
+        {% endfor %}
+      </div>
     </div>
 
     <!-- Item list -->
@@ -41,31 +68,21 @@
       <br/>
 
       <!-- Item editors list -->
-      <div ng-hide="layout.show_items_search_results" layout='row'>
-        <div flex-sm="0" flex="10">
-        </div>
+      <div ng-hide="items_search_results.length > 0" layout='row'>
+        <div flex-sm="0" flex="10"></div>
         <div flex-gt-lg="70" flex-gt-md="80" flex-md="80" flex-sm="100">
           <item-editor-pro ng-repeat="item in items"></item-editor-pro>
         </div>
       </div>
 
       <!-- Search result -->
-      <div ng-show="layout.show_items_search_results" layout='row'>
+      <div ng-show="items_search_results.length > 0" layout='row'>
 
-        <div flex-sm="0" flex="10"></div>
-        <div flex-gt-lg="70" flex-gt-md="80" flex-md="80" flex-sm="100">
-          <div class="text-large">
-            Search results: <b><span ng-bind="layout.items_search_keyword"></span></b>
-          </div>
-          <div layout='row' layout-align='end'>
-            <div class='button button-small button-gray' ng-click="layout.show_items_search_results = false">
-              Back to inventory
-            </div>
-          </div>
+        <div flex-sm="0" flex-md="0" flex="10"></div>
+        <div flex-gt-lg="70" flex-gt-md="80" flex-md="100" flex-sm="100">
           <item-editor-pro ng-repeat="item in items_search_results">
           </item-editor-pro>
         </div>
-        
       </div>
     </div>
 

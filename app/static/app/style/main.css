@@ -589,3 +589,7 @@ tags-input.custom.purple .tags .tag-item{
 .minicolors input.ng-valid.minicolors-input{
     width: 120px;
 }
+
+input.submission-error.ng-invalid.ng-dirty{
+    background: #f17483;color: #fff;
+}

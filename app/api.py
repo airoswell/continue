@@ -299,12 +299,14 @@ class ItemList(XListAPIView):
             )
         if params.get("tags"):
             tags = params.get("tags").split(",")
-            kwargs_tags = {"tags": tag for tag in tags}
-            kwargs_tags_private = {"tags_private": tag for tag in tags}
-            kwargs = dict(kwargs_tags.items() + kwargs_tags_private.items())
-            print("\n\tkwargs = %s" % (kwargs))
+            kwargs_tags = reduce(
+                operator.and_, [Q(tags=tag) for tag in tags]
+            )
+            kwargs_tags_private = reduce(
+                operator.and_, [Q(tags=tag) for tag in tags]
+            )
             sqs = (SearchQuerySet().models(self.model)
-                   .filter(**kwargs_tags).filter_or(**kwargs_tags_private)
+                   .filter(kwargs_tags).filter_or(kwargs_tags_private)
                    .filter(owner=request.user)
                    )
             print("\tReturned %s search results: %s" % (sqs.count(), sqs))
