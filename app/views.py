@@ -388,7 +388,7 @@ def dashboard(request):
     tl = TimelineManager(Post, Item, ItemEditRecord, )
     tl.config(
         order_by=("-time_created", "-time_created", "-time_updated", ),
-        filter_type = ["or", "or", "or"],
+        filter_type = ["and", "or", "or"],
         num_of_records=10,
     )
     interested_areas = user.interested_areas().split(",")
