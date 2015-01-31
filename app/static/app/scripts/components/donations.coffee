@@ -34,30 +34,49 @@ angular.module "continue"
       },
     ]
 
-    $scope.$watch "items_tag", ()->
-      for tag in $scope.items_tag
-        if not (tag.text in $scope.items_title)
-          item = Item.$build(Item.init)
-          item.title = tag.text
-          item.owner = $scope.collector_uid
-          item.type = "donation"
-          item.customized_num_fields = []
-          item.customized_num_fields.push(
-            {
-              title: "Age"
-              unit: "year"
-              value: 0
-            },
-          )
-          $scope.items.push(item)
-          $scope.items_title.push(item.title)
-        $scope.step_one_done = true
-    , true
+    item = Item.$build(Item.init)
+    item.owner = $scope.collector_uid
+    item.type = "donation"
+    item.customized_num_fields = []
+    item.customized_num_fields.push(
+      {
+        title: "Age"
+        unit: "year"
+        value: 0
+      },
+    )
+    $scope.items.push(item)
+    $scope.items_title.push(item.title)
+
+    # $scope.$watch "items_tag", ()->
+    #   for tag in $scope.items_tag
+    #     if not (tag.text in $scope.items_title)
+    #       item = Item.$build(Item.init)
+    #       item.title = tag.text
+    #       item.owner = $scope.collector_uid
+    #       item.type = "donation"
+    #       item.customized_num_fields = []
+    #       item.customized_num_fields.push(
+    #         {
+    #           title: "Age"
+    #           unit: "year"
+    #           value: 0
+    #         },
+    #       )
+    #       $scope.items.push(item)
+    #       $scope.items_title.push(item.title)
+    #     $scope.step_one_done = true
+    # , true
 
 
     $scope.$watch "items", (newVal)->
       $('textarea').autosize()
     , true
+
+
+    $scope.add_item = ()->
+      item = Item.$build(Item.init)
+      $scope.items.push(item)
 
 
     $scope.is_valid = ()->
