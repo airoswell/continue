@@ -104,10 +104,7 @@
   }).directive("itemFieldEditMenu", function() {
     return {
       restrict: "E",
-      templateUrl: "/static/app/directives/item-field-edit-menu.html",
-      link: function(scope) {
-        return console.log(scope.item);
-      }
+      templateUrl: "/static/app/directives/item-field-edit-menu.html"
     };
   }).directive("postOverview", function() {
     return {

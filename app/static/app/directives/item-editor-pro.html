@@ -33,7 +33,9 @@
     </textarea>
     <div toggle-partial-img ng-if="item.pic" max-height="400px"
         style='cursor:pointer'>
-      <div class='image-container'>
+      <div class='image-container'
+          tooltip="Drag&drop image file to update, click to expand."
+          tooltip-popup-delay="1000">
         <img ng-src="{{item.pic}}" style='width:100%;'>
       </div>
     </div>

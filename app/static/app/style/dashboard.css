@@ -23,6 +23,12 @@
     box-shadow: 0px 3px 8px #ccc;
     margin:40px 20px;border:1px solid #eee;
 }
+.item-editor-pro.acceptClass{
+    border-color: #00bb00;
+}
+.item-editor-pro.rejectClass{
+    border-color: red;
+}
 .item-editor-pro-header{
     background: #999;color: #fff;
 }
