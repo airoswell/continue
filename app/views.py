@@ -473,6 +473,34 @@ def dashboard(request):
     )
 
 
+@cache_control(no_cache=True, must_revalidate=True)
+def collection(request):
+    """
+    collection page
+    """
+    user = request.user
+    params = request.GET
+    if user.is_anonymous() and not ("user_id" in params):
+        return redirect('/app/user/login/')
+
+    available_tags = []
+    items = Item.objects.filter(owner=user)
+    for item in items:
+        if item.tags:
+            tags = item.tags.split(",")
+            for tag in tags:
+                if not (tag in available_tags):
+                    available_tags.append(tag)
+    return render(
+        request,
+        'pages/collection.html',
+        {
+            'view': 'collection',
+            'LIVEHOST': settings.LIVEHOST,
+        }
+    )
+
+
 def donations(request):
     if "collector_uid" in request.GET:
         collector_uid = request.GET["collector_uid"]

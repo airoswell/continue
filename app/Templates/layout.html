@@ -21,7 +21,7 @@
   <link rel="stylesheet" type="text/css" href="{% static 'app/style/search.css'%}">
   <link rel="stylesheet" type="text/css" href="{% static 'app/style/search.css'%}">
   <link rel="stylesheet" type="text/css" href="{% static 'app/bower_components/ng-tags-input/ng-tags-input.css'%}">
-  {% if view == 'dashboard' %}
+  {% if view == 'dashboard' or view == 'collection' %}
   <link rel="stylesheet" type="text/css" href="{% static 'app/style/dashboard.css'%}">
   {% elif view == 'post' %}
   <link rel="stylesheet" type="text/css" href="{% static 'app/style/post.css'%}">
@@ -92,6 +92,7 @@
   <script type="text/javascript" src="{% static 'app/scripts/services/album/album.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/scripts/components/messages/messages.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/scripts/components/donations.js'%}"></script>
+  <script type="text/javascript" src="{% static 'app/scripts/components/collection.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/scripts/components/index.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/scripts/components/search/search.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/scripts/components/dashboard.js'%}"></script>
@@ -114,6 +115,7 @@
   <!-- {% compile "app/scripts/components/index.coffee" %} -->
   <!-- {% compile "app/scripts/components/donations.coffee" %} -->
   <!-- {% compile "app/scripts/components/dashboard.coffee" %} -->
+  <!-- {% compile "app/scripts/components/collection.coffee" %} -->
   <!-- {% compile "app/scripts/components/user-profile.coffee" %} -->
   <!-- {% compile "app/scripts/components/item-timeline.coffee" %} -->
   <!-- {% compile "app/scripts/components/dashboard-directives.coffee" %} -->

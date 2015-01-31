@@ -11,6 +11,7 @@ urlpatterns = patterns(
     url(r'^search/$', views.search, name='search'),
     url(r'^user/$', views.user_profile, name='user-profile'),
     url(r'^user/dashboard/$', views.dashboard, name='dashboard'),
+    url(r'^user/collection/$', views.collection, name='collection'),
     url(r'^post/$',
         views.post_create, name='post_create'),
     url(r'^post/(?P<pk>[a-z0-9]+)/$',

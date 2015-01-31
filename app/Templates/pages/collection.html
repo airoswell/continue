@@ -1,0 +1,76 @@
+{% extends 'layout.html'%}
+
+{% block content %}
+{% load filters %}
+<div id='dashboard-wrapper' ng-controller="collectionCtrl"
+    layout='row' layout-align='end'>
+  
+  
+  <div flex-gt-md="80" flex="100">
+
+    <div trigger style='position:fixed;top:100px;right:20px;z-index:1'>
+      <md-button class="md-fab" aria-label="New document"
+          ng-click="create_item()" style='background:#4184f3;color:#fff;'>
+        <i class="fa fa-plus" style='font-size:20px;line-height:50px;'></i>
+      </md-button>
+      &nbsp;
+      <a href="/app/post/">
+        <md-button class="md-fab" aria-label="New document"
+            style='background:#4184f3;color:#fff;'>
+          <i class="fa fa-align-left" style='font-size:20px;line-height:50px;'></i>
+        </md-button>
+      </a>
+    </div>
+
+    <!-- Item list -->
+    <div id='items-display' ng-show='layout.display_tab == "items" '
+        infinite-scroll="load_items()" infinite-scroll-distance="0"
+        infinite-scroll-disabled="layout.display_tab !='items' || layout.loading.items || scrollTop < 600" >
+      <div layout='row'>
+        <div flex="10"></div>
+        <div reduced-padding>
+          <div class="section-title-large">
+            Your Collection
+          </div>
+          <div class='text-gray'>
+            <i class='fa fa-info-circle'></i>&nbsp;Updating images is easy: just <span class='text-large'>drag&drop</span> your photo onto your items! Or click the <i class='fa fa-camera'></i> for more options.
+          </div>
+        </div>
+      </div>
+
+      <br/>
+
+      <!-- Item editors list -->
+      <div ng-hide="layout.show_items_search_results" layout='row'>
+        <div flex-sm="0" flex="10">
+        </div>
+        <div flex-gt-lg="70" flex-gt-md="80" flex-md="80" flex-sm="100">
+          <item-editor-pro ng-repeat="item in items"></item-editor-pro>
+        </div>
+      </div>
+
+      <!-- Search result -->
+      <div ng-show="layout.show_items_search_results" layout='row'>
+
+        <div flex-sm="0" flex="10"></div>
+        <div flex-gt-lg="70" flex-gt-md="80" flex-md="80" flex-sm="100">
+          <div class="text-large">
+            Search results: <b><span ng-bind="layout.items_search_keyword"></span></b>
+          </div>
+          <div layout='row' layout-align='end'>
+            <div class='button button-small button-gray' ng-click="layout.show_items_search_results = false">
+              Back to inventory
+            </div>
+          </div>
+          <item-editor-pro ng-repeat="item in items_search_results">
+          </item-editor-pro>
+        </div>
+        
+      </div>
+    </div>
+
+    
+  </div>
+</div>
+
+{% endblock %}
