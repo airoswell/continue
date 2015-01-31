@@ -553,6 +553,7 @@ class Post(UUIDModel):
             if "id" in item_data:
                 try:
                     # Update existing items that were already in the post
+                    import pdb; pdb.set_trace()
                     if item_data['id'] in current_item_list:
                         item, item_errors = Item.update(item_data, **kwargs)
                     # Update existing items that were not in the post
@@ -592,6 +593,7 @@ class Post(UUIDModel):
             items_data = validated_data.pop("items")
         post_data = validated_data
         post = cls.objects.create(**post_data)
+        import pdb; pdb.set_trace()
         print("\t\tvalidated_data = %s" % (validated_data))
         if items_data:
             for item_data in items_data:

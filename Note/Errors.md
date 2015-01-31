@@ -24,3 +24,6 @@ one variable:
 
 
 #### `restmod`: if a collection is obtained by `.$search(params)`, one should overwrite the `params` in future requests if necessary, otherwise the same `params` will be called in every future `.$fetch()`.
+
+#### 'PostList.post()' should do the following:
+- extract the items data, **validate** the item data properly; these validated_data will go into Post.create() and call `Item.create(item_data)` or `Item.update(item_data)`. If the items data are not properly validated, error will occur.

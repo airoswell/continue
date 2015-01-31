@@ -117,9 +117,13 @@ class PostList(XListAPIView):
                 # transferred.
                 elif item_data['owner'] != request.user.uid():
                     continue
-                item_id = item_data['id'] if "id" in item_data else None
+                item_id = item_data.pop('id') if "id" in item_data else None
                 item_error_handler = ErrorHandler(ItemSerializer)
                 item_data = item_error_handler.validate(item_data)
+                print("\n\tPostList.post() ==> validated items data")
+                print("\n\titems_data ERROR INFO:")
+                print("\n\titem_error_handler.errors = %s"
+                      % (item_error_handler.errors))
                 # Force the item to be public viewable.
                 item_data['visibility'] = "Public"
                 if item_error_handler.errors:
