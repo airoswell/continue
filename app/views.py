@@ -98,7 +98,7 @@ def post(request, pk):
     if not queryset:
         return redirect("404-not-found")
     post = queryset[0]
-    if post.visibility != "Public":
+    if post.visibility != "Public" and post.owner != request.user:
         return render(
             request,
             'unauthorized.html',
