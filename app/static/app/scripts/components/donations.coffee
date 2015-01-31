@@ -7,13 +7,17 @@ angular.module "continue"
   ($scope, Item, BulkItems, Alert)->
 
 
+
     $scope.layout = {
       display_tab: 0
+      success: false
+      submitted: false
     }
     $scope.bulk_items = BulkItems.$build()
     $scope.items = []
     $scope.items_title = []
     $scope.items_tag = []
+
 
     $scope.customized_char_fields = [
       {
@@ -34,19 +38,21 @@ angular.module "continue"
       },
     ]
 
-    item = Item.$build(Item.init)
-    item.owner = $scope.collector_uid
-    item.type = "donation"
-    item.customized_num_fields = []
-    item.customized_num_fields.push(
-      {
-        title: "Age"
-        unit: "year"
-        value: 0
-      },
-    )
-    $scope.items.push(item)
-    $scope.items_title.push(item.title)
+
+    $scope.$watch "collector_uid", ()->
+      item = Item.$build(Item.init)
+      item.owner = $scope.collector_uid
+      item.type = "donation"
+      item.customized_num_fields = []
+      item.customized_num_fields.push(
+        {
+          title: "Age"
+          unit: "year"
+          value: 0
+        },
+      )
+      $scope.items.push(item)
+      $scope.items_title.push(item.title)
 
     # $scope.$watch "items_tag", ()->
     #   for tag in $scope.items_tag
@@ -76,6 +82,16 @@ angular.module "continue"
 
     $scope.add_item = ()->
       item = Item.$build(Item.init)
+      item.owner = $scope.collector_uid
+      item.type = "donation"
+      item.customized_num_fields = []
+      item.customized_num_fields.push(
+        {
+          title: "Age"
+          unit: "year"
+          value: 0
+        },
+      )
       $scope.items.push(item)
 
 
@@ -103,10 +119,14 @@ angular.module "continue"
         console.log "appending item"
         item.customized_char_fields =  $scope.customized_char_fields
       $scope.bulk_items.items = $scope.items
+      $scope.layout.submitted = true
       Alert.show_msg("Submitting your data ...")
       $scope.bulk_items.$save().$then (response)->
         console.log response
+        $scope.received_items = response.items
         Alert.show_msg("Successfully submitted your data.")
+        $scope.items = []
+        $scope.layout.success = true
 
 
 ]

@@ -352,6 +352,7 @@ class BulkItemCreation(XListAPIView):
         ItemList.post
         """
         request_data = self.parser(request)
+        received_items = []
         print("\n\trequest_data = %s " % (request_data))
         for data in request_data["items"]:
             print("\n\t\t data = %s " % (data))
@@ -384,9 +385,11 @@ class BulkItemCreation(XListAPIView):
             print("\n\tItemList.post() ==> \t handler.errors %s " % (errors))
             crud = Crud(request.user, Item)
             item = crud.create(data)
+            received_items.append(item)
             # data = self.serializer(item).data
             # data["errors"] = handler.errors
-        return Response(status=crud.status)
+        data = ItemSerializer(received_items, many=True).data
+        return Response(data=data, status=crud.status)
 
 
 class ItemDetail(XDetailAPIView):

@@ -44,235 +44,263 @@
 
 
 </style>
-<div style="padding:20px;min-height: 600px;">
-  <div layout='row' layout-align='center'>
-    <div class='section-title section-title-large'>
-      Donating to Setauket Presbyterian Churchyard and Cemetery
-      <img src="http://www.setauketpresbyterian.org/wp-content/uploads/2014/04/IMG_20140406_130033_659_300x80.png" alt="">
-    </div>
-  </div>
 
-  <div flex layout='row' layout-align='center'
-      ng-controller="donationsCtrl"
+<div ng-controller="donationsCtrl"
       ng-init="collector_uid = '{{collector_uid}}'">
+  
+  <div style="padding:20px;min-height: 600px;">
+    <div layout='row' layout-align='center'>
+      <div class='section-title section-title-large'>
+        Donating to Setauket Presbyterian Churchyard and Cemetery
+        <img src="http://www.setauketpresbyterian.org/wp-content/uploads/2014/04/IMG_20140406_130033_659_300x80.png" alt="">
+      </div>
+    </div>
+
+
+    <div ng-cloak ng-show="layout.success" layout='row' layout-align='center'>
+      <div class='text-large text-blue'>
+        Data received! Thank you for the information and your warm heart!
+      </div>
+      <br/>
+      <br/>
+    </div>
+
+    <div ng-cloak ng-show="layout.success" layout='row' layout-align='center'>
+      <div ng-cloak ng-show="received_items.length"
+          class='text-large'>
+        Received items <span ng-repeat="item in received_items" class='tag tag-small tag-blue' ng-bind="item.title"></span>
+      </div>
+      <br/>
+      <br/>
+    </div>
+
     
-    <div class='donation-forms-wrapper' flex-gt-md="80" flex="100">
 
-      <!-- <step-one>
-        <div class='text-xlarge'>Step One</div>
-        <div class='text-large text-light-gray'>Enter and list the items you intend to donate</div>
-        <div flex>
-          <tags-input class='custom long' ng-model='items_tag' placeholder="Type your items' name">
-          </tags-input>
-        </div>
-      </step-one> -->
+    
 
+    <div flex layout='row' layout-align='center'>
+      
+      <div class='donation-forms-wrapper' flex-gt-md="80" flex="100">
 
-
-      <div>
-        <!-- TABS -->
-        <div class="tabs" layout='row' layout-align='start'
-            hide-sm>
-          <div class='tab' layout='row' layout-align='center center'
-              ng-repeat="item in items"
-              ng-class="{'active': layout.display_tab == $index}"
-              ng-click='layout.display_tab = $index'>
-            <div ng-bind="item.title"></div>
+        <!-- <step-one>
+          <div class='text-xlarge'>Step One</div>
+          <div class='text-large text-light-gray'>Enter and list the items you intend to donate</div>
+          <div flex>
+            <tags-input class='custom long' ng-model='items_tag' placeholder="Type your items' name">
+            </tags-input>
           </div>
-          <div class='tab' layout='row' layout-align='center center'
-              ng-click="add_item()">
-            <i class='fa fa-plus'></i>&nbsp;Add an item
-          </div>
-          <div flex style='border-bottom:2px solid #4889F0;'></div>
-        </div>
-        
-        <!-- Forms -->
-        <div class='tab-content'>
-          <form class='item-detail-form'
-              ng-show='layout.display_tab == ($index)'
-              ng-repeat="item in items">
-            <div style='background:#4889F0;padding:20px 10px 10px 10px;;color:#fff;' layout='row' layout-align='space-between center'>
+        </step-one> -->
 
-              <!-- Title -->
-              <div flex>
+
+
+        <div>
+          <!-- TABS -->
+          <div class="tabs" layout='row' layout-align='start'
+              hide-sm>
+            <div class='tab' layout='row' layout-align='center center'
+                ng-repeat="item in items"
+                ng-class="{'active': layout.display_tab == $index}"
+                ng-click='layout.display_tab = $index'>
+              <div ng-bind="item.title"></div>
+            </div>
+            <div class='tab' layout='row' layout-align='center center'
+                ng-click="add_item()">
+              <i class='fa fa-plus'></i>&nbsp;Add an item
+            </div>
+            <div flex style='border-bottom:2px solid #4889F0;'></div>
+          </div>
+          
+          <!-- Forms -->
+          <div class='tab-content'>
+            <form class='item-detail-form'
+                ng-show='layout.display_tab == ($index)'
+                ng-repeat="item in items">
+              <div style='background:#4889F0;padding:20px 10px 10px 10px;;color:#fff;' layout='row' layout-align='space-between center'>
+
+                <!-- Title -->
+                <div flex>
+                  <div>Name of the item</div>
+                  <input style='font-size:24px;border:none;color:#fff;font-weight:600;' type="text" placeholder="Title of the item"
+                      ng-model="item.title" required
+                      ng-minlength=3>
+                </div>
+                <div class='button button-small button-red'
+                    ng-click="remove(item)">
+                  <i class='fa fa-trash'></i>&nbsp;Remove
+                </div>
+              </div>
+
+
+              <!-- More detail -->
+              <div layout='row' layout-align='start center'
+                  style='padding:20px;'>
+                <input-num num='item.quantity' label="How many?">
+                </input-num>
+                <input-num num='item.customized_num_fields[0].value'
+                    label="Age of the item (year)">
+                </input-num>
+                <div>
+                  <input-dropdown label="'Condition'" flex style='margin-left:10px;margin-right:10px;display:inline-block'
+                    choices="item.condition_choices" data='item.condition'>
+                  </input-dropdown>
+                </div>
+                <div>
+                  <input-dropdown label="'Use frequency'" flex style='margin-left:10px;margin-right:10px;display:inline-block'
+                    choices="item.utilization_choices" data='item.utilization'>
+                  </input-dropdown>
+                </div>
+                <span style="padding:10px;" auto-expand init-width="140px" data="item.size"
+                    min-size=15>
+                  <div>Size</div>
+                  <input style='font-size:18px;' type="text"
+                      ng-model="item.size">
+                </span>
+              </div>
+
+              <!-- Further Detail -->
+              <div style='padding:20px;'>
+                <div style='color:#666;'>
+                  You can further describe the item below
+                </div>
+                <textarea ng-model='item.description'
+                    style='border:1px solid #ccc;'>
+                </textarea>
+              </div>
+            </form>
+
+          <br/><br/>
+          </div>
+        </div>
+
+
+        <!-- Step Two -->
+        <!-- <step-two ng-cloak ng-show="true">
+          <div class='text-xlarge'>Step Two</div>
+          <div class='text-large text-light-gray'>
+            Further details: it will be very helpful if you could provide more detail of your items.
+          </div>
+          <div>
+            <i class='fa fa-info-circle'></i>&nbsp;&nbsp;Click each tab to enter further information, and upload an <b>image</b> for the item if you have one.
+          </div>
+          <br/>
+
+
+          
+
+          
+          <div class="tabs" layout='row' layout-align='start'
+              hide-sm>
+            <div class='tab' layout='row' layout-align='center center'
+                ng-repeat="item in items"
+                ng-class="{'active': layout.display_tab == $index}"
+                ng-click='layout.display_tab = $index'>
+              <div ng-bind="item.title"></div>
+            </div>
+            <div flex style='border-bottom:2px solid #fb0;'></div>
+          </div>
+          
+          <div class='tab-content'>
+            <form class='item-detail-form'
+                ng-show='layout.display_tab == ($index)'
+                ng-repeat="item in items">
+              <br/>
+              <span style="padding:10px;" auto-expand init-width="140px" data="item.title" min-size=15>
                 <div>Name of the item</div>
-                <input style='font-size:24px;border:none;color:#fff;font-weight:600;' type="text" placeholder="Title of the item"
-                    ng-model="item.title" required
-                    ng-minlength=3>
-              </div>
-              <div class='button button-small button-red'
-                  ng-click="remove(item)">
-                <i class='fa fa-trash'></i>&nbsp;Remove
-              </div>
-            </div>
-
-
-            <!-- More detail -->
-            <div layout='row' layout-align='start center'
-                style='padding:20px;'>
-              <input-num num='item.quantity' label="How many?">
-              </input-num>
-              <input-num num='item.customized_num_fields[0].value'
-                  label="Age of the item (year)">
-              </input-num>
-              <div>
-                <input-dropdown label="'Condition'" flex style='margin-left:10px;margin-right:10px;display:inline-block'
-                  choices="item.condition_choices" data='item.condition'>
-                </input-dropdown>
-              </div>
-              <div>
-                <input-dropdown label="'Use frequency'" flex style='margin-left:10px;margin-right:10px;display:inline-block'
-                  choices="item.utilization_choices" data='item.utilization'>
-                </input-dropdown>
-              </div>
-              <span style="padding:10px;" auto-expand init-width="140px" data="item.size"
-                  min-size=15>
-                <div>Size</div>
-                <input style='font-size:18px;' type="text"
-                    ng-model="item.size">
+                <input style='font-size:22px;' type="text"
+                    ng-model="item.title">
               </span>
-            </div>
+              <br/>
 
-            <!-- Further Detail -->
-            <div style='padding:20px;'>
-              <div style='color:#666;'>
+              <br/>
+              <div layout='row' layout-align='start center'>
+                <input-num num='item.quantity' label="How many?">
+                </input-num>
+                <input-num num='item.customized_num_fields[0].value'
+                    label="Age of the item (year)">
+                </input-num>
+                <div>
+                  <input-dropdown label="'Condition'" flex style='margin-left:10px;margin-right:10px;display:inline-block'
+                    choices="item.condition_choices" data='item.condition'>
+                  </input-dropdown>
+                </div>
+                <div>
+                  <input-dropdown label="'Use frequency'" flex style='margin-left:10px;margin-right:10px;display:inline-block'
+                    choices="item.utilization_choices" data='item.utilization'>
+                  </input-dropdown>
+                </div>
+                <span style="padding:10px;" auto-expand init-width="140px" data="item.size"
+                    min-size=15>
+                  <div>Size</div>
+                  <input style='font-size:18px;' type="text"
+                      ng-model="item.size">
+                </span>
+              </div>
+
+              <div style='color:#666'>
                 You can further describe the item below
               </div>
               <textarea ng-model='item.description'
                   style='border:1px solid #ccc;'>
               </textarea>
-            </div>
-          </form>
+            </form>
 
-        <br/><br/>
-        </div>
-      </div>
-
-
-      <!-- Step Two -->
-      <!-- <step-two ng-cloak ng-show="true">
-        <div class='text-xlarge'>Step Two</div>
-        <div class='text-large text-light-gray'>
-          Further details: it will be very helpful if you could provide more detail of your items.
-        </div>
-        <div>
-          <i class='fa fa-info-circle'></i>&nbsp;&nbsp;Click each tab to enter further information, and upload an <b>image</b> for the item if you have one.
-        </div>
-        <br/>
-
-
-        
-
-        
-        <div class="tabs" layout='row' layout-align='start'
-            hide-sm>
-          <div class='tab' layout='row' layout-align='center center'
-              ng-repeat="item in items"
-              ng-class="{'active': layout.display_tab == $index}"
-              ng-click='layout.display_tab = $index'>
-            <div ng-bind="item.title"></div>
+          <br/><br/>
           </div>
-          <div flex style='border-bottom:2px solid #fb0;'></div>
-        </div>
+
+        </step-two> -->
         
-        <div class='tab-content'>
-          <form class='item-detail-form'
-              ng-show='layout.display_tab == ($index)'
-              ng-repeat="item in items">
-            <br/>
-            <span style="padding:10px;" auto-expand init-width="140px" data="item.title" min-size=15>
-              <div>Name of the item</div>
-              <input style='font-size:22px;' type="text"
-                  ng-model="item.title">
+        <br/>
+        <step-three>
+          <div class='text-xlarge'>Your contact information</div>
+          <form name='contactForm'>
+            <span style="padding:10px;display:inline-block" auto-expand init-width="180px"
+                data="customized_char_fields[0].value"
+                min-size=20>
+              <div>Your name</div>
+              <input style='font-size:22px;' placeholder="2-30 characters"
+                  type="text" ng-model="customized_char_fields[0].value"
+                  ng-minlength=2 ng-maxlength=30 required>
             </span>
-            <br/>
-
-            <br/>
-            <div layout='row' layout-align='start center'>
-              <input-num num='item.quantity' label="How many?">
-              </input-num>
-              <input-num num='item.customized_num_fields[0].value'
-                  label="Age of the item (year)">
-              </input-num>
-              <div>
-                <input-dropdown label="'Condition'" flex style='margin-left:10px;margin-right:10px;display:inline-block'
-                  choices="item.condition_choices" data='item.condition'>
-                </input-dropdown>
-              </div>
-              <div>
-                <input-dropdown label="'Use frequency'" flex style='margin-left:10px;margin-right:10px;display:inline-block'
-                  choices="item.utilization_choices" data='item.utilization'>
-                </input-dropdown>
-              </div>
-              <span style="padding:10px;" auto-expand init-width="140px" data="item.size"
-                  min-size=15>
-                <div>Size</div>
-                <input style='font-size:18px;' type="text"
-                    ng-model="item.size">
-              </span>
-            </div>
-
-            <div style='color:#666'>
-              You can further describe the item below
-            </div>
-            <textarea ng-model='item.description'
-                style='border:1px solid #ccc;'>
-            </textarea>
+            <span style="padding:10px;display:inline-block" auto-expand init-width="240px"
+                data="customized_char_fields[1].value"
+                min-size=20>
+              <div>Where can we pick up the item?</div>
+              <input style='font-size:22px;'
+                  placeholder="City name or zip code"
+                  type="text" ng-model="customized_char_fields[1].value"
+                  required ng-minlength=5>
+            </span>
+            <span style="padding:10px;display:inline-block" auto-expand init-width="200px"
+                data="customized_char_fields[2].value"
+                min-size=20>
+              <div>Your Phone number</div>
+              <input style='font-size:22px;'
+                  placeholder="e.g. (631)XXX-XXXX"
+                  type="text" ng-model="customized_char_fields[2].value">
+            </span>
+            <span style="padding:10px;display:inline-block" auto-expand init-width="200px"
+                data="customized_char_fields[3].value"
+                min-size=20>
+              <div>Or email address</div>
+              <input style='font-size:22px;'
+                  type="email" ng-model="customized_char_fields[3]['value']">
+            </span>
           </form>
+        </step-three>
 
-        <br/><br/>
+        <div layout='row' layout-align='end'>
+          <div class='button button-small button-blue' ng-click="submit()">
+            <i class="fa fa-send"></i>&nbsp;Submit
+          </div>
         </div>
 
-      </step-two> -->
-      
-      <br/>
-      <step-three>
-        <div class='text-xlarge'>Your contact information</div>
-        <form name='contactForm'>
-          <span style="padding:10px;display:inline-block" auto-expand init-width="180px"
-              data="customized_char_fields[0].value"
-              min-size=20>
-            <div>Your name</div>
-            <input style='font-size:22px;' placeholder="2-30 characters"
-                type="text" ng-model="customized_char_fields[0].value"
-                ng-minlength=2 ng-maxlength=30 required>
-          </span>
-          <span style="padding:10px;display:inline-block" auto-expand init-width="240px"
-              data="customized_char_fields[1].value"
-              min-size=20>
-            <div>Where can we pick up the item?</div>
-            <input style='font-size:22px;'
-                placeholder="City name or zip code"
-                type="text" ng-model="customized_char_fields[1].value"
-                required ng-minlength=5>
-          </span>
-          <span style="padding:10px;display:inline-block" auto-expand init-width="200px"
-              data="customized_char_fields[2].value"
-              min-size=20>
-            <div>Your Phone number</div>
-            <input style='font-size:22px;'
-                placeholder="e.g. (631)XXX-XXXX"
-                type="text" ng-model="customized_char_fields[2].value">
-          </span>
-          <span style="padding:10px;display:inline-block" auto-expand init-width="200px"
-              data="customized_char_fields[3].value"
-              min-size=20>
-            <div>Or email address</div>
-            <input style='font-size:22px;'
-                type="email" ng-model="customized_char_fields[3]['value']">
-          </span>
-        </form>
-      </step-three>
-
-      <div layout='row' layout-align='end'>
-        <div class='button button-small button-gray' ng-click="submit()">
-          <i class="fa fa-send"></i>&nbsp;Submit
-        </div>
       </div>
 
     </div>
 
   </div>
 
+
 </div>
+
 {% endblock content %}

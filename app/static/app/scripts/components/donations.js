@@ -4,9 +4,10 @@
 
   angular.module("continue").controller("donationsCtrl", [
     "$scope", "Item", "BulkItems", "Alert", function($scope, Item, BulkItems, Alert) {
-      var item;
       $scope.layout = {
-        display_tab: 0
+        display_tab: 0,
+        success: false,
+        submitted: false
       };
       $scope.bulk_items = BulkItems.$build();
       $scope.items = [];
@@ -27,22 +28,34 @@
           value: ""
         }
       ];
-      item = Item.$build(Item.init);
-      item.owner = $scope.collector_uid;
-      item.type = "donation";
-      item.customized_num_fields = [];
-      item.customized_num_fields.push({
-        title: "Age",
-        unit: "year",
-        value: 0
+      $scope.$watch("collector_uid", function() {
+        var item;
+        item = Item.$build(Item.init);
+        item.owner = $scope.collector_uid;
+        item.type = "donation";
+        item.customized_num_fields = [];
+        item.customized_num_fields.push({
+          title: "Age",
+          unit: "year",
+          value: 0
+        });
+        $scope.items.push(item);
+        return $scope.items_title.push(item.title);
       });
-      $scope.items.push(item);
-      $scope.items_title.push(item.title);
       $scope.$watch("items", function(newVal) {
         return $('textarea').autosize();
       }, true);
       $scope.add_item = function() {
+        var item;
         item = Item.$build(Item.init);
+        item.owner = $scope.collector_uid;
+        item.type = "donation";
+        item.customized_num_fields = [];
+        item.customized_num_fields.push({
+          title: "Age",
+          unit: "year",
+          value: 0
+        });
         return $scope.items.push(item);
       };
       $scope.is_valid = function() {
@@ -65,7 +78,7 @@
         return true;
       };
       return $scope.submit = function() {
-        var _i, _len, _ref;
+        var item, _i, _len, _ref;
         console.log("submitting");
         if (!$scope.is_valid()) {
           return;
@@ -77,10 +90,14 @@
           item.customized_char_fields = $scope.customized_char_fields;
         }
         $scope.bulk_items.items = $scope.items;
+        $scope.layout.submitted = true;
         Alert.show_msg("Submitting your data ...");
         return $scope.bulk_items.$save().$then(function(response) {
           console.log(response);
-          return Alert.show_msg("Successfully submitted your data.");
+          $scope.received_items = response.items;
+          Alert.show_msg("Successfully submitted your data.");
+          $scope.items = [];
+          return $scope.layout.success = true;
         });
       };
     }
