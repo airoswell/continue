@@ -375,7 +375,6 @@ class BulkItemCreation(XListAPIView):
                 customized_num_fields_data = data.pop("customized_num_fields")
                 data['customized_num_fields'] = []
             print("\n\tdata = %s" % (data))
-            import pdb; pdb.set_trace()
             handler = ErrorHandler(ItemSerializer)
             print("\n\t\t Before validating, type(data) = %s " % (type(data)))
             data = handler.validate(data)
