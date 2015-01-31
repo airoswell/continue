@@ -72,8 +72,6 @@ angular.module("continue")
 .directive "itemFieldEditMenu", ()->
   restrict: "E"
   templateUrl: "/static/app/directives/item-field-edit-menu.html"
-  link: (scope)->
-    console.log scope.item
 
 .directive "postOverview", ->
   restrict: "E"

@@ -48,8 +48,8 @@
       <div style='margin-top:10px;'>
         {% for field in item.customized_num_fields.all %}
         <span class="button button-small button-gray"
-            ng-class="{'displaying': is_displaying('{{field.title}}')}"
-            ng-click="add_field('{{field.title}}')">
+            ng-class='{"displaying": is_displaying("{{field.title}}")}'
+            ng-click='add_field("{{field.title}}")'>
           {{field.title}}
         </span>
         {% empty %}
@@ -62,8 +62,8 @@
       <div style='margin-top:10px;'>
         {% for field in item.customized_char_fields.all %}
         <span class="button button-small button-gray"
-            ng-class="{'displaying': is_displaying('{{field.title}}')}"
-            ng-click="add_field('{{field.title}}')">{{field.title}}</span>
+            ng-class='{"displaying": is_displaying("{{field.title}}")}'
+            ng-click='add_field("{{field.title}}")'>{{field.title}}</span>
         {% empty %}
         <span>No customized text record</span>
         {% endfor %}
