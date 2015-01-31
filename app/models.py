@@ -297,6 +297,7 @@ class Item(UUIDModel):
         num_fields_data = []
         char_fields_data = []
         color_fields_data = []
+        import pdb; pdb.set_trace()
         if "customized_num_fields" in validated_data:
             num_fields_data = validated_data.pop('customized_num_fields')
         if "customized_char_fields" in validated_data:
@@ -338,6 +339,7 @@ class Item(UUIDModel):
             return None, []
         customized_num_fields_data = []
         customized_char_fields_data = []
+        customized_color_fields_data = []
         if 'customized_num_fields' in validated_data:
             customized_num_fields_data = validated_data.pop(
                 'customized_num_fields'
@@ -421,6 +423,7 @@ class Item(UUIDModel):
     def update_or_create_customized_fields(
             self, model, customized_fields_data
     ):
+        import pdb; pdb.set_trace()
         for field_data in customized_fields_data:
             field_data["item"] = self
             try:

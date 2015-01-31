@@ -45,7 +45,7 @@
       {% endif %}
       <div infinit  flex-md="100" flex-lg="100" flex-gt-lg="90" flex>
       {% for record in feeds %}
-      {%   with post=record%}
+      {%   with post=record %}
       {%     if post.model_name == 'Post' %}
         <div layout='row' class="event">
           <div hide-sm flex-gt-md='20' flex="15" style='margin-top:20px;text-align:right'>

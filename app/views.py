@@ -447,6 +447,15 @@ def dashboard(request):
     timeline_starts = {model.__name__: 0 for model in tl.models}
     for record in timeline:
         timeline_starts[type(record).__name__] += 1
+
+    available_tags = []
+    items = Item.objects.filter(owner=user)
+    for item in items:
+        if item.tags:
+            tags = item.tags.split(",")
+            for tag in tags:
+                if not (tag in available_tags):
+                    available_tags.append(tag)
     return render(
         request,
         'pages/dashboard.html',
@@ -465,10 +474,18 @@ def dashboard(request):
 
 
 def donations(request):
+    if "collector_uid" in request.GET:
+        collector_uid = request.GET["collector_uid"]
+        qs = User.objects.filter(profile__id=collector_uid)
+        if not qs:
+            return redirect("index")
+    else:
+        return redirect("index")
     return render(
         request,
         'pages/donations.html',
         {
             'view': "donations",
+            'collector_uid': collector_uid,
         }
     )

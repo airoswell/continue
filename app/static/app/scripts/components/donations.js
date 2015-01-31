@@ -13,13 +13,6 @@
       $scope.items = [];
       $scope.items_title = [];
       $scope.items_tag = [];
-      $scope.customized_num_fields = [
-        {
-          title: "Age",
-          unit: "year",
-          value: 0
-        }
-      ];
       $scope.customized_char_fields = [
         {
           title: "Donor's name",
@@ -44,8 +37,14 @@
           if (!(_ref1 = tag.text, __indexOf.call($scope.items_title, _ref1) >= 0)) {
             item = Item.$build(Item.init);
             item.title = tag.text;
-            item.owner = 5;
+            item.owner = $scope.collector_uid;
             item.type = "donation";
+            item.customized_num_fields = [];
+            item.customized_num_fields.push({
+              title: "Age",
+              unit: "year",
+              value: 0
+            });
             $scope.items.push(item);
             $scope.items_title.push(item.title);
           }
