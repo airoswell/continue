@@ -5,7 +5,6 @@ angular.module("continue")
   (Alert, Album, Auth, $upload, settings)->
     restrict: "E"
     templateUrl: "/static/app/directives/item-editor-pro.html"
-    # scope: true
     scope:
       item: "=item"
     link: (scope)->
@@ -33,13 +32,14 @@ angular.module("continue")
             Alert.show_error("There was problem uploading your file. Please make sure your file is a valid image file.")
 
       scope.save = (item)->
+        success_handler = (item)->
+          item.expanded = false
+          item.new_status = ""
+          item.is_new = false
         tags = [tag.text for tag in item.tags_input][0].join(",")
         tags_private = [tag.text for tag in item.tags_private_input][0].join(",")
         item.tags = tags
         item.tags_private = tags_private
-        success_handler = (item)->
-          item.expanded = false
-          item.new_status = ""
         item.save(success_handler).$asPromise()
 
       scope.expand = (item) ->

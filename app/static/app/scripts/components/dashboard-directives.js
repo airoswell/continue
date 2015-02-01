@@ -35,6 +35,11 @@
           });
           scope.save = function(item) {
             var success_handler, tag, tags, tags_private;
+            success_handler = function(item) {
+              item.expanded = false;
+              item.new_status = "";
+              return item.is_new = false;
+            };
             tags = [
               (function() {
                 var _i, _len, _ref, _results;
@@ -61,10 +66,6 @@
             ][0].join(",");
             item.tags = tags;
             item.tags_private = tags_private;
-            success_handler = function(item) {
-              item.expanded = false;
-              return item.new_status = "";
-            };
             return item.save(success_handler).$asPromise();
           };
           scope.expand = function(item) {

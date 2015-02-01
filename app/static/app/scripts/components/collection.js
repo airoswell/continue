@@ -99,15 +99,31 @@
       $scope.is_searched = function(tag) {
         return __indexOf.call($scope.tags, tag) >= 0;
       };
+      $scope.creating_new_item = function() {
+        var item, items, _i, _len;
+        if (!($scope.items != null)) {
+          return false;
+        }
+        items = $scope.items;
+        if (items.length > 0) {
+          for (_i = 0, _len = items.length; _i < _len; _i++) {
+            item = items[_i];
+            if (!('id' in item)) {
+              return true;
+            }
+          }
+        }
+        return false;
+      };
       return $scope.create_item = function() {
         var item;
-        if ($scope.layout.creating_new_item) {
+        if ($scope.creating_new_item()) {
           return;
         }
         if ($scope.items == null) {
           $scope.items = [];
         }
-        $scope.layout.creating_new_item = true;
+        $scope.layout.view_mode = "detail";
         $scope.layout.display_tab = "items";
         item = Item.$build(Item.init);
         item.owner = Auth.get_profile().id;

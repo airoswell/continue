@@ -19,8 +19,8 @@ angular.module("continue")
     }
 
     $scope.load_first_items = ()->
-      # Load the first few items when user click the `Gallery`
-      if not $scope.items?
+      # Load the first few items when user click the `Collection`
+      if (not $scope.items?) or ($scope.creating_new_item())
         Alert.show_msg("Downloading your data ...")
         $scope.items = Item.$search({num_of_records: 8}).$then (response)->
           this.tags_handler()       # Handle the tags and private-tags
@@ -63,8 +63,6 @@ angular.module("continue")
     # =========== Infinite scrolling for items ===========
     infinite_scroll_items = new InfiniteScroll(Item)
     $scope.load_items = ()->
-      console.log "$scope.items", $scope.items
-      console.log "$scope.items.length", $scope.items.length
       infinite_scroll_items.config(
         model_types: ["Item"]       # Expected model types from the backend
         init_starts: $scope.items.length
@@ -92,7 +90,6 @@ angular.module("continue")
       , ()->
         Alert.show_msg("All feeds are downloaded ...")
 
-
     infinite_scroll_timeline = new InfiniteScroll(Timeline)
     $scope.load_timeline = ()->
       $scope.layout.loading.timeline = true
@@ -119,19 +116,25 @@ angular.module("continue")
         $scope.interested_areas_tags = [{text: tag} for tag in $scope.interested_areas_array][0]
 
     $scope.scroll_to_post = (id)->
-      console.log "id", id
-      console.log $("#post-#{id}")
       top = $("#post-#{id}").offset().top
-      console.log "top = #{top}"
       $("html, body").animate scrollTop: top - 100
       true
 
+    $scope.creating_new_item = ()->
+      if not ($scope.items?)
+        return false
+      items = $scope.items
+      if items.length > 0
+        for item in items
+          if not ('id' of item)
+            return true
+      return false
+
     $scope.create_item = () ->
-      if $scope.layout.creating_new_item
+      if $scope.creating_new_item()
         return
       if not $scope.items?
         $scope.items = []
-      $scope.layout.creating_new_item = true
       $scope.layout.display_tab = "items"
       item = Item.$build(Item.init)
       item.owner = Auth.get_profile().id

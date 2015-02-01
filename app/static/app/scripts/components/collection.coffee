@@ -93,12 +93,22 @@ angular.module("continue")
     $scope.is_searched = (tag)->
       tag in $scope.tags
 
+    $scope.creating_new_item = ()->
+      if not ($scope.items?)
+        return false
+      items = $scope.items
+      if items.length > 0
+        for item in items
+          if not ('id' of item)
+            return true
+      return false
+
     $scope.create_item = () ->
-      if $scope.layout.creating_new_item
+      if $scope.creating_new_item()
         return
       if not $scope.items?
         $scope.items = []
-      $scope.layout.creating_new_item = true
+      $scope.layout.view_mode = "detail"
       $scope.layout.display_tab = "items"
       item = Item.$build(Item.init)
       item.owner = Auth.get_profile().id
@@ -106,7 +116,6 @@ angular.module("continue")
       $scope.items.splice 0, 0, item
       $("html, body").animate scrollTop: $("#items-display").offset().top - 100
       true
-
 ]
 
 

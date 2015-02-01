@@ -15,7 +15,7 @@
         }
       };
       $scope.load_first_items = function() {
-        if ($scope.items == null) {
+        if (($scope.items == null) || ($scope.creating_new_item())) {
           Alert.show_msg("Downloading your data ...");
           return $scope.items = Item.$search({
             num_of_records: 8
@@ -58,8 +58,6 @@
       };
       infinite_scroll_items = new InfiniteScroll(Item);
       $scope.load_items = function() {
-        console.log("$scope.items", $scope.items);
-        console.log("$scope.items.length", $scope.items.length);
         infinite_scroll_items.config({
           model_types: ["Item"],
           init_starts: $scope.items.length
@@ -133,24 +131,36 @@
       };
       $scope.scroll_to_post = function(id) {
         var top;
-        console.log("id", id);
-        console.log($("#post-" + id));
         top = $("#post-" + id).offset().top;
-        console.log("top = " + top);
         $("html, body").animate({
           scrollTop: top - 100
         });
         return true;
       };
+      $scope.creating_new_item = function() {
+        var item, items, _i, _len;
+        if (!($scope.items != null)) {
+          return false;
+        }
+        items = $scope.items;
+        if (items.length > 0) {
+          for (_i = 0, _len = items.length; _i < _len; _i++) {
+            item = items[_i];
+            if (!('id' in item)) {
+              return true;
+            }
+          }
+        }
+        return false;
+      };
       $scope.create_item = function() {
         var item;
-        if ($scope.layout.creating_new_item) {
+        if ($scope.creating_new_item()) {
           return;
         }
         if ($scope.items == null) {
           $scope.items = [];
         }
-        $scope.layout.creating_new_item = true;
         $scope.layout.display_tab = "items";
         item = Item.$build(Item.init);
         item.owner = Auth.get_profile().id;
