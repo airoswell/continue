@@ -10,12 +10,23 @@ angular.module("continue")
     $scope.layout = {
       creating_new_item: false
       display_tab: "items"
+      view_mode: "detail"
+      item_to_edit: {}
       show_items_search_results: false
       search_result_not_found: false
       loading:
         "items": true
     }
     $scope.tags = []    # A list of tags that will be searched against
+
+    $scope.switch_view_mode = (mode)->
+      $scope.layout.view_mode = mode
+
+    $scope.edit_item = (item)->
+      if item != $scope.layout.item_to_edit
+        $scope.layout.item_to_edit = item
+      else
+        $scope.layout.item_to_edit = {}
 
     $scope.load_first_items = ()->
       # Load the first few items when user click the `Gallery`
@@ -97,3 +108,9 @@ angular.module("continue")
       true
 
 ]
+
+
+.directive "thumbnailItem", ()->
+  restrict: "A"
+  scope:
+    item: "="

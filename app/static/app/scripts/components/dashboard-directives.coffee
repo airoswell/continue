@@ -5,7 +5,9 @@ angular.module("continue")
   (Alert, Album, Auth, $upload, settings)->
     restrict: "E"
     templateUrl: "/static/app/directives/item-editor-pro.html"
-    scope: true
+    # scope: true
+    scope:
+      item: "=item"
     link: (scope)->
 
       scope.show_more = false

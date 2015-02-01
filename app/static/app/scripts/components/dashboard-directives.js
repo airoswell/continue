@@ -5,7 +5,9 @@
       return {
         restrict: "E",
         templateUrl: "/static/app/directives/item-editor-pro.html",
-        scope: true,
+        scope: {
+          item: "=item"
+        },
         link: function(scope) {
           scope.show_more = false;
           $('textarea').autosize();

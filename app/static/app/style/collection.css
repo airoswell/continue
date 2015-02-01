@@ -1,0 +1,4 @@
+.thumbnail{
+    width:150px;height:150px;
+    background:#eee;border:1px solid #ddd;overflow:hidden;cursor:pointer;
+}

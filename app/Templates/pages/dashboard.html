@@ -210,12 +210,12 @@
 
       <br/>
 
-      <!-- Item editors list -->
+      <!-- Item detail list -->
       <div ng-hide="layout.show_items_search_results" layout='row'>
         <div flex-sm="0" flex="10">
         </div>
         <div flex-gt-lg="70" flex-gt-md="80" flex-md="80" flex-sm="100">
-          <item-editor-pro ng-repeat="item in items"></item-editor-pro>
+          <item-editor-pro item='item' ng-repeat="item in items"></item-editor-pro>
         </div>
       </div>
 

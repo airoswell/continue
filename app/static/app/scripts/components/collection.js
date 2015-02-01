@@ -8,6 +8,8 @@
       $scope.layout = {
         creating_new_item: false,
         display_tab: "items",
+        view_mode: "detail",
+        item_to_edit: {},
         show_items_search_results: false,
         search_result_not_found: false,
         loading: {
@@ -15,6 +17,16 @@
         }
       };
       $scope.tags = [];
+      $scope.switch_view_mode = function(mode) {
+        return $scope.layout.view_mode = mode;
+      };
+      $scope.edit_item = function(item) {
+        if (item !== $scope.layout.item_to_edit) {
+          return $scope.layout.item_to_edit = item;
+        } else {
+          return $scope.layout.item_to_edit = {};
+        }
+      };
       $scope.load_first_items = function() {
         if ($scope.items == null) {
           Alert.show_msg("Downloading your data ...");
@@ -107,6 +119,13 @@
         return true;
       };
     }
-  ]);
+  ]).directive("thumbnailItem", function() {
+    return {
+      restrict: "A",
+      scope: {
+        item: "="
+      }
+    };
+  });
 
 }).call(this);

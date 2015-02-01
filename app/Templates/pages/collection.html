@@ -7,6 +7,11 @@
   .tag.tag-gray.selected{
     background-color: #4889F0;color: #fff;
   }
+
+  .item-thumbnail{
+    width:150px;height:150px;
+    background:#eee;border:1px solid #ddd;overflow:hidden;cursor:pointer;
+  }
 </style>
 
 <div id='collection-wrapper' ng-controller="collectionCtrl"
@@ -35,6 +40,20 @@
     <!-- Available tags -->
     <div class='sidebar' hide-md hide-sm>
 
+      <br/>
+
+      <div class='sidebar-body'>
+        <div class='text-large'>View modes</div>
+        <div class='tag tag-small tag-gray'
+            ng-click='switch_view_mode("detail")'>
+          Detail view
+        </div>
+        <div class='tag tag-small tag-gray'
+            ng-click='switch_view_mode("thumbnail")'>
+          Thumbnail view
+        </div>
+      </div>
+
       <div class='text-large sidebar-body'>
         Available tags
       </div>
@@ -50,9 +69,9 @@
     </div>
 
     <!-- Item list -->
-    <div id='items-display' ng-show='layout.display_tab == "items" '
+    <div id='items-display'
         infinite-scroll="load_items()" infinite-scroll-distance="0"
-        infinite-scroll-disabled="layout.display_tab !='items' || layout.loading.items || scrollTop < 600" >
+        infinite-scroll-disabled="layout.loading.items || scrollTop < 600" >
       <div layout='row'>
         <div flex="10"></div>
         <div reduced-padding>
@@ -67,11 +86,39 @@
 
       <br/>
 
-      <!-- Item editors list -->
-      <div ng-hide="tags.length > 0" layout='row'>
+
+      <!-- Item thumbnail list -->
+      {% verbatim %}
+      <div ng-show="layout.view_mode == 'thumbnail' && tags.length == 0"
+        layout='row'>
         <div flex-sm="0" flex="10"></div>
         <div flex-gt-lg="70" flex-gt-md="80" flex-md="80" flex-sm="100">
-          <item-editor-pro ng-repeat="item in items"></item-editor-pro>
+          
+          <item-editor-pro item="layout.item_to_edit"
+              ng-show='layout.item_to_edit.id'>
+          </item-editor-pro>
+
+          <div ng-repeat="item in items" style='display:inline-block;margin:20px;box-shadow:0px 2px 5px #ccc;'>
+            <div class='item-thumbnail'
+                ng-click="edit_item(item)">
+              <img ng-src="{{item.pic}}" alt="" height="150">
+            </div>
+            <div style='background:#fff;padding-right:2px 10px;'>
+              <item-editor-pro-basics></item-editor-pro-basics>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      {% endverbatim %}
+
+      <!-- Item detail list -->
+      <div ng-hide="tags.length > 0" layout='row'
+          ng-show="tags.length == 0 && layout.view_mode == 'detail'">
+        <div flex-sm="0" flex="10"></div>
+        <div flex-gt-lg="70" flex-gt-md="80" flex-md="80" flex-sm="100">
+          <item-editor-pro item="item" ng-repeat="item in items">
+          </item-editor-pro>
         </div>
       </div>
 
@@ -85,7 +132,8 @@
               No item found with the criteria.
             </div>
           </div>
-          <item-editor-pro ng-repeat="item in items_search_results">
+          <item-editor-pro item='item'
+              ng-repeat="item in items_search_results">
           </item-editor-pro>
         </div>
       </div>
