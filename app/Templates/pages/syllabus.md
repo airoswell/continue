@@ -63,13 +63,30 @@
         <!-- Angular Material Javascript now available via Google CDN; version 0.7 used here -->
         <script src="//ajax.googleapis.com/ajax/libs/angular_material/0.7.0/angular-material.min.js"></script>
 
-- `header` and `content` section, with comments
-- Introduce `style` attributes
-    - `font-size` and `color`
-    - `background`
-    - `border`
-    - `padding` and `margin` (box-model)
-- Introduce `.css` file to store all styling, introduce `class`
-- Introduce `layout` and `layout-align`
-    - `layout`: `row` and `column`
-    - `layout-align`: `start`, `end`, `center`
+- **header** and **content** section, with comments
+- **header** section
+    - introduce `style` attributes
+        - `font-size` and `color`
+        - `background`
+        - `border`
+        - `padding` and `margin` (box-model)
+    - Introduce `.css` file to store all styling, introduce `class`
+- **header** `button` `class`
+    - Introduce `layout` and `layout-align`
+        - `layout`: `row` and `column`
+        - `layout-align`: `start`, `end`, `center`
+- **content**: **cover image**
+    - `style="background: url(images/cover.jpg); background-size:100%"`
+    - Use `layout` and `layout-align` to place **welcome** message in the middle
+- **content**: **self-introduction**
+    - Introduce the combination of `layout` and `flex` to center intro-section
+    - Introduce generic attributes (`bd-black`, `bd-blue`) as `css selectors`.
+    - Introduce **opacity** of `.gif` and `.png`
+    - Emphasize generic `class` names for re-usability.
+- **content**: **Publications**
+    - Review `layout` and `layout-align`
+    - Introduce `<a>` tag and add links
+- **header**: add link to paper and create `paper.html`
+- Use **Chrome** to fine tune styling.
+
+### 2. Putting the pages on the web (byethost.com)

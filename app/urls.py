@@ -28,7 +28,7 @@ urlpatterns = patterns(
         views.user_timeline, name='user_timeline'),
     url(r'^donations/$',
         views.donations, name='donations'),
-    url(r'^404/$', views.NotFound, name='404-not-found')
+    url(r'^404/$', views.NotFound, name='404-not-found'),
 )
 
 # Django-allauth

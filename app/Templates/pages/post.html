@@ -3,9 +3,6 @@
 {% block content %}
 {% load markdown_deux_tags %}
 <style type="text/css">
-  #post-editor-wrapper{
-    padding: 0px 40px;
-  }
   .post-editor{
     min-height: 680px;background: #fff;box-shadow: 0px 3px 8px #ccc;
     padding-bottom: 40px;
@@ -102,7 +99,7 @@
       </div>
       
       {% if post and is_owner or view == "post_create" %}
-      <div layout='row' style='padding:0px 20px;'>  
+      <div layout='row' style='padding:0px 20px;'>
         <div style='padding:10px;'>
           <div style='color:#999;margin-bottom:5px;border-color:transparent;'>Area (zip code) &nbsp;</div>
           <div>
@@ -141,11 +138,23 @@
       </div>
 
       {% else %}
-
-      <div style='padding:20px 40px;'>
-        <div style='color:#999;margin-bottom:5px;border-color:transparent;'>Area (zip code) &nbsp;</div>
-        <div>
-          <div><b>{{ post.area }}</b></div>
+      <div style='padding:0px 20px;'
+          layout='row' layout-sm='column' layout-align='start center'>
+        {%   if post.id %}
+        <div flex layout='row' layout-align='start center'>
+          <img src="{{post.owner.photo}}" height=40 alt="">
+          &nbsp;&nbsp;
+          <div reduced-padding>
+            <div class='text-bold text-large'>{{ post.owner.name }}</div>
+            <div class='text-light-gray'>{{ post.time_updated }}</div>
+          </div>
+        </div>
+        {%   endif %}
+        <div style='padding:20px 40px;'>
+          <div style='color:#999;margin-bottom:5px;border-color:transparent;'>Area (zip code) &nbsp;</div>
+          <div>
+            <div><b>{{ post.area }}</b></div>
+          </div>
         </div>
       </div>
 
@@ -195,7 +204,7 @@
                 drag-over-class="{accept:'acceptClass', reject:'rejectClass', delay:100}"  accept="image/*">
 
               <!-- Test area -->
-              <textarea ng-model='post.detail'
+              <textarea id="post-editor-textarea" ng-model='post.detail'
                   {% if not post %} style='height:250px;' {% endif %}
                   placeholder="Post body goes here ... You can use the [ TAB ] key to indent.">
               </textarea>
