@@ -81,8 +81,8 @@
 
     <!-- Item list -->
     <div id='items-display'
-        infinite-scroll="load_items()" infinite-scroll-distance="0"
-        infinite-scroll-disabled="layout.loading.items || scrollTop < 600" >
+        infinite-scroll="load_items()" infinite-scroll-distance="1"
+        infinite-scroll-disabled="layout.loading.items || scrollTop < 200" >
       <div layout='row'>
         <div flex="10"></div>
         <div reduced-padding>
@@ -103,7 +103,8 @@
       <div ng-show="layout.view_mode == 'thumbnail' && tags.length == 0"
         layout='row'>
         <div flex-sm="0" flex="10"></div>
-        <div ng-cloak flex-gt-lg="80" flex-gt-md="80" flex-md="80" flex-sm="100">
+        <div ng-cloak
+            flex-gt-lg="80" flex-gt-md="80" flex-md="80" flex-sm="100">
           
           <item-editor-pro item="layout.item_to_edit"
               ng-show='layout.item_to_edit.id'>
