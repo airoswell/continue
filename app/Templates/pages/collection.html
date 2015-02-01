@@ -68,7 +68,7 @@
       <br/>
 
       <!-- Item editors list -->
-      <div ng-hide="items_search_results.length > 0" layout='row'>
+      <div ng-hide="tags.length > 0" layout='row'>
         <div flex-sm="0" flex="10"></div>
         <div flex-gt-lg="70" flex-gt-md="80" flex-md="80" flex-sm="100">
           <item-editor-pro ng-repeat="item in items"></item-editor-pro>
@@ -76,10 +76,15 @@
       </div>
 
       <!-- Search result -->
-      <div ng-show="items_search_results.length > 0" layout='row'>
+      <div ng-show="tags.length > 0" layout='row'>
 
         <div flex-sm="0" flex-md="0" flex="10"></div>
         <div flex-gt-lg="70" flex-gt-md="80" flex-md="100" flex-sm="100">
+          <div ng-cloak ng-show="layout.search_result_not_found">
+            <div class='text-large'>
+              No item found with the criteria.
+            </div>
+          </div>
           <item-editor-pro ng-repeat="item in items_search_results">
           </item-editor-pro>
         </div>

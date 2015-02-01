@@ -11,6 +11,7 @@ angular.module("continue")
       creating_new_item: false
       display_tab: "items"
       show_items_search_results: false
+      search_result_not_found: false
       loading:
         "items": true
     }
@@ -52,11 +53,18 @@ angular.module("continue")
         Alert.show_msg("All items are downloaded ...")
 
     search = (params)->
+      $scope.layout.search_result_not_found = false
       Alert.show_msg("Searching...")
       $scope.layout.show_items_search_results = true
       $scope.items_search_results = Item.search(
         params
-      )
+      ).$then ()->
+        console.log "success"
+      , (e)->
+        if e.$response.status = 404
+          $scope.items_search_results = []
+          $scope.layout.search_result_not_found = true
+          Alert.show_msg("There is no item matching the criteria.")
 
     $scope.search_by_tag = (tag)->
       if tag in $scope.tags

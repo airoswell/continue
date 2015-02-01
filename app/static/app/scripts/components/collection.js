@@ -9,6 +9,7 @@
         creating_new_item: false,
         display_tab: "items",
         show_items_search_results: false,
+        search_result_not_found: false,
         loading: {
           "items": true
         }
@@ -52,9 +53,18 @@
         });
       };
       search = function(params) {
+        $scope.layout.search_result_not_found = false;
         Alert.show_msg("Searching...");
         $scope.layout.show_items_search_results = true;
-        return $scope.items_search_results = Item.search(params);
+        return $scope.items_search_results = Item.search(params).$then(function() {
+          return console.log("success");
+        }, function(e) {
+          if (e.$response.status = 404) {
+            $scope.items_search_results = [];
+            $scope.layout.search_result_not_found = true;
+            return Alert.show_msg("There is no item matching the criteria.");
+          }
+        });
       };
       $scope.search_by_tag = function(tag) {
         var index, params, tags;
