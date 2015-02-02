@@ -148,10 +148,13 @@
           layout='row' layout-sm='column' layout-align='start center'>
         {%   if post.id %}
         <div flex layout='row' layout-align='start center'>
-          <img src="{{post.owner.photo}}" height=40 alt="">
+          <a href="/app/user/?user_id={{ post.owner.uid }}"><img src="{{post.owner.photo}}" height=40 alt=""></a>
           &nbsp;&nbsp;
           <div reduced-padding>
-            <div class='text-bold text-large'>{{ post.owner.name }}</div>
+            <a href="/app/user/?user_id={{ post.owner.uid }}">
+              <div class='text-bold text-large'>{{ post.owner.name }}
+              </div>
+            </a>
             <div class='text-light-gray'>{{ post.time_updated }}</div>
           </div>
         </div>
