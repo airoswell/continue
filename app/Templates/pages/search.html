@@ -61,10 +61,14 @@
       </div>
       {% for post in posts %}
 
+      <div id="post-{{post.id}}">
         {% include 'pages/components/post-overview.html' %}
+      </div>
 
       {% endfor %} {# posts iteration end #}
-      <post-overview ng-repeat="post in posts"></post-overview>
+      <div ng-repeat="post in posts">
+        <post-overview></post-overview>
+      </div>
     </div>
   </div>
 
