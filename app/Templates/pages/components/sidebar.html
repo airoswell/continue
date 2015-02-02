@@ -68,6 +68,15 @@
         <i class='fa fa-th'></i>&nbsp;Collections
       </div>
     </div>
+    {% if view == "user-profile" %}
+    <div ng-click='display_tab("comments")'
+        ng-class="{'text-blue': layout.display_tab == 'settings'}">
+      <div class="text-default sidebar-item">
+        <i class="fa fa-comments-o"></i>&nbsp;Leave a comment
+      </div>
+    </div>
+    {% endif %}
+
     {% if view == "dashboard" %}
     <div ng-click='display_tab("settings")'
         ng-class="{'text-blue': layout.display_tab == 'settings'}">

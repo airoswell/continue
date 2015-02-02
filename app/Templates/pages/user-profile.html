@@ -109,6 +109,29 @@
       </div>
     </div>
 
+    <div ng-show="layout.display_tab == 'comments'"
+        layout='row'>
+      <div flex-gt-lg="10" flex-gt-md="20" flex-md="10" flex-sm="0">
+      </div>
+      <div flex-gt-lg="80" flex-gt-md="70" flex-md="80" flex-sm="100">
+        <br/>
+        <br/>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+           /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+           var disqus_shortname = 'worldsheet'; // required: replace example with your forum shortname
+
+           /* * * DON'T EDIT BELOW THIS LINE * * */
+           (function() {
+               var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+               dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+               (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+           })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+    </div>
+
     <!-- Item list -->
     <div id='items-display' ng-show='layout.display_tab == "items" '
         infinite-scroll="load_items()" infinite-scroll-distance="0"
