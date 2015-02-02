@@ -593,3 +593,18 @@ tags-input.custom.purple .tags .tag-item{
 input.submission-error.ng-invalid.ng-dirty{
     background: #f17483;color: #fff;
 }
+
+
+
+/* Disqus */
+.disqus-container{
+    background: #fff;box-shadow: 0px 3px 8px #ccc;
+    padding: 20px;
+}
+
+#disqus_thread .post-content{
+    padding: 10px;
+    background: #fff;
+    box-shadow: 0px 2px 5px #ddd;
+    border: 1px solid #ddd;
+}

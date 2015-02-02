@@ -69,14 +69,14 @@
   </div>
   {% endif %}
   <form name='postEditor' ng-controller="postEditorCtrl" ng-cloak
-      style='padding:20px;'
+      style='padding:20px 0px;'
       {% if post.id %}
       ng-init="id='{{ post.id }}';show_cheat_sheet=false"
       {% endif %}
       ng-init="show_cheat_sheet=false"
       layout='row' layout-align='center'>
 
-    <div  class='post-editor' flex-gt-md="80" flex="100">
+    <div class='post-editor' flex-gt-md="80" flex="100">
       <div class="post-editor-header"
           layout-gt-md="row" layout='column' layout-align='space-between center'>
         <div flex>
@@ -305,8 +305,9 @@
   </form>
 </div>
 
+
 <div layout='row' layout-align='center'>
-  <div flex-gt-md="80" flex="100">
+  <div flex-gt-md="80" flex="100" style="background:#fff;box-shadow:0px 3px 8px #ccc;padding:20px;">
     <div id="disqus_thread"></div>
     <script type="text/javascript">
        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
@@ -322,5 +323,7 @@
     <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
   </div>
 </div>
-
+<br/>
+<br/>
+<br/>
 {% endblock %}
