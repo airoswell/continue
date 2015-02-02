@@ -228,13 +228,13 @@ input-dropdown[reduced-padding] .input-label{
     background: #3c78dc;
 }
 .button-gray{
-    background: #eee;color:666;border: 1px solid #ddd;
+    background: #f4f4f4;color:666;border: 1px solid #ddd;
 }
 .button-gray:hover{
-    background: #ddd;
+    background: #eee;
 }
 .button-gray:active{
-    background: #ccc;
+    background: #ddd;
 }
 .button-red{
     background: #f1686f;color:#fff;

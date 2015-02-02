@@ -40,24 +40,36 @@
   <!-- Post detail & item-list -->
   <div class='post-body'>
     <div layout='column' layout-gt-md='row' layout-align='space-between center'>
-      <div>
+      <div flex>
         <a href="/app/post/{{post.id}}/">
           <div class="text-xlarge text-blue" ng-bind="post.title"></div>
         </a>
-        <div layout='row'>
-          <div>Location: <a href="/app/search/?areas={{post.area}}"><bind ng-bind="post.area"></bind></a></div>&nbsp;&nbsp;
-          <div style="color:#999;cursor:pointer;border:1px solid #eee;padding:0px 5px;"
-              follow-button-area area='{{post.area}}' ng-cloak ng-show="!is_followed(post.area) && !profile.is_anonymous"
-              ng-click="follow(post.area)">
-            <i class='fa fa-plus'></i>&nbsp;Follow
+        <div flex layout='row' layout-align='space-between center'>
+          <div layout='row'>
+            <div>Location: <a href="/app/search/?areas={{post.area}}"><bind ng-bind="post.area"></bind></a></div>&nbsp;&nbsp;
+            <div style="color:#999;cursor:pointer;border:1px solid #eee;padding:0px 5px;"
+                follow-button-area area='{{post.area}}' ng-cloak ng-show="!is_followed(post.area) && !profile.is_anonymous"
+                ng-click="follow(post.area)">
+              <i class='fa fa-plus'></i>&nbsp;Follow
+            </div>
+            <div ng-cloak ng-show="is_followed(post.area)">
+              <i class="fa fa-check"></i>
+            </div>
+            &nbsp;
+            <div layout='column' layout-align='center'>
+              <i style='color:#666;' class="fa fa-info-circle" tooltip-placement="bottom"
+                tooltip="Following an area: public posts and items from the area will appear in your news feeds."></i>
+            </div>
           </div>
-          <div ng-cloak ng-show="is_followed(post.area)">
-            <i class="fa fa-check"></i>
-          </div>
-          &nbsp;
-          <div layout='column' layout-align='center'>
-            <i style='color:#666;' class="fa fa-info-circle" tooltip-placement="bottom"
-              tooltip="Following an area: public posts and items from the area will appear in your news feeds."></i>
+          <!-- comment number -->
+          <div>
+            <a href="/app/post/{{post.id}}/">
+              <i class='fa fa-comments-o'></i>
+            </a>
+            <a href="/app/post/{{post.id}}/#disqus_thread"
+                data-disqus-identifier='worldsheet.org/post/{{post.id}}/'
+                class='text-small text-bold'>
+            </a>
           </div>
         </div>
       </div>

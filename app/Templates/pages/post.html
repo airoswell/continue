@@ -13,6 +13,9 @@
   .post-editor .post-editor-title{
     font-size: 25px;padding-left:0px;border:none;line-height:40px;width:100%;
   }
+  .post-editor .post-body-container{
+    padding: 0px 20px;
+  }
   .post-editor .post-detail{
     background:#f9f9f9;padding:20px;cursor:pointer;
     transition: all 0.2;border: 1px solid #ddd;
@@ -25,13 +28,13 @@
     background: #eee;
   }
   .post-editor .disabled.post-detail{
-    cursor: auto;
+    cursor: auto;background: #fff;border: none;
   }
   .post-editor .disabled.post-detail:hover{
-    background: #f9f9f9;
+    background: #fff;
   }
   .post-editor .disabled.post-detail:active{
-    background: #f9f9f9;
+    background: #fff;
   }
 
   .post-editor textarea{
@@ -169,31 +172,34 @@
 
       {% endif %}
       
-      <!-- ======== Tags ======== -->
       {% load filters %}
-      <div style='padding:0px 20px;'>
+      <div class="post-body-container">
+        <!-- ======== Tags ======== -->
         <div flex layout='row' layout-align='start center' style='margin-bottom:5px;'>
+          {% if post and is_owner or view == "post_create" %}
           <i class='fa fa-tags'
               tooltip="Tag brings better search and organization."></i>&nbsp; 
           <div flex>
-            {% if post and is_owner or view == "post_create" %}
             <tags-input class="custom" ng-model='tags_input'
                 placeholder='Tag your post for ease of search.'>
             </tags-input>
-            {% else %}
-            &nbsp;
+          </div>
+          {% else %}
+          <div flex>
             {% for tag in post.tags|split:"," %}
             <a href="/app/search/?tags={{tag}}">
               <span class='tag tag-small tag-blue'>{{ tag }}</span>
             </a>
             {% endfor %}
-            {% endif %}
           </div>
+          {% endif %}
         </div>
 
         <!-- ======== Detail ======== -->
         <div layout='row'>
+          {% if post and is_owner or view == "post_create" %}
           <i class="fa fa-align-left"></i>&nbsp;&nbsp;
+          {% endif %}
           <div flex>
             {% if post %}
             {%   if post and is_owner %}

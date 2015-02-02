@@ -56,11 +56,13 @@
       <div class='sidebar-body'>
         <div class='text-large'>View modes</div>
         <div class='tag tag-small tag-gray'
-            ng-click='switch_view_mode("detail")'>
+            ng-click='switch_view_mode("detail")'
+            ng-class="{'selected': layout.view_mode == 'detail'}">
           Detail view
         </div>
         <div class='tag tag-small tag-gray'
-            ng-click='switch_view_mode("thumbnail")'>
+            ng-click='switch_view_mode("thumbnail")'
+            ng-class="{'selected': layout.view_mode == 'thumbnail'}">
           Thumbnail view
         </div>
       </div>
