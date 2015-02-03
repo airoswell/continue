@@ -22,7 +22,9 @@
   {% with field=event.field %}
   {% with new_val=event.new_value %}
   <div flex>
-    {% if field == "pic" %}
+    {% if event.widget == 'color' %}
+    <a href="/app/item/{{item.pk}}/timeline/"><b class="text-blue">{{item}}</b></a> updated its <b>{{ field }}</b>: <div style='height:22px;width:22px;background:{{ new_val }};display:inline-block;vertical-align:middle;'></div>
+    {% elif field == "pic" %}
     <a href="/app/item/{{item.pk}}/timeline/"><b class="text-blue">{{item}}</b></a> has a new <b>image</b>.
 
     {% elif field == "status"%}

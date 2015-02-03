@@ -362,7 +362,8 @@ class Item(UUIDModel):
             CustomizedCharField, customized_char_fields_data
         )
         item.update_or_create_customized_fields(
-            CustomizedColorField, customized_color_fields_data
+            CustomizedColorField, customized_color_fields_data,
+            widget='color'
         )
         for field in item.tracked_fields:
             print("\t\tfield = %s" % (field))
@@ -420,7 +421,7 @@ class Item(UUIDModel):
         return queryset[0], errors
 
     def update_or_create_customized_fields(
-            self, model, customized_fields_data
+            self, model, customized_fields_data, widget="text"
     ):
         for field_data in customized_fields_data:
             field_data["item"] = self
@@ -452,6 +453,7 @@ class Item(UUIDModel):
                         original_value=old_value,
                         new_value=new_value,
                         item=self,
+                        widget=widget,
                     )
             except:
                 print("item.update_customized_char_fields error")

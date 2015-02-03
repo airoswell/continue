@@ -49,7 +49,15 @@
     <switch ng-switch-default>
       <a href="/app/item/{{item.pk}}/timeline/">
         <b><span class='text-blue' ng-bind="event.item.title"></span></b>
-      </a>updated its <b><span ng-bind=" event.field "></span></b>: <em><span ng-bind="event.new_value"></em>.</switch>
+      </a>updated its <b><span ng-bind=" event.field "></span></b>: 
+      <span ng-if="event.widget=='text'">
+        <em><span ng-bind="event.new_value"></em>.</span>
+      </span>
+      <span ng-if="event.widget=='color'">
+        <div style='height:22px;width:22px;background:{{ new_val }};display:inline-block;vertical-align:middle;'></div>
+      </span>
+
+    </switch>
 
   </div>
 
