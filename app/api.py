@@ -624,7 +624,7 @@ class MessageList(XListAPIView):
         msg = pm_write(sender, recipient, subject, body)
         if post:
             req = PostAndItemsRequest.objects.create(
-                post=post, message=msg
+                message=msg
             )
             req.save()
             req.items.add(*items)   # items is an array of item instances

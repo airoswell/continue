@@ -11,13 +11,7 @@
       {% block item_overview_header %}
       {% endblock item_overview_header %}
       </div>
-      {% if item.tags %}
-      <div>
-      {% for tag in item.tags|split:"," %}
-        <div class='tag tag-small tag-gray'>#{{ tag }}</div>
-      {% endfor %}
-      </div>
-      {% endif %}
+      
       <!-- Item description there is any -->
       {% if item.description %}
       <div style="margin-top: 10px;padding-top:4px;padding-bottom:4px;">

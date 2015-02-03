@@ -70,6 +70,8 @@ angular.module("continue")
     target = element.find("[click-to-show-target]")
     target.css({"display":"none"})
     trigger.on "click", (e)->
+      if "tag" in e.target.className.split(" ")
+        return
       if not scope.click_to_show_is_show
         target.css({"display": ""})
       else if scope.click_to_show_is_show

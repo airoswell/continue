@@ -91,6 +91,9 @@
           "display": "none"
         });
         return trigger.on("click", function(e) {
+          if (__indexOf.call(e.target.className.split(" "), "tag") >= 0) {
+            return;
+          }
           if (!scope.click_to_show_is_show) {
             target.css({
               "display": ""

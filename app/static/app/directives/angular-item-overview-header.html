@@ -1,51 +1,51 @@
-<div layout-gt-md='row' layout='column'>
-  
-  <div layout>
-    <div class='item-overview-title'>
-      <div layout='row'>
-        <div layout='column' layout-align='center'>
-          <div ng-bind='item.title'></div>
+<div layout='row' layout-sm='column' layout-align='start'>
+  <div>
+    <img ng-if="item.pic" height="120" ng-src="{{item.pic}}">
+    <img ng-if="!item.pic" src="http://i.imgur.com/4NDzM4I.png" height="120">
+  </div>
+  <div style='margin:0px 20px'>
+    <div class='text-xlarge' ng-bind="item.title">
+    </div>
+
+
+    <div ng-if="item.tags">
+      <a ng-href="http://localhost:8000/app/search/?q={{tag}}&areas=&secret_key=&tags=">
+        <span class='tag tag-small tag-gray'
+          ng-repeat="tag in item.tags" ng-bind='tag'>
+        </span>
+      </a>
+    </div>
+
+
+    <div layout='row'>
+      <div ng-if="item.estimated_value">
+        <div style='color: #999'> Value</div>
+        <div layout='row'>
+          <div><i class="fa fa-usd"></i></div>
+          <div style='font-weight:600' ng-bind="item.estimated_value"></div>
         </div>
-        <div class='item-overview-quantity' ng-bind="::item.quantity"></div>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+      </div>
+      <div>
+        <div style='color: #999'>Condition</div>
+        <div style='font-weight:600' ng-bind="item.condition"></div>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+      </div>
+      <div ng-if="item.size">
+        <div style='color: #999'>Size</div>
+        <div style='font-weight:600' ng-bind='item.size'></div>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+      </div>
+      <div ng-if="item.available != 'No' ">
+        <div style='color: #999'>Available</div>
+        <div style='font-weight:600' ng-bind='item.available'></div>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+      </div>
+      <div ng-if="!item.transferrable">
+        <div ng-bind="item.transferrable"></div>
+        <div style='color: #999'>Unavailable</div>
+        <div style='font-weight:600'>Currently out</div>
       </div>
     </div>
-    <div ng-if='item.pic'>
-      &nbsp;&nbsp;
-      <img height=35 ng-src="{{::item.pic}}">
-    </div>
-  </div>
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <div layout='row'>
-    <div ng-if="item.estimated_value">
-      <div style='color: #999'> Value</div>
-      <div layout='row'>
-        <div><i class="fa fa-usd"></i></div>
-        <div style='font-weight:600' ng-bind="item.estimated_value"></div>
-      </div>
-    </div>
-    &nbsp;&nbsp;&nbsp;&nbsp;
-    <div>
-      <div style='color: #999'>Condition</div>
-      <div style='font-weight:600' ng-bind="item.condition"></div>
-    </div>
-    &nbsp;&nbsp;&nbsp;&nbsp;
-    <div ng-if="item.size">
-      <div style='color: #999'>Size</div>
-      <div style='font-weight:600' ng-bind='item.size'></div>
-    </div>
-    &nbsp;&nbsp;&nbsp;&nbsp;
-    <div ng-if="item.available != 'No' ">
-      <div style='color: #999'>Available</div>
-      <div style='font-weight:600' ng-bind='item.available'></div>
-    </div>
-    &nbsp;&nbsp;&nbsp;&nbsp;
-    <div ng-if="!item.transferrable">
-      <div ng-bind="item.transferrable"></div>
-      <div style='color: #999'>Unavailable</div>
-      <div style='font-weight:600'>Currently out</div>
-    </div>
-  </div>
-  <div flex layout='row' layout-align='end center'>
-    <i class='fa fa-caret-down'></i>
   </div>
 </div>
