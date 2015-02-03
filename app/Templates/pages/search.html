@@ -28,9 +28,14 @@
   </div>
 
   {% if not posts %}
-  <div layout='row' layout-align='center'>
-    <div class='text-large'>
-      Oops, it seems there is no posts matches your search criteria.
+  <div layout='row'>
+    <div flex-gt-md="30" flex-md="35"></div>
+    <div flex-gt-md="70" flex-gt-lg="60">
+      <br/>
+      <br/>
+      <div class='text-large'>
+        Oops, it seems there is no posts matches your search criteria; you can try other keywords.
+      </div>
     </div>
   </div>
   {% else %}
@@ -43,20 +48,26 @@
       infinite-scroll-disabled="layout.loading.posts || scrollTop < 600">
     <div flex-gt-md="30" flex-md="35"></div>
     <div flex-gt-md="70" flex-gt-lg="60">
-      <br/>
-      <div class='section-title section-title-large'>Posts satisfying </div>
       <div>
         {% if tags %}
+        <br/>
+        <div class='section-title section-title-large'>Posts satisfying </div>
         <span class='text-bold'>Tags: </span>
           {% for tag in tags|split:"," %}
           <a href="/app/search?tags={{tag}}"><span class='tag tag-small tag-blue text-bold'>{{tag}}</span></a>
           {% endfor %}
         {% endif %}
         {% if areas %}
+        <br/>
+        <div class='section-title section-title-large'>Posts satisfying </div>
         <span class='text-bold'>Areas: </span>
           {% for area in areas|split:"," %}
           <a href="/app/search?areas={{area}}"><span class='tag tag-small tag-blue text-bold'>{{area}}</span></a>
           {% endfor %}
+        {% endif %}
+        {% if not tags and not areas %}
+        <br/>
+        <div class='section-title section-title-large'>Most recent posts</div>
         {% endif %}
       </div>
       {% for post in posts %}
