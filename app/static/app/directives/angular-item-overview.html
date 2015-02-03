@@ -7,11 +7,6 @@
       <div click-to-show-trigger>
         <angular-item-overview-header></angular-item-overview-header>
       </div>
-      <div ng-if="item.tags">
-        <span class='tag tag-small tag-gray'
-          ng-repeat="tag in item.tags" ng-bind='tag'>
-        </span>
-      </div>
       <!-- Item description there is any -->
       <div style="margin-top: 10px;padding-top:4px;padding-bottom:4px;"
           ng-if="item.description">
