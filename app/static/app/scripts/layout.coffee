@@ -34,6 +34,7 @@ angular.module("continue")
       $("input[name=areas]").val(areas)
       $("input[name=tags]").val(tags)
       console.log $("input[name=tags]").val()
+      console.log "$('input[name='q']')", $("input[name='q']")
       document.getElementById('search-form').submit()
       # clear the input to prevent going back and see the input
       $("input").val("")
