@@ -1,8 +1,10 @@
-<div style='display:inline-block;padding:10px;'>
+<div class='item-overview-preset'>
   <div>
     <span style='color:#999;' ng-bind="::title"></span>
   </div>
-  <div layout='row'>
+  <div layout='row' layout-align='start center'>
+    <span ng-if="widget == 'color'" style='height:11px;width:11px;background-color:{{value}}'></span>
+    <span ng-if="widget == 'color'">&nbsp;</span>
     <span style='font-weight:600;color:#666;'
         ng-bind="::value">
     </span>

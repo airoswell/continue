@@ -21,40 +21,70 @@
     </div>
     {% endif %}
 
-    <div layout='row'>
       {% if item.estimated_value %}
-      <div>
+      <div class="item-overview-preset">
         <div style='color: #999'><i class="fa fa-usd">&nbsp;Value</i></div>
         <div style='font-weight:600'>{{ item.estimated_value }}</div>
       </div>
-      &nbsp;&nbsp;&nbsp;&nbsp;
       {% endif %}
+
       {% if item.condition != "Inapplicable" %}
-      <div>
+      <div class="item-overview-preset">
         <div style='color: #999'>Condition</div>
         <div style='font-weight:600'>{{ item.condition }}</div>
       </div>
-      &nbsp;&nbsp;&nbsp;&nbsp;
       {% endif %}
+
       {% if item.available != "No" %}
-      <div>
+      <div class="item-overview-preset">
         <div style='color: #999'>Available</div>
         <div style='font-weight:600'>{{ item.available }}</div>
       </div>
-      &nbsp;&nbsp;&nbsp;&nbsp;
       {% endif %}
-    {% if view == "search" %}
+
+      {% if view == "search" %}
       <!-- In a post, if the item has a different owner than the post -->
       <!-- that means the item has been transferred. -->
-      {% if item.owner != post.owner %}
-      <div>
+      {%   if item.owner != post.owner %}
+      <div class="item-overview-preset">
         <div style='color: #666;'>Out</div>
         <div style='font-weight:600;color:#ff5858'>Unavailable</div>
       </div>
-      &nbsp;&nbsp;&nbsp;&nbsp;
+      {%   endif %}
       {% endif %}
+
+    {% for field in item.customized_num_fields.all %}
+    {% with value=field.value %}
+    {% with field_title=field.title %}
+    {% with unit=field.unit %}
+    {% include 'pages/components/django-field-display.html' %}
+    {% endwith %}
+    {% endwith %}
+    {% endwith %}
+    {% endfor %}
+    
+    <!-- - Char Fields -->
+    {% for field in item.customized_char_fields.all %}
+    {% if field.display == "Yes" %}
+    {% with value=field.value %}
+    {% with field_title=field.title %}
+    {% include 'pages/components/django-field-display.html' %}
+    {% endwith %}
+    {% endwith %}
     {% endif %}
-    </div>
+    {% endfor %}
+
+    <!-- - Color Fields -->
+    {% for field in item.customized_color_fields.all %}
+    {% if field.display == "Yes" %}
+    {% with value=field.value %}
+    {% with field_title=field.title %}
+    {% include 'pages/components/django-field-display.html' %}
+    {% endwith %}
+    {% endwith %}
+    {% endif %}
+    {% endfor %}
+
   </div>
 </div>
 

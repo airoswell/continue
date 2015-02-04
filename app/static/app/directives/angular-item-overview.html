@@ -69,11 +69,12 @@
           </accordion-group>
 
 
-          <div ng-if="item.customized_num_fields.length * item.customized_char_fields.length">
+          <div ng-if="item.customized_num_fields.length + item.customized_char_fields.length + item.customized_color_fields.length">
             <accordion-group is-open="true" >
               <accordion-heading>
                 <i class="fa fa-cogs"></i>&nbsp;Customized Fields &nbsp; <i class="fa fa-caret-down"></i>
               </accordion-heading>
+
               <!-- Customized fields -->
               <!-- - NUMBER fields -->
               <angular-field-text title='{{::field.title}}'
@@ -84,6 +85,11 @@
               <!-- - Char Fields -->
               <angular-field-text title='{{::field.title}}' value='{{::field.value}}'
                   ng-repeat="field in item.customized_char_fields">
+              </angular-field-text>
+
+              <!-- - Color Fields -->
+              <angular-field-text title='{{::field.title}}' value='{{::field.value}}' widget='color'
+                  ng-repeat="field in item.customized_color_fields">
               </angular-field-text>
               
               

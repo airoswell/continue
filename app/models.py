@@ -33,6 +33,9 @@ class UUIDModel(models.Model):
     class Meta:
         abstract = True
 
+    def model_name(self):
+        return type(self).__name__
+
 
 # ======== Modifying User class ========
 def photo(self):
@@ -464,6 +467,13 @@ class CustomizedCharField(UUIDModel):
     item = models.ForeignKey(Item, related_name="customized_char_fields")
     title = models.CharField(max_length=144, blank=False)
     value = models.CharField(max_length=500, blank=True, default="")
+    display_choices = (
+        ("Yes", "Yes"), ("No", "No")
+    )
+    display = models.CharField(
+        max_length=3, blank=False, default='No',
+        choices=display_choices,
+    )
 
 
 class CustomizedNumField(UUIDModel):
@@ -472,12 +482,29 @@ class CustomizedNumField(UUIDModel):
     value = models.DecimalField(
         max_digits=10, decimal_places=3, blank=False, default=0)
     unit = models.CharField(max_length=20, blank=True, default="")
+    display_choices = (
+        ("Yes", "Yes"), ("No", "No")
+    )
+    display = models.CharField(
+        max_length=3, blank=False, default='No',
+        choices=display_choices,
+    )
 
 
 class CustomizedColorField(UUIDModel):
     item = models.ForeignKey(Item, related_name="customized_color_fields")
     title = models.CharField(max_length=144, blank=False)
     value = models.CharField(max_length=7, blank=False, default="#000000")
+    display_choices = (
+        ("Yes", "Yes"), ("No", "No")
+    )
+    display = models.CharField(
+        max_length=3, blank=False, default='No',
+        choices=display_choices,
+    )
+
+    def model_name(self):
+        return type(self).__name__
 
 
 class Post(UUIDModel):

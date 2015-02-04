@@ -1,9 +1,26 @@
 <div>
-  <div class='drop-down-menu-input'>
+  <!-- <div class='drop-down-menu-input'>
     <i class="fa fa-pencil"></i>&nbsp;Edit the title: 
     <span>
       <input type="text" ng-model='field.title' style='border:none;'>
     </span>
+  </div> -->
+  <div>
+    <div class='drop-down-menu-header'>
+      <i class='fa fa-eye'></i>&nbsp;Display along with the item?
+    </div>
+    <div layout='row' layout-align='center'>
+      <div class='tag tag-xsmall tag-gray'
+          ng-click="field.display = 'Yes'"
+          ng-class="{'selected': field.display == 'Yes'}">
+        Yes
+      </div>
+      <div class='tag tag-xsmall tag-gray'
+          ng-click="field.display = 'No'"
+          ng-class="{'selected': field.display == 'No'}">
+        No
+      </div>
+    </div>
   </div>
   <!-- <div class='option'>
     <i class='fa fa-trash'></i>&nbsp;Remove the field

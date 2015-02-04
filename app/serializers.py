@@ -39,21 +39,21 @@ class UserSerializer(serializers.ModelSerializer):
 class CustomizedCharFieldSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomizedCharField
-        fields = ("id", "item", "title", "value",
+        fields = ("id", "item", "title", "value", "display",
                   "time_updated", "time_created")
 
 
 class CustomizedColorFieldSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomizedColorField
-        fields = ("id", "item", "title", "value",
+        fields = ("id", "item", "title", "value", "display",
                   "time_updated", "time_created")
 
 
 class CustomizedNumFieldSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomizedNumField
-        fields = ("id", "item", "title", "value", "unit",
+        fields = ("id", "item", "title", "value", "unit", "display",
                   "time_updated", "time_created")
 
 

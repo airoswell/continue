@@ -17,35 +17,50 @@
     </div>
 
 
-    <div layout='row'>
-      <div ng-if="item.estimated_value">
-        <div style='color: #999'> Value</div>
-        <div layout='row'>
-          <div><i class="fa fa-usd"></i></div>
-          <div style='font-weight:600' ng-bind="item.estimated_value"></div>
-        </div>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-      </div>
-      <div>
-        <div style='color: #999'>Condition</div>
-        <div style='font-weight:600' ng-bind="item.condition"></div>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-      </div>
-      <div ng-if="item.size">
-        <div style='color: #999'>Size</div>
-        <div style='font-weight:600' ng-bind='item.size'></div>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-      </div>
-      <div ng-if="item.available != 'No' ">
-        <div style='color: #999'>Available</div>
-        <div style='font-weight:600' ng-bind='item.available'></div>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-      </div>
-      <div ng-if="!item.transferrable">
-        <div ng-bind="item.transferrable"></div>
-        <div style='color: #999'>Unavailable</div>
-        <div style='font-weight:600'>Currently out</div>
+    <div class='item-overview-preset' ng-if="item.estimated_value">
+      <div style='color: #999'> Value</div>
+      <div layout='row'>
+        <div><i class="fa fa-usd"></i></div>
+        <div style='font-weight:600' ng-bind="item.estimated_value"></div>
       </div>
     </div>
+    
+    <angular-field-text title='Condition'
+        value='{{::item.condition}}'
+        ng-if="item.condition != 'Inapplicable'">
+    </angular-field-text>
+    <angular-field-text title='Size'
+        value='{{::item.size}}'
+        ng-if="item.size">
+    </angular-field-text>
+    <angular-field-text ng-if="item.available != 'No' "
+        title='Available'
+        value='{{::item.available}}'>
+    </angular-field-text>
+    <angular-field-text title='Frequence of use'
+        value='{{::item.utilization}}'
+        ng-if="::item.utilization != 'Inapplicable'">
+    </angular-field-text>
+    <angular-field-text title='Unavailable'
+        value='Currently out'
+        ng-if="!item.transferrable">
+    </angular-field-text>
+
+    <!-- Customized fields -->
+    <!-- - NUMBER fields -->
+    <angular-field-text title='{{::field.title}}'
+        value='{{::field.value}}' unit="{{::field.unit}}"
+        ng-repeat="field in item.customized_num_fields">
+    </angular-field-text>
+
+    <!-- - Char Fields -->
+    <angular-field-text title='{{::field.title}}' value='{{::field.value}}'
+        ng-repeat="field in item.customized_char_fields">
+    </angular-field-text>
+
+    <!-- - Color Fields -->
+    <angular-field-text title='{{::field.title}}' value='{{::field.value}}' widget='color'
+        ng-repeat="field in item.customized_color_fields">
+    </angular-field-text>
   </div>
 </div>

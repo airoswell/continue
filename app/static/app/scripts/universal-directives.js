@@ -323,8 +323,12 @@
       replace: true,
       scope: {},
       link: function(scope, element, attrs) {
+        scope.widget = "text";
         scope.title = attrs["title"];
         scope.value = attrs['value'];
+        if ("widget" in attrs) {
+          scope.widget = attrs['widget'];
+        }
         if ('unit' in attrs) {
           return scope.unit = attrs['unit'];
         }

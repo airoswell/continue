@@ -235,7 +235,10 @@ angular.module("continue")
   replace: true
   scope: {}
   link: (scope, element, attrs)->
+    scope.widget = "text"
     scope.title = attrs["title"]
     scope.value = attrs['value']
+    if "widget" of attrs
+      scope.widget = attrs['widget']
     if 'unit' of attrs
       scope.unit = attrs['unit']
