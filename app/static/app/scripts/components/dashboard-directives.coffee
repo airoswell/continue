@@ -23,10 +23,13 @@ angular.module("continue")
             console.log "progress: " + parseInt(100.0 * evt.loaded / evt.total) + "% file :" + evt.config.file.name
             return
           ).then (response)->
+            console.log "response = ", response
             url_rel = response.data.url
             url_abs = "#{settings.UPLOADED_URL}#{url_rel}"
             item = scope.item
-            item.pic = url_abs
+            if not item.pic
+              item.pic = url_abs
+            item.images.push(response.data)
             scope.save(item)
           , ()->
             Alert.show_error("There was problem uploading your file. Please make sure your file is a valid image file.")

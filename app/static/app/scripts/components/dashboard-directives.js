@@ -23,10 +23,14 @@
                 console.log("progress: " + parseInt(100.0 * evt.loaded / evt.total) + "% file :" + evt.config.file.name);
               }).then(function(response) {
                 var item, url_abs, url_rel;
+                console.log("response = ", response);
                 url_rel = response.data.url;
                 url_abs = "" + settings.UPLOADED_URL + url_rel;
                 item = scope.item;
-                item.pic = url_abs;
+                if (!item.pic) {
+                  item.pic = url_abs;
+                }
+                item.images.push(response.data);
                 return scope.save(item);
               }, function() {
                 return Alert.show_error("There was problem uploading your file. Please make sure your file is a valid image file.");

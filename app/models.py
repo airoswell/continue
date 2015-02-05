@@ -177,6 +177,17 @@ def CheckAndUpdateProfile(sender, **kwargs):
     return
 
 
+class Image(UUIDModel):
+    image = models.ImageField(upload_to='item_images')
+    owner = models.ForeignKey(
+        User, related_name='uploaded_item_images',
+        blank=False,
+    )
+
+    def url(self):
+        return self.image.url
+
+
 class Item(UUIDModel):
     title = models.CharField(max_length=144, blank=False)
     owner = models.ForeignKey(User, related_name="inventory")
@@ -267,6 +278,7 @@ class Item(UUIDModel):
     estimated_value = models.IntegerField(blank=True, null=True)
     link = models.URLField(default='', blank=True)
     pic = models.URLField(max_length=500, default='', blank=True)
+    images = models.ManyToManyField(Image)
 
     class Meta:
         ordering = ['-time_created']
@@ -318,7 +330,6 @@ class Item(UUIDModel):
             CustomizedCharField: char_fields_data,
             CustomizedColorField: color_fields_data
         }
-
         for model, field_data in model_data_pairs.items():
             item.update_or_create_customized_fields(
                 model, field_data,
@@ -342,6 +353,7 @@ class Item(UUIDModel):
         customized_num_fields_data = []
         customized_char_fields_data = []
         customized_color_fields_data = []
+        images_data = []
         if 'customized_num_fields' in validated_data:
             customized_num_fields_data = validated_data.pop(
                 'customized_num_fields'
@@ -354,6 +366,8 @@ class Item(UUIDModel):
             customized_color_fields_data = validated_data.pop(
                 'customized_color_fields'
             )
+        if "images" in validated_data:
+            images_data = validated_data.pop('images')
         item = queryset[0]
         owner_changed = False
         errors = []
@@ -368,6 +382,8 @@ class Item(UUIDModel):
             CustomizedColorField, customized_color_fields_data,
             widget='color'
         )
+        print("\n\tItem.update =====> images_data = %s" % (images_data))
+        item.add_images(images_data)
         for field in item.tracked_fields:
             print("\t\tfield = %s" % (field))
             if not (field in validated_data):
@@ -462,6 +478,29 @@ class Item(UUIDModel):
                 print("item.update_customized_char_fields error")
         return
 
+    def add_images(self, images_data):
+        # Should expect all images are uploaded, and therefore
+        # has "id"
+        if not images_data:
+            return
+        for image_data in images_data:
+            if not ("id" in image_data):
+                raise Image.DoesNotExist(
+                    "Expect the image has 'id' attribute."
+                )
+            qs = Image.objects.filter(id=image_data['id'])
+            if qs:
+                image = qs[0]
+                if not (image in self.images.all()):
+                    self.images.add(qs[0])
+                    print("\t\nItem.add_images: self.images.all() = %s"
+                          % (self.images.all()))
+            else:
+                raise Image.DoesNotExist(
+                    "Could not find the image with id %s"
+                    % (image_data['id'])
+                )
+
 
 class CustomizedCharField(UUIDModel):
     item = models.ForeignKey(Item, related_name="customized_char_fields")
@@ -536,7 +575,7 @@ class Post(UUIDModel):
         max_length=100, blank=True, default=''
     )
     images = models.CharField(
-        max_length=1000, blank=True, default="",
+        max_length=10000, blank=True, default="",
     )
     today = datetime.date.today()
     day = today + relativedelta(months=1)
@@ -766,16 +805,18 @@ class PostAndItemsRequest(UUIDModel):
         return unicode(self.message)
 
 
-class Image(UUIDModel):
-    image = models.ImageField(upload_to='item_images')
-    owner = models.ForeignKey(
-        User, related_name='uploaded_item_images',
-        blank=False,
-    )
-
-
 class Tag(UUIDModel):
     title = models.CharField(
         max_length=144, blank=False,
     )
     count = models.PositiveIntegerField(blank=False, default=0)
+    trend_choices = (
+        ("Up", "Up"), ("Down", "Down"), ("Flat", "Flat")
+    )
+    trend = models.CharField(
+        choices=trend_choices, blank=False, default="Flat",
+        max_length=10,
+    )
+
+    def __unicode__(self):
+        return unicode(self.title)

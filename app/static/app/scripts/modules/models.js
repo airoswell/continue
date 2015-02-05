@@ -29,6 +29,9 @@
           if (self.tags_handler != null) {
             self.tags_handler();
           }
+          if (self.images_handler != null) {
+            self.images_handler();
+          }
           if (successHandler != null) {
             successHandler(self, response);
           }
@@ -154,6 +157,20 @@
                   for (_i = 0, _len = this.length; _i < _len; _i++) {
                     record = this[_i];
                     _results.push(record.tags_handler());
+                  }
+                  return _results;
+                },
+                images_handler: function() {
+                  var record, _i, _len, _results;
+                  console.log("Collection.images_handler");
+                  _results = [];
+                  for (_i = 0, _len = this.length; _i < _len; _i++) {
+                    record = this[_i];
+                    if (record.images_handler != null) {
+                      _results.push(record.images_handler());
+                    } else {
+                      _results.push(void 0);
+                    }
                   }
                   return _results;
                 }
@@ -319,7 +336,7 @@
       });
     }
   ]).factory("Item", [
-    "Model", function(Model) {
+    "Model", "settings", function(Model, settings) {
       var availability_choices, condition_choices, customized_fields_cleaner, init, is_valid, utilization_choices, visibility_choices;
       condition_choices = ["Inapplicable", "New", "Like new", "Good", "Functional", "Broken"];
       visibility_choices = ["Public", "Private", "Ex-owners"];
@@ -404,6 +421,21 @@
                 return field.value = parseFloat(field.value);
               });
               return customized_fields_cleaner("customized_num_fields");
+            },
+            images_handler: function() {
+              var image, url, url_abs, _i, _len, _ref, _results;
+              console.log("images_handler()");
+              if ("images" in this) {
+                _ref = this.images;
+                _results = [];
+                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                  image = _ref[_i];
+                  url = image.url;
+                  url_abs = "" + settings.UPLOADED_URL + url;
+                  _results.push(image.url = url_abs);
+                }
+                return _results;
+              }
             },
             tags_handler: function() {
               var tag;
@@ -592,6 +624,14 @@
             } else {
               return parent.tags = [];
             }
+          }
+        }
+      };
+
+      InfiniteScroll.prototype.images_handler = function(parent) {
+        if (parent.images != null) {
+          if (parent.images_handler != null) {
+            return parent.images_handler();
           }
         }
       };

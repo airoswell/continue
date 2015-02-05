@@ -1,9 +1,14 @@
-def sd(y):
-    mean_y = sum(y) / float(len(y))
-    tot = 0.0
-    for x in y:
-        tot += (x-mean_y)**2
-    return (tot/len(y))**0.5
+class Parent:
+    def __init__(self, name):
+        self.name = name
+        return
 
 
-sd(3)
+class Child(Parent):
+    def child_method(self):
+        print('child')
+
+c = Child("my name")
+c.child_method()
+p = Parent("I am parent")
+p.child_method(d)

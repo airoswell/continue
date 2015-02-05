@@ -57,6 +57,19 @@ class CustomizedNumFieldSerializer(serializers.ModelSerializer):
                   "time_updated", "time_created")
 
 
+class ImageSerializer(serializers.ModelSerializer):
+    image = serializers.ImageField(
+        max_length=None, use_url=True,
+    )
+    owner = ownerField(
+        queryset=User.objects.all()
+    )
+
+    class Meta:
+        model = Image
+        fields = ("id", 'image', 'owner', 'time_created', "url", )
+
+
 class ItemSerializer(serializers.ModelSerializer):
     transferrable = serializers.BooleanField(read_only=True)
     # These customized fields will be treated individually
@@ -75,6 +88,10 @@ class ItemSerializer(serializers.ModelSerializer):
         read_only=True,
     )
     requesters = UserSerializer(many=True, read_only=True)
+    images = ImageSerializer(
+        many=True,
+        read_only=True,
+    )
 
     def as_instance(self):
         return Item.objects.get(pk=self.data['id'])
@@ -92,6 +109,7 @@ class ItemSerializer(serializers.ModelSerializer):
                   "customized_char_fields",
                   "customized_num_fields",
                   "customized_color_fields",
+                  "images",
                   )
         read_only_fields = ('previous_owners', "time_created", "requesters",
                             "owner_profile", 'requesters',
@@ -224,16 +242,3 @@ class TransactionSerializerLite(serializers.ModelSerializer):
         model = ItemTransactionRecord
         fields = ("id", "item", "giver", "receiver", "status",
                   "time_updated", "time_sent")
-
-
-class ImageSerializer(serializers.ModelSerializer):
-    image = serializers.ImageField(
-        max_length=None, use_url=True,
-    )
-    owner = ownerField(
-        queryset=User.objects.all()
-    )
-
-    class Meta:
-        model = Image
-        fields = ("id", 'image', 'owner', 'time_created', )

@@ -35,6 +35,7 @@ angular.module("continue")
         $scope.items = Item.$search({num_of_records: 8}).$then (response)->
           this.tags_handler()       # Handle the tags and private-tags
           # set the start for future infinite scrolling
+          this.images_handler()
           this.start = this.length
           Alert.show_msg("Download is finished.")
           $scope.layout.loading.items = false

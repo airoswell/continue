@@ -210,6 +210,21 @@
         </ul>
       </div>
     </accordion-group>
+
+    <accordion-group is-open="true" ng-if="item.images.length">
+      <accordion-heading>
+        Album
+      </accordion-heading>
+
+      <div layout='row' layout-align='center'>
+        <div>
+          <div class="item-image-container" ng-repeat="image in item.images">
+            <img ng-src="{{image.url}}" height="100">
+          </div>
+        </div>
+      </div>
+      
+    </accordion-group>
   </accordion>
 
 </div>

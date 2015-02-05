@@ -433,12 +433,15 @@ class ItemDetail(XDetailAPIView):
             customized_color_fields_data = request.data[
                 'customized_color_fields'
             ]
+        if "images" in request.data:
+            images = request.data['images']
         # ======== Validate ========
         data = handler.validate(request.data)
         # ==========================
         data["customized_char_fields"] = customized_char_fields_data
         data["customized_num_fields"] = customized_num_fields_data
         data["customized_color_fields"] = customized_color_fields_data
+        data['images'] = images
         return data
 
 
@@ -1182,8 +1185,12 @@ class ImageList(XListAPIView):
             image = serialized.save()
             print("\n\t Upload success!!!")
             print(image.image.url)
-        if not serialized.is_valid():
+            return Response(
+                data=ImageSerializer(image).data,
+            )
+        else:
             print("\n\tserialized.errors = %s " % (serialized.errors))
-        return Response(
-            data={"url": image.image.url}
-        )
+            return Response(
+                data="There is error processing the image",
+                status=st.HTTP_400_BAD_REQUEST,
+            )

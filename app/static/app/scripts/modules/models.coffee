@@ -28,6 +28,8 @@ angular.module 'continue.models', [
     self.$save().$then (response) ->
       if self.tags_handler?
         self.tags_handler()
+      if self.images_handler?
+        self.images_handler()
       if successHandler?
         successHandler(self, response)
       Alert.show_msg("Your data is saved! You may need to refresh ...")
@@ -122,6 +124,11 @@ angular.module 'continue.models', [
             tags_handler: ()->
               for record in this
                 record.tags_handler()
+            images_handler: ()->
+              console.log "Collection.images_handler"
+              for record in this
+                if record.images_handler?
+                  record.images_handler()
           Model:
             transform: (obj) ->
               record = this.$build(this.init)
@@ -232,7 +239,7 @@ angular.module 'continue.models', [
 ]
 
 
-.factory "Item", ["Model", (Model) ->
+.factory "Item", ["Model", "settings", (Model, settings) ->
 
   condition_choices = ["Inapplicable", "New", "Like new", "Good", "Functional", "Broken"]
   visibility_choices = ["Public", "Private", "Ex-owners"]
@@ -307,6 +314,14 @@ angular.module 'continue.models', [
           customized_fields_cleaner(
             "customized_num_fields",
           )
+
+        images_handler: ()->
+          console.log "images_handler()"
+          if "images" of this
+            for image in this.images
+              url = image.url
+              url_abs = "#{settings.UPLOADED_URL}#{url}"
+              image.url = url_abs
         tags_handler: ()->
           if "tags" of this
             if not this.tags
@@ -433,6 +448,10 @@ angular.module 'continue.models', [
             parent.tags = parent.tags.split(",")
           else
             parent.tags = []
+    images_handler: (parent)->
+      if parent.images?
+        if parent.images_handler?
+          parent.images_handler()
     params: (model)=>
       if not model?    # if model does not exist, start the first search
         if @model_types.length > 1
