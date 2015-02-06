@@ -31,6 +31,9 @@
   .social-account.weibo{
     background: #E6162D;
   }
+  .social-account.instagram{
+    background: #517fa4;
+  }
 
   .login-page-wrapper input{
     font-size: 16px;padding: 5px 10px; width: 300px;background: transparent;
@@ -52,7 +55,7 @@
       Hello there. You can login with your social network account below
 
       for a {{site_name}} account and sign in below:{% endblocktrans %}</div>
-      {% if True %}
+      {% if False %}
       <div class="socialaccount_ballot" flex-gt-md="60">
         <div class="socialaccount_providers text-default">
           {% include "socialaccount/snippets/provider_list.html" with process="login" %}
@@ -88,6 +91,7 @@
       </a>
     </div>
     <br/>
+
     <div layout>
       <a title="Weibo" href="/app/user/weibo/login/?process=login">
         <div class="social-account weibo" layout='row'>
@@ -100,6 +104,24 @@
         </div>
       </a>
     </div>
+
+    <br/>
+    <div layout>
+      <a title="Instagram" href="/app/user/instagram/login/?process=login">
+        <div class="social-account instagram" layout='row'>
+          <div style='border-right:1px solid #ddd;padding-right:15px;padding-left:15px;' layout='column' layout-align='center'>
+            <i class="fa fa-instagram"></i>
+          </div>
+          <div layout='column' layout-align='center'>
+            <div style='padding:10px 20px;'>Sign in with Instagram</div>
+          </div>
+        </div>
+      </a>
+    </div>
+      
+
+
+    </a>
 
     <br/>
 
