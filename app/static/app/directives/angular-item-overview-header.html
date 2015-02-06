@@ -12,7 +12,7 @@
 
 
     <div ng-if="item.tags">
-      <a ng-href="http://localhost:8000/app/search/?q={{tag}}&areas=&secret_key=&tags=">
+      <a ng-href="/app/search/?q={{tag}}&areas=&secret_key=&tags=">
         <span class='tag tag-small tag-gray'
           ng-repeat="tag in item.tags" ng-bind='tag'>
         </span>

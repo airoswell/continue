@@ -17,7 +17,7 @@
     {% if item.tags %}
     <div>
     {% for tag in item.tags|split:"," %}
-      <a href="http://localhost:8000/app/search/?q={{tag}}&areas=&secret_key=&tags="><div class='tag tag-small tag-gray'>#{{ tag }}</div></a>
+      <a href="/app/search/?q={{tag}}&areas=&secret_key=&tags="><div class='tag tag-small tag-gray'>#{{ tag }}</div></a>
     {% endfor %}
     </div>
     {% endif %}
