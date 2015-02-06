@@ -41,8 +41,6 @@
           return $scope.items = Item.search({
             num_of_records: 8
           }).$then(function(response) {
-            this.tags_handler();
-            this.images_handler();
             this.start = this.length;
             Alert.show_msg("Download is finished.");
             return $scope.layout.loading.items = false;

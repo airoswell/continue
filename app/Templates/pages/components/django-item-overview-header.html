@@ -1,14 +1,15 @@
 {% block item_overview_header %}
 {% load filters %}
 <div layout='row' layout-sm='column' layout-align='start'>
-  <div>
+  <div flex-gt-sm="15" flex-sm="40">
     {% if item.pic %}
-    <img height="120" ng-src="{{item.pic}}">
+    <img width="100%" ng-src="{{item.pic}}">
     {% else %}
-    <img src="http://i.imgur.com/4NDzM4I.png" height="120">
+    <img src="http://i.imgur.com/4NDzM4I.png" width="100%">
     {% endif %}
   </div>
-  <div style='margin:0px 20px'>
+  <div flex="5" flex-sm="0"></div>
+  <div flex-gt-sm="70" flex-sm='100'>
     <div class='text-xlarge'>
       {{ item.title }}
     </div>

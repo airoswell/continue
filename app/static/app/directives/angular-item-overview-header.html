@@ -1,9 +1,12 @@
 <div layout='row' layout-sm='column' layout-align='start'>
-  <div>
-    <img ng-if="item.pic" height="120" ng-src="{{item.pic}}">
-    <img ng-if="!item.pic" src="http://i.imgur.com/4NDzM4I.png" height="120">
+  <div style='margin:0px 20px' flex="15" flex-sm="40">
+    <img ng-if="item.pic" width="100%" ng-src="{{item.pic}}">
+    <img ng-if="!item.pic" src="http://i.imgur.com/4NDzM4I.png" width="100%">
   </div>
-  <div style='margin:0px 20px'>
+
+  <div flex="5" flex-sm="0"></div>
+
+  <div flex="70" flex-sm="100" style='margin:0px 20px'>
     <div class='text-xlarge' ng-bind="item.title">
     </div>
 
@@ -15,7 +18,6 @@
         </span>
       </a>
     </div>
-
 
     <div class='item-overview-preset' ng-if="item.estimated_value">
       <div style='color: #999'> Value</div>
