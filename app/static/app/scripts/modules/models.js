@@ -11,11 +11,103 @@
         urlPrefix: "/app/"
       }
     });
-  }).factory("Model", [
-    'restmod', "Alert", "Auth", function(restmod, Alert, Auth) {
+  }).factory("Handlers", [
+    "settings", function(settings) {
+      return {
+        handler: function(container, base_handler) {
+          var record, _i, _len, _results;
+          if (Array.isArray(container)) {
+            _results = [];
+            for (_i = 0, _len = container.length; _i < _len; _i++) {
+              record = container[_i];
+              _results.push(base_handler(record));
+            }
+            return _results;
+          } else {
+            return base_handler(container);
+          }
+        },
+        images_base_handler: function(record) {
+          var image, url, url_abs, _i, _len, _ref, _results;
+          if (record.images != null) {
+            _ref = record.images;
+            _results = [];
+            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+              image = _ref[_i];
+              if (!(/^http/.test(image.url))) {
+                url = image.url;
+                url_abs = "" + settings.UPLOADED_URL + url;
+                _results.push(image.url = url_abs);
+              } else {
+                _results.push(void 0);
+              }
+            }
+            return _results;
+          }
+        },
+        tags_base_handler: function(record) {
+          var tag;
+          if (record.tags != null) {
+            if (typeof record.tags === "string") {
+              if (record.tags.length > 0) {
+                record.tags = record.tags.split(",");
+                record.tags_input = [
+                  (function() {
+                    var _i, _len, _ref, _results;
+                    _ref = record.tags;
+                    _results = [];
+                    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                      tag = _ref[_i];
+                      _results.push({
+                        "text": tag
+                      });
+                    }
+                    return _results;
+                  })()
+                ][0];
+              } else {
+                record.tags = [];
+                record.tags_input = [];
+              }
+            }
+          }
+          if (record.tags_private != null) {
+            if (typeof record.tags_private === "string") {
+              if (record.tags_private.length > 0) {
+                record.tags_private = record.tags_private.split(",");
+                return record.tags_private_input = [
+                  (function() {
+                    var _i, _len, _ref, _results;
+                    _ref = record.tags_private;
+                    _results = [];
+                    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                      tag = _ref[_i];
+                      _results.push({
+                        "text": tag
+                      });
+                    }
+                    return _results;
+                  })()
+                ][0];
+              } else {
+                record.tags_private = [];
+                return record.tags_private_input = [];
+              }
+            }
+          }
+        },
+        images_handler: function(container) {
+          return this.handler(container, this.images_base_handler);
+        },
+        tags_handler: function(container) {
+          return this.handler(container, this.tags_base_handler);
+        }
+      };
+    }
+  ]).factory("Model", [
+    'restmod', "Alert", "Auth", "Handlers", function(restmod, Alert, Auth, Handlers) {
       var copy, next_page, prev_page, save;
       save = function(self, successHandler, errorHandler) {
-        console.log(".save()");
         if (!self.is_valid()) {
           Alert.show_error("Your input is not complete or contains invalid data.");
           return false;
@@ -108,15 +200,8 @@
                   }
                 },
                 tags_handler: function() {
-                  if (this.tags != null) {
-                    if (typeof this.tags === "string") {
-                      if (this.tags.length > 0) {
-                        return this.tags = this.tags.split(",");
-                      } else {
-                        return this.tags = [];
-                      }
-                    }
-                  }
+                  console.log("A");
+                  return Handlers.tags_handler(this);
                 },
                 fetch: function(params) {
                   var self;
@@ -156,13 +241,16 @@
                   _results = [];
                   for (_i = 0, _len = this.length; _i < _len; _i++) {
                     record = this[_i];
-                    _results.push(record.tags_handler());
+                    if (record.tags_handler != null) {
+                      _results.push(record.tags_handler());
+                    } else {
+                      _results.push(void 0);
+                    }
                   }
                   return _results;
                 },
                 images_handler: function() {
                   var record, _i, _len, _results;
-                  console.log("Collection.images_handler");
                   _results = [];
                   for (_i = 0, _len = this.length; _i < _len; _i++) {
                     record = this[_i];
@@ -184,6 +272,7 @@
                 search: function(params) {
                   this.loading = true;
                   return this.$search(params).$then(function(response) {
+                    console.log("Model.search");
                     if (response.tags_handler != null) {
                       return response.tags_handler();
                     }
@@ -336,7 +425,7 @@
       });
     }
   ]).factory("Item", [
-    "Model", "settings", function(Model, settings) {
+    "Model", "settings", "Handlers", function(Model, settings, Handlers) {
       var availability_choices, condition_choices, customized_fields_cleaner, init, is_valid, utilization_choices, visibility_choices;
       condition_choices = ["Inapplicable", "New", "Like new", "Good", "Functional", "Broken"];
       visibility_choices = ["Public", "Private", "Ex-owners"];
@@ -423,72 +512,10 @@
               return customized_fields_cleaner("customized_num_fields");
             },
             images_handler: function() {
-              var image, url, url_abs, _i, _len, _ref, _results;
-              console.log("images_handler()");
-              if ("images" in this) {
-                _ref = this.images;
-                _results = [];
-                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-                  image = _ref[_i];
-                  url = image.url;
-                  url_abs = "" + settings.UPLOADED_URL + url;
-                  _results.push(image.url = url_abs);
-                }
-                return _results;
-              }
+              return Handlers.images_handler(this);
             },
             tags_handler: function() {
-              var tag;
-              if ("tags" in this) {
-                if (!this.tags) {
-                  this.tags = [];
-                  this.tags_input = [];
-                }
-                if (typeof this.tags === "string") {
-                  if (this.tags.length > 0) {
-                    this.tags = this.tags.split(",");
-                    this.tags_input = [
-                      (function() {
-                        var _i, _len, _ref, _results;
-                        _ref = this.tags;
-                        _results = [];
-                        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-                          tag = _ref[_i];
-                          _results.push({
-                            "text": tag
-                          });
-                        }
-                        return _results;
-                      }).call(this)
-                    ][0];
-                  }
-                }
-              }
-              if ("tags_private" in this) {
-                if (!this.tags_private) {
-                  this.tags_private = [];
-                  this.tags_private_input = [];
-                }
-                if (typeof this.tags_private === "string") {
-                  if (this.tags_private.length > 0) {
-                    this.tags_private = this.tags_private.split(",");
-                    return this.tags_private_input = [
-                      (function() {
-                        var _i, _len, _ref, _results;
-                        _ref = this.tags_private;
-                        _results = [];
-                        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-                          tag = _ref[_i];
-                          _results.push({
-                            "text": tag
-                          });
-                        }
-                        return _results;
-                      }).call(this)
-                    ][0];
-                  }
-                }
-              }
+              return Handlers.tags_handler(this);
             },
             add_customized_char_field: function() {
               if (!this.customized_char_fields) {
@@ -588,132 +615,137 @@
     "Model", function(Model) {
       return Model.create("/updates/");
     }
-  ]).factory("InfiniteScroll", function() {
-    var InfiniteScroll;
-    return InfiniteScroll = (function() {
-      InfiniteScroll.prototype.model_types = [];
+  ]).factory("InfiniteScroll", [
+    "settings", "Handlers", function(settings, Handlers) {
+      var InfiniteScroll;
+      return InfiniteScroll = (function() {
+        InfiniteScroll.prototype.model_types = [];
 
-      InfiniteScroll.prototype.init_starts = void 0;
+        InfiniteScroll.prototype.init_starts = void 0;
 
-      InfiniteScroll.prototype.monitor = 0;
+        InfiniteScroll.prototype.monitor = 0;
 
-      function InfiniteScroll(Model) {
-        this.success_handler = __bind(this.success_handler, this);
-        this.load = __bind(this.load, this);
-        this.params = __bind(this.params, this);
-        this.config = __bind(this.config, this);
-        this.Model = Model;
-      }
-
-      InfiniteScroll.prototype.config = function(configs) {
-        var cf, _results;
-        _results = [];
-        for (cf in configs) {
-          _results.push(this[cf] = configs[cf]);
+        function InfiniteScroll(Model) {
+          this.success_handler = __bind(this.success_handler, this);
+          this.load = __bind(this.load, this);
+          this.params = __bind(this.params, this);
+          this.config = __bind(this.config, this);
+          this.Model = Model;
         }
-        return _results;
-      };
 
-      InfiniteScroll.prototype.tags_handler = function(parent) {
-        if (parent.tags != null) {
-          if (parent.tags_handler != null) {
-            return parent.tags_handler();
-          } else {
-            if (typeof parent.tags === "string" && parent.tags.length > 0) {
-              return parent.tags = parent.tags.split(",");
+        InfiniteScroll.prototype.config = function(configs) {
+          var cf, _results;
+          _results = [];
+          for (cf in configs) {
+            _results.push(this[cf] = configs[cf]);
+          }
+          return _results;
+        };
+
+        InfiniteScroll.prototype.tags_handler = function(container) {
+          if (container.tags != null) {
+            if (container.tags_handler != null) {
+              return container.tags_handler();
             } else {
-              return parent.tags = [];
+              return Handlers.tags_handler(container);
             }
           }
-        }
-      };
+        };
 
-      InfiniteScroll.prototype.images_handler = function(parent) {
-        if (parent.images != null) {
-          if (parent.images_handler != null) {
-            return parent.images_handler();
+        InfiniteScroll.prototype.images_handler = function(container) {
+          if (container.images != null) {
+            if (container.images_handler != null) {
+              return container.images_handler();
+            } else {
+              return Handlers.images_handler(container);
+            }
           }
-        }
-      };
+        };
 
-      InfiniteScroll.prototype.params = function(model) {
-        var key, params;
-        if (model == null) {
-          if (this.model_types.length > 1) {
-            params = {
-              starts: this.init_starts
-            };
+        InfiniteScroll.prototype.params = function(model) {
+          var key, params;
+          if (model == null) {
+            if (this.model_types.length > 1) {
+              params = {
+                starts: this.init_starts
+              };
+            } else {
+              params = {
+                start: this.init_starts
+              };
+            }
           } else {
-            params = {
-              start: this.init_starts
-            };
+            if (this.model_types.length > 1) {
+              params = {
+                starts: model.starts
+              };
+            } else {
+              params = {
+                start: model.start
+              };
+            }
           }
-        } else {
-          if (this.model_types.length > 1) {
-            params = {
-              starts: model.starts
-            };
+          if (this.extra_params != null) {
+            for (key in this.extra_params) {
+              params[key] = this.extra_params[key] || "";
+            }
+          }
+          return params;
+        };
+
+        InfiniteScroll.prototype.load = function(model) {
+          var params;
+          params = this.params(model);
+          if (model == null) {
+            return this.Model.search(params);
           } else {
-            params = {
-              start: model.start
-            };
+            return model.fetch(params);
           }
-        }
-        if (this.extra_params != null) {
-          for (key in this.extra_params) {
-            params[key] = this.extra_params[key] || "";
-          }
-        }
-        return params;
-      };
+        };
 
-      InfiniteScroll.prototype.load = function(model) {
-        var params;
-        params = this.params(model);
-        if (model == null) {
-          return this.Model.search(params);
-        } else {
-          return model.fetch(params);
-        }
-      };
-
-      InfiniteScroll.prototype.success_handler = function(response) {
-        var item, model_name, record, _i, _j, _len, _len1, _ref;
-        if (this.model_types.length === 1) {
-          response.start = parseInt(this.init_starts) + response.length;
-          if (response.tags_handler != null) {
-            response.tags_handler();
-          }
-        } else if (this.model_types.length > 1) {
-          response.starts = {};
-          for (model_name in this.init_starts) {
-            response.starts[model_name] = this.init_starts[model_name];
-          }
-          for (_i = 0, _len = response.length; _i < _len; _i++) {
-            record = response[_i];
-            model_name = record.model_name;
-            response.starts[model_name] += 1;
-            if (record.items != null) {
-              if (record.items) {
-                _ref = record.items;
-                for (_j = 0, _len1 = _ref.length; _j < _len1; _j++) {
-                  item = _ref[_j];
-                  this.tags_handler(item);
+        InfiniteScroll.prototype.success_handler = function(response) {
+          var item, model_name, record, _i, _j, _len, _len1, _ref;
+          if (this.model_types.length === 1) {
+            response.start = parseInt(this.init_starts) + response.length;
+            if (response.tags_handler != null) {
+              response.tags_handler();
+            }
+            if (response.images_handler != null) {
+              response.images_handler();
+            }
+          } else if (this.model_types.length > 1) {
+            response.starts = {};
+            for (model_name in this.init_starts) {
+              response.starts[model_name] = this.init_starts[model_name];
+            }
+            for (_i = 0, _len = response.length; _i < _len; _i++) {
+              record = response[_i];
+              model_name = record.model_name;
+              response.starts[model_name] += 1;
+              if (record.items != null) {
+                if (record.items.length) {
+                  _ref = record.items;
+                  for (_j = 0, _len1 = _ref.length; _j < _len1; _j++) {
+                    item = _ref[_j];
+                    this.tags_handler(item);
+                    this.images_handler(item);
+                  }
                 }
               }
-            }
-            if (record.item != null) {
-              this.tags_handler(record.item);
+              if (record.item != null) {
+                this.tags_handler(record.item);
+                this.images_handler(record.item);
+              }
             }
           }
-        }
-        return response;
-      };
+          return response;
+        };
 
-      return InfiniteScroll;
+        return InfiniteScroll;
 
-    })();
-  }).factory("Image", [
+      })();
+    }
+  ]).factory("Image", [
     "Model", function(Model) {
       return Model.create("/images/").mix({
         $extend: {

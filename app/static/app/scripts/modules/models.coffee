@@ -10,10 +10,53 @@ angular.module 'continue.models', [
     style: "ams"
     urlPrefix: "/app/"
 
-.factory "Model", ['restmod', "Alert", "Auth", (restmod, Alert, Auth) ->
+
+.factory "Handlers", ["settings", (settings)->
+  return{
+    handler: (container, base_handler)->
+      if Array.isArray(container)
+        for record in container
+          base_handler(record)
+      else
+        base_handler(container)
+    images_base_handler: (record)->
+      if record.images?
+        for image in record.images
+          if not (/^http/.test(image.url))
+            url = image.url
+            url_abs = "#{settings.UPLOADED_URL}#{url}"
+            image.url = url_abs
+    tags_base_handler: (record)->
+      if record.tags?
+        if typeof(record.tags) == "string"
+          if record.tags.length > 0
+            record.tags = record.tags.split(",")
+            record.tags_input = [{"text": tag} for tag in record.tags][0]
+          else
+            record.tags = []
+            record.tags_input = []
+      if record.tags_private?
+        if typeof(record.tags_private) == "string"
+          if record.tags_private.length > 0
+            record.tags_private = record.tags_private.split(",")
+            record.tags_private_input = [
+              {"text": tag} for tag in record.tags_private
+            ][0]
+          else
+            record.tags_private = []
+            record.tags_private_input = []
+
+    images_handler: (container)->
+      @handler(container, @images_base_handler)
+    tags_handler: (container)->
+      @handler(container, @tags_base_handler)
+  }
+]
+
+
+.factory "Model", ['restmod', "Alert", "Auth", "Handlers", (restmod, Alert, Auth, Handlers) ->
 
   save = (self, successHandler, errorHandler) ->
-    console.log ".save()"
     # Prepare for saving
     if not self.is_valid()
       Alert.show_error("Your input is not complete or contains invalid data.")
@@ -93,12 +136,8 @@ angular.module 'continue.models', [
                   this[property] = obj[property]
                 return this
             tags_handler: ()->
-              if this.tags?
-                if typeof(this.tags) == "string"
-                  if this.tags.length > 0
-                    this.tags = this.tags.split(",")
-                  else
-                    this.tags = []
+              console.log "A"
+              Handlers.tags_handler(this)
             fetch: (params)->
               self = this
               this.loading = true
@@ -123,9 +162,9 @@ angular.module 'continue.models', [
                   response.tags_handler()
             tags_handler: ()->
               for record in this
-                record.tags_handler()
+                if record.tags_handler?
+                  record.tags_handler()
             images_handler: ()->
-              console.log "Collection.images_handler"
               for record in this
                 if record.images_handler?
                   record.images_handler()
@@ -136,6 +175,7 @@ angular.module 'continue.models', [
             search: (params)->
               this.loading = true
               this.$search(params).$then (response)->
+                console.log "Model.search"
                 if response.tags_handler?
                   response.tags_handler()
       )
@@ -239,133 +279,113 @@ angular.module 'continue.models', [
 ]
 
 
-.factory "Item", ["Model", "settings", (Model, settings) ->
+.factory "Item",
+  ["Model", "settings", "Handlers",
+  (Model, settings, Handlers) ->
 
-  condition_choices = ["Inapplicable", "New", "Like new", "Good", "Functional", "Broken"]
-  visibility_choices = ["Public", "Private", "Ex-owners"]
-  availability_choices = ["Available", "In use", "Lent", "Given away", "Disposed"]
-  utilization_choices = ["Inapplicable", "Daily", "Frequent", "Sometimes", "Rarely", "Never"]
+    condition_choices = ["Inapplicable", "New", "Like new", "Good", "Functional", "Broken"]
+    visibility_choices = ["Public", "Private", "Ex-owners"]
+    availability_choices = ["Available", "In use", "Lent", "Given away", "Disposed"]
+    utilization_choices = ["Inapplicable", "Daily", "Frequent", "Sometimes", "Rarely", "Never"]
 
-  # For brand new and existing items to be edited
-  init = {
-    title: ""
-    quantity: 1
-    condition: "Good"
-    utilization: "Sometimes"
-    visibility: "Private"
-    available: "No"
-    status: ""
-    new_status: ""
-    expanded: false
-    is_new: false
-  }
+    # For brand new and existing items to be edited
+    init = {
+      title: ""
+      quantity: 1
+      condition: "Good"
+      utilization: "Sometimes"
+      visibility: "Private"
+      available: "No"
+      status: ""
+      new_status: ""
+      expanded: false
+      is_new: false
+    }
 
-  customized_fields_cleaner = (field_type, field_transformer)->
-    # remove empty customized_fields
-    if field_type of self
-      if self[field_type]
-        fields = self[field_type]
-        for field in fields
-          if not (field.value and field.title)
-            index = fields.indexOf(field)
-            self.customized_num_fields.splice index, 1
-          else
-            if field_transformer?
-              field_transformer(field)
+    customized_fields_cleaner = (field_type, field_transformer)->
+      # remove empty customized_fields
+      if field_type of self
+        if self[field_type]
+          fields = self[field_type]
+          for field in fields
+            if not (field.value and field.title)
+              index = fields.indexOf(field)
+              self.customized_num_fields.splice index, 1
+            else
+              if field_transformer?
+                field_transformer(field)
 
-  is_valid = (self)->
-    if not self.title
-      false
-    true
+    is_valid = (self)->
+      if not self.title
+        false
+      true
 
-  return Model.create("/items/").mix({
-    $extend:
-      Record:
-        condition_choices: condition_choices
-        availability_choices: availability_choices
-        visibility_choices: visibility_choices
-        utilization_choices: utilization_choices
-        initialize: ()->
-          initialize(this)
-        is_valid: () ->
-          is_valid(this)
-        pre_save_handler: ()->
-          self = this
-          # In [transfer-menu] directive
-          # transferring will attach a new_owner property
-          if "new_owner" of self
-            if self["new_owner"]
-              self.owner = self['new_owner'].id
-          # if the self.tags is in array type,
-          # merge them into string.
-          if self.new_status
-            self.status = self.new_status
-          if "tags" of self
-            if typeof(self.tags) == "object"
-              self.tags = self.tags.join(",")
-          if "tags_private" of self
-            if typeof(self.tags_private) == "object"
-              self.tags_private = self.tags_private.join(",")
-          customized_fields_cleaner(
-            "customized_fields_cleaner",
-            (field)->
-              field.value = parseFloat(field.value)
-          )
-          customized_fields_cleaner(
-            "customized_num_fields",
-          )
+    return Model.create("/items/").mix({
+      $extend:
+        Record:
+          condition_choices: condition_choices
+          availability_choices: availability_choices
+          visibility_choices: visibility_choices
+          utilization_choices: utilization_choices
+          initialize: ()->
+            initialize(this)
+          is_valid: () ->
+            is_valid(this)
+          pre_save_handler: ()->
+            self = this
+            # In [transfer-menu] directive
+            # transferring will attach a new_owner property
+            if "new_owner" of self
+              if self["new_owner"]
+                self.owner = self['new_owner'].id
+            # if the self.tags is in array type,
+            # merge them into string.
+            if self.new_status
+              self.status = self.new_status
+            if "tags" of self
+              if typeof(self.tags) == "object"
+                self.tags = self.tags.join(",")
+            if "tags_private" of self
+              if typeof(self.tags_private) == "object"
+                self.tags_private = self.tags_private.join(",")
+            customized_fields_cleaner(
+              "customized_fields_cleaner",
+              (field)->
+                field.value = parseFloat(field.value)
+            )
+            customized_fields_cleaner(
+              "customized_num_fields",
+            )
 
-        images_handler: ()->
-          console.log "images_handler()"
-          if "images" of this
-            for image in this.images
-              url = image.url
-              url_abs = "#{settings.UPLOADED_URL}#{url}"
-              image.url = url_abs
-        tags_handler: ()->
-          if "tags" of this
-            if not this.tags
-              this.tags = []
-              this.tags_input = []
-            if typeof(this.tags) == "string"
-              if this.tags.length > 0
-                this.tags = this.tags.split(",")
-                this.tags_input = [{"text": tag} for tag in this.tags][0]
-          if "tags_private" of this
-            if not this.tags_private
-              this.tags_private = []
-              this.tags_private_input = []
-            if typeof(this.tags_private) == "string"
-              if this.tags_private.length > 0
-                this.tags_private = this.tags_private.split(",")
-                this.tags_private_input = [
-                  {"text": tag} for tag in this.tags_private
-                ][0]
-        add_customized_char_field: ()->
-          if not @customized_char_fields
-            @customized_char_fields = []
-          @customized_char_fields.push({
-            title: ""
-            value: ""
-          })
-        add_customized_color_field: ()->
-          if not @customized_color_fields
-            @customized_color_fields = []
-          @customized_color_fields.push({
-            title: ""
-            value: ""
-          })
-        add_customized_num_field: ()->
-          if not @customized_num_fields
-            @customized_num_fields = []
-          @customized_num_fields.push({
-            title: ""
-            value: ""
-            unit: ""
-          })
-      Model:
-        init: init
-  })
+          images_handler: ()->
+            Handlers.images_handler(this)
+          tags_handler: ()->
+            Handlers.tags_handler(this)
+          add_customized_char_field: ()->
+            if not @customized_char_fields
+              @customized_char_fields = []
+            @customized_char_fields.push({
+              title: ""
+              value: ""
+            })
+          add_customized_color_field: ()->
+            if not @customized_color_fields
+              @customized_color_fields = []
+            @customized_color_fields.push({
+              title: ""
+              value: ""
+            })
+          add_customized_num_field: ()->
+            if not @customized_num_fields
+              @customized_num_fields = []
+            @customized_num_fields.push({
+              title: ""
+              value: ""
+              unit: ""
+            })
+        Model:
+          init: init
+    })
 ]
 
 
@@ -428,7 +448,7 @@ angular.module 'continue.models', [
 
 ]
 
-.factory "InfiniteScroll", ()->
+.factory "InfiniteScroll", ["settings", "Handlers", (settings, Handlers)->
 
   return class InfiniteScroll
     model_types: []    # The expected model_types returned from the backend
@@ -439,19 +459,22 @@ angular.module 'continue.models', [
     config: (configs)=>
       for cf of configs
         @[cf] = configs[cf]
-    tags_handler: (parent)->
-      if parent.tags?
-        if parent.tags_handler?
-          parent.tags_handler()
+    tags_handler: (container)->
+      # parent is the object that might contain
+      # <tags> attribute
+      if container.tags?
+        if container.tags_handler?
+          container.tags_handler()
         else
-          if typeof(parent.tags) == "string" and parent.tags.length > 0
-            parent.tags = parent.tags.split(",")
-          else
-            parent.tags = []
-    images_handler: (parent)->
-      if parent.images?
-        if parent.images_handler?
-          parent.images_handler()
+          Handlers.tags_handler(container)
+    images_handler: (container)->
+      # container is the object that might contain
+      # <images> attribute
+      if container.images?
+        if container.images_handler?
+          container.images_handler()
+        else
+          Handlers.images_handler(container)
     params: (model)=>
       if not model?    # if model does not exist, start the first search
         if @model_types.length > 1
@@ -479,6 +502,8 @@ angular.module 'continue.models', [
         response.start = parseInt(@init_starts) + response.length
         if response.tags_handler?
           response.tags_handler()
+        if response.images_handler?
+          response.images_handler()
 
       else if @model_types.length > 1
         response.starts = {}
@@ -488,12 +513,16 @@ angular.module 'continue.models', [
           model_name = record.model_name
           response.starts[model_name] += 1
           if record.items?    # Typically for post
-            if record.items
+            if record.items.length
               for item in record.items
                 @tags_handler(item)
+                @images_handler(item)
           if record.item?     # Typically for transaction and updates
             @tags_handler(record.item)
+            @images_handler(record.item)
       return response
+
+]
 
 .factory "Image", ["Model", (Model) ->
   return Model.create("/images/").mix(

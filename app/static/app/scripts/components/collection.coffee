@@ -6,10 +6,10 @@ angular.module("continue")
   "InfiniteScroll", "Auth", "Album",
   ($scope, Post, Item, Feed, Timeline, Alert, InfiniteScroll, Auth, Album) ->
 
-
     $scope.layout = {
       creating_new_item: false
       display_tab: "items"
+      filter_available: ""
       view_mode: "detail"
       item_to_edit: {}
       show_items_search_results: false
@@ -22,6 +22,12 @@ angular.module("continue")
     $scope.switch_view_mode = (mode)->
       $scope.layout.view_mode = mode
 
+    $scope.filter_available = (option)->
+      if $scope.layout.filter_available == option
+        $scope.layout.filter_available = ""
+      else
+        $scope.layout.filter_available = option
+
     $scope.edit_item = (item)->
       if item != $scope.layout.item_to_edit
         $scope.layout.item_to_edit = item
@@ -32,10 +38,7 @@ angular.module("continue")
       # Load the first few items when user click the `Gallery`
       if not $scope.items?
         Alert.show_msg("Downloading your data ...")
-        $scope.items = Item.$search({num_of_records: 8}).$then (response)->
-          this.tags_handler()       # Handle the tags and private-tags
-          # set the start for future infinite scrolling
-          this.images_handler()
+        $scope.items = Item.search({num_of_records: 8}).$then (response)->
           this.start = this.length
           Alert.show_msg("Download is finished.")
           $scope.layout.loading.items = false
@@ -50,8 +53,6 @@ angular.module("continue")
     # =========== Infinite scrolling for items ===========
     infinite_scroll_items = new InfiniteScroll(Item)
     $scope.load_items = ()->
-      console.log "$scope.items", $scope.items
-      console.log "$scope.items.length", $scope.items.length
       infinite_scroll_items.config(
         model_types: ["Item"]       # Expected model types from the backend
         init_starts: $scope.items.length

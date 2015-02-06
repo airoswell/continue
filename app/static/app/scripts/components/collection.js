@@ -8,6 +8,7 @@
       $scope.layout = {
         creating_new_item: false,
         display_tab: "items",
+        filter_available: "",
         view_mode: "detail",
         item_to_edit: {},
         show_items_search_results: false,
@@ -20,6 +21,13 @@
       $scope.switch_view_mode = function(mode) {
         return $scope.layout.view_mode = mode;
       };
+      $scope.filter_available = function(option) {
+        if ($scope.layout.filter_available === option) {
+          return $scope.layout.filter_available = "";
+        } else {
+          return $scope.layout.filter_available = option;
+        }
+      };
       $scope.edit_item = function(item) {
         if (item !== $scope.layout.item_to_edit) {
           return $scope.layout.item_to_edit = item;
@@ -30,7 +38,7 @@
       $scope.load_first_items = function() {
         if ($scope.items == null) {
           Alert.show_msg("Downloading your data ...");
-          return $scope.items = Item.$search({
+          return $scope.items = Item.search({
             num_of_records: 8
           }).$then(function(response) {
             this.tags_handler();
@@ -50,8 +58,6 @@
       $scope.load_first_items();
       infinite_scroll_items = new InfiniteScroll(Item);
       $scope.load_items = function() {
-        console.log("$scope.items", $scope.items);
-        console.log("$scope.items.length", $scope.items.length);
         infinite_scroll_items.config({
           model_types: ["Item"],
           init_starts: $scope.items.length

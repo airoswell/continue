@@ -48,11 +48,11 @@
     </div>
 
 
-    <!-- Available tags -->
+    <!-- side bar -->
     <div class='sidebar' hide-md hide-sm>
 
       <br/>
-
+      <!-- View modes -->
       <div class='sidebar-body'>
         <div class='text-large'>View modes</div>
         <div class='tag tag-small tag-gray'
@@ -67,6 +67,22 @@
         </div>
       </div>
 
+      <!-- Filter by  available -->
+      <div class='sidebar-body'>
+        <div class='text-large'>Available</div>
+        <div class='tag tag-small tag-gray'
+            ng-click='filter_available("For Sale")'
+            ng-class="{'selected': layout.filter_available == 'For Sale'}">
+          For Sale
+        </div>
+        <div class='tag tag-small tag-gray'
+            ng-click='filter_available("For Share")'
+            ng-class="{'selected': layout.filter_available == 'For Share'}">
+          For Share
+        </div>
+      </div>
+
+      <!-- Tags -->
       <div class='text-large sidebar-body'>
         Available tags
       </div>
@@ -84,7 +100,7 @@
     <!-- Item list -->
     <div id='items-display'
         infinite-scroll="load_items()" infinite-scroll-distance="1"
-        infinite-scroll-disabled="layout.loading.items || scrollTop < 200" >
+        infinite-scroll-disabled="layout.loading.items || scrollTop < 50" >
       <div layout='row'>
         <div flex="10"></div>
         <div reduced-padding>
@@ -112,7 +128,7 @@
               ng-show='layout.item_to_edit.id'>
           </item-editor-pro>
 
-          <div ng-repeat="item in items" style='display:inline-block;margin:20px;'>
+          <div ng-repeat="item in items" ng-show="(item.available == layout.filter_available) || layout.filter_available == ''" style='display:inline-block;margin:20px;'>
             <div style="box-shadow:0px 2px 5px #ccc;">
               <div class='item-thumbnail'
                   ng-class="{'selected': item == layout.item_to_edit}"
@@ -137,7 +153,8 @@
           ng-show="tags.length == 0 && layout.view_mode == 'detail'">
         <div flex-sm="0" flex="10"></div>
         <div flex-gt-lg="70" flex-gt-md="80" flex-md="80" flex-sm="100">
-          <item-editor-pro item="item" ng-repeat="item in items">
+          <item-editor-pro item="item" ng-repeat="item in items"
+              ng-show="(item.available == layout.filter_available) || layout.filter_available == ''">
           </item-editor-pro>
         </div>
       </div>
@@ -153,7 +170,8 @@
             </div>
           </div>
           <item-editor-pro item='item'
-              ng-repeat="item in items_search_results">
+              ng-repeat="item in items_search_results"
+              ng-show="(item.available == layout.filter_available) || layout.filter_available == ''">
           </item-editor-pro>
         </div>
       </div>
