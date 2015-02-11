@@ -22,13 +22,14 @@
   }
 {% load filters %}
 </style>
-<div class='nav-bar non-bootstrap'
+<div hide-sm class='nav-bar non-bootstrap'
     layout='row' layout-align='space-between center'>
   <a href="/app/">
     <div class="logo text-large">WorldSheet</div>
   </a>
 
-  <div class='menu text-default' layout='row' layout-align='end center'>
+  <div class='menu text-default'
+      layout='row' layout-align='end center'>
     <div ng-cloak >
       <!-- Search form -->
       <form id='search-form' name='search-form' action="/app/search/"
@@ -164,7 +165,89 @@
         src={{request.user.profile.social_account_photo}} >
     {% endif %}
   </div>
+
 </div>
+
+
+<div class='nav-bar' ng-cloak click-to-show show-sm hide-gt-sm>
+  <div layout='row' layout-align='space-between center'>
+    <a href="/app/">
+      <div class="logo text-large">WorldSheet</div>
+    </a>
+    <a click-to-show-trigger href="#">
+      <div class='menu text-default'>
+        <i class='fa fa-bars'></i>
+      </div>
+    </a>
+  </div>
+
+  <div style='background:#fff;border:1px solid #ddd;' click-to-show-target>
+    <!-- Nav buttons on the right. -->
+    {% if user.is_anonymous %}
+    <a href="/app/user/login/">
+      <div class='menu-item'>Log in</div>
+    </a>
+    <a href="/app/user/signup/"><div class='menu-item'>Sign up</div></a>
+    {% else %}
+
+    {%   if request.user.pending_transactions %}
+    <div drop-down-menu>
+      <div drop-down-menu-trigger class="transaction-button menu-item">
+        Pending Requests &nbsp; 
+        <b style="padding: 3px 8px;border: 2px solid #999;border-radius: 20px;text-align: center;">{{ request.user.pending_transactions|count}}</b>
+      </div>
+      <div ng-cloak drop-down-menu-target style='margin-top:5px'>
+        <div class='text-small option'
+            style='background:#f4f4f4'>
+          Pending:
+        </div>
+        {% for transaction in request.user.pending_transactions %}
+        <div class='menu-item option'>
+          {% include "pages/components/transaction.html" %}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {%   endif %}
+    <a href="/app/user/inbox/">
+      <div class='menu-item'>
+        {% if request.user.received_messages.all|unread_count > 0 %}
+        <i class='fa fa-envelope'></i>&nbsp;&nbsp;<b>Messages</b>&nbsp;
+        <b style="padding: 3px 8px;border: 2px solid #999;border-radius: 20px;text-align: center;">{{ request.user.received_messages.all|unread_count}}</b>
+        {% else %}
+        <i class='fa fa-envelope'></i>&nbsp;&nbsp;<span>Messages</span>
+        {% endif %}
+      </div>
+    </a>
+    <a href="/app/user/collection/">
+      <div class='menu-item'>
+        <i class="fa fa-th"></i>&nbsp;&nbsp;<span>Collection</span>
+      </div>
+    </a>
+    <a href="/app/user/dashboard/">
+      <div class='menu-item'>
+        <i class="fa fa-tachometer"></i>&nbsp;&nbsp;<span>Dashboard</span>
+      </div>
+    </a>
+    <a href="/app/post/">
+      <div class='menu-item'>
+        <i class='fa fa-align-left'></i>&nbsp;&nbsp;Add a post
+      </div>
+    </a>
+    <a href="/app/item/">
+      <div class='menu-item'>
+        <i class="fa fa-th"></i>&nbsp;&nbsp;Add items
+      </div>
+    </a>
+    <a href="/app/user/logout/">
+      <div class='menu-item'>
+        <i class="fa fa-sign-out"></i>&nbsp;&nbsp;<span>Log out</span>
+      </div>
+    </a>
+    {% endif %}
+  </div>
+</div>
+
 
 
 
