@@ -6,6 +6,8 @@ angular.module "continue"
   ($scope, Post, Alert, InfiniteScroll)->
 
     $scope.scroll_to_post = (id)->
+      console.log id
+      # console.log "#post-#{id}"
       top = $("#post-#{id}").offset().top
       $("html, body").animate scrollTop: top - 100
       true

@@ -388,11 +388,9 @@ angular.module 'continue.models', [
     })
 ]
 
-
 .factory "BulkItems", ["Model", (Model)->
   return Model.create("/bulk-items/")
 ]
-
 
 .factory "Feed", ["Model", (Model) ->
   return Model.create("/feeds/").mix(

@@ -7,6 +7,7 @@
       var infinite_scroll_posts;
       $scope.scroll_to_post = function(id) {
         var top;
+        console.log(id);
         top = $("#post-" + id).offset().top;
         $("html, body").animate({
           scrollTop: top - 100

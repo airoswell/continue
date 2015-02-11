@@ -72,7 +72,7 @@
             item.tags_private = tags_private;
             return item.save(success_handler).$asPromise();
           };
-          scope.expand = function(item) {
+          return scope.expand = function(item) {
             if (item.expanded !== true) {
               console.log("expand");
               item.expanded = true;
@@ -81,6 +81,20 @@
               item.expanded = false;
             }
           };
+        }
+      };
+    }
+  ]).directive("itemEditorProTitle", function() {
+    return {
+      restrict: "E",
+      templateUrl: "/static/app/directives/item-editor-pro-title.html"
+    };
+  }).directive("itemEditorProBasics", [
+    "Album", "Alert", function(Album, Alert) {
+      return {
+        restrict: "E",
+        templateUrl: "/static/app/directives/item-editor-pro-basics.html",
+        link: function(scope) {
           return scope.get_albums = function(item) {
             Alert.show_msg("Downloading your albums ...");
             return Album.get_albums().then(function(response) {
@@ -93,17 +107,7 @@
         }
       };
     }
-  ]).directive("itemEditorProTitle", function() {
-    return {
-      restrict: "E",
-      templateUrl: "/static/app/directives/item-editor-pro-title.html"
-    };
-  }).directive("itemEditorProBasics", function() {
-    return {
-      restrict: "E",
-      templateUrl: "/static/app/directives/item-editor-pro-basics.html"
-    };
-  }).directive("itemEditorProMore", function() {
+  ]).directive("itemEditorProMore", function() {
     return {
       restrict: "E",
       templateUrl: "/static/app/directives/item-editor-pro-more.html"

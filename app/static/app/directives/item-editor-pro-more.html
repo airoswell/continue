@@ -211,6 +211,8 @@
       </div>
     </accordion-group>
 
+
+    <!-- Item Album -->
     <accordion-group is-open="true" ng-if="item.images.length">
       <accordion-heading>
         Album
@@ -219,11 +221,15 @@
       <div layout='row' layout-align='center'>
         <div>
           <div class="item-image-container" ng-repeat="image in item.images">
-            <img ng-src="{{image.url}}" height="100">
+            <div layout='row' layout-align='start start'>
+              <img ng-src="{{image.url}}" height="100">
+              &nbsp;
+              <i class='fa fa-caret-down'></i>
+            </div>
           </div>
         </div>
       </div>
-      
+
     </accordion-group>
   </accordion>
 

@@ -100,6 +100,7 @@
       {% endfor %}
     </div>
     {% load markdown_deux_tags %}
+    {% if post.detail %}
     <div click-to-expand max-height='125px'>
       <div click-to-expand-target class="text-default" style='background: #f9f9f9;padding:5px 20px;margin-top:10px;
       max-height:125px;overflow:hidden'>
@@ -109,6 +110,7 @@
          <i class="fa fa-arrows-v"></i>&nbsp; toggle detail
        </div>
     </div>
+    {% endif %}
 
     <!-- item list of the post -->
     {% for item in post.items.all %}

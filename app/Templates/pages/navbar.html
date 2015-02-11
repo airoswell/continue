@@ -2,7 +2,8 @@
 
 <style type="text/css">
   .nav-bar.non-bootstrap input{
-      padding-left:0px;padding-bottom:0px;line-height:22px;border-color: transparent;
+      padding-left:0px;padding-bottom:0px;line-height:22px;
+      border-color: transparent;
   }
   .nav-bar.non-bootstrap input:focus{
     border-bottom: 2px solid #eee;
@@ -26,6 +27,7 @@
   <a href="/app/">
     <div class="logo text-large">WorldSheet</div>
   </a>
+
   <div class='menu text-default' layout='row' layout-align='end center'>
     <div ng-cloak >
       <!-- Search form -->
@@ -121,38 +123,41 @@
     </div>
     {%   endif %}
     <a href="/app/user/inbox/">
-      <div class='menu-item'>
+      <div class='menu-item' layout='row' layout-align='center center'>
         {% if request.user.received_messages.all|unread_count > 0 %}
-        <i class='fa fa-envelope'></i>&nbsp;<b>Messages</b>&nbsp;
+        <i class='fa fa-envelope'></i>&nbsp;<b hide-sm>Messages</b>&nbsp;
         <b style="padding: 3px 8px;border: 2px solid #999;border-radius: 20px;text-align: center;">{{ request.user.received_messages.all|unread_count}}</b>
         {% else %}
-        <i class='fa fa-envelope'></i>&nbsp;Messages
+        <i class='fa fa-envelope'></i>&nbsp;<span hide-sm>Messages</span>
         {% endif %}
       </div>
     </a>
     <a href="/app/user/collection/">
-      <div class='menu-item'>
-        <i class="fa fa-th"></i>&nbsp;Collection
+      <div class='menu-item' layout='row' layout-align='center center'>
+        <i class="fa fa-th"></i>&nbsp;<span hide-sm>Collection</span>
       </div>
     </a>
     <a href="/app/user/dashboard/">
-      <div class='menu-item'>
-        <i class="fa fa-tachometer"></i>&nbsp;Dashboard
+      <div class='menu-item' layout='row' layout-align='center center'>
+        <i class="fa fa-tachometer"></i>&nbsp;<span hide-sm>Dashboard</span>
       </div>
     </a>
-    <a href="/app/post/">
-      <div class='menu-item'>
-        <i class="fa fa-plus"></i>&nbsp;Post
-      </div>
-    </a>
-    <a href="/app/item/">
-      <div class='menu-item'>
-        <i class="fa fa-plus"></i>&nbsp;Item
-      </div>
-    </a>
+    <span class="dropdown" >
+      <a href class="dropdown-toggle" dropdown-toggle layout='row' layout-align='center center'>
+        <i class='fa fa-plus'></i>&nbsp;<span hide-sm>Add</span>
+      </a>
+      <ul class="dropdown-menu" layout='row' layout-align='center center'>
+        <li>
+          <a href="/app/post/"><i class='fa fa-align-left'></i>&nbsp;&nbsp;Add a post</a>
+        </li>
+        <li>
+          <a href="/app/item/"><i class="fa fa-th"></i>&nbsp;&nbsp;Add items</a>
+        </li>
+      </ul>
+    </span>
     <a href="/app/user/logout/">
-      <div class='menu-item'>
-        <i class="fa fa-sign-out"></i>&nbsp;Log out
+      <div class='menu-item' layout='row' layout-align='center center'>
+        <i class="fa fa-sign-out"></i>&nbsp;<span hide-sm>Log out</span>
       </div>
     </a>
     &nbsp;&nbsp;<img style="border-radius:2px" height="40"

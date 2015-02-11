@@ -48,7 +48,7 @@
       infinite-scroll-disabled="layout.loading.posts || scrollTop < 600">
     <div flex-gt-md="30" flex-md="35"></div>
     <div flex-gt-md="70" flex-gt-lg="60">
-      <div>
+      <div style='padding:0px 10px;'>
         {% if tags %}
         <br/>
         <div class='section-title section-title-large'>Posts satisfying </div>
@@ -68,6 +68,7 @@
         {% if not tags and not areas %}
         <br/>
         <div class='section-title section-title-large'>Most recent posts</div>
+        <div style='padding:0px 10px;color:#999;'>Click tags or areas to narrow your search.</div>
         {% endif %}
       </div>
       {% for post in posts %}
@@ -77,9 +78,11 @@
       </div>
 
       {% endfor %} {# posts iteration end #}
-      <div ng-repeat="post in posts">
+      {% verbatim %}
+      <div id="post-{{post.id}}" ng-repeat="post in posts">
         <post-overview></post-overview>
       </div>
+      {% endverbatim %}
     </div>
   </div>
 

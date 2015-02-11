@@ -53,22 +53,24 @@ angular.module("continue")
           console.log "fold"
           item.expanded = false
         return
-
-      scope.get_albums = (item)->
-        Alert.show_msg("Downloading your albums ...")
-        Album.get_albums().then (response)->
-          if response
-            item.pic = response
-            item.save()
 ]
 
 .directive "itemEditorProTitle", ()->
   restrict: "E"
   templateUrl: "/static/app/directives/item-editor-pro-title.html"
 
-.directive "itemEditorProBasics", ()->
+.directive "itemEditorProBasics", ["Album", "Alert", (Album, Alert)->
   restrict: "E"
   templateUrl: "/static/app/directives/item-editor-pro-basics.html"
+  link: (scope)->
+    scope.get_albums = (item)->
+      Alert.show_msg("Downloading your albums ...")
+      Album.get_albums().then (response)->
+        if response
+          item.pic = response
+          item.save()
+
+]
 
 .directive "itemEditorProMore", ()->
   restrict: "E"
@@ -159,4 +161,3 @@ angular.module("continue")
     scope.click = ()->
       element.find("input").focus()
       true
-
