@@ -137,7 +137,10 @@ def CreateProfile(sender, **kwargs):
         extra_data = Provider.extra_data
         if "email" in extra_data:
             email = extra_data["email"]
-        name = extra_data['name']
+        if "name" in extra_data:
+            name = extra_data['name']
+        elif "username" in extra_data:
+            name = extra_data['username']
         social_account_photo = Provider.get_avatar_url()
     UserProfile.objects.create(
         email=email, social_account_uid=uid, name=name, user=user,
@@ -166,7 +169,10 @@ def CheckAndUpdateProfile(sender, **kwargs):
         email = None
         if "email" in extra_data:
             email = extra_data["email"]
-        name = extra_data['name']
+        if "name" in extra_data:
+            name = extra_data['name']
+        elif "username" in extra_data:
+            name = extra_data['username']
         social_account_photo = Provider.get_avatar_url()
         profile.social_account_provider = social_account_provider
         profile.social_account_photo = social_account_photo

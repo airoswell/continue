@@ -481,8 +481,8 @@ input-dropdown[reduced-padding] .input-label{
     padding:4px 10px;margin-left:10px;
 }
 
-.item-overview-preset{
-    display: inline-block;margin-right: 10px;
+.item-overview-field{
+    display: inline-block;margin-right: 20px;margin-bottom: 10px;
 }
 
 /* ============== Directives ============== */

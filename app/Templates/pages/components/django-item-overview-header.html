@@ -23,21 +23,21 @@
     {% endif %}
 
       {% if item.estimated_value %}
-      <div class="item-overview-preset">
+      <div class="item-overview-field">
         <div style='color: #999'><i class="fa fa-usd">&nbsp;Value</i></div>
         <div style='font-weight:600'>{{ item.estimated_value }}</div>
       </div>
       {% endif %}
 
       {% if item.condition != "Inapplicable" %}
-      <div class="item-overview-preset">
+      <div class="item-overview-field">
         <div style='color: #999'>Condition</div>
         <div style='font-weight:600'>{{ item.condition }}</div>
       </div>
       {% endif %}
 
       {% if item.available != "No" %}
-      <div class="item-overview-preset">
+      <div class="item-overview-field">
         <div style='color: #999'>Available</div>
         <div style='font-weight:600'>{{ item.available }}</div>
       </div>
@@ -47,7 +47,7 @@
       <!-- In a post, if the item has a different owner than the post -->
       <!-- that means the item has been transferred. -->
       {%   if item.owner != post.owner %}
-      <div class="item-overview-preset">
+      <div class="item-overview-field">
         <div style='color: #666;'>Out</div>
         <div style='font-weight:600;color:#ff5858'>Unavailable</div>
       </div>

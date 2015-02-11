@@ -1,25 +1,20 @@
 angular.module "continue"
 
-.factory "Album", ["$q", "FB", "Auth", "BS", ($q, FB, Auth, BS)->
-  get_photos = (self, album_id)->
-    self.album = album_id
-    FB.resource.get(
-      node: album_id
-      edge: "photos"
-      access_token: Auth.get_profile().access_token
-      fields: "images"
-    )
-    .$promise
+.factory "Album", [
+  "$q", "FB", "Instagram", "Auth", "BS",
+  ($q, FB, Instagram, Auth, BS)->
+    get_photos = (self, album_id)->
+      self.album = album_id
+      FB.resource.get(
+        node: album_id
+        edge: "photos"
+        access_token: Auth.get_profile().access_token
+        fields: "images"
+      )
+      .$promise
 
-  return {
-    albums: []
-    photos: []
-    photo: ""
-    is_show: false
-    deferred: {}
-    get_albums: ()->
-      self = this
-      if Auth.get_profile().social_account_provider != "facebook"
+    get_FB_albums = (self)->
+      if Auth.get_profile().social_account_provider == ""
         self.deferred = BS.bringUp("album")
         return self.deferred.promise
       FB.resource.get(
@@ -56,12 +51,76 @@ angular.module "continue"
         self.deferred = BS.bringUp("album")
         self.deferred.promise
 
-    get_photos: (album_id)->
-      # To retrieve ALL photos of a selected album
-      # Pagination is achieved in the albumCtrl
-      get_photos(this, album_id)
+    get_Instagram_albums = (self)->
+      console.log "Instagram self = ", self
+      console.log "Auth.get_profile().social_account_access_token", Auth.get_profile().access_token
+      Instagram.resource.get(
+        endpoint: "users"
+        id: Auth.get_profile().social_account_uid
+        access_token: Auth.get_profile().access_token
+        client_id: "874e5644d2954234a88588af0a6f7ce7"
+      ).$promise
+      .then (response)->
+        console.log "response = ", response
+      self.deferred = BS.bringUp("album")
+      self.deferred.promise
 
-  }
+    return {
+      albums: []
+      photos: []
+      photo: ""
+      is_show: false
+      deferred: {}
+      get_albums: ()->
+        self = this
+        if Auth.get_profile().social_account_provider == ""
+          self.deferred = BS.bringUp("album")
+          return self.deferred.promise
+        else if Auth.get_profile().social_account_provider == "facebook"
+          return get_FB_albums(self)
+        else if Auth.get_profile().social_account_provider == "instagram"
+          return get_Instagram_albums(self)
+
+        # FB.resource.get(
+        #   node: "me"
+        #   access_token: Auth.get_profile().access_token
+        #   fields: "id, albums{cover_photo}"
+        # )
+        # .$promise
+        # .then (response) ->
+        #   # The response should be information about the user
+        #   # and an array of albums
+        #   self.albums = response.albums.data
+        #   album_covers = []
+        #   for album in self.albums
+        #     album_covers.push(album.cover_photo)
+        #   ids = album_covers.toString()
+        #   # Using ids, one can perform multiple request to Graph API
+        #   covers = FB.resource.get(
+        #     access_token: Auth.get_profile().access_token
+        #     ids: ids
+        #     fields: "images"
+        #   )
+        #   return covers.$promise
+        # .then (response)->
+        #   # Store all cover photos data into self.albums
+        #   index = 0
+        #   for cover_photo of response
+        #     if index < self.albums.length
+        #       self.albums[index].cover_photo = response[cover_photo]
+        #     index += 1
+        #   console.log self.albums
+        #   console.log "all cover photos are obtained."
+
+        #   self.deferred = BS.bringUp("album")
+        #   self.deferred.promise
+
+      get_photos: (album_id)->
+        # To retrieve ALL photos of a selected album
+        # Pagination is achieved in the albumCtrl
+        get_photos(this, album_id)
+
+    }
 ]
 
 .controller "albumCtrl", [
