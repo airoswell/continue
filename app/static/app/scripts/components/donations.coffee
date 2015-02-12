@@ -73,7 +73,6 @@ angular.module "continue"
       $('textarea').autosize()
     , true
 
-
     $scope.add_item = ()->
       item = Item.$build(Item.init)
       item.owner = $scope.collector_uid

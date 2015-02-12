@@ -11,8 +11,13 @@
         link: function(scope) {
           scope.show_more = false;
           $('textarea').autosize();
+          scope.layout = {
+            uploading: true,
+            upload_progress: 50
+          };
           scope.$watch("files", function() {
             if (scope.files) {
+              scope.uploading = true;
               return scope.upload = $upload.upload({
                 url: "/app/images/",
                 data: {
@@ -21,6 +26,7 @@
                 file: scope.files
               }).progress(function(evt) {
                 console.log("progress: " + parseInt(100.0 * evt.loaded / evt.total) + "% file :" + evt.config.file.name);
+                scope.layout.upload_progress = parseInt(100.0 * evt.loaded / evt.total);
               }).then(function(response) {
                 var item, url_abs, url_rel;
                 console.log("response = ", response);
@@ -31,8 +37,10 @@
                   item.pic = url_abs;
                 }
                 item.images.push(response.data);
-                return scope.save(item);
+                scope.save(item);
+                return scope.layout.uploading = false;
               }, function() {
+                scope.layout.uploading = false;
                 return Alert.show_error("There was problem uploading your file. Please make sure your file is a valid image file.");
               });
             }

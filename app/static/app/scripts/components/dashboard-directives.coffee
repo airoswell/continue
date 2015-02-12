@@ -12,8 +12,15 @@ angular.module("continue")
       scope.show_more = false
       $('textarea').autosize()
 
+
+      scope.layout = {
+        uploading: false
+        upload_progress: 0
+      }
+
       scope.$watch "files", ()->
         if scope.files
+          scope.uploading = true
           scope.upload = $upload.upload(
             url: "/app/images/"
             data:
@@ -21,6 +28,7 @@ angular.module("continue")
             file: scope.files
           ).progress((evt) ->
             console.log "progress: " + parseInt(100.0 * evt.loaded / evt.total) + "% file :" + evt.config.file.name
+            scope.layout.upload_progress = parseInt(100.0 * evt.loaded / evt.total)
             return
           ).then (response)->
             console.log "response = ", response
@@ -31,7 +39,9 @@ angular.module("continue")
               item.pic = url_abs
             item.images.push(response.data)
             scope.save(item)
+            scope.layout.uploading = false
           , ()->
+            scope.layout.uploading = false
             Alert.show_error("There was problem uploading your file. Please make sure your file is a valid image file.")
 
       scope.save = (item)->
