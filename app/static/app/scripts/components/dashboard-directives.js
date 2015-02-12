@@ -170,7 +170,12 @@
       link: function(scope, element, attrs) {
         scope.dropdown = false;
         element.find("[trigger]").on("click", function() {
+          var min_width;
           scope.dropdown = true;
+          min_width = element.width();
+          element.find("[target]").css({
+            "min-width": min_width
+          });
           return scope.$apply();
         }).on("mouseleave", function() {
           scope.dropdown = false;
@@ -216,6 +221,10 @@
           return true;
         };
       }
+    };
+  }).directive("donationSettingForm", function() {
+    return {
+      restrict: "A"
     };
   });
 

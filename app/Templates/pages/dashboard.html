@@ -245,7 +245,7 @@
       <div flex-gt-md="5"></div>
       <div flex>
 
-        <div style='background:#fff;box-shadow: 0px 2px 8px #ccc;padding:20px;' layout-gt-md="row" layout="column" layout-align='start center'>
+        <div style='background:#fff;border: 1px solid #ddd;padding:20px;' layout-gt-md="row" layout="column" layout-align='start center'>
           <div layout='row' layout-align='start center'>
             {% verbatim %}
             <img height=80 ng-src="{{profile.social_account_photo}}" alt="">
@@ -288,6 +288,11 @@
         <br/>
         <div>
           {% include 'pages/components/area-setting.html' %}
+        </div>
+
+        <br/>
+        <div>
+          {% include 'pages/components/donation-setting.html' %}
         </div>
       </div>
     </div>

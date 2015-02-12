@@ -56,6 +56,8 @@ angular.module "continue"
       item = Item.$build(Item.init)
       item.owner = $scope.collector_uid
       item.type = "donation"
+      if $scope.categories
+        item.title = "Please select a type below"
       item.customized_num_fields = []
       item.customized_num_fields.push(
         {
@@ -67,27 +69,6 @@ angular.module "continue"
       $scope.items.push(item)
       $scope.items_title.push(item.title)
 
-    # $scope.$watch "items_tag", ()->
-    #   for tag in $scope.items_tag
-    #     if not (tag.text in $scope.items_title)
-    #       item = Item.$build(Item.init)
-    #       item.title = tag.text
-    #       item.owner = $scope.collector_uid
-    #       item.type = "donation"
-    #       item.customized_num_fields = []
-    #       item.customized_num_fields.push(
-    #         {
-    #           title: "Age"
-    #           unit: "year"
-    #           value: 0
-    #         },
-    #       )
-    #       $scope.items.push(item)
-    #       $scope.items_title.push(item.title)
-    #     $scope.step_one_done = true
-    # , true
-
-
     $scope.$watch "items", (newVal)->
       $('textarea').autosize()
     , true
@@ -97,6 +78,8 @@ angular.module "continue"
       item = Item.$build(Item.init)
       item.owner = $scope.collector_uid
       item.type = "donation"
+      if $scope.categories
+        item.title = "Please select a type below"
       item.customized_num_fields = []
       item.customized_num_fields.push(
         {
@@ -106,19 +89,27 @@ angular.module "continue"
         },
       )
       $scope.items.push(item)
+      index = $scope.items.indexOf(item)
+      $scope.layout.display_tab = index
 
 
     $scope.is_valid = ()->
+      if not $scope.items
+        Alert.show_msg("Please add at least one item.", 10000)
+        return false
+      for item in $scope.items
+        if item.title == "Please select a type below"
+          Alert.show_msg("Please specify types for all items.")
       if not $scope.contactForm.$valid
         Alert.show_msg("Please fill in your name and area")
         return false
-      if (not $scope.customized_char_fields[2].value and
-          not $scope.customized_char_fields[3].value)
+      if (not $scope.customized_char_fields[3].value and
+          not $scope.customized_char_fields[4].value)
         Alert.show_msg("Please provide either your phone number or your email address.")
         return false
       else if not $scope.customized_char_fields[3].value
         pat = /\d{3}[^0-9]*\d{3}[^0-9]*\d{4}$/
-        is_valid = pat.test($scope.customized_char_fields[2].value)
+        is_valid = pat.test($scope.customized_char_fields[3].value)
         if not is_valid
           Alert.show_msg("Please provide valid phone number")
           return false
@@ -131,6 +122,8 @@ angular.module "continue"
       for item in $scope.items
         if item.quantity == "5 +"
           item.quantity = 6
+        if $scope.categories
+          item.tags = item.title
         item.customized_char_fields =  $scope.customized_char_fields
       $scope.bulk_items.items = $scope.items
       $scope.layout.submitted = true

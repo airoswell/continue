@@ -1,14 +1,13 @@
-<div class="{{ ::containerClass }}" layout='row'>
-  <div ng-if="!label==''" layout='column' layout-align='center'>
-    <div class='text-default input-label'>
-      <bind ng-bind="label"></bind> &nbsp;&nbsp;
+<div style='padding:10px;' layout='row' layout-align='center'>
+  <div reduced-padding>
+    <div ng-show="!label==''" class='input-label'>
+      <bind ng-bind="::label"></bind>
     </div>
-  </div>
-  <div flex>
-    <input type='text'
-        label="{{ label }}"
-        placeholder="{{ placeHolder }}"
-        class="{{ ::inputClass }}"
-        ng-model="data">
+
+    <!-- For simple dropdown menu -->
+    <div ng-if="!transfer">
+      <input type="text" ng-model="data">
+    </div>
+
   </div>
 </div>

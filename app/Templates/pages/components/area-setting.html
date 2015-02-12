@@ -1,7 +1,7 @@
 <style>
   [area-setting-form]{
-    background: #fff;box-shadow: 2px 2px 8px #ccc;
-    width:100%;padding:40px 20px 20px 20px;
+    background: #fff;
+    width:100%;padding:20px;border: 1px solid #ddd;
   }
   [area-setting-form] tags-input .tags .input{
     width:auto;
@@ -13,7 +13,7 @@
   <div style=''>
     {% if view != "dashboard"%}<div class='text-small'>Welcome to the community! To begin,</div>{% endif %}
     <div reduced-padding>
-      <div class='section-title section-title-large'>To filter news feeds</div>
+      <div class='text-xlarge text-blue'>To filter news feeds</div>
       <div class='text-large text-light-gray'>set up your primary area and interested areas. Note that by default your news feed will receive feeds from all over the site.</div>
     </div>
     <div layout='column' layout-gt-md='row'>
@@ -40,8 +40,10 @@
         </div>
       </div>
     </div>
-    <div class='button button-small button-gray' ng-click="submit_areas_setting()">
-      OK
+    <div layout='row' layout-align='end'>
+      <div class='button button-small button-blue' ng-click="submit_areas_setting()">
+        <i class='fa fa-refresh'></i>&nbsp;Save
+      </div>
     </div>
   </div>
 </form>

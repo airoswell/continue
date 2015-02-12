@@ -113,7 +113,7 @@ class UserProfile(UUIDModel):
     accept_donations_secret_key = models.CharField(
         max_length=100, default="", blank=True,
     )
-    accept_donation_categories = models.TextField(
+    accept_donations_categories = models.TextField(
         default="", blank=True,
     )
 

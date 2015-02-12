@@ -42,6 +42,9 @@
         item = Item.$build(Item.init);
         item.owner = $scope.collector_uid;
         item.type = "donation";
+        if ($scope.categories) {
+          item.title = "Please select a type below";
+        }
         item.customized_num_fields = [];
         item.customized_num_fields.push({
           title: "Age",
@@ -55,30 +58,46 @@
         return $('textarea').autosize();
       }, true);
       $scope.add_item = function() {
-        var item;
+        var index, item;
         item = Item.$build(Item.init);
         item.owner = $scope.collector_uid;
         item.type = "donation";
+        if ($scope.categories) {
+          item.title = "Please select a type below";
+        }
         item.customized_num_fields = [];
         item.customized_num_fields.push({
           title: "Age",
           unit: "year",
           value: 0
         });
-        return $scope.items.push(item);
+        $scope.items.push(item);
+        index = $scope.items.indexOf(item);
+        return $scope.layout.display_tab = index;
       };
       $scope.is_valid = function() {
-        var is_valid, pat;
+        var is_valid, item, pat, _i, _len, _ref;
+        if (!$scope.items) {
+          Alert.show_msg("Please add at least one item.", 10000);
+          return false;
+        }
+        _ref = $scope.items;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          item = _ref[_i];
+          if (item.title === "Please select a type below") {
+            Alert.show_msg("Please specify types for all items.");
+          }
+        }
         if (!$scope.contactForm.$valid) {
           Alert.show_msg("Please fill in your name and area");
           return false;
         }
-        if (!$scope.customized_char_fields[2].value && !$scope.customized_char_fields[3].value) {
+        if (!$scope.customized_char_fields[3].value && !$scope.customized_char_fields[4].value) {
           Alert.show_msg("Please provide either your phone number or your email address.");
           return false;
         } else if (!$scope.customized_char_fields[3].value) {
           pat = /\d{3}[^0-9]*\d{3}[^0-9]*\d{4}$/;
-          is_valid = pat.test($scope.customized_char_fields[2].value);
+          is_valid = pat.test($scope.customized_char_fields[3].value);
           if (!is_valid) {
             Alert.show_msg("Please provide valid phone number");
             return false;
@@ -97,6 +116,9 @@
           item = _ref[_i];
           if (item.quantity === "5 +") {
             item.quantity = 6;
+          }
+          if ($scope.categories) {
+            item.tags = item.title;
           }
           item.customized_char_fields = $scope.customized_char_fields;
         }

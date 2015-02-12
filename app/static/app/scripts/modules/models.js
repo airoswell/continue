@@ -105,7 +105,7 @@
       };
     }
   ]).factory("Model", [
-    'restmod', "Alert", "Auth", "Handlers", function(restmod, Alert, Auth, Handlers) {
+    'restmod', "Alert", "Handlers", function(restmod, Alert, Handlers) {
       var copy, next_page, prev_page, save;
       save = function(self, successHandler, errorHandler) {
         if (!self.is_valid()) {
@@ -747,19 +747,78 @@
     }
   ]).factory("Image", [
     "Model", function(Model) {
-      return Model.create("/images/").mix({
-        $extend: {
-          record: ""
-        }
-      });
+      return Model.create("/images/").mix();
     }
   ]).factory("Profile", [
     "Model", function(Model) {
       return Model.create("/profiles/").mix({
         $extend: {
-          record: ""
+          Record: {
+            pre_save_handler: function() {
+              var categories, self, tag;
+              self = this;
+              self.accept_donations_categories = '';
+              if (self.tags_accept_donations_categories) {
+                categories = [
+                  (function() {
+                    var _i, _len, _ref, _results;
+                    _ref = self.tags_accept_donations_categories;
+                    _results = [];
+                    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                      tag = _ref[_i];
+                      _results.push(tag.text);
+                    }
+                    return _results;
+                  })()
+                ];
+                return self.accept_donations_categories = categories.join(",");
+              }
+            },
+            tags_handler: function() {
+              var self, tag;
+              self = this;
+              self.tags_accept_donations_categories = [];
+              console.log("A");
+              if (self.accept_donations_categories) {
+                console.log("B");
+                return self.tags_accept_donations_categories = [
+                  (function() {
+                    var _i, _len, _ref, _results;
+                    _ref = self.accept_donations_categories.split(",");
+                    _results = [];
+                    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                      tag = _ref[_i];
+                      _results.push({
+                        text: tag
+                      });
+                    }
+                    return _results;
+                  })()
+                ][0];
+              }
+            },
+            is_valid: function() {
+              return true;
+            }
+          }
         }
       });
+    }
+  ]).factory("Auth", [
+    "Profile", "Alert", function(Profile, Alert) {
+      var profile;
+      profile = {};
+      return {
+        fetch_profile: function() {
+          return Profile.search().$asPromise();
+        },
+        store_profile: function(response) {
+          return profile = response;
+        },
+        get_profile: function() {
+          return profile;
+        }
+      };
     }
   ]);
 

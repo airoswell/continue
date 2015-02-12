@@ -514,12 +514,21 @@ def donations(request):
         qs = User.objects.filter(profile__name=collector_name)
     if not qs:
         return redirect("index")
-    collector_uid = qs[0].uid()
+    collector = qs[0]
+    profile = collector.profile
+    if profile.accept_donations == "No":
+        return redirect("index")
+    categories = []
+    if profile.accept_donations_categories:
+        categories = profile.accept_donations_categories.split(",")
+        categories = [str(category) for category in categories]
+    collector_uid = collector.uid()
     return render(
         request,
         'pages/donations.html',
         {
             'view': "donations",
             'collector_uid': collector_uid,
+            'categories': categories,
         }
     )

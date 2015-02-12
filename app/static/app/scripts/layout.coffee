@@ -97,7 +97,7 @@ angular.module("continue")
       profile.primary_area = scope.primary_area
       profile.interested_areas = scope.interested_areas
       profile.already_set = true
-      profile.$save().$then (response)->
+      profile.save().$then (response)->
         scope.hide_area_setting = true
         Alert.show_msg("Your data is saved.")
 ]

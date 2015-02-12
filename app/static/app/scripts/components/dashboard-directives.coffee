@@ -125,6 +125,8 @@ angular.module("continue")
     element.find("[trigger]")
     .on("click", () ->
       scope.dropdown = true
+      min_width = element.width()
+      element.find("[target]").css({"min-width": min_width})
       scope.$apply()
     )
     .on("mouseleave", () ->
@@ -161,3 +163,6 @@ angular.module("continue")
     scope.click = ()->
       element.find("input").focus()
       true
+
+.directive "donationSettingForm", ()->
+  restrict: "A"

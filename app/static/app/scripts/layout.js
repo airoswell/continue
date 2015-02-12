@@ -135,7 +135,7 @@
             profile.primary_area = scope.primary_area;
             profile.interested_areas = scope.interested_areas;
             profile.already_set = true;
-            return profile.$save().$then(function(response) {
+            return profile.save().$then(function(response) {
               scope.hide_area_setting = true;
               return Alert.show_msg("Your data is saved.");
             });

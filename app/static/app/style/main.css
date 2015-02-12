@@ -527,11 +527,15 @@ input-dropdown[reduced-padding] .choice-result{
 input-dropdown[reduced-padding] .input-label{
     padding-bottom: 0px;padding-top: 0px;
 }
-input-dropdown>div:hover{
+input-dropdown>div{
+    border: 1px solid transparent;
+}
+input-dropdown:hover{
     background: #f4f4f4;
 }
 input-dropdown .active{
-    background: #f4f4f4;
+    background: #fff;
+    box-shadow: 0px 3px 6px #ccc;border: 1px solid #ccc;
 }
 
 input-num{
@@ -542,7 +546,7 @@ input-num>div:hover, [input-num]>div:hover {
 }
 
 .choices-list{
-    position:absolute;margin-left: -15px;
+    position:absolute;margin-left: -12px;
     background: #fff;box-shadow: 0px 3px 6px #ccc;
     border: 1px solid #ccc;
     border-top: none;
@@ -553,7 +557,7 @@ input-num>div:hover, [input-num]>div:hover {
     border: 2px;font-weight: 600;
 }
 .choice-option {
-    padding: 10px 15px;font-size: 14px;cursor: pointer;
+    padding: 10px 10px;font-size: 14px;cursor: pointer;
     background: #fff;font-weight: 600;color: #666;
 }
 .choice-option:hover{
@@ -578,6 +582,9 @@ tags-input.custom .tags{
 }
 tags-input.custom .host{
     border: 1px solid #ddd;max-width: 500px;cursor: pointer;
+}
+tags-input.custom.long .host{
+    max-width: 100%;
 }
 tags-input.custom .tags .tag-item{
     background: #f4f4f4;border-radius: 0px;

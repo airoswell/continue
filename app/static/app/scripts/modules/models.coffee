@@ -54,7 +54,7 @@ angular.module 'continue.models', [
 ]
 
 
-.factory "Model", ['restmod', "Alert", "Auth", "Handlers", (restmod, Alert, Auth, Handlers) ->
+.factory "Model", ['restmod', "Alert", "Handlers", (restmod, Alert, Handlers) ->
 
   save = (self, successHandler, errorHandler) ->
     # Prepare for saving
@@ -524,14 +524,39 @@ angular.module 'continue.models', [
 
 .factory "Image", ["Model", (Model) ->
   return Model.create("/images/").mix(
-    $extend:
-      record:""
   )
 ]
 
 .factory "Profile", ["Model", (Model) ->
   return Model.create("/profiles/").mix(
     $extend:
-      record:""
+      Record:
+        pre_save_handler: ()->
+          self = this
+          self.accept_donations_categories = ''
+          if self.tags_accept_donations_categories
+            categories = [tag.text for tag in self.tags_accept_donations_categories]
+            self.accept_donations_categories = categories.join(",")
+        tags_handler: ()->
+          self = this
+          self.tags_accept_donations_categories = []
+          console.log "A"
+          if self.accept_donations_categories
+            console.log "B"
+            self.tags_accept_donations_categories = [{text: tag} for tag in self.accept_donations_categories.split(",")][0]
+        is_valid: ()->
+          true
   )
+]
+
+.factory "Auth", ["Profile", "Alert", (Profile, Alert)->
+  profile = {}
+  return{
+    fetch_profile: () ->
+      Profile.search().$asPromise()
+    store_profile: (response)->
+      profile = response
+    get_profile: ()->
+      profile
+  }
 ]

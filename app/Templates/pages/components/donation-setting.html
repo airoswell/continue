@@ -1,0 +1,32 @@
+<form style='background:#fff;padding:20px;border:1px solid #ddd;'
+    donation-setting-form>
+  <div layout='row' layout-align='start center'>
+    <div class='text-xlarge text-blue'>Donation settings</div>
+    <div>
+      <input-dropdown label="'Do you accpet donations?'" flex style='margin-left:10px;margin-right:10px;display:inline-block'
+        choices="['No', 'From Public', 'With Secret Key']" data='profile.accept_donations'>
+      </input-dropdown>
+    </div>
+  </div>
+
+  <br/>
+
+  <div ng-show="profile.accept_donations != 'No' ">
+    <div>
+      You can set what types of items you will accept as donations. <b>Leave blank</b> if no restrictions.
+    </div>
+    <div>
+      <tags-input class='custom long' ng-model="profile.tags_accept_donations_categories"
+          placeholder="Categories">
+      </tags-input>
+    </div>
+
+  </div>
+
+  <div layout='row' layout-align='end'>
+    <div class='button button-small button-blue'
+        ng-click="profile.save()">
+      <i class="fa fa-refresh"></i>&nbsp;Save
+    </div>
+  </div>
+</form>
