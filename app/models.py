@@ -103,6 +103,19 @@ class UserProfile(UUIDModel):
                                            max_length=500)
     social_account_photo = models.URLField(default="", blank=True)
     already_set = models.BooleanField(default=False)
+    accept_donations = models.CharField(
+        max_length=20, default="No", blank=False,
+        choices=(
+            ("No", "No"), ("From Public", "From Public"),
+            ("With Secret Key", "With Secret Key"),
+        )
+    )
+    accept_donations_secret_key = models.CharField(
+        max_length=100, default="", blank=True,
+    )
+    accept_donation_categories = models.TextField(
+        default="", blank=True,
+    )
 
     @classmethod
     def update(cls, validated_data, **kwargs):

@@ -23,7 +23,9 @@ class UserProfileSerializer(serializers.ModelSerializer):
         model = UserProfile
         fields = ("id", "name", "social_account_photo", "email",
                   "primary_area", "interested_areas", "already_set",
-                  'social_account_provider', "social_account_uid")
+                  'social_account_provider', "social_account_uid",
+                  "accept_donations", "accept_donations_secret_key",
+                  "accept_donations_categories")
 
 
 class UserSerializer(serializers.ModelSerializer):
