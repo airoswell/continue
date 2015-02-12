@@ -56,7 +56,7 @@ angular.module "continue"
       item = Item.$build(Item.init)
       item.owner = $scope.collector_uid
       item.type = "donation"
-      if $scope.categories
+      if $scope.categories.length > 0
         item.title = "Please select a type below"
       item.customized_num_fields = []
       item.customized_num_fields.push(
@@ -78,7 +78,7 @@ angular.module "continue"
       item = Item.$build(Item.init)
       item.owner = $scope.collector_uid
       item.type = "donation"
-      if $scope.categories
+      if $scope.categories.length > 0
         item.title = "Please select a type below"
       item.customized_num_fields = []
       item.customized_num_fields.push(
@@ -122,7 +122,7 @@ angular.module "continue"
       for item in $scope.items
         if item.quantity == "5 +"
           item.quantity = 6
-        if $scope.categories
+        if $scope.categories.length > 0
           item.tags = item.title
         item.customized_char_fields =  $scope.customized_char_fields
       $scope.bulk_items.items = $scope.items
