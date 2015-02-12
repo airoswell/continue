@@ -50,12 +50,11 @@
   
   <div style="padding:20px;min-height: 600px;">
     <div layout='row' layout-align='center'>
-      <div class='section-title section-title-large'>
+      <div class='section-title section-title-large' style='text-align:center'>
         Donating to Setauket Presbyterian Churchyard and Cemetery
         <img src="http://www.setauketpresbyterian.org/wp-content/uploads/2014/04/IMG_20140406_130033_659_300x80.png" alt="">
       </div>
     </div>
-
 
     <div ng-cloak ng-show="layout.success" layout='row' layout-align='center'>
       <div class='text-large text-blue'>
@@ -74,9 +73,7 @@
       <br/>
     </div>
 
-    
 
-    
 
     <div flex layout='row' layout-align='center'>
       
@@ -253,6 +250,7 @@
         <step-three>
           <div class='text-xlarge'>Your contact information</div>
           <form name='contactForm'>
+
             <span style="padding:10px;display:inline-block" auto-expand init-width="180px"
                 data="customized_char_fields[0].value"
                 min-size=20>
@@ -261,31 +259,60 @@
                   type="text" ng-model="customized_char_fields[0].value"
                   ng-minlength=2 ng-maxlength=30 required>
             </span>
+
             <span style="padding:10px;display:inline-block" auto-expand init-width="240px"
                 data="customized_char_fields[1].value"
                 min-size=20>
-              <div>Where can we pick up the item?</div>
+              <div>Your address?</div>
               <input style='font-size:22px;'
-                  placeholder="City name or zip code"
+                  placeholder="Street, City"
                   type="text" ng-model="customized_char_fields[1].value"
                   required ng-minlength=5>
             </span>
-            <span style="padding:10px;display:inline-block" auto-expand init-width="200px"
+
+            <span style="padding:10px;display:inline-block" auto-expand init-width="100px"
                 data="customized_char_fields[2].value"
+                min-size=5>
+              <div>Zip code</div>
+              <input style='font-size:22px;'
+                  placeholder="XXXXX"
+                  type="text" ng-model="customized_char_fields[2].value"
+                  required ng-minlength=5>
+            </span>
+
+            <span style="padding:10px;display:inline-block" auto-expand init-width="200px"
+                data="customized_char_fields[3].value"
                 min-size=20>
               <div>Your Phone number</div>
               <input style='font-size:22px;'
                   placeholder="e.g. (631)XXX-XXXX"
-                  type="text" ng-model="customized_char_fields[2].value">
+                  type="text" ng-model="customized_char_fields[3].value">
             </span>
-            <span style="padding:10px;display:inline-block" auto-expand init-width="200px"
-                data="customized_char_fields[3].value"
+            <span style="padding:10px;display:inline-block" auto-expand init-width="180px"
+                data="customized_char_fields[4].value"
                 min-size=20>
               <div>Or email address</div>
               <input style='font-size:22px;'
-                  type="email" ng-model="customized_char_fields[3]['value']">
+                  type="email" ng-model="customized_char_fields[4]['value']">
             </span>
           </form>
+
+          <span style="padding:10px;display:inline-block" auto-expand init-width="400px"
+              data="customized_char_fields[4].value"
+              min-size=20>
+            <div>Any thing we should know about concerning pick-up?</div>
+            <input style='font-size:22px;'
+                type="email" ng-model="customized_char_fields[4]['value']">
+          </span>
+
+          <span style="padding:10px;display:inline-block" auto-expand init-width="180px"
+              data="customized_char_fields[4].value"
+              min-size=20>
+            <div>Preferred pick up date?</div>
+            <input style='font-size:22px;'
+                type="email" ng-model="customized_char_fields[4]['value']">
+          </span>
+
         </step-three>
 
         <div layout='row' layout-align='end'>

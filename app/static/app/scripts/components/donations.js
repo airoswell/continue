@@ -18,13 +18,22 @@
           title: "Donor's name",
           value: ""
         }, {
-          title: "Donor's area",
+          title: "Donor's address",
+          value: ""
+        }, {
+          title: "Donor's zip code",
           value: ""
         }, {
           title: "Donor's phone",
           value: ""
         }, {
           title: "Donor's email",
+          value: ""
+        }, {
+          title: "Donor's pick-up info",
+          value: ""
+        }, {
+          title: "Donor's preferred pick-up date",
           value: ""
         }
       ];
@@ -86,7 +95,9 @@
         _ref = $scope.items;
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           item = _ref[_i];
-          console.log("appending item");
+          if (item.quantity === "5 +") {
+            item.quantity = 6;
+          }
           item.customized_char_fields = $scope.customized_char_fields;
         }
         $scope.bulk_items.items = $scope.items;

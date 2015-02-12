@@ -25,7 +25,11 @@ angular.module "continue"
         value: ""
       },
       {
-        title: "Donor's area"
+        title: "Donor's address"
+        value: ""
+      },
+      {
+        title: "Donor's zip code"
         value: ""
       },
       {
@@ -36,6 +40,15 @@ angular.module "continue"
         title: "Donor's email"
         value: ""
       },
+      {
+        title: "Donor's pick-up info"
+        value: ""
+      },
+      {
+        title: "Donor's preferred pick-up date"
+        value: ""
+      },
+
     ]
 
 
@@ -116,7 +129,8 @@ angular.module "continue"
       if not $scope.is_valid()
         return
       for item in $scope.items
-        console.log "appending item"
+        if item.quantity == "5 +"
+          item.quantity = 6
         item.customized_char_fields =  $scope.customized_char_fields
       $scope.bulk_items.items = $scope.items
       $scope.layout.submitted = true
