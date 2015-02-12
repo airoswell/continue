@@ -510,8 +510,12 @@ def donations(request):
         qs = User.objects.filter(profile__id=collector_uid)
         if not qs:
             return redirect("index")
-    else:
+    elif "collector_name" in request.GET:
+        collector_name = request.GET["collector_name"]
+        qs = User.objects.filter(profile__name=collector_name)
+    if not qs:
         return redirect("index")
+    collector_uid = qs[0].uid()
     return render(
         request,
         'pages/donations.html',
