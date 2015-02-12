@@ -209,7 +209,7 @@ class Item(UUIDModel):
         max_length=500, blank=True, null=True, default=""
     )
     size = models.CharField(
-        max_length=100,
+        max_length=500,
         default="Small", blank=True
     )
     visibility_choices = (

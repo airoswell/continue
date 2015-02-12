@@ -185,12 +185,6 @@ textarea:focus{
     padding: 0px 5px 5px 0px;
 }
 
-input-dropdown[reduced-padding] .choice-result{
-    padding-top:0px;
-}
-input-dropdown[reduced-padding] .input-label{
-    padding-bottom: 0px;padding-top: 0px;
-}
 .dropdown-menu>li>a{
     font-size: 16px;color: #666;padding: 10px 15px;
 }
@@ -497,7 +491,7 @@ input-dropdown[reduced-padding] .input-label{
 }
 
 [drop-down-menu-target]{
-    background: #fff;border: 1px solid #ddd;
+    background: #fff;border: 1px solid #aaa;
     box-shadow: 0px 2px 8px #ccc;
 }
 
@@ -526,12 +520,20 @@ input-dropdown[reduced-padding] .input-label{
 [trigger]{
     cursor: pointer;
 }
+
+input-dropdown[reduced-padding] .choice-result{
+    padding-top:0px;
+}
+input-dropdown[reduced-padding] .input-label{
+    padding-bottom: 0px;padding-top: 0px;
+}
 input-dropdown>div:hover{
     background: #f4f4f4;
 }
 input-dropdown .active{
     background: #f4f4f4;
 }
+
 input-num{
     cursor: pointer;
 }
@@ -540,8 +542,10 @@ input-num>div:hover, [input-num]>div:hover {
 }
 
 .choices-list{
+    position:absolute;margin-left: -15px;
     background: #fff;box-shadow: 0px 3px 6px #ccc;
-    position:absolute;margin-left: -10px;
+    border: 1px solid #ccc;
+    border-top: none;
     z-index:1;
 }
 .choice-result{
@@ -550,13 +554,13 @@ input-num>div:hover, [input-num]>div:hover {
 }
 .choice-option {
     padding: 10px 15px;font-size: 14px;cursor: pointer;
-    background: #fff;
+    background: #fff;font-weight: 600;color: #666;
 }
 .choice-option:hover{
     background-color:#eee;
 }
 .choice-option.active{
-    background-color:#eee;
+    background-color:#4889F0;color: #fff;
 }
 .transfer-button{
     padding: 5px;

@@ -505,11 +505,10 @@ def collection(request):
 
 
 def donations(request):
+    qs = []
     if "collector_uid" in request.GET:
         collector_uid = request.GET["collector_uid"]
         qs = User.objects.filter(profile__id=collector_uid)
-        if not qs:
-            return redirect("index")
     elif "collector_name" in request.GET:
         collector_name = request.GET["collector_name"]
         qs = User.objects.filter(profile__name=collector_name)
