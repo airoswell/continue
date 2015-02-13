@@ -12,8 +12,8 @@
           scope.show_more = false;
           $('textarea').autosize();
           scope.layout = {
-            uploading: true,
-            upload_progress: 50
+            uploading: false,
+            upload_progress: 0
           };
           scope.$watch("files", function() {
             if (scope.files) {
@@ -118,7 +118,14 @@
   ]).directive("itemEditorProMore", function() {
     return {
       restrict: "E",
-      templateUrl: "/static/app/directives/item-editor-pro-more.html"
+      templateUrl: "/static/app/directives/item-editor-pro-more.html",
+      link: function(scope) {
+        return scope.open = function($event) {
+          $event.preventDefault();
+          $event.stopPropagation();
+          return scope.datepicker_opened = true;
+        };
+      }
     };
   }).directive("itemFieldEditMenu", function() {
     return {

@@ -322,21 +322,32 @@ class Item(UUIDModel):
                 "description", )
 
     @classmethod
+    def customized_fields(cls):
+        return {
+            "customized_char_fields": CustomizedCharField,
+            "customized_num_fields": CustomizedNumField,
+            "customized_color_fields": CustomizedColorField,
+            "customized_date_fields": CustomizedDateField,
+            "customized_email_fields": CustomizedEmailField,
+        }
+
+    @classmethod
     def create(cls, validated_data, *args, **kwargs):
         """
         Item.create()
         """
         # Typically validated_data should be feed with empty
         # customized_num/char_fields, when they are not specified.
-        num_fields_data = []
-        char_fields_data = []
-        color_fields_data = []
-        if "customized_num_fields" in validated_data:
-            num_fields_data = validated_data.pop('customized_num_fields')
-        if "customized_char_fields" in validated_data:
-            char_fields_data = validated_data.pop('customized_char_fields')
-        if "customized_color_fields" in validated_data:
-            color_fields_data = validated_data.pop("customized_color_fields")
+        # num_fields_data = []
+        # char_fields_data = []
+        # color_fields_data = []
+
+        customized_field_data = {}
+        for field in cls.customized_fields():
+            if field in validated_data:
+                data = validated_data.pop(field)
+                customized_field_data[field] = data
+
         print("\n\tItem.create() ==> validated_data = %s" % (validated_data))
         item = cls.objects.create(**validated_data)
         ItemEditRecord.objects.create(
@@ -344,14 +355,13 @@ class Item(UUIDModel):
             original_value="", new_value=""
         )
         item.save()
-        model_data_pairs = {
-            CustomizedNumField: num_fields_data,
-            CustomizedCharField: char_fields_data,
-            CustomizedColorField: color_fields_data
-        }
-        for model, field_data in model_data_pairs.items():
+
+        for field in customized_field_data:
+            model = cls.customized_fields()[field]
+            data = customized_field_data[field]
             item.update_or_create_customized_fields(
-                model, field_data,
+                model, data,
+                widget=model.widget()
             )
 
         return item
@@ -369,40 +379,30 @@ class Item(UUIDModel):
         if not queryset:
             # Deal with the case where the item is not found
             return None, []
-        customized_num_fields_data = []
-        customized_char_fields_data = []
-        customized_color_fields_data = []
-        images_data = []
-        if 'customized_num_fields' in validated_data:
-            customized_num_fields_data = validated_data.pop(
-                'customized_num_fields'
-            )
-        if "customized_char_fields" in validated_data:
-            customized_char_fields_data = validated_data.pop(
-                'customized_char_fields'
-            )
-        if "customized_color_fields" in validated_data:
-            customized_color_fields_data = validated_data.pop(
-                'customized_color_fields'
-            )
+
+        customized_field_data = {}
+        for field in cls.customized_fields():
+            if field in validated_data:
+                data = validated_data.pop(field)
+                customized_field_data[field] = data
         if "images" in validated_data:
             images_data = validated_data.pop('images')
+
         item = queryset[0]
         owner_changed = False
         errors = []
         # update customized fields
-        item.update_or_create_customized_fields(
-            CustomizedNumField, customized_num_fields_data
-        )
-        item.update_or_create_customized_fields(
-            CustomizedCharField, customized_char_fields_data
-        )
-        item.update_or_create_customized_fields(
-            CustomizedColorField, customized_color_fields_data,
-            widget='color'
-        )
+        for field in customized_field_data:
+            model = cls.customized_fields()[field]
+            data = customized_field_data[field]
+            item.update_or_create_customized_fields(
+                model, data,
+                widget=model.widget()
+            )
+
         print("\n\tItem.update =====> images_data = %s" % (images_data))
         item.add_images(images_data)
+
         for field in item.tracked_fields:
             print("\t\tfield = %s" % (field))
             if not (field in validated_data):
@@ -521,48 +521,55 @@ class Item(UUIDModel):
                 )
 
 
-class CustomizedCharField(UUIDModel):
-    item = models.ForeignKey(Item, related_name="customized_char_fields")
+class CustomizedField(UUIDModel):
     title = models.CharField(max_length=144, blank=False)
-    value = models.CharField(max_length=500, blank=True, default="")
-    display_choices = (
-        ("Yes", "Yes"), ("No", "No")
+    visibility = models.CharField(
+        max_length=20, blank=False, default="Private",
+        choices=(("Private", "Private"), ("Public", "Public"))
     )
     display = models.CharField(
         max_length=3, blank=False, default='No',
-        choices=display_choices,
+        choices=(("Yes", "Yes"), ("No", "No")),
     )
 
+    class Meta:
+        abstract = True
 
-class CustomizedNumField(UUIDModel):
+    @classmethod
+    def widget(self):
+        return "text"
+
+
+class CustomizedCharField(CustomizedField):
+    item = models.ForeignKey(Item, related_name="customized_char_fields")
+    value = models.CharField(max_length=500, blank=True, default="")
+
+
+class CustomizedNumField(CustomizedField):
     item = models.ForeignKey(Item, related_name="customized_num_fields")
-    title = models.CharField(max_length=144, blank=False)
     value = models.DecimalField(
         max_digits=10, decimal_places=3, blank=False, default=0)
     unit = models.CharField(max_length=20, blank=True, default="")
-    display_choices = (
-        ("Yes", "Yes"), ("No", "No")
-    )
-    display = models.CharField(
-        max_length=3, blank=False, default='No',
-        choices=display_choices,
-    )
 
 
-class CustomizedColorField(UUIDModel):
+class CustomizedColorField(CustomizedField):
     item = models.ForeignKey(Item, related_name="customized_color_fields")
-    title = models.CharField(max_length=144, blank=False)
     value = models.CharField(max_length=7, blank=False, default="#000000")
-    display_choices = (
-        ("Yes", "Yes"), ("No", "No")
-    )
-    display = models.CharField(
-        max_length=3, blank=False, default='No',
-        choices=display_choices,
-    )
 
-    def model_name(self):
-        return type(self).__name__
+    @classmethod
+    def widget(self):
+        return "color"
+
+
+class CustomizedDateField(CustomizedField):
+    item = models.ForeignKey(Item, related_name="customized_date_fields")
+    value = models.DateTimeField(blank=False)
+
+
+class CustomizedEmailField(CustomizedField):
+    item = models.ForeignKey(Item, related_name="customized_email_fields")
+    email = models.EmailField(
+        blank=False, default="example@mail.com", max_length=500)
 
 
 class Post(UUIDModel):

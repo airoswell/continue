@@ -544,6 +544,24 @@
                 value: "",
                 unit: ""
               });
+            },
+            add_customized_date_field: function() {
+              if (!this.customized_date_fields) {
+                this.customized_date_fields = [];
+              }
+              return this.customized_date_fields.push({
+                title: "",
+                value: ""
+              });
+            },
+            add_customized_email_field: function() {
+              if (!this.customized_email_fields) {
+                this.customized_email_fields = [];
+              }
+              return this.customized_email_fields.push({
+                title: "",
+                value: ""
+              });
             }
           },
           Model: {

@@ -383,6 +383,20 @@ angular.module 'continue.models', [
               value: ""
               unit: ""
             })
+          add_customized_date_field: ()->
+            if not @customized_date_fields
+              @customized_date_fields = []
+            @customized_date_fields.push({
+              title: ""
+              value: ""
+            })
+          add_customized_email_field: ()->
+            if not @customized_email_fields
+              @customized_email_fields = []
+            @customized_email_fields.push({
+              title: ""
+              value: ""
+            })
         Model:
           init: init
     })

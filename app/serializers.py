@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from app.models import Item, Post, UserProfile, Image
 from app.models import CustomizedCharField, CustomizedNumField
-from app.models import CustomizedColorField
+from app.models import CustomizedColorField, CustomizedDateField
+from app.models import CustomizedEmailField
 from app.models import ItemEditRecord, PostItemStatus, ItemTransactionRecord
 from django.contrib.auth.models import User
 from postman.models import Message
@@ -48,7 +49,7 @@ class CustomizedCharFieldSerializer(serializers.ModelSerializer):
 class CustomizedColorFieldSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomizedColorField
-        fields = ("id", "item", "title", "value", "display",
+        fields = ("id", "item", "title", "value", "display", "visibility",
                   "time_updated", "time_created")
 
 
@@ -56,6 +57,20 @@ class CustomizedNumFieldSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomizedNumField
         fields = ("id", "item", "title", "value", "unit", "display",
+                  "visibility", "time_updated", "time_created")
+
+
+class CustomizedDateFieldSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomizedDateField
+        fields = ("id", "item", "title", "value", "display",
+                  "visibility", "time_updated", "time_created")
+
+
+class CustomizedEmailFieldSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomizedEmailField
+        fields = ("id", "item", "title", "value", "display", "visibility",
                   "time_updated", "time_created")
 
 
@@ -81,6 +96,10 @@ class ItemSerializer(serializers.ModelSerializer):
     customized_color_fields = CustomizedColorFieldSerializer(
         many=True, read_only=True)
     customized_num_fields = CustomizedNumFieldSerializer(
+        many=True, read_only=True)
+    customized_date_fields = CustomizedDateFieldSerializer(
+        many=True, read_only=True)
+    customized_email_fields = CustomizedEmailFieldSerializer(
         many=True, read_only=True)
     owner = ownerField(
         queryset=User.objects.all()
@@ -111,6 +130,8 @@ class ItemSerializer(serializers.ModelSerializer):
                   "customized_char_fields",
                   "customized_num_fields",
                   "customized_color_fields",
+                  "customized_date_fields",
+                  "customized_email_fields",
                   "images",
                   )
         read_only_fields = ('previous_owners', "time_created", "requesters",

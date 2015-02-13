@@ -171,6 +171,57 @@
       <!-- - Color Fields -->
       <div ng-repeat="field in item.customized_color_fields"
           style='display:inline-block;padding:10px;'>
+
+        <if ng-if="field.id" drop-down-menu>
+          <span drop-down-menu-trigger>
+            <span class='text-light-gray' ng-bind="field.title"></span>
+            <span><i class="fa fa-caret-down"></i></span>
+          </span>
+          <div drop-down-menu-target>
+            <item-field-edit-menu></item-field-edit-menu>
+          </div>
+        </if>
+
+        <if ng-if="!field.id" auto-expand data='field.title' init-width="70px" min-size=10>
+          <input style='font-weight:600;color:#666;' placeholder="Title" type="text" ng-model="field.title">
+        </if>
+
+        <div auto-expand data='field.value' init-width="100px" min-size=5>
+          <input minicolors="{position:'bottom left'}" style='font-weight:600;color:#666;' placeholder="Value" type="text" ng-model='field.value'>
+        </div>
+      </div>
+
+      <div ng-repeat="field in item.customized_date_fields"
+          style='display:inline-block;padding:10px;'>
+
+        <if drop-down-menu ng-if="field.id">
+          <span drop-down-menu-trigger>
+            <span class='text-light-gray' ng-bind="field.title"></span>
+            <span><i class="fa fa-caret-down"></i></span>
+          </span>
+          <div drop-down-menu-target>
+            <item-field-edit-menu></item-field-edit-menu>
+          </div>
+        </if>
+
+        <if ng-if="!field.id" auto-expand data='field.title' init-width="70px" min-size=10>
+          <input style='font-weight:600;color:#666;' placeholder="Title" type="text" ng-model="field.title">
+        </if>
+        <div>
+          <input type="text" 
+                 datepicker-popup="dd-MM-yyyy"
+                 ng-model="field.value"
+                 is-open="opened"
+                 style='width:90px;text-align:center'
+                 ng-click = "opened = true"
+                 ng-required="true"
+                 close-text="Close"/>
+        </div>
+      </div>
+
+
+      <div ng-repeat="field in item.customized_email_fields"
+          style='display:inline-block;padding:10px;'>
         <if drop-down-menu ng-if="field.id">
           <span drop-down-menu-trigger>
             <span class='text-light-gray' ng-bind="field.title"></span>
@@ -184,7 +235,7 @@
           <input style='font-weight:600;color:#666;' placeholder="Title" type="text" ng-model="field.title">
         </if>
         <div auto-expand data='field.value' init-width="100px" min-size=5>
-          <input minicolors="{position:'bottom left'}" style='font-weight:600;color:#666;' placeholder="Value" type="text" ng-model='field.value'>
+          <input style='font-weight:600;color:#666;' placeholder="Value" type="email" ng-model='field.value'>
         </div>
       </div>
 
@@ -206,6 +257,12 @@
           </li>
           <li ng-click="item.add_customized_color_field()">
             <a href><b>Add a color record</b></a>
+          </li>
+          <li ng-click="item.add_customized_date_field()">
+            <a href><b>Add a date record</b></a>
+          </li>
+          <li ng-click="item.add_customized_email_field()">
+            <a href><b>Add a email record</b></a>
           </li>
         </ul>
       </div>

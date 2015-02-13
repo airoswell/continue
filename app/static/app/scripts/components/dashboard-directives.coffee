@@ -85,6 +85,12 @@ angular.module("continue")
 .directive "itemEditorProMore", ()->
   restrict: "E"
   templateUrl: "/static/app/directives/item-editor-pro-more.html"
+  link: (scope)->
+    
+    scope.open = ($event) ->
+      $event.preventDefault()
+      $event.stopPropagation()
+      scope.datepicker_opened = true
 
 .directive "itemFieldEditMenu", ()->
   restrict: "E"

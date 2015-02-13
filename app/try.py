@@ -1,4 +1,3 @@
-a = u"a"
-b = str(a)
-print(a)
-print(b)
+d = {"A": "B", "C": "D"}
+for k in d:
+  print(k)

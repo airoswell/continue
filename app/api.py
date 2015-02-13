@@ -418,29 +418,38 @@ class ItemDetail(XDetailAPIView):
         return super(ItemDetail, self).put(request, pk, format=None)
 
     def data_handler(self, request, handler):
-        customized_char_fields_data = []
-        customized_num_fields_data = []
-        customized_color_fields_data = []
-        if "customized_char_fields" in request.data:
-            customized_char_fields_data = request.data[
-                'customized_char_fields'
-            ]
-        if "customized_num_fields" in request.data:
-            customized_num_fields_data = request.data[
-                'customized_num_fields'
-            ]
-        if "customized_color_fields" in request.data:
-            customized_color_fields_data = request.data[
-                'customized_color_fields'
-            ]
+        import pdb; pdb.set_trace()
         if "images" in request.data:
             images = request.data['images']
+
+        customized_field_data = {}
+        for field in self.model.customized_fields():
+            if field in request.data:
+                customized_field_data[field] = request.data[field]
+
+        # customized_char_fields_data = []
+        # customized_num_fields_data = []
+        # customized_color_fields_data = []
+        # if "customized_char_fields" in request.data:
+        #     customized_char_fields_data = request.data[
+        #         'customized_char_fields'
+        #     ]
+        # if "customized_num_fields" in request.data:
+        #     customized_num_fields_data = request.data[
+        #         'customized_num_fields'
+        #     ]
+        # if "customized_color_fields" in request.data:
+        #     customized_color_fields_data = request.data[
+        #         'customized_color_fields'
+        #     ]
         # ======== Validate ========
         data = handler.validate(request.data)
         # ==========================
-        data["customized_char_fields"] = customized_char_fields_data
-        data["customized_num_fields"] = customized_num_fields_data
-        data["customized_color_fields"] = customized_color_fields_data
+        for field in customized_field_data:
+            data[field] = customized_field_data[field]
+        # data["customized_char_fields"] = customized_char_fields_data
+        # data["customized_num_fields"] = customized_num_fields_data
+        # data["customized_color_fields"] = customized_color_fields_data
         data['images'] = images
         return data
 
