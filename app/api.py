@@ -418,7 +418,6 @@ class ItemDetail(XDetailAPIView):
         return super(ItemDetail, self).put(request, pk, format=None)
 
     def data_handler(self, request, handler):
-        import pdb; pdb.set_trace()
         if "images" in request.data:
             images = request.data['images']
 
