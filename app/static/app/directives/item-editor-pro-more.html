@@ -56,9 +56,9 @@
   
 
   <br/>
-  <!-- <accordion close-others="oneAtATime"> -->
+  <accordion close-others="oneAtATime">
   
-    <!-- <accordion-group is-open="preset_is_open"> -->
+    <accordion-group is-open="preset_is_open">
       <!-- Presets -->
       <accordion-heading ng-click="preset_is_open=!preset_is_open">
         <i class="fa fa-cog"></i>&nbsp;Presets &nbsp; 
@@ -111,13 +111,13 @@
           </div>
         </a>
       </div>
-    <!-- </accordion-group> -->
+    </accordion-group>
 
 
-    <!-- <accordion-group is-open="true"> -->
-      <!-- <accordion-heading> -->
+    <accordion-group is-open="true">
+      <accordion-heading>
         <i class="fa fa-cogs"></i>&nbsp;Customized Fields &nbsp; <i class='fa fa-caret-down'></i>
-      <!-- </accordion-heading> -->
+      </accordion-heading>
       <!-- Customized fields -->
       <!-- - NUMBER fields -->
       <div ng-repeat="field in item.customized_num_fields"
@@ -169,7 +169,7 @@
       </div>
 
       <!-- - Color Fields -->
-      <!-- <div ng-repeat="field in item.customized_color_fields"
+      <div ng-repeat="field in item.customized_color_fields"
           style='display:inline-block;padding:10px;'>
 
         <if ng-if="field.id" drop-down-menu>
@@ -189,9 +189,9 @@
         <div auto-expand data='field.value' init-width="100px" min-size=5>
           <input minicolors="{position:'bottom left'}" style='font-weight:600;color:#666;' placeholder="Value" type="text" ng-model='field.value'>
         </div>
-      </div> -->
+      </div>
 
-      <!-- <div ng-repeat="field in item.customized_date_fields"
+      <div ng-repeat="field in item.customized_date_fields"
           style='display:inline-block;padding:10px;'>
 
         <if drop-down-menu ng-if="field.id">
@@ -217,10 +217,10 @@
                  ng-required="true"
                  close-text="Close"/>
         </div>
-      </div> -->
+      </div>
 
 
-      <!-- <div ng-repeat="field in item.customized_email_fields"
+      <div ng-repeat="field in item.customized_email_fields"
           style='display:inline-block;padding:10px;'>
         <if drop-down-menu ng-if="field.id">
           <span drop-down-menu-trigger>
@@ -237,7 +237,7 @@
         <div auto-expand data='field.value' init-width="100px" min-size=5>
           <input style='font-weight:600;color:#666;' placeholder="Value" type="email" ng-model='field.value'>
         </div>
-      </div> -->
+      </div>
 
 
       <!-- Add field button -->
@@ -270,10 +270,10 @@
 
 
     <!-- Item Album -->
-    <!-- <accordion-group is-open="true" ng-if="item.images.length"> -->
-      <!-- <accordion-heading> -->
+    <accordion-group is-open="true" ng-if="item.images.length">
+      <accordion-heading>
         Album
-      <!-- </accordion-heading> -->
+      </accordion-heading>
 
       <div layout='row' layout-align='center'>
         <div>
@@ -287,7 +287,7 @@
         </div>
       </div>
 
-    <!-- </accordion-group> -->
-  <!-- </accordion> -->
+    </accordion-group>
+  </accordion>
 
 </div>
