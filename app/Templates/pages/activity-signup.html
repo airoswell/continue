@@ -66,12 +66,16 @@
     </div>
 
   </form>
-
+  
   <div style='padding:20px;'>
+    {% verbatim %}
+        
     <div class='text-large'>
       We have received the following responses <span ng-repeat="(decision, count) in statistics" ng-bind="count" class="tag tag-large text-bold" ng-bind="attendant.name"
+        tooltip="{{decision}}"
         ng-class='{"tag-blue": decision == "Yes", "tag-red": decision == "No", "tag-gray": decision == "Maybe"}'></span>
     </div>
+    {% endverbatim %}
     <br/>
     {% for attendant in attendants %}
     <span class="tag tag-large text-bold
