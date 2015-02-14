@@ -74,7 +74,12 @@
       We have received the following responses <span ng-repeat="(decision, count) in statistics" ng-bind="count" class="tag tag-large text-bold" ng-bind="attendant.name"
         tooltip="{{decision}}"
         ng-click="filter(decision)"
-        ng-class='{"tag-blue": decision == "Yes", "tag-red": decision == "No", "tag-gray": decision == "Maybe"}'></span>
+        ng-class='{"tag-blue": decision == "Yes", "tag-red": decision == "No", "tag-gray": decision == "Maybe"}'></span>&nbsp;
+        <span class='tag tag-small tag-gray' style='border-radius:5px;'
+            ng-show='layout.filter != "" '
+            ng-click="layout.filter = ''">
+          Show all
+        </span>
     </div>
     {% endverbatim %}
     <br/>

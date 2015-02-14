@@ -255,6 +255,7 @@ textarea:focus{
 }
 .tag-small{
     padding: 5px 10px;border: 1px solid #ddd;
+    font-size: 13px;
 }
 .tag-large{
     padding: 8px 15px;border: 1px solid #ddd;font-size:18px;font-weight: 600;
