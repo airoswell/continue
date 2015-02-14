@@ -3,13 +3,16 @@
   angular.module("continue").controller("activitySignUpCtrl", [
     "$scope", "Alert", "Attendant", function($scope, Alert, Attendant) {
       $scope.is_comming = "Yes";
+      $scope.layout = {
+        filter: ""
+      };
       $scope.new_attendants = [];
       $scope.$watch("activity", function() {
         return Attendant.statistics($scope.activity).$then(function(response) {
           return $scope.statistics = response[0];
         });
       });
-      return $scope.submit = function() {
+      $scope.submit = function() {
         var attendant;
         console.log("submit");
         attendant = Attendant.$build({
@@ -24,6 +27,13 @@
             return $scope.statistics = response[0];
           });
         });
+      };
+      return $scope.filter = function(decision) {
+        if ($scope.layout.filter === decision) {
+          return $scope.layout.filter = "";
+        } else {
+          return $scope.layout.filter = decision;
+        }
       };
     }
   ]);

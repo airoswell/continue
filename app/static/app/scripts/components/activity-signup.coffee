@@ -5,6 +5,9 @@ angular.module "continue"
   ($scope, Alert, Attendant)->
 
     $scope.is_comming = "Yes"
+    $scope.layout = {
+      filter: ""
+    }
 
     $scope.new_attendants = []
 
@@ -24,5 +27,11 @@ angular.module "continue"
         $scope.new_attendants.push(response)
         Attendant.statistics().$then (response)->
           $scope.statistics = response[0]
+
+    $scope.filter = (decision)->
+      if $scope.layout.filter == decision
+        $scope.layout.filter = ""
+      else
+        $scope.layout.filter = decision
 
 ]

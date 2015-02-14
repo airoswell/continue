@@ -73,12 +73,13 @@
     <div class='text-large'>
       We have received the following responses <span ng-repeat="(decision, count) in statistics" ng-bind="count" class="tag tag-large text-bold" ng-bind="attendant.name"
         tooltip="{{decision}}"
+        ng-click="filter(decision)"
         ng-class='{"tag-blue": decision == "Yes", "tag-red": decision == "No", "tag-gray": decision == "Maybe"}'></span>
     </div>
     {% endverbatim %}
     <br/>
     {% for attendant in attendants %}
-    <span class="tag tag-large text-bold
+    <span ng-show="layout.filter == '{{attendant.is_comming}}' || layout.filter == ''" class="tag tag-large text-bold
         {% if attendant.is_comming == 'Yes' %}
         tag-blue
         {% elif attendant.is_comming == 'Maybe' %}
