@@ -75,11 +75,11 @@ class XDetailAPIView(APIView):
         data = request.data
         if "id" in data:
             data.pop("id")      # id should be expected to be pk
-        if hasattr(self, "data_handler"):
-            # - If the api has its own data_handler
+        if hasattr(self, "pre_save_handler"):
+            # - If the api has its own pre_save_handler
             #   for further processing of the data
             #   before passing through handler.validate()
-            data = self.data_handler(request, handler)
+            data = self.pre_save_handler(request, handler)
         else:
             # - If no, just use the handler.validate()
             data = handler.validate(request.data)

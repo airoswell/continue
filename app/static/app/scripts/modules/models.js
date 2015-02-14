@@ -186,6 +186,9 @@
             $extend: {
               Record: {
                 loading: false,
+                is_valid: function() {
+                  return true;
+                },
                 save: function(successHandler, errorHandler) {
                   return save(this, successHandler, errorHandler);
                 },
@@ -837,6 +840,10 @@
           return profile;
         }
       };
+    }
+  ]).factory("Attendant", [
+    "Model", function(Model) {
+      return Model.create("/attendants/").mix();
     }
   ]);
 

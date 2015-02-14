@@ -2,6 +2,7 @@
 # Models and serializers
 from app.models import Item, Post, UserProfile, Image
 from app.models import ItemEditRecord, ItemTransactionRecord, PostItemStatus
+from app.models import Attendant
 from app.serializers import *
 import app.permissions as perms
 from app.errors import *
@@ -392,8 +393,6 @@ class BulkItemCreation(XListAPIView):
             crud = Crud(request.user, Item)
             item = crud.create(data)
             received_items.append(item)
-            # data = self.serializer(item).data
-            # data["errors"] = handler.errors
         data = ItemSerializer(received_items, many=True).data
         return Response(data=data, status=crud.status)
 
@@ -417,7 +416,7 @@ class ItemDetail(XDetailAPIView):
             status.delete()
         return super(ItemDetail, self).put(request, pk, format=None)
 
-    def data_handler(self, request, handler):
+    def pre_save_handler(self, request, handler):
         if "images" in request.data:
             images = request.data['images']
 
@@ -426,29 +425,12 @@ class ItemDetail(XDetailAPIView):
             if field in request.data:
                 customized_field_data[field] = request.data[field]
 
-        # customized_char_fields_data = []
-        # customized_num_fields_data = []
-        # customized_color_fields_data = []
-        # if "customized_char_fields" in request.data:
-        #     customized_char_fields_data = request.data[
-        #         'customized_char_fields'
-        #     ]
-        # if "customized_num_fields" in request.data:
-        #     customized_num_fields_data = request.data[
-        #         'customized_num_fields'
-        #     ]
-        # if "customized_color_fields" in request.data:
-        #     customized_color_fields_data = request.data[
-        #         'customized_color_fields'
-        #     ]
         # ======== Validate ========
         data = handler.validate(request.data)
         # ==========================
         for field in customized_field_data:
             data[field] = customized_field_data[field]
-        # data["customized_char_fields"] = customized_char_fields_data
-        # data["customized_num_fields"] = customized_num_fields_data
-        # data["customized_color_fields"] = customized_color_fields_data
+
         data['images'] = images
         return data
 
@@ -495,7 +477,7 @@ class UserDetails(XDetailAPIView):
         else:
             return Response(status=st.HTTP_404_NOT_FOUND)
 
-    def data_handler(self, request, handler):
+    def pre_save_handler(self, request, handler):
         data = request.data
         extra_fields = ["is_anonymous", "access_token", "user_id"]
         for field in extra_fields:
@@ -1202,3 +1184,21 @@ class ImageList(XListAPIView):
                 data="There is error processing the image",
                 status=st.HTTP_400_BAD_REQUEST,
             )
+
+
+class AttendentList(XListAPIView):
+
+    model = Attendant
+
+    def get(self, request):
+        qs = Attendant.objects.all()
+        data = AttendantSerializer(qs, many=True).data
+        return Response(data=data, status=st.HTTP_200_OK)
+
+    def post(self, request):
+        data = request.data
+        handler = ErrorHandler(AttendantSerializer)
+        data = handler.validate(data)
+        attendant = Attendant(**data)
+        attendant.save()
+        return Response(data=AttendantSerializer(attendant).data)

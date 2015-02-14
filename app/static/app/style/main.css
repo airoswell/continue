@@ -281,6 +281,12 @@ textarea:focus{
 .tag-blue:hover{
     background: #4889F0;
 }
+.tag-red{
+    background: #f06b5f; color:#fff;
+}
+.tag-red:hover{
+    background: #f03f46;
+}
 .tag-default{
     font-size: 14px;
     padding: 5px 15px;
@@ -546,7 +552,7 @@ input-num>div:hover, [input-num]>div:hover {
 }
 
 .choices-list{
-    position:absolute;margin-left: -12px;
+    position:absolute;margin-left: -11px;
     background: #fff;box-shadow: 0px 3px 6px #ccc;
     border: 1px solid #ccc;
     border-top: none;

@@ -1,0 +1,82 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<style>
+  [name='activitySignUpForm']{
+    background: #fff;padding: 20px;border: 1px solid #ddd
+  }
+</style>
+<div ng-controller="activitySignUpCtrl" ng-init="activity = '{{activity}}'">
+  <form name='activitySignUpForm'>
+    <div reduced-padding>
+      <div class='text-gray'>
+        A beginners' guide to
+      </div>
+      <div class='section-title section-title-large'
+          style='border-bottom:2px solid #aaa;'
+          layout='row' layout-sm='column' layout-align='space-between center'>
+        <div class='text-blue'>
+          {{activity}}
+        </div>
+        <div>
+          Sign up below
+        </div>
+      </div>
+    </div>
+
+    <div style='display:inline-block' auto-expand data='name' min-size="20" init-width="180px">
+      <div>
+        <span>Your name</span>
+      </div>
+      <div>
+        <input type="text" ng-model="name" style='font-size:20px;'
+            placeholder="3-50 characters">
+      </div>
+    </div>
+    <div style='display:inline-block' auto-expand data='email' min-size="20" init-width="180px">
+      <div>
+        <span>Your email</span>
+      </div>
+      <div>
+        <input type="text" ng-model="email" style='font-size:20px;'>
+      </div>
+    </div>
+    
+    <input-dropdown data='is_comming' label="'Will you come?'" choices="['Yes', 'No', 'Maybe']" style='display:inline-block'>
+    </input-dropdown>
+
+    
+    <div layout='row' layout-align='start'>
+      <div class='button button-small button-blue' ng-click="submit()">
+        Submit
+      </div>
+    </div>
+
+  </form>
+
+  <div style='padding:20px;border-bottom:1px solid #ccc;'>
+    <div class='text-large'>
+      We have received the following responses
+    </div>
+    <br/>
+    {% for attendant in attendants %}
+    <span class="tag tag-small text-bold
+        {% if attendant.is_comming == 'Yes' %}
+        tag-blue
+        {% elif attendant.is_comming == 'Maybe' %}
+        tag-gray
+        {% elif attendant.is_comming == 'No' %}
+        tag-red
+        {% endif %}
+        ">
+      {{ attendant.name }}
+    </span>
+    {% endfor %}
+    <span ng-cloak ng-repeat="attendant in new_attendants" class="tag tag-small text-bold" ng-bind="attendant.name"
+        ng-class='{"tag-blue": attendent.is_comming == "Yes", "tag-red": attendent.is_comming == "No", "tag-gray": attendent.is_comming == "Maybe"}'>
+    </span>
+  </div>
+</div>
+
+{% endblock content %}

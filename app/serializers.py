@@ -4,6 +4,7 @@ from app.models import CustomizedCharField, CustomizedNumField
 from app.models import CustomizedColorField, CustomizedDateField
 from app.models import CustomizedEmailField
 from app.models import ItemEditRecord, PostItemStatus, ItemTransactionRecord
+from app.models import Attendant
 from django.contrib.auth.models import User
 from postman.models import Message
 
@@ -265,3 +266,9 @@ class TransactionSerializerLite(serializers.ModelSerializer):
         model = ItemTransactionRecord
         fields = ("id", "item", "giver", "receiver", "status",
                   "time_updated", "time_sent")
+
+
+class AttendantSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Attendant
+        fields = ("id", "name", "email", "is_comming", "activity", )

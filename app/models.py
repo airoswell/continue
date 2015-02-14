@@ -846,3 +846,13 @@ class Tag(UUIDModel):
 
     def __unicode__(self):
         return unicode(self.title)
+
+
+class Attendant(UUIDModel):
+    name = models.CharField(max_length=100, blank=False)
+    email = models.EmailField(max_length=500, blank=False)
+    is_comming = models.CharField(
+        max_length=10, blank=False,
+        choices=(("Yes", "Yes"), ("No", "No"), ("Maybe", "Maybe"))
+    )
+    activity = models.CharField(max_length=100, blank=False)

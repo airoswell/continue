@@ -126,6 +126,8 @@ angular.module 'continue.models', [
         $extend:
           Record:
             loading: false
+            is_valid: ()->
+              return true
             save: (successHandler, errorHandler) ->
               save(this, successHandler, errorHandler)
             copy: (obj, property)->
@@ -573,4 +575,11 @@ angular.module 'continue.models', [
     get_profile: ()->
       profile
   }
+]
+
+
+.factory "Attendant", ["Model", (Model)->
+
+  return Model.create("/attendants/").mix()
+
 ]

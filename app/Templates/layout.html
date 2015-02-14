@@ -33,12 +33,14 @@
   
   <div style='height:100%;' ng-controller="LayoutCtrl"
       ng-init="view='{{view}}';LIVEHOST='{{LIVEHOST}}'">
+    {% if view != 'activity-signup' %}
     {% include "navbar.html" %}
     {% block navbar %}
     {% endblock navbar %}
     <bottom-sheet></bottom-sheet>
     <b-s></b-s>
     <div style='height:60px;'></div>
+    {% endif %}
 
     <div id='content-wrapper'>
       {% block content %}
@@ -104,6 +106,8 @@
   <script type="text/javascript" src="{% static 'app/scripts/components/item-timeline.js'%}"></script>
   {% elif view == 'item' %}
   <script type="text/javascript" src="{% static 'app/scripts/components/item/item.js'%}"></script>
+  {% elif view == 'activity-signup' %}
+  <script type="text/javascript" src="{% static 'app/scripts/components/activity-signup.js'%}"></script>
   {% endif %}
   <script type="text/javascript">
     $("#content-wrapper").css({"min-height": $("body").height() + "px"});
@@ -144,6 +148,9 @@
   <!-- {% compile "app/scripts/services/album/album.coffee" %} -->
   <!-- {% compile "app/scripts/services/private-message/private-message.coffee" %} -->
   <!-- {% compile "app/scripts/services/BS/BS.coffee" %} -->
+
+
+  <!-- {% compile "app/scripts/components/activity-signup.coffee" %} -->
 
 
 

@@ -28,6 +28,8 @@ urlpatterns = patterns(
         views.user_timeline, name='user_timeline'),
     url(r'^donations/$',
         views.donations, name='donations'),
+    url(r'^activity-signup/$',
+        views.activity, name='activity-signup'),
     url(r'^404/$', views.NotFound, name='404-not-found'),
 )
 
@@ -84,6 +86,9 @@ urlpatterns += patterns(
     url(r'^images/$',
         api.ImageList.as_view(),
         name='image_list'),
+    url(r'^attendants/$',
+        api.AttendentList.as_view(),
+        name='attendant_list'),
 )
 
 # postman URL

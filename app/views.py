@@ -532,3 +532,21 @@ def donations(request):
             'categories': categories,
         }
     )
+
+
+def activity(request):
+    if not "activity" in request.GET:
+        return redirect("index")
+    activity = request.GET["activity"]
+    qs = Attendant.objects.filter(
+        activity=activity
+    )
+    return render(
+        request,
+        'pages/activity-signup.html',
+        {
+            'view': "activity-signup",
+            'attendants': qs,
+            'activity': activity,
+        }
+    )
