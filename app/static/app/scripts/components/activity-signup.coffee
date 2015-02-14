@@ -8,6 +8,10 @@ angular.module "continue"
 
     $scope.new_attendants = []
 
+    $scope.$watch "activity", ()->
+      Attendant.statistics($scope.activity).$then (response)->
+        $scope.statistics = response[0]
+
     $scope.submit = ()->
       console.log "submit"
       attendant = Attendant.$build(
@@ -18,5 +22,7 @@ angular.module "continue"
       )
       attendant.save().$then (response)->
         $scope.new_attendants.push(response)
+        Attendant.statistics().$then (response)->
+          $scope.statistics = response[0]
 
 ]

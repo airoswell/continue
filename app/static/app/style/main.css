@@ -250,11 +250,15 @@ textarea:focus{
 
 
 .tag{
-    font-size: 13px;cursor: pointer;margin: 5px 5px 5px 0px;
+    cursor: pointer;margin: 5px 5px 5px 0px;
     display: inline-block;
 }
 .tag-small{
     padding: 5px 10px;border: 1px solid #ddd;
+}
+.tag-large{
+    padding: 8px 15px;border: 1px solid #ddd;font-size:18px;font-weight: 600;
+    border-radius: 30px;
 }
 .tag-xsmall{
     padding: 2px 5px;border: 1px solid #ddd;

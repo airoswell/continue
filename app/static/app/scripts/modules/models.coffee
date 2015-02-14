@@ -580,6 +580,14 @@ angular.module 'continue.models', [
 
 .factory "Attendant", ["Model", (Model)->
 
-  return Model.create("/attendants/").mix()
+  return Model.create("/attendants/").mix(
+    $extend:
+      Model:
+        statistics: (activity)->
+          this.search(
+            statistics:true
+            activity: activity
+          )
+  )
 
 ]

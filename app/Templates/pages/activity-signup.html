@@ -20,7 +20,7 @@
           {{activity}}
         </div>
         <div>
-          Sign up below
+          Sign up for the upcoming event!
         </div>
       </div>
     </div>
@@ -57,11 +57,12 @@
 
   <div style='padding:20px;'>
     <div class='text-large'>
-      We have received the following responses
+      We have received the following responses <span ng-repeat="(decision, count) in statistics" ng-bind="count" class="tag tag-large text-bold" ng-bind="attendant.name"
+        ng-class='{"tag-blue": decision == "Yes", "tag-red": decision == "No", "tag-gray": decision == "Maybe"}'></span>
     </div>
     <br/>
     {% for attendant in attendants %}
-    <span class="tag tag-small text-bold
+    <span class="tag tag-large text-bold
         {% if attendant.is_comming == 'Yes' %}
         tag-blue
         {% elif attendant.is_comming == 'Maybe' %}

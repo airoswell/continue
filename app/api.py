@@ -1191,8 +1191,15 @@ class AttendentList(XListAPIView):
     model = Attendant
 
     def get(self, request):
-        qs = Attendant.objects.all()
+        activity = request.query_params["activity"]
+        qs = Attendant.objects.filter(activity=activity)
         data = AttendantSerializer(qs, many=True).data
+        if "statistics" in request.query_params:
+            statistics = {"Yes": 0, "No": 0, "Maybe": 0}
+            for attendant in data:
+                decision = attendant['is_comming']
+                statistics[decision] += 1
+            return Response(data=[statistics])
         return Response(data=data, status=st.HTTP_200_OK)
 
     def post(self, request):

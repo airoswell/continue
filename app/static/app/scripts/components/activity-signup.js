@@ -4,6 +4,11 @@
     "$scope", "Alert", "Attendant", function($scope, Alert, Attendant) {
       $scope.is_comming = "Yes";
       $scope.new_attendants = [];
+      $scope.$watch("activity", function() {
+        return Attendant.statistics($scope.activity).$then(function(response) {
+          return $scope.statistics = response[0];
+        });
+      });
       return $scope.submit = function() {
         var attendant;
         console.log("submit");
@@ -14,7 +19,10 @@
           activity: $scope.activity
         });
         return attendant.save().$then(function(response) {
-          return $scope.new_attendants.push(response);
+          $scope.new_attendants.push(response);
+          return Attendant.statistics().$then(function(response) {
+            return $scope.statistics = response[0];
+          });
         });
       };
     }

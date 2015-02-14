@@ -843,7 +843,18 @@
     }
   ]).factory("Attendant", [
     "Model", function(Model) {
-      return Model.create("/attendants/").mix();
+      return Model.create("/attendants/").mix({
+        $extend: {
+          Model: {
+            statistics: function(activity) {
+              return this.search({
+                statistics: true,
+                activity: activity
+              });
+            }
+          }
+        }
+      });
     }
   ]);
 
