@@ -13,43 +13,55 @@
       <div class='text-gray'>
         A beginners' guide to
       </div>
-      <div class='section-title section-title-large'
-          style='border-bottom:2px solid #aaa;'
+      <div style='border-bottom:2px solid #aaa;'
           layout='row' layout-sm='column' layout-align='space-between center'>
-        <div class='text-blue'>
+        <div class='text-blue' style='font-size:40px;font-weight:600;'>
           {{activity}}
         </div>
-        <div>
+        <div style="font-size:20px;">
           Sign up for the upcoming event!
         </div>
       </div>
     </div>
 
-    <div style='display:inline-block' auto-expand data='name' min-size="20" init-width="180px">
-      <div>
-        <span>Your name</span>
-      </div>
-      <div>
-        <input type="text" ng-model="name" style='font-size:20px;'
-            placeholder="3-50 characters">
-      </div>
-    </div>
-    <div style='display:inline-block' auto-expand data='email' min-size="20" init-width="250px">
-      <div>
-        <span>Your email</span>
-      </div>
-      <div>
-        <input type="text" ng-model="email" style='font-size:20px;'>
-      </div>
-    </div>
-    
-    <input-dropdown data='is_comming' label="'Will you come?'" choices="['Yes', 'No', 'Maybe']" style='display:inline-block'>
-    </input-dropdown>
 
-    
-    <div layout='row' layout-align='start'>
-      <div class='button button-small button-blue' ng-click="submit()">
-        Submit
+    <div style='background:#f4f4f4;padding:10px;border-bottom:1px solid #ccc;'>
+      <p><span class='text-large text-blue'>Hi there!</span></p>
+      <p>
+        The <span class='text-large text-blue'>Feb 20</span> event will take place at <span class='text-large text-blue'>5:30</span> pm in <span class='text-large text-blue'>SAC 303</span>. We welcome everyone to come; <span class='text-large text-blue'>no</span> previous programing experiences required!
+      </p>
+      <p>
+        A glimpse of what we will discuss can be found in <em class='text-large text-blue'>this PPT (to be available)</em>
+      </p>
+    </div>
+
+    <div style='padding:10px;'>
+      <div style='display:inline-block' auto-expand data='name' min-size="20" init-width="180px">
+        <div>
+          <span>Your name</span>
+        </div>
+        <div>
+          <input type="text" ng-model="name" style='font-size:20px;'
+              placeholder="3-50 characters">
+        </div>
+      </div>
+      <div style='display:inline-block' auto-expand data='email' min-size="20" init-width="250px">
+        <div>
+          <span>Your email</span>
+        </div>
+        <div>
+          <input type="text" ng-model="email" style='font-size:20px;'>
+        </div>
+      </div>
+      
+      <input-dropdown data='is_comming' label="'Will you come?'" choices="['Yes', 'No', 'Maybe']" style='display:inline-block'>
+      </input-dropdown>
+
+      
+      <div layout='row' layout-align='start'>
+        <div class='button button-small button-blue' ng-click="submit()">
+          Submit
+        </div>
       </div>
     </div>
 
