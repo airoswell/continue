@@ -23,7 +23,7 @@ angular.module("continue")
       PrivateMessage.compose(owner_id, post_id, scope.items)
 ]
 
-.directive "autoExpand", ->
+.directive "autoExpand", ()->
   """
   <div auto-expand data="<the input variable>" init-width="100px"
       min-size="20">
@@ -45,9 +45,6 @@ angular.module("continue")
     auto_expand = (data) ->
       console.log "auto_expand"
       size = Math.floor(data.toString().length/5) * 5 + 6
-      if data == "Tall"
-        console.log "data = ", data
-        console.log size
       if size > scope.minSize
         input.css({"width": "auto"})
         input.attr({"size": size})
@@ -66,7 +63,7 @@ angular.module("continue")
 
 # Use to expand post-detail
 # [max-height] attribute use to control initial max-height
-.directive "clickToExpand", ()->
+.directive "clickToExpand", ["$timeout", ($timeout)->
   restrict: "A"
   scope: true
   link: (scope, element, attrs)->
@@ -83,11 +80,12 @@ angular.module("continue")
         target.css({"max-height": "", "display": "inherit"})
         scope.expanded = true
         scope.$apply()
-      else if (scope.expanded)
+      else
+        scope.rendering = true
         target.css({"max-height": max_height, "display": "none"})
         scope.expanded = false
         scope.$apply()
-
+]
 
 .directive "clickToShow", ()->
   """ template

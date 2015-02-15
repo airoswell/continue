@@ -66,10 +66,6 @@
           var size;
           console.log("auto_expand");
           size = Math.floor(data.toString().length / 5) * 5 + 6;
-          if (data === "Tall") {
-            console.log("data = ", data);
-            console.log(size);
-          }
           if (size > scope.minSize) {
             input.css({
               "width": "auto"
@@ -96,46 +92,49 @@
         });
       }
     };
-  }).directive("clickToExpand", function() {
-    return {
-      restrict: "A",
-      scope: true,
-      link: function(scope, element, attrs) {
-        var max_height, target, trigger;
-        scope.expanded = false;
-        max_height = "0px";
-        if ("maxHeight" in attrs) {
-          max_height = attrs['maxHeight'];
-        }
-        trigger = element.find("[click-to-expand-trigger]");
-        trigger.css({
-          "cursor": "pointer"
-        });
-        target = element.find("[click-to-expand-target]");
-        target.css({
-          'max-height': max_height,
-          "display": "none"
-        });
-        return trigger.on("click", function() {
-          if (!scope.expanded) {
-            target.css({
-              "max-height": "",
-              "display": "inherit"
-            });
-            scope.expanded = true;
-            return scope.$apply();
-          } else if (scope.expanded) {
-            target.css({
-              "max-height": max_height,
-              "display": "none"
-            });
-            scope.expanded = false;
-            return scope.$apply();
+  }).directive("clickToExpand", [
+    "$timeout", function($timeout) {
+      return {
+        restrict: "A",
+        scope: true,
+        link: function(scope, element, attrs) {
+          var max_height, target, trigger;
+          scope.expanded = false;
+          max_height = "0px";
+          if ("maxHeight" in attrs) {
+            max_height = attrs['maxHeight'];
           }
-        });
-      }
-    };
-  }).directive("clickToShow", function() {
+          trigger = element.find("[click-to-expand-trigger]");
+          trigger.css({
+            "cursor": "pointer"
+          });
+          target = element.find("[click-to-expand-target]");
+          target.css({
+            'max-height': max_height,
+            "display": "none"
+          });
+          return trigger.on("click", function() {
+            if (!scope.expanded) {
+              target.css({
+                "max-height": "",
+                "display": "inherit"
+              });
+              scope.expanded = true;
+              return scope.$apply();
+            } else {
+              scope.rendering = true;
+              target.css({
+                "max-height": max_height,
+                "display": "none"
+              });
+              scope.expanded = false;
+              return scope.$apply();
+            }
+          });
+        }
+      };
+    }
+  ]).directive("clickToShow", function() {
     " template\n<div click-to-show>\n  <div click-to-show-trigger></div>\n  <div click-to-show-target></div>\n</div>\nclicking the '[click-to-show-trigger]' will show and hide\n'[click-to-show-trigger]'.";
     return {
       restrict: "A",
