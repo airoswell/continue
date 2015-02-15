@@ -73,41 +73,13 @@ angular.module("continue")
 
 ]
 
-.directive "areaSettingForm", ["Auth", "Alert", (Auth, Alert)->
-  restrict: "A"
-  link: (scope, element, attrs)->
-
-    validate = ()->
-      for tag in scope.interested_areas_tags
-        if not /^\d{5}$/.test(tag.text)
-          return false
-      return  true
-    scope.submit_areas_setting = ()->
-      if not validate()
-        Alert.show_error("Zip code can only contain 5 numeric digits.", 2000)
-        return
-      zip_codes = []
-      for tag in scope.interested_areas_tags
-        zip_codes.push(tag.text)
-      scope.interested_areas = zip_codes.join() 
-      console.log scope.interested_areas
-      Alert.show_msg("Submitting ...")
-
-      profile = Auth.get_profile()
-      profile.primary_area = scope.primary_area
-      profile.interested_areas = scope.interested_areas
-      profile.already_set = true
-      profile.save().$then (response)->
-        scope.hide_area_setting = true
-        Alert.show_msg("Your data is saved.")
-]
-
 
 .filter "truncate", ()->
   return (input, max)->
     return input.slice(0, max)
 
 
+# For pending transaction processing at the nav-bar
 .directive "transaction", ["Transaction", (Transaction)->
   restrict: "A"
   scope: true

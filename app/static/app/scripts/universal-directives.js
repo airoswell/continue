@@ -26,7 +26,26 @@
     return function(user_id, item) {
       return __indexOf.call(item.previous_owners, user_id) >= 0;
     };
-  }).directive("autoExpand", function() {
+  }).directive("postOverview", [
+    "PrivateMessage", function(PrivateMessage) {
+      return {
+        restrict: "A",
+        scope: true,
+        link: function(scope, element, attrs) {
+          var owner_id, post_id;
+          scope.items = [];
+          post_id = attrs["postId"];
+          owner_id = attrs['ownerId'];
+          element.find("[contact-button]").css({
+            "display": ""
+          });
+          return scope.contact = function() {
+            return PrivateMessage.compose(owner_id, post_id, scope.items);
+          };
+        }
+      };
+    }
+  ]).directive("autoExpand", function() {
     "<div auto-expand data=\"<the input variable>\" init-width=\"100px\"\n    min-size=\"20\">\n    ...\n    <input tyle='text' ng-model=\"<the input variable>\">\n</div>";
     return {
       restrict: "AE",
@@ -73,6 +92,45 @@
           }
           if (scope.data) {
             return auto_expand(scope.data);
+          }
+        });
+      }
+    };
+  }).directive("clickToExpand", function() {
+    return {
+      restrict: "A",
+      scope: true,
+      link: function(scope, element, attrs) {
+        var max_height, target, trigger;
+        scope.expanded = false;
+        max_height = "0px";
+        if ("maxHeight" in attrs) {
+          max_height = attrs['maxHeight'];
+        }
+        trigger = element.find("[click-to-expand-trigger]");
+        trigger.css({
+          "cursor": "pointer"
+        });
+        target = element.find("[click-to-expand-target]");
+        target.css({
+          'max-height': max_height,
+          "display": "none"
+        });
+        return trigger.on("click", function() {
+          if (!scope.expanded) {
+            target.css({
+              "max-height": "",
+              "display": "inherit"
+            });
+            scope.expanded = true;
+            return scope.$apply();
+          } else if (scope.expanded) {
+            target.css({
+              "max-height": max_height,
+              "display": "none"
+            });
+            scope.expanded = false;
+            return scope.$apply();
           }
         });
       }

@@ -41,25 +41,6 @@
         });
       };
     }
-  ]).directive("searchPostOverview", [
-    "PrivateMessage", function(PrivateMessage) {
-      return {
-        restrict: "A",
-        scope: true,
-        link: function(scope, element, attrs) {
-          var owner_id, post_id;
-          scope.items = [];
-          post_id = attrs["postId"];
-          owner_id = attrs['ownerId'];
-          element.find("[contact-button]").css({
-            "display": ""
-          });
-          return scope.contact = function() {
-            return PrivateMessage.compose(owner_id, post_id, scope.items);
-          };
-        }
-      };
-    }
   ]).directive("itemOverview", function() {
     return {
       restrict: "A",
@@ -74,31 +55,6 @@
             return scope.items.splice(scope.items.indexOf(scope.item_id), 1);
           }
         };
-      }
-    };
-  }).directive("clickToExpand", function() {
-    return {
-      restrict: "A",
-      link: function(scope, element, attrs) {
-        var max_height, target, trigger;
-        scope.expanded = false;
-        max_height = attrs['maxHeight'];
-        trigger = element.find("[click-to-expand-trigger]");
-        target = element.find("[click-to-expand-target]");
-        return trigger.on("click", function() {
-          if (!scope.expanded) {
-            target.css({
-              "max-height": ""
-            });
-            return scope.expanded = true;
-          } else if (scope.expanded) {
-            target.css({
-              "max-height": max_height,
-              "overflow": "hidden"
-            });
-            return scope.expanded = false;
-          }
-        });
       }
     };
   });

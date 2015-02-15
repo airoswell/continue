@@ -43,18 +43,6 @@ angular.module "continue"
         Alert.show_msg("All posts are downloaded ...")
 ]
 
-.directive "searchPostOverview", ["PrivateMessage", (PrivateMessage)->
-  restrict: "A"
-  scope: true
-  link: (scope, element, attrs)->
-    scope.items = []
-    post_id = attrs["postId"]
-    owner_id = attrs['ownerId']
-    element.find("[contact-button]").css({"display": ""})
-    scope.contact = ()->
-      PrivateMessage.compose(owner_id, post_id, scope.items)
-]
-
 .directive "itemOverview", ()->
   restrict: "A"
   scope: true
@@ -65,20 +53,3 @@ angular.module "continue"
         scope.items.push(scope.item_id)
       else
         scope.items.splice scope.items.indexOf(scope.item_id), 1
-
-
-.directive "clickToExpand", ()->
-  restrict: "A"
-  link: (scope, element, attrs)->
-    scope.expanded = false
-    max_height = attrs['maxHeight']
-    trigger = element.find("[click-to-expand-trigger]")
-    target = element.find("[click-to-expand-target]")
-    trigger.on "click", ()->
-      if not scope.expanded
-        target.css({"max-height": ""})
-        scope.expanded = true
-      else if (scope.expanded)
-        target.css({"max-height": max_height, "overflow": "hidden"})
-        scope.expanded = false
-      

@@ -138,11 +138,13 @@ angular.module("continue")
     user: "="
   link: (scope, element, attrs) ->
     scope.dropdown = false
-    element.find("[trigger]")
+    trigger = element.find("[trigger]")
+    trigger
     .on("click", () ->
       scope.dropdown = true
       min_width = element.width()
-      element.find("[target]").css({"min-width": min_width})
+      console.log "min_width", min_width
+      trigger.find("[target]").css({"min-width": min_width})
       scope.$apply()
     )
     .on("mouseleave", () ->
@@ -165,6 +167,7 @@ angular.module("continue")
 .directive "inputDate", ()->
   restrict: "E"
   templateUrl: "/static/app/directives/input-date.html"
+  replace: true
   scope:
     date: "="
     label: "@"
@@ -182,3 +185,32 @@ angular.module("continue")
 
 .directive "donationSettingForm", ()->
   restrict: "A"
+
+.directive "areaSettingForm", ["Auth", "Alert", (Auth, Alert)->
+  restrict: "A"
+  link: (scope, element, attrs)->
+
+    validate = ()->
+      for tag in scope.interested_areas_tags
+        if not /^\d{5}$/.test(tag.text)
+          return false
+      return  true
+    scope.submit_areas_setting = ()->
+      if not validate()
+        Alert.show_error("Zip code can only contain 5 numeric digits.", 2000)
+        return
+      zip_codes = []
+      for tag in scope.interested_areas_tags
+        zip_codes.push(tag.text)
+      scope.interested_areas = zip_codes.join() 
+      console.log scope.interested_areas
+      Alert.show_msg("Submitting ...")
+
+      profile = Auth.get_profile()
+      profile.primary_area = scope.primary_area
+      profile.interested_areas = scope.interested_areas
+      profile.already_set = true
+      profile.save().$then (response)->
+        scope.hide_area_setting = true
+        Alert.show_msg("Your data is saved.")
+]

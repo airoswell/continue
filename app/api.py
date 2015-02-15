@@ -1191,7 +1191,9 @@ class AttendentList(XListAPIView):
     model = Attendant
 
     def get(self, request):
-        activity = request.query_params["activity"]
+        activity = None
+        if "activity" in request.query_params:
+            activity = request.query_params["activity"]
         qs = Attendant.objects.filter(activity=activity)
         data = AttendantSerializer(qs, many=True).data
         if "statistics" in request.query_params:

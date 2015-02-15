@@ -183,12 +183,15 @@
         user: "="
       },
       link: function(scope, element, attrs) {
+        var trigger;
         scope.dropdown = false;
-        element.find("[trigger]").on("click", function() {
+        trigger = element.find("[trigger]");
+        trigger.on("click", function() {
           var min_width;
           scope.dropdown = true;
           min_width = element.width();
-          element.find("[target]").css({
+          console.log("min_width", min_width);
+          trigger.find("[target]").css({
             "min-width": min_width
           });
           return scope.$apply();
@@ -217,6 +220,7 @@
     return {
       restrict: "E",
       templateUrl: "/static/app/directives/input-date.html",
+      replace: true,
       scope: {
         date: "=",
         label: "@"
@@ -241,6 +245,50 @@
     return {
       restrict: "A"
     };
-  });
+  }).directive("areaSettingForm", [
+    "Auth", "Alert", function(Auth, Alert) {
+      return {
+        restrict: "A",
+        link: function(scope, element, attrs) {
+          var validate;
+          validate = function() {
+            var tag, _i, _len, _ref;
+            _ref = scope.interested_areas_tags;
+            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+              tag = _ref[_i];
+              if (!/^\d{5}$/.test(tag.text)) {
+                return false;
+              }
+            }
+            return true;
+          };
+          return scope.submit_areas_setting = function() {
+            var profile, tag, zip_codes, _i, _len, _ref;
+            if (!validate()) {
+              Alert.show_error("Zip code can only contain 5 numeric digits.", 2000);
+              return;
+            }
+            zip_codes = [];
+            _ref = scope.interested_areas_tags;
+            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+              tag = _ref[_i];
+              zip_codes.push(tag.text);
+            }
+            scope.interested_areas = zip_codes.join();
+            console.log(scope.interested_areas);
+            Alert.show_msg("Submitting ...");
+            profile = Auth.get_profile();
+            profile.primary_area = scope.primary_area;
+            profile.interested_areas = scope.interested_areas;
+            profile.already_set = true;
+            return profile.save().$then(function(response) {
+              scope.hide_area_setting = true;
+              return Alert.show_msg("Your data is saved.");
+            });
+          };
+        }
+      };
+    }
+  ]);
 
 }).call(this);

@@ -1,10 +1,10 @@
-<div ng-class='{active: dropdown}' style='padding:10px;'>
+<div class='input-dropdown' ng-class='{active: dropdown}' style='padding:10px;'>
   <div trigger>
     <div ng-show="!label==''" class='input-label'>
       <bind ng-bind="::label"></bind>
     </div>
 
-    <!-- For simple dropdown menu -->
+    
     <div ng-if="!transfer">
       <div>
         <div class='choice-result text-blue' ng-bind='data'></div>
@@ -19,7 +19,7 @@
       </div>
     </div>
 
-    <!-- For item transfer menu -->
+    
     <div ng-if='transfer'>
       <div layout>
         <div class='choice-result' layout='row' ng-class='{active: dropdown}' ng-bind='data.username || "Choose a user" '></div>

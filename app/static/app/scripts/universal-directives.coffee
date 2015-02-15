@@ -11,6 +11,18 @@ angular.module("continue")
   return (user_id, item)->
     return user_id in item.previous_owners
 
+.directive "postOverview", ["PrivateMessage", (PrivateMessage)->
+  restrict: "A"
+  scope: true
+  link: (scope, element, attrs)->
+    scope.items = []
+    post_id = attrs["postId"]
+    owner_id = attrs['ownerId']
+    element.find("[contact-button]").css({"display": ""})
+    scope.contact = ()->
+      PrivateMessage.compose(owner_id, post_id, scope.items)
+]
+
 .directive "autoExpand", ->
   """
   <div auto-expand data="<the input variable>" init-width="100px"
@@ -51,6 +63,30 @@ angular.module("continue")
         input.css({"width": scope.initWidth, "max-width": "500px"})
       if scope.data
         auto_expand(scope.data)
+
+# Use to expand post-detail
+# [max-height] attribute use to control initial max-height
+.directive "clickToExpand", ()->
+  restrict: "A"
+  scope: true
+  link: (scope, element, attrs)->
+    scope.expanded = false
+    max_height = "0px"
+    if "maxHeight" of attrs
+      max_height = attrs['maxHeight']
+    trigger = element.find("[click-to-expand-trigger]")
+    trigger.css({"cursor": "pointer"})
+    target = element.find("[click-to-expand-target]")
+    target.css({'max-height': max_height, "display": "none"})
+    trigger.on "click", ()->
+      if not scope.expanded
+        target.css({"max-height": "", "display": "inherit"})
+        scope.expanded = true
+        scope.$apply()
+      else if (scope.expanded)
+        target.css({"max-height": max_height, "display": "none"})
+        scope.expanded = false
+        scope.$apply()
 
 
 .directive "clickToShow", ()->
