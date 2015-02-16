@@ -271,4 +271,5 @@ class TransactionSerializerLite(serializers.ModelSerializer):
 class AttendantSerializer(serializers.ModelSerializer):
     class Meta:
         model = Attendant
-        fields = ("id", "name", "email", "is_comming", "activity", )
+        fields = ("id", "name", "email", "department", "level",
+                  "is_comming", "activity", )

@@ -851,6 +851,11 @@ class Tag(UUIDModel):
 class Attendant(UUIDModel):
     name = models.CharField(max_length=100, blank=False)
     email = models.EmailField(max_length=500, blank=False)
+    department = models.CharField(
+        max_length=100, blank=True, default=""
+    )
+    level = models.CharField(
+        max_length=100, blank=True, default="")
     is_comming = models.CharField(
         max_length=10, blank=False,
         choices=(("Yes", "Yes"), ("No", "No"), ("Maybe", "Maybe"))

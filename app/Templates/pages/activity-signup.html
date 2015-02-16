@@ -49,17 +49,32 @@
               placeholder="Bill Gates" required>
         </div>
       </div>
+
       <div style='display:inline-block' auto-expand data='email' min-size="20" init-width="250px">
         <div>
           <span>Your email</span>
         </div>
         <div>
-          <input type="text" ng-model="email" style='font-size:20px;line-height:30px;'
+          <input type="email" ng-model="email" style='font-size:20px;line-height:30px;'
               placeholder="me@stonybrook.edu" required>
         </div>
       </div>
       
       <input-dropdown data='is_comming' label="'Will you come? (Click to select)'" choices="['Yes', 'No', 'Maybe']" style='display:inline-block'>
+      </input-dropdown>
+
+      <div style='display:inline-block' auto-expand data='department'
+          min-size="20" init-width="250px">
+        <div>
+          <span>Which department are you from? (optional)</span>
+        </div>
+        <div>
+          <input type="text" ng-model="department" style='font-size:20px;line-height:30px;'
+              placeholder="me@stonybrook.edu" required>
+        </div>
+      </div>
+
+      <input-dropdown data='is_comming' label="'Are you grad or undergrad? (option)'" choices="['Inapplicable', 'Grad student', 'Undergrad']" style='display:inline-block'>
       </input-dropdown>
 
       
