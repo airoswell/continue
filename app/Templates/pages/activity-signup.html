@@ -41,7 +41,7 @@
 
     <div style='padding:20px 10px;'>
       <div style='display:inline-block' auto-expand data='name' min-size="20" init-width="180px">
-        <div>
+        <div class="text-light-gray">
           <span>Your name</span>
         </div>
         <div>
@@ -51,7 +51,7 @@
       </div>
 
       <div style='display:inline-block' auto-expand data='email' min-size="20" init-width="250px">
-        <div>
+        <div class="text-light-gray">
           <span>Your email</span>
         </div>
         <div>
@@ -63,20 +63,27 @@
       <input-dropdown data='is_comming' label="'Will you come? (Click to select)'" choices="['Yes', 'No', 'Maybe']" style='display:inline-block'>
       </input-dropdown>
 
+      <br/>
+      <br/>
+
+      <div class='text-large text-light-gray'>Optional (it would be very helpful if you could fill in the info)</div>
+
       <div style='display:inline-block' auto-expand data='department'
           min-size="20" init-width="250px">
-        <div>
+        <div class='text-light-gray'>
           <span>Which department are you from? (optional)</span>
         </div>
         <div>
           <input type="text" ng-model="department" style='font-size:20px;line-height:30px;'
-              placeholder="me@stonybrook.edu" required>
+              placeholder="AMS, Physics, etc." required>
         </div>
       </div>
 
-      <input-dropdown data='is_comming' label="'Are you grad or undergrad? (option)'" choices="['Inapplicable', 'Grad student', 'Undergrad']" style='display:inline-block'>
+      <input-dropdown data='level' label="'Are you a grad or undergrad? (optional)'" choices="['Inapplicable', 'Grad student', 'Undergrad']" style='display:inline-block'>
       </input-dropdown>
 
+      <br/>
+      <br/>
       
       <div layout='row' layout-align='start'>
         <div class='button button-small button-blue' ng-click="submit()">
@@ -113,12 +120,13 @@
         tag-red
         {% endif %}
         ">
-      {{ attendant.name }}
+      {{ attendant.name }} {% if attendant.department %}| {{ attendant.department }} {% endif %}
     </span>
     {% endfor %}
-    <span ng-cloak ng-repeat="attendant in new_attendants" class="tag tag-large text-bold" ng-bind="attendant.name"
+    <span ng-cloak ng-repeat="attendant in new_attendants" class="tag tag-large text-bold"
         ng-show="layout.filter == attendant.is_comming || layout.filter == ''"
         ng-class='{"tag-blue": attendant.is_comming == "Yes", "tag-red": attendant.is_comming == "No", "tag-gray": attendant.is_comming == "Maybe"}'>
+        <bind ng-bind="attendant.name"></bind> <bind ng-if="attendant.department">|</bind> <bind ng-if="attendant.department" ng-bind="attendant.department"></bind>
     </span>
   </div>
 </div>

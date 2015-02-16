@@ -5,6 +5,7 @@ angular.module "continue"
   ($scope, Alert, Attendant)->
 
     $scope.is_comming = "Yes"
+    $scope.level = "Inapplicable"
     $scope.layout = {
       filter: ""
     }
@@ -22,6 +23,8 @@ angular.module "continue"
         email: $scope.email
         is_comming: $scope.is_comming
         activity: $scope.activity
+        level: $scope.level
+        department: $scope.department
       )
       attendant.save().$then (response)->
         $scope.new_attendants.push(response)

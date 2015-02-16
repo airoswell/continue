@@ -3,6 +3,7 @@
   angular.module("continue").controller("activitySignUpCtrl", [
     "$scope", "Alert", "Attendant", function($scope, Alert, Attendant) {
       $scope.is_comming = "Yes";
+      $scope.level = "Inapplicable";
       $scope.layout = {
         filter: ""
       };
@@ -19,7 +20,9 @@
           name: $scope.name,
           email: $scope.email,
           is_comming: $scope.is_comming,
-          activity: $scope.activity
+          activity: $scope.activity,
+          level: $scope.level,
+          department: $scope.department
         });
         return attendant.save().$then(function(response) {
           $scope.new_attendants.push(response);
