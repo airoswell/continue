@@ -21,6 +21,17 @@
         No
       </div>
     </div>
+
+    <div class='drop-down-menu-header'>
+      <i class='fa fa-eye'></i>&nbsp;Allow ordering with this field?
+    </div>
+    <div layout='row' layout-align='center'>
+      <div class='tag tag-xsmall tag-gray'
+          ng-click="set_as_ordering(field, true)"
+          ng-class="{'selected': field.display == 'Yes'}">
+        Yes
+      </div>
+    </div>
   </div>
   <!-- <div class='option'>
     <i class='fa fa-trash'></i>&nbsp;Remove the field

@@ -95,7 +95,18 @@
         </span>
         {% endfor %}
       </div>
-    </div>
+      <div class='text-large sidebar-body'>
+        Reorder by field
+      </div>
+      <div class='sidebar-body'>
+        <div ng-repeat="field in profile.ordering_fields">
+          <div class='tag tag-small tag-gray' ng-bind="field.title"
+              ng-click="search_by_field(field)">
+          </div>
+        </div>
+      </div>
+      
+    </div><!-- Side bar end -->
 
     <!-- Item list -->
     <div id='items-display'
@@ -118,7 +129,7 @@
 
       <!-- Item thumbnail list -->
       {% verbatim %}
-      <div ng-show="layout.view_mode == 'thumbnail' && tags.length == 0"
+      <div ng-show="layout.view_mode == 'thumbnail' && !layout.show_items_search_results"
         layout='row'>
         <div flex-sm="0" flex="10"></div>
         <div ng-cloak
@@ -150,7 +161,7 @@
 
       <!-- Item detail list -->
       <div layout='row'
-          ng-show="tags.length == 0 && layout.view_mode == 'detail'">
+          ng-show="!layout.show_items_search_results && layout.view_mode == 'detail'">
         <div flex-sm="0" flex="10"></div>
         <div flex-gt-lg="70" flex-gt-md="80" flex-md="80" flex-sm="100">
           <item-editor-pro item="item" ng-repeat="item in items"
@@ -160,7 +171,7 @@
       </div>
 
       <!-- Search result -->
-      <div ng-show="tags.length > 0" layout='row'>
+      <div ng-show="layout.show_items_search_results" layout='row'>
 
         <div flex-sm="0" flex-md="0" flex="10"></div>
         <div flex-gt-lg="70" flex-gt-md="80" flex-md="100" flex-sm="100">
@@ -170,7 +181,7 @@
             </div>
           </div>
           <item-editor-pro item='item'
-              ng-repeat="item in items_search_results"
+              ng-repeat="item in items_search_results |orderBy: 'order_by_value'"
               ng-show="(item.available == layout.filter_available) || layout.filter_available == ''">
           </item-editor-pro>
         </div>

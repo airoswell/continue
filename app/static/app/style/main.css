@@ -182,7 +182,6 @@ textarea:focus{
 }
 .input-label{
     color:#999;
-    padding: 0px 5px 5px 0px;
 }
 
 .dropdown-menu>li>a{
@@ -474,8 +473,6 @@ textarea:focus{
 .post-body{
     ;
 }
-
-
 
 
 /* Disqus */

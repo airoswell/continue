@@ -2,15 +2,27 @@
 (function() {
   var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
-  angular.module("continue").controller("collectionCtrl", [
-    "$scope", "Post", "Item", "Feed", "Timeline", "Alert", "InfiniteScroll", "Auth", "Album", function($scope, Post, Item, Feed, Timeline, Alert, InfiniteScroll, Auth, Album) {
+  angular.module("continue").filter("orderByField", [
+    "Item", function(Item) {
+      return function(collection, type, order_by) {
+        if (type === 'field') {
+          console.log("order_by = ", order_by);
+          order_by = Item.customized_fields_normalization(order_by);
+        }
+        return collection;
+      };
+    }
+  ]).controller("collectionCtrl", [
+    "$scope", "Item", "Alert", "InfiniteScroll", "Auth", function($scope, Item, Alert, InfiniteScroll, Auth) {
       var infinite_scroll_items, search;
+      $scope.items_search_results = [];
       $scope.layout = {
         creating_new_item: false,
-        display_tab: "items",
         filter_available: "",
         view_mode: "detail",
         item_to_edit: {},
+        items_search_results_order_by_type: "",
+        items_search_results_order_by: "",
         show_items_search_results: false,
         search_result_not_found: false,
         loading: {
@@ -96,10 +108,33 @@
           params = {
             "tags": tags
           };
-          return search(params);
+          search(params);
+          return $scope.layout.show_items_search_results = true;
         } else {
-          return $scope.items_search_results = [];
+          $scope.items_search_results = [];
+          return $scope.layout.show_items_search_results = false;
         }
+      };
+      $scope.search_by_field = function(field) {
+        var model_name, params;
+        params = {
+          order_by: field.title,
+          order_by_model: field.model_name
+        };
+        model_name = Item.customized_fields_normalization(field).model_name;
+        return search(params).$asPromise().then(function(response) {
+          var f, item, _i, _len;
+          for (_i = 0, _len = response.length; _i < _len; _i++) {
+            item = response[_i];
+            f = _.find(item[model_name], {
+              "title": field.title
+            });
+            item['order_by_value'] = f.value;
+          }
+          $scope.layout.items_search_results_order_by = field;
+          $scope.layout.items_search_results_order_by_type = 'field';
+          return $scope.layout.show_items_search_results = true;
+        });
       };
       $scope.is_searched = function(tag) {
         return __indexOf.call($scope.tags, tag) >= 0;
@@ -129,7 +164,7 @@
           $scope.items = [];
         }
         $scope.layout.view_mode = "detail";
-        $scope.layout.display_tab = "items";
+        $scope.layout.show_items_search_results = false;
         item = Item.$build(Item.init);
         item.owner = Auth.get_profile().id;
         item.is_new = true;

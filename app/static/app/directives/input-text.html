@@ -1,13 +1,7 @@
 <div style='padding:10px;' layout='row' layout-align='center'>
-  <div reduced-padding>
-    <div ng-show="!label==''" class='input-label'>
-      <bind ng-bind="::label"></bind>
-    </div>
-
-    <!-- For simple dropdown menu -->
-    <div ng-if="!transfer">
-      <input type="text" ng-model="data">
-    </div>
-
+  <div ng-show="!label==''" class='input-label' ng-bind="::label">
   </div>
+
+  <!-- For simple dropdown menu -->
+  <input ng-if="!transfer" type="text" ng-model="data">
 </div>

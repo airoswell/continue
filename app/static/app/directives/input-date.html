@@ -1,13 +1,12 @@
 <div style='padding:10px;display:inline-block'>
-  <div style='color:#999;padding: 2px 0px;'>
-    <bind ng-bind="::label"></bind>
+  <div style='color:#999;padding: 2px 0px;' ng-bind="::label">
   </div>
   <div>
     <input type="text"
      datepicker-popup="dd-MM-yyyy"
      ng-model="date"
      is-open="opened"
-     style='width:90px;'
+     style='width:90px;text-align:left'
      ng-click = "opened = true"
      ng-required="true"
      close-text="Close"/>

@@ -1,20 +1,30 @@
 
 angular.module("continue")
 
+.filter "orderByField", ["Item", (Item)->
+  return (collection, type, order_by)->
+    if type == 'field'
+      console.log "order_by = ", order_by
+      order_by = Item.customized_fields_normalization(order_by)
+    return collection
+]
 .controller "collectionCtrl", [
-  "$scope", "Post", "Item", "Feed", "Timeline", "Alert",
-  "InfiniteScroll", "Auth", "Album",
-  ($scope, Post, Item, Feed, Timeline, Alert, InfiniteScroll, Auth, Album) ->
+  "$scope", "Item", "Alert", "InfiniteScroll", "Auth",
+  ($scope, Item, Alert, InfiniteScroll, Auth) ->
 
+    $scope.items_search_results = []
     $scope.layout = {
+      # Control the currently loaded item list
       creating_new_item: false
-      display_tab: "items"
+      item_to_edit: {}
       filter_available: ""
       view_mode: "detail"
-      item_to_edit: {}
+      # Control the display of search result, including ordering
+      items_search_results_order_by_type: ""
+      items_search_results_order_by: ""
       show_items_search_results: false
       search_result_not_found: false
-      loading:
+      loading:          # To control infinite-scroll
         "items": true
     }
     $scope.tags = []    # A list of tags that will be searched against
@@ -22,6 +32,7 @@ angular.module("continue")
     $scope.switch_view_mode = (mode)->
       $scope.layout.view_mode = mode
 
+    # Filter the currently loaded items according to availability
     $scope.filter_available = (option)->
       if $scope.layout.filter_available == option
         $scope.layout.filter_available = ""
@@ -89,8 +100,24 @@ angular.module("continue")
         tags = $scope.tags.join(",")
         params = {"tags": tags}
         search(params)
+        $scope.layout.show_items_search_results = true
       else
         $scope.items_search_results = []
+        $scope.layout.show_items_search_results = false
+
+    $scope.search_by_field = (field)->
+      params = {
+        order_by: field.title
+        order_by_model: field.model_name
+      }
+      model_name = Item.customized_fields_normalization(field).model_name
+      search(params).$asPromise().then (response)->
+        for item in response
+          f = _.find(item[model_name], {"title": field.title})
+          item['order_by_value'] = f.value
+        $scope.layout.items_search_results_order_by = field
+        $scope.layout.items_search_results_order_by_type = 'field'
+        $scope.layout.show_items_search_results = true
 
     $scope.is_searched = (tag)->
       tag in $scope.tags
@@ -111,7 +138,7 @@ angular.module("continue")
       if not $scope.items?
         $scope.items = []
       $scope.layout.view_mode = "detail"
-      $scope.layout.display_tab = "items"
+      $scope.layout.show_items_search_results = false
       item = Item.$build(Item.init)
       item.owner = Auth.get_profile().id
       item.is_new = true

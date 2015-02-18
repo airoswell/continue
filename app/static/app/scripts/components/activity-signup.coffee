@@ -8,6 +8,7 @@ angular.module "continue"
     $scope.level = "Inapplicable"
     $scope.layout = {
       filter: ""
+      submitting: false
     }
 
     $scope.new_attendants = []
@@ -17,7 +18,8 @@ angular.module "continue"
         $scope.statistics = response[0]
 
     $scope.submit = ()->
-      console.log "submit"
+      if $scope.layout.submitting
+        Alert.show_msg("We are submitting your registration. Please wait.")
       attendant = Attendant.$build(
         name: $scope.name
         email: $scope.email
@@ -26,6 +28,7 @@ angular.module "continue"
         level: $scope.level
         department: $scope.department
       )
+      $scope.layout.submitting = true
       attendant.save().$then (response)->
         $scope.new_attendants.push(response)
         Attendant.statistics().$then (response)->

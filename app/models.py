@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
+from jsonfield import JSONField
+from postman.models import Message
+from dateutil.relativedelta import relativedelta
+from allauth.account.signals import user_logged_in
+# Django Core
+from django.db.models import Q
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.exceptions import FieldError
-from postman.models import Message
-from dateutil.relativedelta import relativedelta
-
-from allauth.account.signals import user_logged_in
-
-from django.db.models import Q
+from django.db.models.fields import FieldDoesNotExist
+# Python modules
 import uuid
 import datetime
 
@@ -116,6 +118,7 @@ class UserProfile(UUIDModel):
     accept_donations_categories = models.TextField(
         default="", blank=True,
     )
+    ordering_fields = JSONField(default=[])
 
     @classmethod
     def update(cls, validated_data, **kwargs):
@@ -392,6 +395,7 @@ class Item(UUIDModel):
         owner_changed = False
         errors = []
         # update customized fields
+        print("\n\tcustomized_field_data = %s " % (customized_field_data))
         for field in customized_field_data:
             model = cls.customized_fields()[field]
             data = customized_field_data[field]
@@ -493,8 +497,11 @@ class Item(UUIDModel):
                         item=self,
                         widget=widget,
                     )
-            except:
-                print("item.update_customized_char_fields error")
+            except FieldDoesNotExist, e:
+                print("\n\t !!!!!!!!!!!!!!!!!!")
+                print("\titem.update_customized_char_fields error:")
+                print("error message = %s" % (e.message))
+                raise FieldDoesNotExist("\n\te.message = %s" % (e.message))
         return
 
     def add_images(self, images_data):

@@ -429,11 +429,21 @@
     }
   ]).factory("Item", [
     "Model", "settings", "Handlers", function(Model, settings, Handlers) {
-      var availability_choices, condition_choices, customized_fields_cleaner, init, is_valid, utilization_choices, visibility_choices;
+      var availability_choices, condition_choices, customized_fields_cleaner, customized_fields_normalization, init, is_valid, utilization_choices, visibility_choices;
       condition_choices = ["Inapplicable", "New", "Like new", "Good", "Functional", "Broken"];
       visibility_choices = ["Public", "Private", "Ex-owners"];
       availability_choices = ["Available", "In use", "Lent", "Given away", "Disposed"];
       utilization_choices = ["Inapplicable", "Daily", "Frequent", "Sometimes", "Rarely", "Never"];
+      customized_fields_normalization = function(self, field) {
+        var model;
+        model = field.model_name.toLowerCase();
+        model = model.replace("customized", "customized_");
+        model = model.replace("field", "_fields");
+        return {
+          model_name: model,
+          title: field.title
+        };
+      };
       init = {
         title: "",
         quantity: 1,
@@ -568,7 +578,10 @@
             }
           },
           Model: {
-            init: init
+            init: init,
+            customized_fields_normalization: function(field) {
+              return customized_fields_normalization(this, field);
+            }
           }
         }
       });

@@ -11,6 +11,14 @@ from postman.models import Message
 from rest_framework import serializers
 
 
+class WritableJSONField(serializers.Field):
+    def to_representation(self, obj):
+        return obj
+
+    def to_internal_value(self, obj):
+        return obj
+
+
 class ownerField(serializers.RelatedField):
     def to_representation(self, value):
         return value.uid()
@@ -20,6 +28,7 @@ class ownerField(serializers.RelatedField):
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
+    ordering_fields = WritableJSONField()
 
     class Meta:
         model = UserProfile
@@ -27,7 +36,8 @@ class UserProfileSerializer(serializers.ModelSerializer):
                   "primary_area", "interested_areas", "already_set",
                   'social_account_provider', "social_account_uid",
                   "accept_donations", "accept_donations_secret_key",
-                  "accept_donations_categories")
+                  "accept_donations_categories",
+                  "ordering_fields",)
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -43,36 +53,35 @@ class UserSerializer(serializers.ModelSerializer):
 class CustomizedCharFieldSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomizedCharField
-        fields = ("id", "item", "title", "value", "display",
-                  "time_updated", "time_created")
+        fields = ("id", "item", "title", "value", "display", "model_name",)
 
 
 class CustomizedColorFieldSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomizedColorField
         fields = ("id", "item", "title", "value", "display", "visibility",
-                  "time_updated", "time_created")
+                  "model_name",)
 
 
 class CustomizedNumFieldSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomizedNumField
         fields = ("id", "item", "title", "value", "unit", "display",
-                  "visibility", "time_updated", "time_created")
+                  "model_name", "visibility",)
 
 
 class CustomizedDateFieldSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomizedDateField
-        fields = ("id", "item", "title", "value", "display",
-                  "visibility", "time_updated", "time_created")
+        fields = ("id", "item", "title", "value", "display", "model_name",
+                  "visibility",)
 
 
 class CustomizedEmailFieldSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomizedEmailField
         fields = ("id", "item", "title", "value", "display", "visibility",
-                  "time_updated", "time_created")
+                  "model_name",)
 
 
 class ImageSerializer(serializers.ModelSerializer):

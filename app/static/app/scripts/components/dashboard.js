@@ -2,7 +2,7 @@
 (function() {
   angular.module("continue").controller("DashBoardCtrl", [
     "$scope", "Post", "Item", "Feed", "Timeline", "Alert", "InfiniteScroll", "Auth", "Album", function($scope, Post, Item, Feed, Timeline, Alert, InfiniteScroll, Auth, Album) {
-      var infinite_scroll_feeds, infinite_scroll_items, infinite_scroll_posts, infinite_scroll_timeline;
+      var infinite_scroll_feeds, infinite_scroll_posts, infinite_scroll_timeline;
       $scope.layout = {
         creating_new_item: false,
         display_tab: "feeds",
@@ -10,38 +10,8 @@
         loading: {
           "posts": false,
           "feeds": false,
-          "timeline": false,
-          "items": true
+          "timeline": false
         }
-      };
-      $scope.load_first_items = function() {
-        if (($scope.items == null) || ($scope.creating_new_item())) {
-          Alert.show_msg("Downloading your data ...");
-          return $scope.items = Item.$search({
-            num_of_records: 8
-          }).$then(function(response) {
-            this.tags_handler();
-            console.log("ready to run this.images_handler()");
-            this.images_handler();
-            this.start = this.length;
-            Alert.show_msg("Download is finished.");
-            return $scope.layout.loading.items = false;
-          }, function(e) {
-            if (e.$response.status === 404) {
-              return Alert.show_msg("No data is found.");
-            } else {
-              return Alert.show_error("There is problem retrieving your data.");
-            }
-          });
-        }
-      };
-      $scope.items_search = function(tag) {
-        Alert.show_msg("Searching...");
-        $scope.layout.items_search_keyword = tag;
-        $scope.layout.show_items_search_results = true;
-        return $scope.items_search_results = Item.search({
-          tags: tag
-        });
       };
       infinite_scroll_posts = new InfiniteScroll(Post);
       $scope.load_posts = function() {
@@ -56,21 +26,6 @@
           return $scope.layout.loading.posts = false;
         }, function() {
           return Alert.show_msg("All posts are downloaded ...");
-        });
-      };
-      infinite_scroll_items = new InfiniteScroll(Item);
-      $scope.load_items = function() {
-        infinite_scroll_items.config({
-          model_types: ["Item"],
-          init_starts: $scope.items.length
-        });
-        $scope.layout.loading.items = true;
-        $scope.items = infinite_scroll_items.load($scope.items);
-        return $scope.items.$asPromise().then(function(response) {
-          infinite_scroll_items.success_handler(response);
-          return $scope.layout.loading.items = false;
-        }, function() {
-          return Alert.show_msg("All items are downloaded ...");
         });
       };
       infinite_scroll_feeds = new InfiniteScroll(Feed);
@@ -137,40 +92,6 @@
         top = $("#post-" + id).offset().top;
         $("html, body").animate({
           scrollTop: top - 100
-        });
-        return true;
-      };
-      $scope.creating_new_item = function() {
-        var item, items, _i, _len;
-        if (!($scope.items != null)) {
-          return false;
-        }
-        items = $scope.items;
-        if (items.length > 0) {
-          for (_i = 0, _len = items.length; _i < _len; _i++) {
-            item = items[_i];
-            if (!('id' in item)) {
-              return true;
-            }
-          }
-        }
-        return false;
-      };
-      $scope.create_item = function() {
-        var item;
-        if ($scope.creating_new_item()) {
-          return;
-        }
-        if ($scope.items == null) {
-          $scope.items = [];
-        }
-        $scope.layout.display_tab = "items";
-        item = Item.$build(Item.init);
-        item.owner = Auth.get_profile().id;
-        item.is_new = true;
-        $scope.items.splice(0, 0, item);
-        $("html, body").animate({
-          scrollTop: $("#items-display").offset().top - 100
         });
         return true;
       };

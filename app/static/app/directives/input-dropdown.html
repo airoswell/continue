@@ -1,45 +1,40 @@
-<div class='input-dropdown' ng-class='{active: dropdown}' style='padding:10px;'>
-  <div trigger>
-    <div ng-show="!label==''" class='input-label'>
-      <bind ng-bind="::label"></bind>
-    </div>
-
-    
-    <div ng-if="!transfer">
-      <div>
-        <div class='choice-result text-blue' ng-bind='data'></div>
-      </div>
-      <div target class='choices-list fade-in' ng-show='dropdown'
-          layout='column'>
-        <div class='choice-option' ng-repeat='option in choices'
-            ng-class="{active: data == option}"
-            ng-click="select(option)">
-          <span ng-bind="::option"></span>
-        </div>
-      </div>
-    </div>
-
-    
-    <div ng-if='transfer'>
-      <div layout>
-        <div class='choice-result' layout='row' ng-class='{active: dropdown}' ng-bind='data.username || "Choose a user" '></div>
-      </div>
-      <div class='choices-list fade-in' ng-show='dropdown'
-          layout='column' style='min-width:100px;'>
-        <div class='choice-option' ng-click="select(undefined)" layout>
-          <img height=20 ng-src="{{::user.social_account_photo }}">
-          &nbsp;&nbsp;I'll keep it ...
-        </div>
-        <div class='choice-option' ng-repeat='option in choices'
-            ng-class="{active: data.id == option.id}"
-            ng-click="select(option)"
-            layout='row'>
-          <span ng-if="false"><img height=20 ng-src="{{::option.profile[0].social_account_photo}}"></span>
-          &nbsp;&nbsp;
-          <b><span ng-bind="::option.username"></span></b>
-        </div>
-      </div>
-    </div>
-
+<div trigger class='input-dropdown' ng-class='{active: dropdown}' style='padding:10px;'>
+  <div ng-show="!label==''" class='input-label' ng-bind="::label">
   </div>
+
+  
+  <div ng-if="!transfer">
+    <div class='choice-result text-blue' ng-bind='data'></div>
+    <div target class='choices-list fade-in' ng-show='dropdown'
+        layout='column'>
+      <div class='choice-option' ng-repeat='option in choices'
+          ng-class="{active: data == option}"
+          ng-click="select(option)">
+        <span ng-bind="::option"></span>
+      </div>
+    </div>
+  </div>
+
+  
+  <div ng-if='transfer'>
+    <div layout>
+      <div class='choice-result' layout='row' ng-class='{active: dropdown}' ng-bind='data.username || "Choose a user" '></div>
+    </div>
+    <div class='choices-list fade-in' ng-show='dropdown'
+        layout='column' style='min-width:100px;'>
+      <div class='choice-option' ng-click="select(undefined)" layout>
+        <img height=20 ng-src="{{::user.social_account_photo }}">
+        &nbsp;&nbsp;I'll keep it ...
+      </div>
+      <div class='choice-option' ng-repeat='option in choices'
+          ng-class="{active: data.id == option.id}"
+          ng-click="select(option)"
+          layout='row'>
+        <span ng-if="false"><img height=20 ng-src="{{::option.profile[0].social_account_photo}}"></span>
+        &nbsp;&nbsp;
+        <b><span ng-bind="::option.username"></span></b>
+      </div>
+    </div>
+  </div>
+
 </div>

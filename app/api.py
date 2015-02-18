@@ -19,6 +19,7 @@ from allauth.socialaccount.models import SocialToken
 # Other Python module
 import operator
 from django.db.models import Q
+import json
 
 
 class PostList(XListAPIView):
@@ -253,19 +254,19 @@ class ItemList(XListAPIView):
                 item_type = "donation"
         if request.user.is_anonymous() and item_type == 'normal':
             return Response(status=st.HTTP_401_UNAUTHORIZED)
-        customized_char_fields_data = []
-        customized_num_fields_data = []
-        if "customized_char_fields" in data:
-            customized_char_fields_data = data.pop("customized_char_fields")
-            data["customized_char_fields"] = []
-        if "customized_num_fields" in data:
-            customized_num_fields_data = data.pop("customized_num_fields")
-            data['customized_num_fields'] = []
-        print("\n\tdata = %s" % (data))
+
+        # pop out customized_fields
+        customized_field_data = {}
+        for field in self.model.customized_fields():
+            if field in request.data:
+                customized_field_data[field] = request.data.pop(field)
+
         handler = ErrorHandler(ItemSerializer)
+
         data = handler.validate(data)
-        data['customized_num_fields'] = customized_num_fields_data
-        data['customized_char_fields'] = customized_char_fields_data
+        # Reinstate the customized fields
+        for field in customized_field_data:
+            data[field] = customized_field_data[field]
         errors = handler.errors
         print("\n\tItemList.post() ==> \t handler.errors %s " % (errors))
         return data, errors
@@ -279,6 +280,9 @@ class ItemList(XListAPIView):
         # get list of items owned by a specific user
         # Don't need any authentication
         params = request.GET
+        order_by = None
+        order_by_model = None
+
         if params.get("user_id"):
             if request.user.is_anonymous():
                 Q_perm = Q(visibility="Public")
@@ -317,10 +321,18 @@ class ItemList(XListAPIView):
             return Response(data=self.serializer(sqs, many=True).data)
         # get list of items of the current authenticated user
         elif not request.user.is_anonymous():
+            if params.get("order_by"):
+                order_by = params['order_by']
+                order_by_model = params["order_by_model"]
+                for key, val in Item.customized_fields().items():
+                    if order_by_model == val.__name__:
+                        order_by_model = key
             data, status = retrieve_records(
                 Item, ItemSerializer,
                 start, num_of_records,
                 owner=request.user,
+                order_by_model=order_by_model,
+                order_by=order_by,
             )
             print("\n\tdata = %s" % (data))
             return Response(data=data, status=status)
@@ -421,15 +433,21 @@ class ItemDetail(XDetailAPIView):
             images = request.data['images']
 
         customized_field_data = {}
-        for field in self.model.customized_fields():
-            if field in request.data:
-                customized_field_data[field] = request.data[field]
+        for field_type in self.model.customized_fields():
+            if field_type in request.data:
+                # customized_field_data[field] is a list of dictionary
+                # of customized field data of type <field>
+                customized_field_data[field_type] = request.data[field_type]
+                for data in customized_field_data[field_type]:
+                    data.pop("model_name")
 
         # ======== Validate ========
         data = handler.validate(request.data)
+        print("\n\tItemList.pre_save_handler() ==== >")
+        print("\n\thandler.errors = %s " % (handler.errors))
         # ==========================
-        for field in customized_field_data:
-            data[field] = customized_field_data[field]
+        for field_type in customized_field_data:
+            data[field_type] = customized_field_data[field_type]
 
         data['images'] = images
         return data

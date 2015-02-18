@@ -290,6 +290,16 @@ angular.module 'continue.models', [
     availability_choices = ["Available", "In use", "Lent", "Given away", "Disposed"]
     utilization_choices = ["Inapplicable", "Daily", "Frequent", "Sometimes", "Rarely", "Never"]
 
+    # Turn "CustomizedCharField" into "customized_char_fields", etc.
+    customized_fields_normalization = (self, field)->
+      model = field.model_name.toLowerCase()
+      model = model.replace("customized", "customized_")
+      model = model.replace("field", "_fields")
+      return {
+        model_name: model
+        title: field.title
+      }
+
     # For brand new and existing items to be edited
     init = {
       title: ""
@@ -401,6 +411,8 @@ angular.module 'continue.models', [
             })
         Model:
           init: init
+          customized_fields_normalization: (field)->
+            customized_fields_normalization(this, field)
     })
 ]
 

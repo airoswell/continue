@@ -79,8 +79,16 @@ def retrieve_records(model, serializer, start=0, num_of_records=8,
     # start = (page - 1) * num_of_records
     # end = page * num_of_records
     end = start + num_of_records
+    orderBy_field = '-time_created'
+    if "order_by" in search_kwargs:
+        orderBy_field_title = search_kwargs.pop("order_by")
+        orderBy_field_model = search_kwargs.pop("order_by_model")
+        if orderBy_field_title:
+            search_kwargs[
+                "%s__title" % (orderBy_field_model)
+            ] = orderBy_field_title
     queryset = (model.objects.filter(*args, **search_kwargs)
-                .order_by('-time_created')[start: end]
+                .order_by(orderBy_field)[start: end]
                 )
     print("\n\tretrieve_records() returns queryset %s" % (queryset))
     # ================================================================

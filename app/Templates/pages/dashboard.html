@@ -11,7 +11,7 @@
   <div flex-gt-md="80" flex="100">
     <!-- Main interface -->
     <!-- Create item and post button -->
-    <div style='position:fixed;top:100px;right:20px;z-index:1' hide-sm>
+    <!-- <div style='position:fixed;top:100px;right:20px;z-index:1' hide-sm>
       <md-button class="md-fab" aria-label="New document"
           ng-click="create_item()">
         <i class="fa fa-plus" style='font-size:20px;line-height:50px;'></i>
@@ -22,7 +22,7 @@
           <i class="fa fa-align-left" style='font-size:20px;line-height:50px;'></i>
         </md-button>
       </a>
-    </div>
+    </div> -->
 
     <!-- Side navigation bar -->
     <!-- The nav bar on the left when on big windlw -->
@@ -193,10 +193,10 @@
     </div>
 
     <!-- Item list -->
-    <div id='items-display' ng-show='layout.display_tab == "items" '
+    <!-- <div id='items-display' ng-show='layout.display_tab == "items" '
         infinite-scroll="load_items()" infinite-scroll-distance="0"
-        infinite-scroll-disabled="layout.display_tab !='items' || layout.loading.items || scrollTop < 600" >
-      <div layout='row'>
+        infinite-scroll-disabled="layout.display_tab !='items' || layout.loading.items || scrollTop < 600" > -->
+      <!-- <div layout='row'>
         <div flex="10"></div>
         <div reduced-padding>
           <div class="section-title-large">
@@ -208,19 +208,19 @@
         </div>
       </div>
 
-      <br/>
+      <br/> -->
 
       <!-- Item detail list -->
-      <div ng-hide="layout.show_items_search_results" layout='row'>
+      <!-- <div ng-hide="layout.show_items_search_results" layout='row'>
         <div flex-sm="0" flex="10">
         </div>
         <div flex-gt-lg="70" flex-gt-md="80" flex-md="80" flex-sm="100">
           <item-editor-pro item='item' ng-repeat="item in items"></item-editor-pro>
         </div>
-      </div>
+      </div> -->
 
       <!-- Search result -->
-      <div ng-show="layout.show_items_search_results" layout='row'>
+      <!-- <div ng-show="layout.show_items_search_results" layout='row'>
 
         <div flex-sm="0" flex="10"></div>
         <div flex-gt-lg="70" flex-gt-md="80" flex-md="80" flex-sm="100">
@@ -236,8 +236,8 @@
           </item-editor-pro>
         </div>
         
-      </div>
-    </div>
+      </div> -->
+    <!-- </div> -->
 
     <!-- User Settings -->
     <div ng-show='layout.display_tab == "settings" ' layout>

@@ -1,22 +1,18 @@
 <div class="dashboard-item-overview-details">
-
+  <br/>
   <!-- Description -->
-  <div layout='row' layout='start center'>
+  <div layout='row' layout='start center' placeholder="0-140 characters.">
+    <span class='input-label'>Description</span>
     <div flex>
-      <input-text label="'Description'" place-holder="'0-140 characters.'"
-          container-class="'input-container-mid'"
-          input-class="'input-default'"
-          data="item.description">
-      </input-text>
+      <input type="text" ng-model="item.description">
     </div>
     &nbsp;&nbsp;
-    <div layout='column' layout-align='center'>
-      <i class='fa fa-info-circle'
-          tooltip="Description displays along with the item when viewed by others."
-          tooltip-placement="bottom"></i>
-    </div>
+    <i class='fa fa-info-circle'
+        tooltip="Description displays along with the item when viewed by others."
+        tooltip-placement="bottom"></i>
   </div>
 
+  <br/>
   <!-- Tags -->
   <div layout='row'>
     <div layout='column' layout-align='center'>
@@ -115,46 +111,26 @@
         <div ng-repeat="field in item.customized_num_fields"
             style='display:inline-block;padding:10px;'
             ng-init="show_title_input=false">
-          <if drop-down-menu ng-if="field.id">
-            <span drop-down-menu-trigger>
-              <span class='text-light-gray' ng-bind="field.title"></span>
-              <span><i class="fa fa-caret-down"></i></span>
-            </span>
-            <div drop-down-menu-target>
-              <item-field-edit-menu></item-field-edit-menu>
-            </div>
-          </if>
-          <if ng-if="!field.id"
-              auto-expand data='field.title' init-width="70px" min-size=10>
-            <input style='font-weight:600;color:#666;' placeholder="Title" type="text" ng-model="field.title" required>
-          </if>
-          <div layout='row'>
-            <span auto-expand data='field.value' init-width="50px" min-size=5>
-              <input placeholder="value" style='font-weight:600;color:#666;'
-                  type="text" ng-model='field.value' required>
-            </span>
-            <span auto-expand data='field.unit' init-width="40px" min-size=5>
-              <input placeholder='unit' style='text-align:center;font-weight:600;color:#666;' type="text"
-                  ng-model='field.unit'>
-            </span>
-          </div>
+
+          <customized-field-title></customized-field-title>
+
+          <span auto-expand data='field.value' init-width="50px" min-size=5>
+            <input placeholder="value" style='font-weight:600;color:#666;'
+                type="text" ng-model='field.value' required>
+          </span>
+          <span auto-expand data='field.unit' init-width="40px" min-size=5>
+            <input placeholder='unit' style='text-align:center;font-weight:600;color:#666;' type="text"
+                ng-model='field.unit'>
+          </span>
+
         </div>
 
         <!-- - Char Fields -->
         <div ng-repeat="field in item.customized_char_fields"
             style='display:inline-block;padding:10px;'>
-          <if drop-down-menu ng-if="field.id">
-            <span drop-down-menu-trigger>
-              <span class='text-light-gray' ng-bind="field.title"></span>
-              <span><i class="fa fa-caret-down"></i></span>
-            </span>
-            <div drop-down-menu-target>
-              <item-field-edit-menu></item-field-edit-menu>
-            </div>
-          </if>
-          <if ng-if="!field.id" auto-expand data='field.title' init-width="70px" min-size=10>
-            <input style='font-weight:600;color:#666;' placeholder="Title" type="text" ng-model="field.title">
-          </if>
+          
+
+          <customized-field-title></customized-field-title>
           <div auto-expand data='field.value' init-width="100px" min-size=5>
             <input style='font-weight:600;color:#666;' placeholder="Value" type="text" ng-model='field.value'>
           </div>
@@ -164,19 +140,7 @@
         <div ng-repeat="field in item.customized_color_fields"
             style='display:inline-block;padding:10px;'>
 
-          <if ng-if="field.id" drop-down-menu>
-            <span drop-down-menu-trigger>
-              <span class='text-light-gray' ng-bind="field.title"></span>
-              <span><i class="fa fa-caret-down"></i></span>
-            </span>
-            <div drop-down-menu-target>
-              <item-field-edit-menu></item-field-edit-menu>
-            </div>
-          </if>
-
-          <if ng-if="!field.id" auto-expand data='field.title' init-width="70px" min-size=10>
-            <input style='font-weight:600;color:#666;' placeholder="Title" type="text" ng-model="field.title">
-          </if>
+          <customized-field-title></customized-field-title>
 
           <div auto-expand data='field.value' init-width="100px" min-size=5>
             <input minicolors="{position:'bottom left'}" style='font-weight:600;color:#666;' placeholder="Value" type="text" ng-model='field.value'>
@@ -186,19 +150,7 @@
         <div ng-repeat="field in item.customized_date_fields"
             style='display:inline-block;padding:10px;'>
 
-          <if drop-down-menu ng-if="field.id">
-            <span drop-down-menu-trigger>
-              <span class='text-light-gray' ng-bind="field.title"></span>
-              <span><i class="fa fa-caret-down"></i></span>
-            </span>
-            <div drop-down-menu-target>
-              <item-field-edit-menu></item-field-edit-menu>
-            </div>
-          </if>
-
-          <if ng-if="!field.id" auto-expand data='field.title' init-width="70px" min-size=10>
-            <input style='font-weight:600;color:#666;' placeholder="Title" type="text" ng-model="field.title">
-          </if>
+          <customized-field-title></customized-field-title>
           <div>
             <input type="text" 
                datepicker-popup="dd-MM-yyyy"
@@ -214,18 +166,7 @@
 
         <div ng-repeat="field in item.customized_email_fields"
             style='display:inline-block;padding:10px;'>
-          <if drop-down-menu ng-if="field.id">
-            <span drop-down-menu-trigger>
-              <span class='text-light-gray' ng-bind="field.title"></span>
-              <span><i class="fa fa-caret-down"></i></span>
-            </span>
-            <div drop-down-menu-target>
-              <item-field-edit-menu></item-field-edit-menu>
-            </div>
-          </if>
-          <if ng-if="!field.id" auto-expand data='field.title' init-width="70px" min-size=10>
-            <input style='font-weight:600;color:#666;' placeholder="Title" type="text" ng-model="field.title">
-          </if>
+          <customized-field-title></customized-field-title>
           <div auto-expand data='field.value' init-width="100px" min-size=5>
             <input style='font-weight:600;color:#666;' placeholder="Value" type="email" ng-model='field.value'>
           </div>
@@ -272,13 +213,11 @@
 
     <div click-to-expand-target class='collapse-body'
         layout='row' layout-align='center'>
-      <div>
-        <div class="item-image-container" ng-repeat="image in item.images">
-          <div layout='row' layout-align='start start'>
-            <img ng-src="{{image.url}}" height="100">
-            &nbsp;
-            <i class='fa fa-caret-down'></i>
-          </div>
+      <div class="item-image-container" ng-repeat="image in item.images">
+        <div layout='row' layout-align='start start'>
+          <img ng-src="{{image.url}}" height="100">
+          &nbsp;
+          <i class='fa fa-caret-down'></i>
         </div>
       </div>
     </div>
