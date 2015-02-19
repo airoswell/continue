@@ -18,9 +18,9 @@
       $scope.items_search_results = [];
       $scope.layout = {
         creating_new_item: false,
+        item_to_edit: {},
         filter_available: "",
         view_mode: "detail",
-        item_to_edit: {},
         items_search_results_order_by_type: "",
         items_search_results_order_by: "",
         show_items_search_results: false,

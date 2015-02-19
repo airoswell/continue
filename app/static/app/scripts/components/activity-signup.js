@@ -5,7 +5,8 @@
       $scope.is_comming = "Yes";
       $scope.level = "Inapplicable";
       $scope.layout = {
-        filter: ""
+        filter: "",
+        submitting: false
       };
       $scope.new_attendants = [];
       $scope.$watch("activity", function() {
@@ -15,7 +16,9 @@
       });
       $scope.submit = function() {
         var attendant;
-        console.log("submit");
+        if ($scope.layout.submitting) {
+          Alert.show_msg("We are submitting your registration. Please wait.");
+        }
         attendant = Attendant.$build({
           name: $scope.name,
           email: $scope.email,
@@ -24,6 +27,7 @@
           level: $scope.level,
           department: $scope.department
         });
+        $scope.layout.submitting = true;
         return attendant.save().$then(function(response) {
           $scope.new_attendants.push(response);
           return Attendant.statistics().$then(function(response) {

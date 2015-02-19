@@ -118,7 +118,7 @@ class UserProfile(UUIDModel):
     accept_donations_categories = models.TextField(
         default="", blank=True,
     )
-    ordering_fields = JSONField(default=[])
+    ordering_fields = JSONField(default=None, blank=True)
 
     @classmethod
     def update(cls, validated_data, **kwargs):

@@ -131,10 +131,20 @@ if LIVEHOST:
         }
     }
 else:
+    # DATABASES = {
+    #     'default': {
+    #         'ENGINE': 'django.db.backends.sqlite3',
+    #         'NAME': os.path.join(PROJECT_DIR, 'db.sqlite3'),
+    #     }
+    # }
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(PROJECT_DIR, 'db.sqlite3'),
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'db_worldsheet',
+            'USER': 'airoswell',
+            'PASSWORD': '299792458',
+            'HOST': 'localhost',
+            'PORT': '3306',
         }
     }
 
