@@ -437,6 +437,7 @@ class ItemDetail(XDetailAPIView):
             if field_type in request.data:
                 # customized_field_data[field] is a list of dictionary
                 # of customized field data of type <field>
+                import pdb; pdb.set_trace()
                 customized_field_data[field_type] = request.data[field_type]
                 for data in customized_field_data[field_type]:
                     data.pop("model_name")
