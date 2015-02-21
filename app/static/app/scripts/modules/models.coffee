@@ -177,9 +177,10 @@ angular.module 'continue.models', [
             search: (params)->
               this.loading = true
               this.$search(params).$then (response)->
-                console.log "Model.search"
                 if response.tags_handler?
                   response.tags_handler()
+                if response.post_search_handler?
+                  response.post_search_handler()
       )
   }
 ]
@@ -574,6 +575,14 @@ angular.module 'continue.models', [
             self.tags_accept_donations_categories = [{text: tag} for tag in self.accept_donations_categories.split(",")][0]
         is_valid: ()->
           true
+        post_search_handler: ()->
+          if not this.ordering_fields
+            this.ordering_fields = []
+      Collection:
+        post_search_handler: ()->
+          for record in this
+            if record.post_search_handler?
+              record.post_search_handler()
   )
 ]
 

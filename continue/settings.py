@@ -140,7 +140,7 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'db_worldsheet',
+            'NAME': 'db_worldsheet_2',
             'USER': 'airoswell',
             'PASSWORD': '299792458',
             'HOST': 'localhost',

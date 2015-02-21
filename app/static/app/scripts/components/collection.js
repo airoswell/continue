@@ -117,6 +117,12 @@
       };
       $scope.search_by_field = function(field) {
         var model_name, params;
+        if ($scope.layout.items_search_results_order_by === field) {
+          $scope.layout.items_search_results_order_by = "";
+          $scope.layout.items_search_results_order_by_type = "";
+          $scope.layout.show_items_search_results = false;
+          return;
+        }
         params = {
           order_by: field.title,
           order_by_model: field.model_name

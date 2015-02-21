@@ -223,7 +223,7 @@ textarea:focus{
     background: #3c78dc;
 }
 .button-gray{
-    background: #f4f4f4;color:666;border: 1px solid #ddd;
+    background: #f4f4f4;color:#666;border: 1px solid #ddd;
 }
 .button-gray:hover{
     background: #eee;

@@ -339,11 +339,6 @@ class Item(UUIDModel):
         """
         Item.create()
         """
-        # Typically validated_data should be feed with empty
-        # customized_num/char_fields, when they are not specified.
-        # num_fields_data = []
-        # char_fields_data = []
-        # color_fields_data = []
 
         customized_field_data = {}
         for field in cls.customized_fields():
@@ -388,6 +383,7 @@ class Item(UUIDModel):
             if field in validated_data:
                 data = validated_data.pop(field)
                 customized_field_data[field] = data
+        images_data = []
         if "images" in validated_data:
             images_data = validated_data.pop('images')
 
@@ -404,7 +400,6 @@ class Item(UUIDModel):
                 widget=model.widget()
             )
 
-        print("\n\tItem.update =====> images_data = %s" % (images_data))
         item.add_images(images_data)
 
         for field in item.tracked_fields:
@@ -504,7 +499,7 @@ class Item(UUIDModel):
                 raise FieldDoesNotExist("\n\te.message = %s" % (e.message))
         return
 
-    def add_images(self, images_data):
+    def add_images(self, images_data=[]):
         # Should expect all images are uploaded, and therefore
         # has "id"
         if not images_data:

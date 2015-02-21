@@ -63,6 +63,12 @@
   .post-editor tags-input.custom .tags.focused{
     box-shadow: none;
   }
+  .post-textarea-container{
+    border: 1px solid transparent;
+  }
+  .post-textarea-container.acceptClass{
+    border: 1px dashed #00ac00;
+  }
 </style>
 
 <div id='post-editor-wrapper' mobile-padding-less>
@@ -79,9 +85,10 @@
       ng-init="show_cheat_sheet=false"
       layout='row' layout-align='center'>
 
-    <div class='post-editor' flex-gt-md="80" flex="100">
+    <div class='post-editor' flex-gt-md="90" flex="100">
       <div class="post-editor-header"
-          layout-gt-md="row" layout='column' layout-align='space-between center'>
+          layout-gt-md="row" layout='column'
+          layout-align='space-between center'>
         <div flex>
           {% if post and is_owner or view == "post_create" %}
           <div class='text-small' style='color:#999'>Click to edit</div>
@@ -198,7 +205,6 @@
         <!-- ======== Detail ======== -->
         <div layout='row'>
           {% if post and is_owner or view == "post_create" %}
-          <i class="fa fa-align-left"></i>&nbsp;&nbsp;
           {% endif %}
           <div flex>
             {% if post %}
@@ -216,13 +222,36 @@
             {% if post and is_owner or view == "post_create" %}
             <div {% if post %} ng-show="layout.detail_input" {% endif %}
                 ng-file-drop ng-model="images"
+                class="post-textarea-container"
                 drag-over-class="{accept:'acceptClass', reject:'rejectClass', delay:100}"  accept="image/*">
 
               <!-- Test area -->
-              <textarea id="post-editor-textarea" ng-model='post.detail'
-                  {% if not post %} style='height:250px;' {% endif %}
-                  placeholder="Post body goes here ... You can use the [ TAB ] key to indent.">
-              </textarea>
+              <div layout-gt-md='row' layout='column'>
+                <div flex>
+                  <div layout='row' layout-align='start center' style="color:#666;">
+                    <a href="https://guides.github.com/features/mastering-markdown/">
+                      <img height=20 src="/static/app/images/markdown.png" alt="">
+                      &nbsp;Markdown supported
+                    </a>
+                    &nbsp;
+                    <span class='button button-small button-gray'
+                        ng-click="show_cheat_sheet = !show_cheat_sheet">
+                      Quick formatting guide
+                    </span>
+                  </div>
+                  <textarea id="post-editor-textarea" ng-model='post.detail'
+                      {% if not post %} style='height:250px;' {% endif %}
+                      placeholder="Post body goes here ... You can use the [ TAB ] key to indent.">
+                  </textarea>
+                </div>
+                <div flex>
+                  <div class='text-large' style="border-bottom: 1px solid transparent;">
+                    <i class='fa fa-eye'></i>&nbsp;Preview
+                  </div>
+                  <div style='min-height:250px;;' marked="post.detail" class="post-preview">
+                  </div>
+                </div>
+              </div>
 
               <!-- uploaded images -->
               {% verbatim %}
@@ -247,27 +276,8 @@
               </div>
               {% endverbatim %}
               
-              <!-- Formating guide -->
-              <div layout='row' layout-align='start center' style="padding-top:5px;color:#666;">
-                <a href="https://guides.github.com/features/mastering-markdown/">
-                  <img height=20 src="/static/app/images/markdown.png" alt="">
-                  &nbsp;Markdown supported
-                </a>
-                &nbsp;
-                <span class='button button-small button-gray'
-                    ng-click="show_cheat_sheet = !show_cheat_sheet">
-                  Quick formatting guide
-                </span>
-              </div>
               <div ng-show="show_cheat_sheet">{% markdown_cheatsheet %}</div>
               <br/>
-
-              <!-- Preview -->
-              <div class='text-large' style='padding:10px 0px;'>
-                <i class="fa fa-eye"></i>&nbsp;Preview
-              </div>
-              <div marked="post.detail" class="post-preview">
-              </div>
             </div>
             {% endif %}
           </div>

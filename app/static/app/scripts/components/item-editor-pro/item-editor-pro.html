@@ -2,78 +2,77 @@
     enctype='application/json'
     ng-file-drop ng-model="files"
     drag-over-class="{accept:'acceptClass', reject:'rejectClass', delay:100}"  accept="image/*">
-  <div>
-    <!-- ======== Header ======== -->
-    <div class='item-editor-pro-header' layout='row' layout-align='space-between center'>
-      <item-editor-pro-title flex></item-editor-pro-title>
-      <item-editor-pro-basics style='padding:15px;'></item-editor-pro-basics>
+  <!-- ======== Header ======== -->
+  <div class='item-editor-pro-header' layout='row' layout-align='space-between center'>
+    <item-editor-pro-title flex></item-editor-pro-title>
+    <item-editor-pro-basics style='padding:15px;'></item-editor-pro-basics>
+  </div>
+
+  
+
+  <!-- ======== Tags ======== -->
+  <div style='padding:5px;' ng-if="item.tags.length + item.tags_private.length">
+    <span class='tag tag-small tag-gray'
+      ng-repeat="tag in item.tags"
+        ng-bind='tag' ng-click="items_search(tag)">
+    </span>
+    <span class='tag tag-small tag-purple'
+      ng-repeat="tag in item.tags_private" ng-bind='tag' ng-click="items_search(tag)">
+    </span>
+  </div>
+
+  <!-- ======== Status ======== -->
+  <div style='padding:5px;' class='text-default' style="color:#999;letter-spacing:0.2px;line-height:1.5;" ng-show='item.status'>
+    &nbsp;<i class="fa fa-quote-left"></i>&nbsp;&nbsp;<span ng-bind="item.status" ></span>
+  </div>
+  <textarea
+      placeholder="What's new?"
+      rows='3'
+      ng-model="item.new_status">
+  </textarea>
+
+  <md-progress-linear ng-show="layout.uploading" md-mode="determinate"
+      ng-value="layout.upload_progress">
+  </md-progress-linear>
+
+  <div toggle-partial-img ng-if="item.pic" max-height="400px"
+      style='cursor:pointer'>
+    <div class='image-container'
+        tooltip="Drag&drop image file to update, click to expand."
+        tooltip-popup-delay="1000">
+      <img ng-src="{{item.pic}}" style='width:100%;'>
     </div>
+  </div>
 
-    
+  <!-- ======== Buttons ======== -->
+  <div style='padding:10px;'>
+    <item-editor-pro-more ng-show='item.expanded'></item-editor-pro-more>
+  </div>
 
-    <!-- ======== Tags ======== -->
-    <div style='padding:5px;' ng-if="item.tags.length + item.tags_private.length">
-      <span class='tag tag-small tag-gray'
-        ng-repeat="tag in item.tags"
-          ng-bind='tag' ng-click="items_search(tag)">
+  <div style="padding:10px;" layout='row' layout-align='end'>
+    <div class='button button-small button-gray'
+        ng-click="expand(item)">
+      <span ng-show="!item.expanded">
+        More &nbsp; <i class="fa fa-caret-down"></i>
       </span>
-      <span class='tag tag-small tag-purple'
-        ng-repeat="tag in item.tags_private" ng-bind='tag' ng-click="items_search(tag)">
+      <span ng-show="item.expanded">
+        Less&nbsp;<i class="fa fa-caret-up"></i>
       </span>
     </div>
-
-    <!-- ======== Status ======== -->
-    <div style='padding:5px;' class='text-default' style="color:#999;letter-spacing:0.2px;line-height:1.5;" ng-show='item.status'>
-      &nbsp;<i class="fa fa-quote-left"></i>&nbsp;&nbsp;<span ng-bind="item.status" ></span>
+    &nbsp;
+    <div class='button button-small button-gray' ng-if="item.is_new"
+        ng-click="reset(item)">
+      <i class='fa fa-refresh'></i>&nbsp;Reset
     </div>
-    <textarea
-        placeholder="What's new?"
-        rows='3'
-        ng-model="item.new_status">
-    </textarea>
-
-    <!-- <md-progress-linear ng-show="layout.uploading" md-mode="determinate" ng-value="layout.upload_progress">
-    </md-progress-linear> -->
-
-    <div toggle-partial-img ng-if="item.pic" max-height="400px"
-        style='cursor:pointer'>
-      <div class='image-container'
-          tooltip="Drag&drop image file to update, click to expand."
-          tooltip-popup-delay="1000">
-        <img ng-src="{{item.pic}}" style='width:100%;'>
-      </div>
+    &nbsp;
+    <div class='button button-small button-gray' ng-if="!item.is_new"
+        ng-click="save(item, item_update_successHandler)">
+      <i class='fa fa-refresh'></i>&nbsp;Update
     </div>
-
-    <!-- ======== Buttons ======== -->
-    <div style='padding:10px;'>
-      <item-editor-pro-more ng-show='item.expanded'></item-editor-pro-more>
-    </div>
-
-    <div style="padding:10px;" layout='row' layout-align='end'>
-      <div class='button button-small button-gray'
-          ng-click="expand(item)">
-        <span ng-show="!item.expanded">
-          More &nbsp; <i class="fa fa-caret-down"></i>
-        </span>
-        <span ng-show="item.expanded">
-          Less&nbsp;<i class="fa fa-caret-up"></i>
-        </span>
-      </div>
-      &nbsp;
-      <div class='button button-small button-gray' ng-if="item.is_new"
-          ng-click="reset(item)">
-        <i class='fa fa-refresh'></i>&nbsp;Reset
-      </div>
-      &nbsp;
-      <div class='button button-small button-gray' ng-if="!item.is_new"
-          ng-click="save(item, item_update_successHandler)">
-        <i class='fa fa-refresh'></i>&nbsp;Update
-      </div>
-      &nbsp;
-      <div class='button button-small button-gray' ng-if="item.is_new"
-          ng-click="save(item, item_create_successHandler)">
-        <i class='fa fa-plus'></i>&nbsp;Create
-      </div>
+    &nbsp;
+    <div class='button button-small button-gray' ng-if="item.is_new"
+        ng-click="save(item, item_create_successHandler)">
+      <i class='fa fa-plus'></i>&nbsp;Create
     </div>
   </div>
 </form>

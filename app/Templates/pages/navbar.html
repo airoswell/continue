@@ -143,11 +143,12 @@
         <i class="fa fa-tachometer"></i>&nbsp;<span hide-sm>Dashboard</span>
       </div>
     </a>
-    <span class="dropdown" >
-      <a href class="dropdown-toggle" dropdown-toggle layout='row' layout-align='center center'>
-        <i class='fa fa-plus'></i>&nbsp;<span hide-sm>Add</span>
+    <!-- Single button -->
+    <div class="btn-group" dropdown is-open="status.isopen">
+      <a href dropdown-toggle>
+        <i class='fa fa-plus'></i>&nbsp;Add <span class="caret"></span>
       </a>
-      <ul class="dropdown-menu" layout='row' layout-align='center center'>
+      <ul class="dropdown-menu" role="menu">
         <li>
           <a href="/app/post/"><i class='fa fa-align-left'></i>&nbsp;&nbsp;Add a post</a>
         </li>
@@ -155,7 +156,7 @@
           <a href="/app/item/"><i class="fa fa-th"></i>&nbsp;&nbsp;Add items</a>
         </li>
       </ul>
-    </span>
+    </div>
     <a href="/app/user/logout/">
       <div class='menu-item' layout='row' layout-align='center center'>
         <i class="fa fa-sign-out"></i>&nbsp;<span hide-sm>Log out</span>

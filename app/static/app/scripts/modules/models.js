@@ -275,9 +275,11 @@
                 search: function(params) {
                   this.loading = true;
                   return this.$search(params).$then(function(response) {
-                    console.log("Model.search");
                     if (response.tags_handler != null) {
-                      return response.tags_handler();
+                      response.tags_handler();
+                    }
+                    if (response.post_search_handler != null) {
+                      return response.post_search_handler();
                     }
                   });
                 }
@@ -833,6 +835,26 @@
             },
             is_valid: function() {
               return true;
+            },
+            post_search_handler: function() {
+              if (!this.ordering_fields) {
+                return this.ordering_fields = [];
+              }
+            }
+          },
+          Collection: {
+            post_search_handler: function() {
+              var record, _i, _len, _results;
+              _results = [];
+              for (_i = 0, _len = this.length; _i < _len; _i++) {
+                record = this[_i];
+                if (record.post_search_handler != null) {
+                  _results.push(record.post_search_handler());
+                } else {
+                  _results.push(void 0);
+                }
+              }
+              return _results;
             }
           }
         }

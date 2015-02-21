@@ -99,10 +99,9 @@
         Reorder by field
       </div>
       <div class='sidebar-body'>
-        <div ng-repeat="field in profile.ordering_fields">
-          <div class='tag tag-small tag-gray' ng-bind="field.title"
-              ng-click="search_by_field(field)">
-          </div>
+        <div ng-repeat="field in profile.ordering_fields" class='tag tag-small tag-gray' ng-bind="field.title"
+            ng-click="search_by_field(field)"
+            ng-class="{'selected': layout.items_search_results_order_by == field}">
         </div>
       </div>
       
