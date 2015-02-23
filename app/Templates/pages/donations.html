@@ -321,12 +321,17 @@
                   type="text" ng-model="customized_char_fields[5]['value']">
             </span>
 
-            <span style="padding:10px;display:inline-block" auto-expand init-width="180px"
-                data="customized_char_fields[6].value"
-                min-size=20>
+            <span style="padding:10px;display:inline-block">
               <div>Preferred pick up date?</div>
-              <input style='font-size:22px;'
-                  type="text" ng-model="customized_char_fields[6]['value']">
+              <div ng-bind="customized_date_fields[0].value"></div>
+              <input type="text"
+               datepicker-popup="dd-MM-yyyy"
+               ng-model="customized_date_fields[0].value"
+               is-open="opened"
+               style='font-size:22px;'
+               ng-click = "opened = true"
+               ng-required="true"
+               close-text="Close"/>
             </span>
           </form>
 

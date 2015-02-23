@@ -386,20 +386,17 @@ class BulkItemCreation(XListAPIView):
                     item_type = "donation"
             if request.user.is_anonymous() and item_type == 'normal':
                 return Response(status=st.HTTP_401_UNAUTHORIZED)
-            customized_char_fields_data = []
-            customized_num_fields_data = []
-            if "customized_char_fields" in data:
-                customized_char_fields_data = data.pop("customized_char_fields")
-                data["customized_char_fields"] = []
-            if "customized_num_fields" in data:
-                customized_num_fields_data = data.pop("customized_num_fields")
-                data['customized_num_fields'] = []
+            # pop out customized_fields
+            customized_field_data = {}
+            for field in self.model.customized_fields():
+                if field in data:
+                    customized_field_data[field] = data.pop(field)
             print("\n\tdata = %s" % (data))
             handler = ErrorHandler(ItemSerializer)
             print("\n\t\t Before validating, type(data) = %s " % (type(data)))
             data = handler.validate(data)
-            data['customized_num_fields'] = customized_num_fields_data
-            data['customized_char_fields'] = customized_char_fields_data
+            for field in customized_field_data:
+                data[field] = customized_field_data[field]
             errors = handler.errors
             print("\n\tItemList.post() ==> \t handler.errors %s " % (errors))
             crud = Crud(request.user, Item)

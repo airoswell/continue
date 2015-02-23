@@ -10,7 +10,7 @@ from haystack.query import SearchQuerySet
 from app.serializers import ItemSerializer, PostSerializer, UserSerializer
 from app.serializers import PostItemStatusSerializer, TransactionSerializer
 from app.serializers import UserProfileSerializer
-from app.serializers import ChildSerializer, ParentSerializer, ImageSerializer
+from app.serializers import ImageSerializer
 
 from django.utils.six import BytesIO
 

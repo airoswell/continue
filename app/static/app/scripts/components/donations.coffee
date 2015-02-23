@@ -44,11 +44,14 @@ angular.module "continue"
         title: "Donor's pick-up info"
         value: ""
       },
+
+    ]
+
+    $scope.customized_date_fields = [
       {
         title: "Donor's preferred pick-up date"
-        value: ""
+        value: null
       },
-
     ]
 
 
@@ -58,14 +61,6 @@ angular.module "continue"
       item.type = "donation"
       if $scope.categories.length > 0
         item.title = "Please select a type below"
-      item.customized_num_fields = []
-      item.customized_num_fields.push(
-        {
-          title: "Age"
-          unit: "year"
-          value: 0
-        },
-      )
       $scope.items.push(item)
       $scope.items_title.push(item.title)
 
@@ -80,13 +75,6 @@ angular.module "continue"
       if $scope.categories.length > 0
         item.title = "Please select a type below"
       item.customized_num_fields = []
-      item.customized_num_fields.push(
-        {
-          title: "Age"
-          unit: "year"
-          value: 0
-        },
-      )
       $scope.items.push(item)
       index = $scope.items.indexOf(item)
       $scope.layout.display_tab = index
@@ -97,8 +85,10 @@ angular.module "continue"
         Alert.show_msg("Please add at least one item.", 10000)
         return false
       for item in $scope.items
+        console.log "item.title", item.title
         if item.title == "Please select a type below"
           Alert.show_msg("Please specify types for all items.")
+          return false
       if not $scope.contactForm.$valid
         Alert.show_msg("Please fill in your name and area")
         return false
@@ -124,6 +114,7 @@ angular.module "continue"
         if $scope.categories.length > 0
           item.tags = item.title
         item.customized_char_fields =  $scope.customized_char_fields
+        item.customized_date_fields =  $scope.customized_date_fields
       $scope.bulk_items.items = $scope.items
       $scope.layout.submitted = true
       Alert.show_msg("Submitting your data ...")

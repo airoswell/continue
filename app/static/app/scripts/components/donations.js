@@ -32,9 +32,12 @@
         }, {
           title: "Donor's pick-up info",
           value: ""
-        }, {
+        }
+      ];
+      $scope.customized_date_fields = [
+        {
           title: "Donor's preferred pick-up date",
-          value: ""
+          value: null
         }
       ];
       $scope.$watch("collector_uid", function() {
@@ -45,12 +48,6 @@
         if ($scope.categories.length > 0) {
           item.title = "Please select a type below";
         }
-        item.customized_num_fields = [];
-        item.customized_num_fields.push({
-          title: "Age",
-          unit: "year",
-          value: 0
-        });
         $scope.items.push(item);
         return $scope.items_title.push(item.title);
       });
@@ -66,11 +63,6 @@
           item.title = "Please select a type below";
         }
         item.customized_num_fields = [];
-        item.customized_num_fields.push({
-          title: "Age",
-          unit: "year",
-          value: 0
-        });
         $scope.items.push(item);
         index = $scope.items.indexOf(item);
         return $scope.layout.display_tab = index;
@@ -84,8 +76,10 @@
         _ref = $scope.items;
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           item = _ref[_i];
+          console.log("item.title", item.title);
           if (item.title === "Please select a type below") {
             Alert.show_msg("Please specify types for all items.");
+            return false;
           }
         }
         if (!$scope.contactForm.$valid) {
@@ -121,6 +115,7 @@
             item.tags = item.title;
           }
           item.customized_char_fields = $scope.customized_char_fields;
+          item.customized_date_fields = $scope.customized_date_fields;
         }
         $scope.bulk_items.items = $scope.items;
         $scope.layout.submitted = true;
