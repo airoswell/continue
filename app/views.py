@@ -32,7 +32,6 @@ from allauth.socialaccount.signals import pre_social_login
 @receiver(pre_social_login)
 def link_to_local_user(sender, request, sociallogin, **kwargs):
     ''' Login and redirect'''
-    import pdb; pdb.set_trace()
     print("\n\n\t\tAAAAAAAA\n")
     return
 
