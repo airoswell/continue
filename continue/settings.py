@@ -17,6 +17,7 @@ import os
 SETTINGS_DIR = os.path.dirname(__file__)
 # /Users/Lelouch/projects/continue
 PROJECT_DIR = os.path.dirname(SETTINGS_DIR)
+print(PROJECT_DIR)
 # Set up absolute locations of the template files
 TEMPLATE_DIRS = {
     os.path.join(

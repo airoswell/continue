@@ -282,6 +282,7 @@ class ItemList(XListAPIView):
         params = request.GET
         order_by = None
         order_by_model = None
+        bounds = {}
 
         if params.get("user_id"):
             if request.user.is_anonymous():
@@ -322,19 +323,30 @@ class ItemList(XListAPIView):
         # get list of items of the current authenticated user
         elif not request.user.is_anonymous():
             if params.get("order_by"):
+                # <order_by> is the field name that is ordering by
                 order_by = params['order_by']
+                # <order_by_model> is the field type
+                # e.g. customized_char_fields
+                # Use Item.customized_fields() to normalize the names
                 order_by_model = params["order_by_model"]
                 for key, val in Item.customized_fields().items():
                     if order_by_model == val.__name__:
                         order_by_model = key
+                bounds = {}
+                if "lower_bound" in params:
+                    lower_bound = params["lower_bound"]
+                    bounds["%s__value__gt" % (order_by_model)] = lower_bound
+                if "upper_bound" in params:
+                    upper_bound = params["upper_bound"]
+                    bounds["%s__value__lt" % (order_by_model)] = upper_bound
             data, status = retrieve_records(
                 Item, ItemSerializer,
                 start, num_of_records,
                 owner=request.user,
                 order_by_model=order_by_model,
                 order_by=order_by,
+                **bounds
             )
-            print("\n\tdata = %s" % (data))
             return Response(data=data, status=status)
         # unauthenticated user cannot get any item list
         else:

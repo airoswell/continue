@@ -1,0 +1,136 @@
+<div class='sidebar' style='width:100px;' hide-md hide-sm
+    layout='column' layout-align='start center'>
+
+  <br/>
+  <!-- View modes -->
+  <div drop-down-menu>
+    <div style='text-align:center;padding:10px;'
+        layout='column' layout-align='start center'>
+      <div class="section-icon" drop-down-menu-trigger
+          layout='row' layout-align='center center'>
+        <i class='fa fa-eye'></i>
+      </div>
+      <div class='text-bold'>View modes</div>
+    </div>
+
+    <div class='sidebar-secondary' style='min-width:200px;'
+        drop-down-menu-target ng-cloak>
+      <div class='tag tag-small tag-gray'
+          ng-click='switch_view_mode("detail")'
+          ng-class="{'selected': layout.view_mode == 'detail'}">
+        Detail view
+      </div>
+      <div class='tag tag-small tag-gray'
+          ng-click='switch_view_mode("thumbnail")'
+          ng-class="{'selected': layout.view_mode == 'thumbnail'}">
+        Thumbnail view
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter by  available -->
+  <div drop-down-menu>
+
+    <div style='text-align:center;padding:10px;' drop-down-menu-trigger
+        layout='column' layout-align='start center'>
+      <div class="section-icon" layout='row' layout-align='center center'>
+          <i class='fa fa-question'></i>
+      </div>
+      <div class='text-bold'>Available</div>
+    </div>
+
+    <div drop-down-menu-target ng-cloak
+        class="sidebar-secondary"
+        style='min-width:150px;'>
+      <div class='tag tag-small tag-gray'
+          ng-click='filter_available("For Sale")'
+          ng-class="{'selected': layout.filter_available == 'For Sale'}">
+        <i class="fa fa-dollar"></i>&nbsp;For Sale
+      </div>
+      <div class='tag tag-small tag-gray'
+          ng-click='filter_available("For Share")'
+          ng-class="{'selected': layout.filter_available == 'For Share'}">
+        <i class="fa fa-share"></i>&nbsp;For Share
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Tags -->
+  <div drop-down-menu>
+    <div style='text-align:center;padding:10px;' drop-down-menu-trigger
+        layout='column' layout-align='start center'>
+      <div class="section-icon" layout='row' layout-align='center center'>
+          <i class='fa fa-tags'></i>
+      </div>
+      <div class='text-bold'>Tags</div>
+    </div>
+
+    <div ng-cloak drop-down-menu-target
+        class="sidebar-secondary"
+        style='min-width:250px;'>
+      {% for tag in available_tags %}
+      <span class='tag tag-small tag-gray'
+          ng-click="search_by_tag('{{tag}}')"
+          ng-class='{"selected": is_searched("{{tag}}")}'>
+        #{{tag}}
+      </span>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div drop-down-menu>
+    <div style='text-align:center;padding:10px;' drop-down-menu-trigger
+        layout='column' layout-align='start center'>
+      <div class="section-icon" layout='row' layout-align='center center'>
+        <i class="fa fa-sort-amount-asc"></i>
+      </div>
+      <div class='text-bold'>Reorder by field</div>
+    </div>
+
+    <div drop-down-menu-target ng-cloak
+        class="sidebar-secondary"
+        style='min-width:250px;'>
+      <div ng-repeat="field in profile.ordering_fields" click-to-expand>
+        <div layout='row' layout-align='start center'>
+          <span class='tag tag-small tag-gray' ng-bind="field.title"
+              ng-click="search_by_field(field)"
+              ng-class="{'selected': layout.items_search_results_order_by == field}">
+          </span>
+          <span style="cursor:pointer;" click-to-expand-trigger>
+            <i class="fa fa-caret-down"></i>
+          </span>
+        </div>
+        <div click-to-expand-target>
+          <span ng-if="field.model_name == 'CustomizedDateField'">
+            <span class="text-gray">From</span>: <input type="text"
+                placeholder="From"
+                datepicker-popup="MM-dd-yyyy"
+                ng-model="field.lower_bound"
+                is-open="opened_lower"
+                style='width:90px;'
+                ng-click = "opened_lower = true"
+                ng-required="true"
+                close-text="Close"/>
+            <br/>
+            <span class="text-gray">To</span>: <input type="text" 
+                placeholder="To"
+                datepicker-popup="MM-dd-yyyy"
+                ng-model="field.upper_bound"
+                is-open="opened_upper"
+                style='width:90px;'
+                ng-click = "opened_upper = true"
+                ng-required="true"
+                close-text="Close"/>
+            <br/>
+            <span class="button button-small button-blue"
+                ng-click="search_by_field(field, field.lower_bound, field.upper_bound)">
+              Search
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</div><!-- Side bar end -->

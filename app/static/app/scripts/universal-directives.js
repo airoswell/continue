@@ -99,20 +99,25 @@
         scope: true,
         link: function(scope, element, attrs) {
           var max_height, target, trigger;
-          scope.expanded = false;
+          trigger = element.find("[click-to-expand-trigger]");
+          target = element.find("[click-to-expand-target]");
+          trigger.css({
+            "cursor": "pointer"
+          });
           max_height = "0px";
           if ("maxHeight" in attrs) {
             max_height = attrs['maxHeight'];
           }
-          trigger = element.find("[click-to-expand-trigger]");
-          trigger.css({
-            "cursor": "pointer"
-          });
-          target = element.find("[click-to-expand-target]");
-          target.css({
-            'max-height': max_height,
-            "display": "none"
-          });
+          scope.expanded = false;
+          if (attrs["expanded"] === 'true') {
+            scope.expanded = true;
+          }
+          if (!scope.expanded) {
+            target.css({
+              'max-height': max_height,
+              "display": "none"
+            });
+          }
           return trigger.on("click", function() {
             if (!scope.expanded) {
               target.css({
@@ -389,6 +394,38 @@
         if ('unit' in attrs) {
           return scope.unit = attrs['unit'];
         }
+      }
+    };
+  }).directive("hoverToShow", function() {
+    return {
+      restrict: "A",
+      scope: true,
+      link: function(scope, element, attrs) {
+        var is_show, target, trigger;
+        target = element.find("[hover-to-show-target]");
+        trigger = element.find("[hover-to-show-trigger]");
+        target.css({
+          'display': "none",
+          'position': 'absolute'
+        });
+        is_show = false;
+        trigger.on("mouseover", function() {
+          if (!is_show) {
+            target.css({
+              'display': "inherit"
+            });
+            return is_show = true;
+          }
+        });
+        return element.on("mouseleave", function() {
+          console.log("leave");
+          if (is_show) {
+            target.css({
+              'display': "none"
+            });
+            return is_show = false;
+          }
+        });
       }
     };
   });

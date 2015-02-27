@@ -37,14 +37,17 @@ angular.module "continue"
         value: ""
       },
       {
-        title: "Donor's email"
-        value: ""
-      },
-      {
         title: "Donor's pick-up info"
         value: ""
       },
 
+    ]
+
+    $scope.customized_email_fields = [
+      {
+        title: "Donor's email"
+        value: ""
+      },
     ]
 
     $scope.customized_date_fields = [
@@ -82,25 +85,25 @@ angular.module "continue"
 
     $scope.is_valid = ()->
       if not $scope.items
-        Alert.show_msg("Please add at least one item.", 10000)
+        Alert.show_error("Please add at least one item.", 10000)
         return false
       for item in $scope.items
         console.log "item.title", item.title
         if item.title == "Please select a type below"
-          Alert.show_msg("Please specify types for all items.")
+          Alert.show_error("Please specify types for all items.")
           return false
       if not $scope.contactForm.$valid
-        Alert.show_msg("Please fill in your name and area")
+        Alert.show_error("Please fill in your name and area")
         return false
       if (not $scope.customized_char_fields[3].value and
-          not $scope.customized_char_fields[4].value)
-        Alert.show_msg("Please provide either your phone number or your email address.")
+          not $scope.customized_email_fields[0].value)
+        Alert.show_error("Please provide either your phone number or your email address.")
         return false
       else if not $scope.customized_char_fields[3].value
         pat = /\d{3}[^0-9]*\d{3}[^0-9]*\d{4}$/
         is_valid = pat.test($scope.customized_char_fields[3].value)
         if not is_valid
-          Alert.show_msg("Please provide valid phone number")
+          Alert.show_error("Please provide valid phone number")
           return false
       return true
 
@@ -115,6 +118,7 @@ angular.module "continue"
           item.tags = item.title
         item.customized_char_fields =  $scope.customized_char_fields
         item.customized_date_fields =  $scope.customized_date_fields
+        item.customized_email_fields =  $scope.customized_email_fields
       $scope.bulk_items.items = $scope.items
       $scope.layout.submitted = true
       Alert.show_msg("Submitting your data ...")

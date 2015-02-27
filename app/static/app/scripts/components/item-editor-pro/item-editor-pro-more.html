@@ -100,7 +100,7 @@
     </div>
   </div>
 
-  <div click-to-expand max-height="0px">
+  <div click-to-expand max-height="0px" expanded="true">
     <div click-to-expand-trigger class="collapse-header">
       <i class="fa fa-cogs"></i>&nbsp;Customized Fields &nbsp; <i class='fa fa-caret-down'></i>
     </div>
@@ -153,10 +153,10 @@
           <customized-field-title></customized-field-title>
           <div>
             <input type="text" 
-               datepicker-popup="dd-MM-yyyy"
+               datepicker-popup="MM-dd-yyyy"
                ng-model="field.value"
                is-open="opened"
-               style='width:90px;text-align:center'
+               style='width:90px;'
                ng-click = "opened = true"
                ng-required="true"
                close-text="Close"/>

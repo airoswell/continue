@@ -2355,3 +2355,185 @@
 [Wed Feb 18 20:31:03.186022 2015] [:error] [pid 30427:tid 140015387641600] [client 38.105.236.163:22801]   File "/usr/local/lib/python2.7/dist-packages/Django-1.7.2-py2.7.egg/django/utils/translation/trans_real.py", line 189, in _fetch
 [Wed Feb 18 20:31:03.186053 2015] [:error] [pid 30427:tid 140015387641600] [client 38.105.236.163:22801]     "The translation infrastructure cannot be initialized before the "
 [Wed Feb 18 20:31:03.186091 2015] [:error] [pid 30427:tid 140015387641600] [client 38.105.236.163:22801] AppRegistryNotReady: The translation infrastructure cannot be initialized before the apps registry is ready. Check that you don't make non-lazy gettext calls at import time.
+[Fri Feb 20 13:39:01.986749 2015] [core:error] [pid 30426:tid 140015111689984] (13)Permission denied: [client 180.76.6.50:5691] AH00132: file permissions deny server access: /var/www/continue/app/static/app/bower_components/angular/django-angular.js
+[Sat Feb 21 02:33:07.556641 2015] [core:error] [pid 30427:tid 140015229187840] (13)Permission denied: [client 202.46.50.130:23953] AH00132: file permissions deny server access: /var/www/continue/app/static/app/bower_components/angular/django-angular.js
+[Thu Feb 26 17:48:44.046641 2015] [:error] [pid 19770:tid 140364190496512] [client 76.8.75.174:52987] mod_wsgi (pid=19770): Target WSGI script '/var/www/continue/django.wsgi' cannot be loaded as Python module.
+[Thu Feb 26 17:48:44.046696 2015] [:error] [pid 19770:tid 140364190496512] [client 76.8.75.174:52987] mod_wsgi (pid=19770): Exception occurred processing WSGI script '/var/www/continue/django.wsgi'.
+[Thu Feb 26 17:48:44.046724 2015] [:error] [pid 19770:tid 140364190496512] [client 76.8.75.174:52987] Traceback (most recent call last):
+[Thu Feb 26 17:48:44.046755 2015] [:error] [pid 19770:tid 140364190496512] [client 76.8.75.174:52987]   File "/var/www/continue/django.wsgi", line 14, in <module>
+[Thu Feb 26 17:48:44.046832 2015] [:error] [pid 19770:tid 140364190496512] [client 76.8.75.174:52987]     application = get_wsgi_application()
+[Thu Feb 26 17:48:44.046850 2015] [:error] [pid 19770:tid 140364190496512] [client 76.8.75.174:52987]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/core/wsgi.py", line 14, in get_wsgi_application
+[Thu Feb 26 17:48:44.046924 2015] [:error] [pid 19770:tid 140364190496512] [client 76.8.75.174:52987]     django.setup()
+[Thu Feb 26 17:48:44.046945 2015] [:error] [pid 19770:tid 140364190496512] [client 76.8.75.174:52987]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/__init__.py", line 20, in setup
+[Thu Feb 26 17:48:44.047006 2015] [:error] [pid 19770:tid 140364190496512] [client 76.8.75.174:52987]     configure_logging(settings.LOGGING_CONFIG, settings.LOGGING)
+[Thu Feb 26 17:48:44.047028 2015] [:error] [pid 19770:tid 140364190496512] [client 76.8.75.174:52987]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/conf/__init__.py", line 46, in __getattr__
+[Thu Feb 26 17:48:44.047135 2015] [:error] [pid 19770:tid 140364190496512] [client 76.8.75.174:52987]     self._setup(name)
+[Thu Feb 26 17:48:44.047157 2015] [:error] [pid 19770:tid 140364190496512] [client 76.8.75.174:52987]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/conf/__init__.py", line 42, in _setup
+[Thu Feb 26 17:48:44.047186 2015] [:error] [pid 19770:tid 140364190496512] [client 76.8.75.174:52987]     self._wrapped = Settings(settings_module)
+[Thu Feb 26 17:48:44.047207 2015] [:error] [pid 19770:tid 140364190496512] [client 76.8.75.174:52987]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/conf/__init__.py", line 98, in __init__
+[Thu Feb 26 17:48:44.047241 2015] [:error] [pid 19770:tid 140364190496512] [client 76.8.75.174:52987]     % (self.SETTINGS_MODULE, e)
+[Thu Feb 26 17:48:44.047274 2015] [:error] [pid 19770:tid 140364190496512] [client 76.8.75.174:52987] ImportError: Could not import settings 'continue.settings' (Is it on sys.path? Is there an import error in the settings file?): No module named continue.settings
+[Thu Feb 26 17:50:43.598448 2015] [:error] [pid 19929:tid 140396770940672] [client 76.8.75.174:53090] mod_wsgi (pid=19929): Target WSGI script '/var/www/continue/django.wsgi' cannot be loaded as Python module.
+[Thu Feb 26 17:50:43.598499 2015] [:error] [pid 19929:tid 140396770940672] [client 76.8.75.174:53090] mod_wsgi (pid=19929): Exception occurred processing WSGI script '/var/www/continue/django.wsgi'.
+[Thu Feb 26 17:50:43.598522 2015] [:error] [pid 19929:tid 140396770940672] [client 76.8.75.174:53090] Traceback (most recent call last):
+[Thu Feb 26 17:50:43.598542 2015] [:error] [pid 19929:tid 140396770940672] [client 76.8.75.174:53090]   File "/var/www/continue/django.wsgi", line 14, in <module>
+[Thu Feb 26 17:50:43.598613 2015] [:error] [pid 19929:tid 140396770940672] [client 76.8.75.174:53090]     application = get_wsgi_application()
+[Thu Feb 26 17:50:43.598629 2015] [:error] [pid 19929:tid 140396770940672] [client 76.8.75.174:53090]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/core/wsgi.py", line 14, in get_wsgi_application
+[Thu Feb 26 17:50:43.598700 2015] [:error] [pid 19929:tid 140396770940672] [client 76.8.75.174:53090]     django.setup()
+[Thu Feb 26 17:50:43.598715 2015] [:error] [pid 19929:tid 140396770940672] [client 76.8.75.174:53090]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/__init__.py", line 20, in setup
+[Thu Feb 26 17:50:43.598784 2015] [:error] [pid 19929:tid 140396770940672] [client 76.8.75.174:53090]     configure_logging(settings.LOGGING_CONFIG, settings.LOGGING)
+[Thu Feb 26 17:50:43.598799 2015] [:error] [pid 19929:tid 140396770940672] [client 76.8.75.174:53090]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/conf/__init__.py", line 46, in __getattr__
+[Thu Feb 26 17:50:43.598876 2015] [:error] [pid 19929:tid 140396770940672] [client 76.8.75.174:53090]     self._setup(name)
+[Thu Feb 26 17:50:43.598890 2015] [:error] [pid 19929:tid 140396770940672] [client 76.8.75.174:53090]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/conf/__init__.py", line 42, in _setup
+[Thu Feb 26 17:50:43.598910 2015] [:error] [pid 19929:tid 140396770940672] [client 76.8.75.174:53090]     self._wrapped = Settings(settings_module)
+[Thu Feb 26 17:50:43.598923 2015] [:error] [pid 19929:tid 140396770940672] [client 76.8.75.174:53090]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/conf/__init__.py", line 98, in __init__
+[Thu Feb 26 17:50:43.598951 2015] [:error] [pid 19929:tid 140396770940672] [client 76.8.75.174:53090]     % (self.SETTINGS_MODULE, e)
+[Thu Feb 26 17:50:43.598983 2015] [:error] [pid 19929:tid 140396770940672] [client 76.8.75.174:53090] ImportError: Could not import settings 'continue.settings' (Is it on sys.path? Is there an import error in the settings file?): No module named continue.settings
+[Thu Feb 26 17:50:46.969160 2015] [:error] [pid 19928:tid 140396770940672] [client 76.8.75.174:53091] mod_wsgi (pid=19928): Target WSGI script '/var/www/continue/django.wsgi' cannot be loaded as Python module.
+[Thu Feb 26 17:50:46.969218 2015] [:error] [pid 19928:tid 140396770940672] [client 76.8.75.174:53091] mod_wsgi (pid=19928): Exception occurred processing WSGI script '/var/www/continue/django.wsgi'.
+[Thu Feb 26 17:50:46.969247 2015] [:error] [pid 19928:tid 140396770940672] [client 76.8.75.174:53091] Traceback (most recent call last):
+[Thu Feb 26 17:50:46.969275 2015] [:error] [pid 19928:tid 140396770940672] [client 76.8.75.174:53091]   File "/var/www/continue/django.wsgi", line 14, in <module>
+[Thu Feb 26 17:50:46.969364 2015] [:error] [pid 19928:tid 140396770940672] [client 76.8.75.174:53091]     application = get_wsgi_application()
+[Thu Feb 26 17:50:46.969383 2015] [:error] [pid 19928:tid 140396770940672] [client 76.8.75.174:53091]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/core/wsgi.py", line 14, in get_wsgi_application
+[Thu Feb 26 17:50:46.969446 2015] [:error] [pid 19928:tid 140396770940672] [client 76.8.75.174:53091]     django.setup()
+[Thu Feb 26 17:50:46.969464 2015] [:error] [pid 19928:tid 140396770940672] [client 76.8.75.174:53091]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/__init__.py", line 20, in setup
+[Thu Feb 26 17:50:46.969527 2015] [:error] [pid 19928:tid 140396770940672] [client 76.8.75.174:53091]     configure_logging(settings.LOGGING_CONFIG, settings.LOGGING)
+[Thu Feb 26 17:50:46.969545 2015] [:error] [pid 19928:tid 140396770940672] [client 76.8.75.174:53091]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/conf/__init__.py", line 46, in __getattr__
+[Thu Feb 26 17:50:46.969659 2015] [:error] [pid 19928:tid 140396770940672] [client 76.8.75.174:53091]     self._setup(name)
+[Thu Feb 26 17:50:46.969676 2015] [:error] [pid 19928:tid 140396770940672] [client 76.8.75.174:53091]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/conf/__init__.py", line 42, in _setup
+[Thu Feb 26 17:50:46.969703 2015] [:error] [pid 19928:tid 140396770940672] [client 76.8.75.174:53091]     self._wrapped = Settings(settings_module)
+[Thu Feb 26 17:50:46.969736 2015] [:error] [pid 19928:tid 140396770940672] [client 76.8.75.174:53091]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/conf/__init__.py", line 98, in __init__
+[Thu Feb 26 17:50:46.969761 2015] [:error] [pid 19928:tid 140396770940672] [client 76.8.75.174:53091]     % (self.SETTINGS_MODULE, e)
+[Thu Feb 26 17:50:46.969788 2015] [:error] [pid 19928:tid 140396770940672] [client 76.8.75.174:53091] ImportError: Could not import settings 'continue.settings' (Is it on sys.path? Is there an import error in the settings file?): No module named continue.settings
+[Thu Feb 26 17:52:21.642196 2015] [:error] [pid 20125:tid 139708627633920] [client 76.8.75.174:53167] mod_wsgi (pid=20125): Target WSGI script '/var/www/continue/django.wsgi' cannot be loaded as Python module.
+[Thu Feb 26 17:52:21.642241 2015] [:error] [pid 20125:tid 139708627633920] [client 76.8.75.174:53167] mod_wsgi (pid=20125): Exception occurred processing WSGI script '/var/www/continue/django.wsgi'.
+[Thu Feb 26 17:52:21.642271 2015] [:error] [pid 20125:tid 139708627633920] [client 76.8.75.174:53167] Traceback (most recent call last):
+[Thu Feb 26 17:52:21.642301 2015] [:error] [pid 20125:tid 139708627633920] [client 76.8.75.174:53167]   File "/var/www/continue/django.wsgi", line 14, in <module>
+[Thu Feb 26 17:52:21.642387 2015] [:error] [pid 20125:tid 139708627633920] [client 76.8.75.174:53167]     application = get_wsgi_application()
+[Thu Feb 26 17:52:21.642408 2015] [:error] [pid 20125:tid 139708627633920] [client 76.8.75.174:53167]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/core/wsgi.py", line 14, in get_wsgi_application
+[Thu Feb 26 17:52:21.642473 2015] [:error] [pid 20125:tid 139708627633920] [client 76.8.75.174:53167]     django.setup()
+[Thu Feb 26 17:52:21.642493 2015] [:error] [pid 20125:tid 139708627633920] [client 76.8.75.174:53167]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/__init__.py", line 21, in setup
+[Thu Feb 26 17:52:21.642560 2015] [:error] [pid 20125:tid 139708627633920] [client 76.8.75.174:53167]     apps.populate(settings.INSTALLED_APPS)
+[Thu Feb 26 17:52:21.642579 2015] [:error] [pid 20125:tid 139708627633920] [client 76.8.75.174:53167]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/apps/registry.py", line 85, in populate
+[Thu Feb 26 17:52:21.642757 2015] [:error] [pid 20125:tid 139708627633920] [client 76.8.75.174:53167]     app_config = AppConfig.create(entry)
+[Thu Feb 26 17:52:21.642777 2015] [:error] [pid 20125:tid 139708627633920] [client 76.8.75.174:53167]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/apps/config.py", line 87, in create
+[Thu Feb 26 17:52:21.642891 2015] [:error] [pid 20125:tid 139708627633920] [client 76.8.75.174:53167]     module = import_module(entry)
+[Thu Feb 26 17:52:21.642910 2015] [:error] [pid 20125:tid 139708627633920] [client 76.8.75.174:53167]   File "/usr/lib/python2.7/importlib/__init__.py", line 37, in import_module
+[Thu Feb 26 17:52:21.642980 2015] [:error] [pid 20125:tid 139708627633920] [client 76.8.75.174:53167]     __import__(name)
+[Thu Feb 26 17:52:21.643010 2015] [:error] [pid 20125:tid 139708627633920] [client 76.8.75.174:53167] ImportError: No module named app
+[Thu Feb 26 17:55:10.294230 2015] [:error] [pid 20316:tid 139904503494400] [client 76.8.75.174:53304] mod_wsgi (pid=20316): Target WSGI script '/var/www/continue/django.wsgi' cannot be loaded as Python module.
+[Thu Feb 26 17:55:10.294325 2015] [:error] [pid 20316:tid 139904503494400] [client 76.8.75.174:53304] mod_wsgi (pid=20316): Exception occurred processing WSGI script '/var/www/continue/django.wsgi'.
+[Thu Feb 26 17:55:10.294345 2015] [:error] [pid 20316:tid 139904503494400] [client 76.8.75.174:53304] Traceback (most recent call last):
+[Thu Feb 26 17:55:10.294366 2015] [:error] [pid 20316:tid 139904503494400] [client 76.8.75.174:53304]   File "/var/www/continue/django.wsgi", line 4, in <module>
+[Thu Feb 26 17:55:10.294443 2015] [:error] [pid 20316:tid 139904503494400] [client 76.8.75.174:53304]     ACTIVATE_THIS = PROJECT_DIR + '/env-continue/bin/activate_this.py'
+[Thu Feb 26 17:55:10.294464 2015] [:error] [pid 20316:tid 139904503494400] [client 76.8.75.174:53304] NameError: name 'PROJECT_DIR' is not defined
+[Thu Feb 26 17:55:58.997647 2015] [:error] [pid 20318:tid 139904503494400] [client 76.8.75.174:53349] mod_wsgi (pid=20318): Target WSGI script '/var/www/continue/django.wsgi' cannot be loaded as Python module.
+[Thu Feb 26 17:55:58.997707 2015] [:error] [pid 20318:tid 139904503494400] [client 76.8.75.174:53349] mod_wsgi (pid=20318): Exception occurred processing WSGI script '/var/www/continue/django.wsgi'.
+[Thu Feb 26 17:55:58.997736 2015] [:error] [pid 20318:tid 139904503494400] [client 76.8.75.174:53349] Traceback (most recent call last):
+[Thu Feb 26 17:55:58.997767 2015] [:error] [pid 20318:tid 139904503494400] [client 76.8.75.174:53349]   File "/var/www/continue/django.wsgi", line 15, in <module>
+[Thu Feb 26 17:55:58.997855 2015] [:error] [pid 20318:tid 139904503494400] [client 76.8.75.174:53349]     application = get_wsgi_application()
+[Thu Feb 26 17:55:58.997875 2015] [:error] [pid 20318:tid 139904503494400] [client 76.8.75.174:53349]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/core/wsgi.py", line 14, in get_wsgi_application
+[Thu Feb 26 17:55:58.997942 2015] [:error] [pid 20318:tid 139904503494400] [client 76.8.75.174:53349]     django.setup()
+[Thu Feb 26 17:55:58.997962 2015] [:error] [pid 20318:tid 139904503494400] [client 76.8.75.174:53349]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/__init__.py", line 20, in setup
+[Thu Feb 26 17:55:58.998040 2015] [:error] [pid 20318:tid 139904503494400] [client 76.8.75.174:53349]     configure_logging(settings.LOGGING_CONFIG, settings.LOGGING)
+[Thu Feb 26 17:55:58.998059 2015] [:error] [pid 20318:tid 139904503494400] [client 76.8.75.174:53349]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/conf/__init__.py", line 46, in __getattr__
+[Thu Feb 26 17:55:58.998173 2015] [:error] [pid 20318:tid 139904503494400] [client 76.8.75.174:53349]     self._setup(name)
+[Thu Feb 26 17:55:58.998193 2015] [:error] [pid 20318:tid 139904503494400] [client 76.8.75.174:53349]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/conf/__init__.py", line 42, in _setup
+[Thu Feb 26 17:55:58.998223 2015] [:error] [pid 20318:tid 139904503494400] [client 76.8.75.174:53349]     self._wrapped = Settings(settings_module)
+[Thu Feb 26 17:55:58.998239 2015] [:error] [pid 20318:tid 139904503494400] [client 76.8.75.174:53349]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/conf/__init__.py", line 98, in __init__
+[Thu Feb 26 17:55:58.998264 2015] [:error] [pid 20318:tid 139904503494400] [client 76.8.75.174:53349]     % (self.SETTINGS_MODULE, e)
+[Thu Feb 26 17:55:58.998291 2015] [:error] [pid 20318:tid 139904503494400] [client 76.8.75.174:53349] ImportError: Could not import settings 'settings' (Is it on sys.path? Is there an import error in the settings file?): No module named settings
+[Thu Feb 26 17:58:08.567472 2015] [:error] [pid 20318:tid 139904495101696] [client 66.249.73.169:55780] mod_wsgi (pid=20318): Target WSGI script '/var/www/continue/django.wsgi' cannot be loaded as Python module.
+[Thu Feb 26 17:58:08.567528 2015] [:error] [pid 20318:tid 139904495101696] [client 66.249.73.169:55780] mod_wsgi (pid=20318): Exception occurred processing WSGI script '/var/www/continue/django.wsgi'.
+[Thu Feb 26 17:58:08.567555 2015] [:error] [pid 20318:tid 139904495101696] [client 66.249.73.169:55780] Traceback (most recent call last):
+[Thu Feb 26 17:58:08.567588 2015] [:error] [pid 20318:tid 139904495101696] [client 66.249.73.169:55780]   File "/var/www/continue/django.wsgi", line 15, in <module>
+[Thu Feb 26 17:58:08.567640 2015] [:error] [pid 20318:tid 139904495101696] [client 66.249.73.169:55780]     application = get_wsgi_application()
+[Thu Feb 26 17:58:08.567660 2015] [:error] [pid 20318:tid 139904495101696] [client 66.249.73.169:55780]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/core/wsgi.py", line 14, in get_wsgi_application
+[Thu Feb 26 17:58:08.567713 2015] [:error] [pid 20318:tid 139904495101696] [client 66.249.73.169:55780]     django.setup()
+[Thu Feb 26 17:58:08.567753 2015] [:error] [pid 20318:tid 139904495101696] [client 66.249.73.169:55780]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/__init__.py", line 20, in setup
+[Thu Feb 26 17:58:08.567784 2015] [:error] [pid 20318:tid 139904495101696] [client 66.249.73.169:55780]     configure_logging(settings.LOGGING_CONFIG, settings.LOGGING)
+[Thu Feb 26 17:58:08.567803 2015] [:error] [pid 20318:tid 139904495101696] [client 66.249.73.169:55780]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/conf/__init__.py", line 46, in __getattr__
+[Thu Feb 26 17:58:08.567834 2015] [:error] [pid 20318:tid 139904495101696] [client 66.249.73.169:55780]     self._setup(name)
+[Thu Feb 26 17:58:08.567855 2015] [:error] [pid 20318:tid 139904495101696] [client 66.249.73.169:55780]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/conf/__init__.py", line 42, in _setup
+[Thu Feb 26 17:58:08.567886 2015] [:error] [pid 20318:tid 139904495101696] [client 66.249.73.169:55780]     self._wrapped = Settings(settings_module)
+[Thu Feb 26 17:58:08.567901 2015] [:error] [pid 20318:tid 139904495101696] [client 66.249.73.169:55780]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/conf/__init__.py", line 98, in __init__
+[Thu Feb 26 17:58:08.567919 2015] [:error] [pid 20318:tid 139904495101696] [client 66.249.73.169:55780]     % (self.SETTINGS_MODULE, e)
+[Thu Feb 26 17:58:08.567941 2015] [:error] [pid 20318:tid 139904495101696] [client 66.249.73.169:55780] ImportError: Could not import settings 'settings' (Is it on sys.path? Is there an import error in the settings file?): No module named settings
+[Thu Feb 26 17:59:37.303317 2015] [:error] [pid 20318:tid 139904486708992] [client 76.8.75.174:53554] mod_wsgi (pid=20318): Target WSGI script '/var/www/continue/django.wsgi' cannot be loaded as Python module.
+[Thu Feb 26 17:59:37.303358 2015] [:error] [pid 20318:tid 139904486708992] [client 76.8.75.174:53554] mod_wsgi (pid=20318): Exception occurred processing WSGI script '/var/www/continue/django.wsgi'.
+[Thu Feb 26 17:59:37.303388 2015] [:error] [pid 20318:tid 139904486708992] [client 76.8.75.174:53554] Traceback (most recent call last):
+[Thu Feb 26 17:59:37.303420 2015] [:error] [pid 20318:tid 139904486708992] [client 76.8.75.174:53554]   File "/var/www/continue/django.wsgi", line 16, in <module>
+[Thu Feb 26 17:59:37.303507 2015] [:error] [pid 20318:tid 139904486708992] [client 76.8.75.174:53554]     application = get_wsgi_application()
+[Thu Feb 26 17:59:37.303524 2015] [:error] [pid 20318:tid 139904486708992] [client 76.8.75.174:53554]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/core/wsgi.py", line 14, in get_wsgi_application
+[Thu Feb 26 17:59:37.303547 2015] [:error] [pid 20318:tid 139904486708992] [client 76.8.75.174:53554]     django.setup()
+[Thu Feb 26 17:59:37.303559 2015] [:error] [pid 20318:tid 139904486708992] [client 76.8.75.174:53554]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/__init__.py", line 21, in setup
+[Thu Feb 26 17:59:37.303578 2015] [:error] [pid 20318:tid 139904486708992] [client 76.8.75.174:53554]     apps.populate(settings.INSTALLED_APPS)
+[Thu Feb 26 17:59:37.303596 2015] [:error] [pid 20318:tid 139904486708992] [client 76.8.75.174:53554]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/apps/registry.py", line 85, in populate
+[Thu Feb 26 17:59:37.303761 2015] [:error] [pid 20318:tid 139904486708992] [client 76.8.75.174:53554]     app_config = AppConfig.create(entry)
+[Thu Feb 26 17:59:37.303785 2015] [:error] [pid 20318:tid 139904486708992] [client 76.8.75.174:53554]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/apps/config.py", line 87, in create
+[Thu Feb 26 17:59:37.303927 2015] [:error] [pid 20318:tid 139904486708992] [client 76.8.75.174:53554]     module = import_module(entry)
+[Thu Feb 26 17:59:37.303952 2015] [:error] [pid 20318:tid 139904486708992] [client 76.8.75.174:53554]   File "/usr/lib/python2.7/importlib/__init__.py", line 37, in import_module
+[Thu Feb 26 17:59:37.304032 2015] [:error] [pid 20318:tid 139904486708992] [client 76.8.75.174:53554]     __import__(name)
+[Thu Feb 26 17:59:37.304069 2015] [:error] [pid 20318:tid 139904486708992] [client 76.8.75.174:53554] ImportError: No module named app
+[Thu Feb 26 17:59:45.495939 2015] [:error] [pid 20513:tid 140309736453888] [client 76.8.75.174:53562] mod_wsgi (pid=20513): Target WSGI script '/var/www/continue/django.wsgi' cannot be loaded as Python module.
+[Thu Feb 26 17:59:45.495987 2015] [:error] [pid 20513:tid 140309736453888] [client 76.8.75.174:53562] mod_wsgi (pid=20513): Exception occurred processing WSGI script '/var/www/continue/django.wsgi'.
+[Thu Feb 26 17:59:45.496020 2015] [:error] [pid 20513:tid 140309736453888] [client 76.8.75.174:53562] Traceback (most recent call last):
+[Thu Feb 26 17:59:45.496053 2015] [:error] [pid 20513:tid 140309736453888] [client 76.8.75.174:53562]   File "/var/www/continue/django.wsgi", line 16, in <module>
+[Thu Feb 26 17:59:45.496125 2015] [:error] [pid 20513:tid 140309736453888] [client 76.8.75.174:53562]     application = get_wsgi_application()
+[Thu Feb 26 17:59:45.496142 2015] [:error] [pid 20513:tid 140309736453888] [client 76.8.75.174:53562]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/core/wsgi.py", line 14, in get_wsgi_application
+[Thu Feb 26 17:59:45.496194 2015] [:error] [pid 20513:tid 140309736453888] [client 76.8.75.174:53562]     django.setup()
+[Thu Feb 26 17:59:45.496208 2015] [:error] [pid 20513:tid 140309736453888] [client 76.8.75.174:53562]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/__init__.py", line 21, in setup
+[Thu Feb 26 17:59:45.496276 2015] [:error] [pid 20513:tid 140309736453888] [client 76.8.75.174:53562]     apps.populate(settings.INSTALLED_APPS)
+[Thu Feb 26 17:59:45.496299 2015] [:error] [pid 20513:tid 140309736453888] [client 76.8.75.174:53562]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/apps/registry.py", line 85, in populate
+[Thu Feb 26 17:59:45.496484 2015] [:error] [pid 20513:tid 140309736453888] [client 76.8.75.174:53562]     app_config = AppConfig.create(entry)
+[Thu Feb 26 17:59:45.496504 2015] [:error] [pid 20513:tid 140309736453888] [client 76.8.75.174:53562]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/apps/config.py", line 87, in create
+[Thu Feb 26 17:59:45.496623 2015] [:error] [pid 20513:tid 140309736453888] [client 76.8.75.174:53562]     module = import_module(entry)
+[Thu Feb 26 17:59:45.496647 2015] [:error] [pid 20513:tid 140309736453888] [client 76.8.75.174:53562]   File "/usr/lib/python2.7/importlib/__init__.py", line 37, in import_module
+[Thu Feb 26 17:59:45.496717 2015] [:error] [pid 20513:tid 140309736453888] [client 76.8.75.174:53562]     __import__(name)
+[Thu Feb 26 17:59:45.496764 2015] [:error] [pid 20513:tid 140309736453888] [client 76.8.75.174:53562] ImportError: No module named app
+[Thu Feb 26 23:00:39.547727 2015] [:error] [pid 20513:tid 140309728061184] [client 76.8.75.174:53606] mod_wsgi (pid=20513): Target WSGI script '/var/www/continue/django.wsgi' cannot be loaded as Python module.
+[Thu Feb 26 23:00:39.547780 2015] [:error] [pid 20513:tid 140309728061184] [client 76.8.75.174:53606] mod_wsgi (pid=20513): Exception occurred processing WSGI script '/var/www/continue/django.wsgi'.
+[Thu Feb 26 23:00:39.547811 2015] [:error] [pid 20513:tid 140309728061184] [client 76.8.75.174:53606] Traceback (most recent call last):
+[Thu Feb 26 23:00:39.547850 2015] [:error] [pid 20513:tid 140309728061184] [client 76.8.75.174:53606]   File "/var/www/continue/django.wsgi", line 15, in <module>
+[Thu Feb 26 23:00:39.547969 2015] [:error] [pid 20513:tid 140309728061184] [client 76.8.75.174:53606]     application = get_wsgi_application()
+[Thu Feb 26 23:00:39.548004 2015] [:error] [pid 20513:tid 140309728061184] [client 76.8.75.174:53606]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/core/wsgi.py", line 14, in get_wsgi_application
+[Thu Feb 26 23:00:39.548036 2015] [:error] [pid 20513:tid 140309728061184] [client 76.8.75.174:53606]     django.setup()
+[Thu Feb 26 23:00:39.548053 2015] [:error] [pid 20513:tid 140309728061184] [client 76.8.75.174:53606]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/__init__.py", line 21, in setup
+[Thu Feb 26 23:00:39.548079 2015] [:error] [pid 20513:tid 140309728061184] [client 76.8.75.174:53606]     apps.populate(settings.INSTALLED_APPS)
+[Thu Feb 26 23:00:39.548094 2015] [:error] [pid 20513:tid 140309728061184] [client 76.8.75.174:53606]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/apps/registry.py", line 78, in populate
+[Thu Feb 26 23:00:39.548118 2015] [:error] [pid 20513:tid 140309728061184] [client 76.8.75.174:53606]     raise RuntimeError("populate() isn't reentrant")
+[Thu Feb 26 23:00:39.548153 2015] [:error] [pid 20513:tid 140309728061184] [client 76.8.75.174:53606] RuntimeError: populate() isn't reentrant
+[Thu Feb 26 18:02:06.282441 2015] [:error] [pid 20814:tid 140289655187200] [client 76.8.75.174:53674] mod_wsgi (pid=20814): Target WSGI script '/var/www/continue/django.wsgi' cannot be loaded as Python module.
+[Thu Feb 26 18:02:06.282508 2015] [:error] [pid 20814:tid 140289655187200] [client 76.8.75.174:53674] mod_wsgi (pid=20814): Exception occurred processing WSGI script '/var/www/continue/django.wsgi'.
+[Thu Feb 26 18:02:06.282560 2015] [:error] [pid 20814:tid 140289655187200] [client 76.8.75.174:53674] Traceback (most recent call last):
+[Thu Feb 26 18:02:06.282601 2015] [:error] [pid 20814:tid 140289655187200] [client 76.8.75.174:53674]   File "/var/www/continue/django.wsgi", line 15, in <module>
+[Thu Feb 26 18:02:06.282734 2015] [:error] [pid 20814:tid 140289655187200] [client 76.8.75.174:53674]     application = get_wsgi_application()
+[Thu Feb 26 18:02:06.282760 2015] [:error] [pid 20814:tid 140289655187200] [client 76.8.75.174:53674]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/core/wsgi.py", line 14, in get_wsgi_application
+[Thu Feb 26 18:02:06.282843 2015] [:error] [pid 20814:tid 140289655187200] [client 76.8.75.174:53674]     django.setup()
+[Thu Feb 26 18:02:06.282865 2015] [:error] [pid 20814:tid 140289655187200] [client 76.8.75.174:53674]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/__init__.py", line 21, in setup
+[Thu Feb 26 18:02:06.282935 2015] [:error] [pid 20814:tid 140289655187200] [client 76.8.75.174:53674]     apps.populate(settings.INSTALLED_APPS)
+[Thu Feb 26 18:02:06.282956 2015] [:error] [pid 20814:tid 140289655187200] [client 76.8.75.174:53674]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/apps/registry.py", line 108, in populate
+[Thu Feb 26 18:02:06.283191 2015] [:error] [pid 20814:tid 140289655187200] [client 76.8.75.174:53674]     app_config.import_models(all_models)
+[Thu Feb 26 18:02:06.283213 2015] [:error] [pid 20814:tid 140289655187200] [client 76.8.75.174:53674]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/apps/config.py", line 202, in import_models
+[Thu Feb 26 18:02:06.283354 2015] [:error] [pid 20814:tid 140289655187200] [client 76.8.75.174:53674]     self.models_module = import_module(models_module_name)
+[Thu Feb 26 18:02:06.283376 2015] [:error] [pid 20814:tid 140289655187200] [client 76.8.75.174:53674]   File "/usr/lib/python2.7/importlib/__init__.py", line 37, in import_module
+[Thu Feb 26 18:02:06.283453 2015] [:error] [pid 20814:tid 140289655187200] [client 76.8.75.174:53674]     __import__(name)
+[Thu Feb 26 18:02:06.283473 2015] [:error] [pid 20814:tid 140289655187200] [client 76.8.75.174:53674]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/contrib/auth/models.py", line 40, in <module>
+[Thu Feb 26 18:02:06.283925 2015] [:error] [pid 20814:tid 140289655187200] [client 76.8.75.174:53674]     class Permission(models.Model):
+[Thu Feb 26 18:02:06.283978 2015] [:error] [pid 20814:tid 140289655187200] [client 76.8.75.174:53674]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/db/models/base.py", line 122, in __new__
+[Thu Feb 26 18:02:06.284697 2015] [:error] [pid 20814:tid 140289655187200] [client 76.8.75.174:53674]     new_class.add_to_class('_meta', Options(meta, **kwargs))
+[Thu Feb 26 18:02:06.284724 2015] [:error] [pid 20814:tid 140289655187200] [client 76.8.75.174:53674]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/db/models/base.py", line 297, in add_to_class
+[Thu Feb 26 18:02:06.284770 2015] [:error] [pid 20814:tid 140289655187200] [client 76.8.75.174:53674]     value.contribute_to_class(cls, name)
+[Thu Feb 26 18:02:06.284794 2015] [:error] [pid 20814:tid 140289655187200] [client 76.8.75.174:53674]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/db/models/options.py", line 166, in contribute_to_class
+[Thu Feb 26 18:02:06.285181 2015] [:error] [pid 20814:tid 140289655187200] [client 76.8.75.174:53674]     self.db_table = truncate_name(self.db_table, connection.ops.max_name_length())
+[Thu Feb 26 18:02:06.285211 2015] [:error] [pid 20814:tid 140289655187200] [client 76.8.75.174:53674]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/db/__init__.py", line 40, in __getattr__
+[Thu Feb 26 18:02:06.285320 2015] [:error] [pid 20814:tid 140289655187200] [client 76.8.75.174:53674]     return getattr(connections[DEFAULT_DB_ALIAS], item)
+[Thu Feb 26 18:02:06.285374 2015] [:error] [pid 20814:tid 140289655187200] [client 76.8.75.174:53674]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/db/utils.py", line 242, in __getitem__
+[Thu Feb 26 18:02:06.285582 2015] [:error] [pid 20814:tid 140289655187200] [client 76.8.75.174:53674]     backend = load_backend(db['ENGINE'])
+[Thu Feb 26 18:02:06.285604 2015] [:error] [pid 20814:tid 140289655187200] [client 76.8.75.174:53674]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/db/utils.py", line 108, in load_backend
+[Thu Feb 26 18:02:06.285634 2015] [:error] [pid 20814:tid 140289655187200] [client 76.8.75.174:53674]     return import_module('%s.base' % backend_name)
+[Thu Feb 26 18:02:06.285660 2015] [:error] [pid 20814:tid 140289655187200] [client 76.8.75.174:53674]   File "/usr/lib/python2.7/importlib/__init__.py", line 37, in import_module
+[Thu Feb 26 18:02:06.285701 2015] [:error] [pid 20814:tid 140289655187200] [client 76.8.75.174:53674]     __import__(name)
+[Thu Feb 26 18:02:06.285720 2015] [:error] [pid 20814:tid 140289655187200] [client 76.8.75.174:53674]   File "/var/www/continue/env-continue/lib/python2.7/site-packages/django/db/backends/mysql/base.py", line 18, in <module>
+[Thu Feb 26 18:02:06.286015 2015] [:error] [pid 20814:tid 140289655187200] [client 76.8.75.174:53674]     raise ImproperlyConfigured("Error loading MySQLdb module: %s" % e)
+[Thu Feb 26 18:02:06.286064 2015] [:error] [pid 20814:tid 140289655187200] [client 76.8.75.174:53674] ImproperlyConfigured: Error loading MySQLdb module: No module named MySQLdb

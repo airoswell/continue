@@ -483,7 +483,6 @@ class Item(UUIDModel):
                     )
                 else:
                     new_value = field_data['value']
-                print("\n\told_value = %s, new_value = %s" % (old_value, new_value))
                 if old_value != new_value:
                     ItemEditRecord.objects.create(
                         field=field_data['title'],
@@ -570,7 +569,7 @@ class CustomizedDateField(CustomizedField):
 
 class CustomizedEmailField(CustomizedField):
     item = models.ForeignKey(Item, related_name="customized_email_fields")
-    email = models.EmailField(
+    value = models.EmailField(
         blank=False, default="example@mail.com", max_length=500)
 
 

@@ -115,17 +115,21 @@
           return $scope.layout.show_items_search_results = false;
         }
       };
-      $scope.search_by_field = function(field) {
-        var model_name, params;
+      $scope.search_by_field = function(field, lower, upper) {
+        var lower_bound, model_name, params, upper_bound;
         if ($scope.layout.items_search_results_order_by === field) {
           $scope.layout.items_search_results_order_by = "";
           $scope.layout.items_search_results_order_by_type = "";
           $scope.layout.show_items_search_results = false;
           return;
         }
+        lower_bound = lower != null ? lower : null;
+        upper_bound = upper != null ? upper : null;
         params = {
           order_by: field.title,
-          order_by_model: field.model_name
+          order_by_model: field.model_name,
+          lower_bound: lower_bound,
+          upper_bound: upper_bound
         };
         model_name = Item.customized_fields_normalization(field).model_name;
         return search(params).$asPromise().then(function(response) {

@@ -67,14 +67,19 @@ angular.module("continue")
   restrict: "A"
   scope: true
   link: (scope, element, attrs)->
-    scope.expanded = false
+    trigger = element.find("[click-to-expand-trigger]")
+    target = element.find("[click-to-expand-target]")
+    trigger.css({"cursor": "pointer"})
+    # Initialization
     max_height = "0px"
     if "maxHeight" of attrs
       max_height = attrs['maxHeight']
-    trigger = element.find("[click-to-expand-trigger]")
-    trigger.css({"cursor": "pointer"})
-    target = element.find("[click-to-expand-target]")
-    target.css({'max-height': max_height, "display": "none"})
+    scope.expanded = false
+    if attrs["expanded"] == 'true'
+      scope.expanded = true
+    if not scope.expanded
+      target.css({'max-height': max_height, "display": "none"})
+    # Interact with the click event
     trigger.on "click", ()->
       if not scope.expanded
         target.css({"max-height": "", "display": "inherit"})
@@ -276,3 +281,22 @@ angular.module("continue")
       scope.widget = attrs['widget']
     if 'unit' of attrs
       scope.unit = attrs['unit']
+
+
+.directive "hoverToShow", ()->
+  restrict: "A"
+  scope: true
+  link: (scope, element, attrs)->
+    target = element.find("[hover-to-show-target]")
+    trigger = element.find("[hover-to-show-trigger]")
+    target.css({'display': "none", 'position': 'absolute'})
+    is_show = false
+    trigger.on "mouseover", ()->
+      if not is_show
+        target.css({'display': "inherit"})
+        is_show = true
+    element.on "mouseleave", ()->
+      console.log "leave"
+      if is_show
+        target.css({'display': "none"})
+        is_show = false

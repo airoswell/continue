@@ -25,15 +25,15 @@ import operator
 # All pages
 
 
-from django.dispatch import receiver
-from allauth.socialaccount.signals import pre_social_login
+# from django.dispatch import receiver
+# from allauth.socialaccount.signals import pre_social_login
 
 
-@receiver(pre_social_login)
-def link_to_local_user(sender, request, sociallogin, **kwargs):
-    ''' Login and redirect'''
-    print("\n\n\t\tAAAAAAAA\n")
-    return
+# @receiver(pre_social_login)
+# def link_to_local_user(sender, request, sociallogin, **kwargs):
+#     ''' Login and redirect'''
+#     print("\n\n\t\tAAAAAAAA\n")
+#     return
 
 
 def NotFound(request):
