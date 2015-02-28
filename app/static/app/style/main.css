@@ -334,6 +334,9 @@ textarea:focus{
 .text-blue{
     color: #4184f3;
 }
+.text-red{
+    color: #FF3333;
+}
 .text-gray{
     color:#666;
 }

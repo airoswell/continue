@@ -100,17 +100,21 @@
     </div>
   </div>
 
+  <!-- Customized fields section -->
   <div click-to-expand max-height="0px" expanded="true">
+    <!-- Collapse header -->
     <div click-to-expand-trigger class="collapse-header">
       <i class="fa fa-cogs"></i>&nbsp;Customized Fields &nbsp; <i class='fa fa-caret-down'></i>
     </div>
 
+    <!-- Collapse target -->
     <div click-to-expand-target class='collapse-body'>
       
       <div ng-if="expanded">
-        <div ng-repeat="field in item.customized_num_fields"
-            style='display:inline-block;padding:10px;'
-            ng-init="show_title_input=false">
+
+        <!-- - Number fields -->
+        <div style='display:inline-block;padding:10px;'
+            ng-repeat="field in item.customized_num_fields">
 
           <customized-field-title></customized-field-title>
 
@@ -126,9 +130,8 @@
         </div>
 
         <!-- - Char Fields -->
-        <div ng-repeat="field in item.customized_char_fields"
-            style='display:inline-block;padding:10px;'>
-          
+        <div style='display:inline-block;padding:10px;'
+            ng-repeat="field in item.customized_char_fields">
 
           <customized-field-title></customized-field-title>
           <div auto-expand data='field.value' init-width="100px" min-size=5>
@@ -182,19 +185,19 @@
             <li role="presentation" class="dropdown-header">
               Add your customized log
             </li>
-            <li ng-click="item.add_customized_char_field()">
+            <li ng-click="item.add_customized_field('char')">
               <a href><b>Add a text record</b></a>
             </li>
-            <li ng-click="item.add_customized_num_field()">
+            <li ng-click="item.add_customized_field('num')">
               <a href><b>Add a number record</b></a>
             </li>
-            <li ng-click="item.add_customized_color_field()">
+            <li ng-click="item.add_customized_field('color')">
               <a href><b>Add a color record</b></a>
             </li>
-            <li ng-click="item.add_customized_date_field()">
+            <li ng-click="item.add_customized_field('date')">
               <a href><b>Add a date record</b></a>
             </li>
-            <li ng-click="item.add_customized_email_field()">
+            <li ng-click="item.add_customized_field('email')">
               <a href><b>Add a email record</b></a>
             </li>
           </ul>

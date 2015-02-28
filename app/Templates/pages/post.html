@@ -73,8 +73,11 @@
 
 <div id='post-editor-wrapper' mobile-padding-less>
   {% if not post %}
-  <div class='section-title section-title-large'>
-    <i class="fa fa-align-left"></i> &nbsp;New post
+  <div layout='row' layout-align='center'>
+    <div class='section-title section-title-large'
+        flex-gt-md="90" flex="100">
+      <i class="fa fa-align-left"></i> &nbsp;New post
+    </div>
   </div>
   {% endif %}
   <form name='postEditor' ng-controller="postEditorCtrl" ng-cloak
@@ -91,7 +94,10 @@
           layout-align='space-between center'>
         <div flex>
           {% if post and is_owner or view == "post_create" %}
-          <div class='text-small' style='color:#999'>Click to edit</div>
+          <div class='text-small text-bold'
+              ng-class="{'text-gray': post.title, 'text-red': !post.title}">
+            Click to edit
+          </div>
           {% endif %}
           <div flex>
             {% if post and is_owner or view == "post_create" %}

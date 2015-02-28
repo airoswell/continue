@@ -1,7 +1,7 @@
 <div layout='row' layout-align='start center'>
     <img height=60 ng-src="{{item.pic}}" ng-if='item.pic' ng-click="get_albums(item)" style='cursor:pointer;display:inline-block'>
-    <div style='padding:15px 10px 15px 15px;cursor:pointer' ng-click="get_albums(item)">
-      <i ng-if="!item.pic" class="fa fa-upload text-large"></i>
+    <div ng-if="!item.pic" style='padding:15px 10px 15px 15px;cursor:pointer' ng-click="get_albums(item)">
+      <i class="fa fa-upload text-large"></i>
     </div>
     <div style='padding:15px 10px;' flex>
       <input type='text' style='border:none;width:100%;display:inline-block'

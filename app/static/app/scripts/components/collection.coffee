@@ -28,6 +28,7 @@ angular.module("continue")
         "items": true
     }
     $scope.tags = []    # A list of tags that will be searched against
+    $scope.customized_fields = Item.customized_fields
 
     $scope.switch_view_mode = (mode)->
       $scope.layout.view_mode = mode
@@ -38,12 +39,6 @@ angular.module("continue")
         $scope.layout.filter_available = ""
       else
         $scope.layout.filter_available = option
-
-    $scope.edit_item = (item)->
-      if item != $scope.layout.item_to_edit
-        $scope.layout.item_to_edit = item
-      else
-        $scope.layout.item_to_edit = {}
 
     $scope.load_first_items = ()->
       # Load the first few items when user click the `Gallery`
@@ -106,11 +101,6 @@ angular.module("continue")
         $scope.layout.show_items_search_results = false
 
     $scope.search_by_field = (field, lower, upper)->
-      if $scope.layout.items_search_results_order_by == field
-        $scope.layout.items_search_results_order_by = ""
-        $scope.layout.items_search_results_order_by_type = ""
-        $scope.layout.show_items_search_results = false
-        return
       lower_bound = if lower? then lower else null
       upper_bound = if upper? then upper else null
       params = {
@@ -127,6 +117,11 @@ angular.module("continue")
         $scope.layout.items_search_results_order_by = field
         $scope.layout.items_search_results_order_by_type = 'field'
         $scope.layout.show_items_search_results = true
+
+    $scope.clear_search = ()->
+      $scope.layout.items_search_results_order_by = ""
+      $scope.layout.items_search_results_order_by_type = ""
+      $scope.layout.show_items_search_results = false
 
     $scope.is_searched = (tag)->
       tag in $scope.tags
@@ -157,7 +152,13 @@ angular.module("continue")
 ]
 
 
-.directive "thumbnailItem", ()->
-  restrict: "A"
+.directive "itemThumbnail", ()->
+  restrict: "E"
+  templateUrl: "/static/app/directives/item-thumbnail.html"
   scope:
     item: "="
+  link: (scope)->
+    scope.show_editor_pro = false
+    scope.edit_item = (item)->
+      scope.show_editor_pro = ! scope.show_editor_pro
+      

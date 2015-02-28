@@ -30,6 +30,7 @@
         }
       };
       $scope.tags = [];
+      $scope.customized_fields = Item.customized_fields;
       $scope.switch_view_mode = function(mode) {
         return $scope.layout.view_mode = mode;
       };
@@ -38,13 +39,6 @@
           return $scope.layout.filter_available = "";
         } else {
           return $scope.layout.filter_available = option;
-        }
-      };
-      $scope.edit_item = function(item) {
-        if (item !== $scope.layout.item_to_edit) {
-          return $scope.layout.item_to_edit = item;
-        } else {
-          return $scope.layout.item_to_edit = {};
         }
       };
       $scope.load_first_items = function() {
@@ -117,12 +111,6 @@
       };
       $scope.search_by_field = function(field, lower, upper) {
         var lower_bound, model_name, params, upper_bound;
-        if ($scope.layout.items_search_results_order_by === field) {
-          $scope.layout.items_search_results_order_by = "";
-          $scope.layout.items_search_results_order_by_type = "";
-          $scope.layout.show_items_search_results = false;
-          return;
-        }
         lower_bound = lower != null ? lower : null;
         upper_bound = upper != null ? upper : null;
         params = {
@@ -145,6 +133,11 @@
           $scope.layout.items_search_results_order_by_type = 'field';
           return $scope.layout.show_items_search_results = true;
         });
+      };
+      $scope.clear_search = function() {
+        $scope.layout.items_search_results_order_by = "";
+        $scope.layout.items_search_results_order_by_type = "";
+        return $scope.layout.show_items_search_results = false;
       };
       $scope.is_searched = function(tag) {
         return __indexOf.call($scope.tags, tag) >= 0;
@@ -185,11 +178,18 @@
         return true;
       };
     }
-  ]).directive("thumbnailItem", function() {
+  ]).directive("itemThumbnail", function() {
     return {
-      restrict: "A",
+      restrict: "E",
+      templateUrl: "/static/app/directives/item-thumbnail.html",
       scope: {
         item: "="
+      },
+      link: function(scope) {
+        scope.show_editor_pro = false;
+        return scope.edit_item = function(item) {
+          return scope.show_editor_pro = !scope.show_editor_pro;
+        };
       }
     };
   });

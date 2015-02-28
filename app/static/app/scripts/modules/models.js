@@ -431,7 +431,7 @@
     }
   ]).factory("Item", [
     "Model", "settings", "Handlers", function(Model, settings, Handlers) {
-      var availability_choices, condition_choices, customized_fields_cleaner, customized_fields_normalization, init, is_valid, utilization_choices, visibility_choices;
+      var availability_choices, condition_choices, customized_fields, customized_fields_cleaner, customized_fields_normalization, init, is_valid, type, utilization_choices, visibility_choices;
       condition_choices = ["Inapplicable", "New", "Like new", "Good", "Functional", "Broken"];
       visibility_choices = ["Public", "Private", "Ex-owners"];
       availability_choices = ["Available", "In use", "Lent", "Given away", "Disposed"];
@@ -446,6 +446,18 @@
           title: field.title
         };
       };
+      customized_fields = [
+        (function() {
+          var _i, _len, _ref, _results;
+          _ref = ['char', 'num', 'color', 'date', 'email'];
+          _results = [];
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            type = _ref[_i];
+            _results.push("customized_" + type + "_fields");
+          }
+          return _results;
+        })()
+      ][0];
       init = {
         title: "",
         quantity: 1,
@@ -458,28 +470,30 @@
         expanded: false,
         is_new: false
       };
-      customized_fields_cleaner = function(field_type, field_transformer) {
+      customized_fields_cleaner = function(field_type, field_handler) {
         var field, fields, index, _i, _len, _results;
-        if (field_type in self) {
-          if (self[field_type]) {
-            fields = self[field_type];
-            _results = [];
-            for (_i = 0, _len = fields.length; _i < _len; _i++) {
-              field = fields[_i];
-              if (!(field.value && field.title)) {
-                index = fields.indexOf(field);
-                _results.push(self.customized_num_fields.splice(index, 1));
-              } else {
-                if (field_transformer != null) {
-                  _results.push(field_transformer(field));
-                } else {
-                  _results.push(void 0);
-                }
-              }
+        if (self[field_type] == null) {
+          return;
+        }
+        if (!self[field_type]) {
+          return;
+        }
+        fields = self[field_type];
+        _results = [];
+        for (_i = 0, _len = fields.length; _i < _len; _i++) {
+          field = fields[_i];
+          if (!(field.value && field.title)) {
+            index = fields.indexOf(field);
+            _results.push(self.customized_num_fields.splice(index, 1));
+          } else {
+            if (field_handler != null) {
+              _results.push(field_handler(field));
+            } else {
+              _results.push(void 0);
             }
-            return _results;
           }
         }
+        return _results;
       };
       is_valid = function(self) {
         if (!self.title) {
@@ -501,7 +515,7 @@
               return is_valid(this);
             },
             pre_save_handler: function() {
-              var self;
+              var field, self, _i, _len;
               self = this;
               if ("new_owner" in self) {
                 if (self["new_owner"]) {
@@ -521,10 +535,13 @@
                   self.tags_private = self.tags_private.join(",");
                 }
               }
-              customized_fields_cleaner("customized_fields_cleaner", function(field) {
+              for (_i = 0, _len = customized_fields.length; _i < _len; _i++) {
+                field = customized_fields[_i];
+                customized_fields_cleaner(field);
+              }
+              return customized_fields_cleaner("customized_num_fields", function(field) {
                 return field.value = parseFloat(field.value);
               });
-              return customized_fields_cleaner("customized_num_fields");
             },
             images_handler: function() {
               return Handlers.images_handler(this);
@@ -532,58 +549,29 @@
             tags_handler: function() {
               return Handlers.tags_handler(this);
             },
-            add_customized_char_field: function() {
-              if (!this.customized_char_fields) {
-                this.customized_char_fields = [];
+            add_customized_field: function(type) {
+              var field_type, init_val, self;
+              self = this;
+              field_type = "customized_" + type + "_fields";
+              if (self[field_type] == null) {
+                self[field_type] = [];
               }
-              return this.customized_char_fields.push({
+              init_val = {
                 title: "",
                 value: ""
-              });
-            },
-            add_customized_color_field: function() {
-              if (!this.customized_color_fields) {
-                this.customized_color_fields = [];
+              };
+              if (type === 'num') {
+                init_val['unit'] = "";
               }
-              return this.customized_color_fields.push({
-                title: "",
-                value: ""
-              });
-            },
-            add_customized_num_field: function() {
-              if (!this.customized_num_fields) {
-                this.customized_num_fields = [];
-              }
-              return this.customized_num_fields.push({
-                title: "",
-                value: "",
-                unit: ""
-              });
-            },
-            add_customized_date_field: function() {
-              if (!this.customized_date_fields) {
-                this.customized_date_fields = [];
-              }
-              return this.customized_date_fields.push({
-                title: "",
-                value: ""
-              });
-            },
-            add_customized_email_field: function() {
-              if (!this.customized_email_fields) {
-                this.customized_email_fields = [];
-              }
-              return this.customized_email_fields.push({
-                title: "",
-                value: ""
-              });
+              return self[field_type].push(init_val);
             }
           },
           Model: {
             init: init,
             customized_fields_normalization: function(field) {
               return customized_fields_normalization(this, field);
-            }
+            },
+            customized_fields: customized_fields
           }
         }
       });
@@ -814,9 +802,7 @@
               var self, tag;
               self = this;
               self.tags_accept_donations_categories = [];
-              console.log("A");
               if (self.accept_donations_categories) {
-                console.log("B");
                 return self.tags_accept_donations_categories = [
                   (function() {
                     var _i, _len, _ref, _results;

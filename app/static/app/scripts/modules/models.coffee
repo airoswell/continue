@@ -301,6 +301,8 @@ angular.module 'continue.models', [
         title: field.title
       }
 
+    customized_fields = ["customized_#{type}_fields" for type in ['char', 'num', 'color', 'date', 'email']][0]
+
     # For brand new and existing items to be edited
     init = {
       title: ""
@@ -315,18 +317,23 @@ angular.module 'continue.models', [
       is_new: false
     }
 
-    customized_fields_cleaner = (field_type, field_transformer)->
-      # remove empty customized_fields
-      if field_type of self
-        if self[field_type]
-          fields = self[field_type]
-          for field in fields
-            if not (field.value and field.title)
-              index = fields.indexOf(field)
-              self.customized_num_fields.splice index, 1
-            else
-              if field_transformer?
-                field_transformer(field)
+    customized_fields_cleaner = (field_type, field_handler)->
+      # If the type of fields does not exist or is empty
+      if not self[field_type]?
+        return
+      if not self[field_type]
+        return
+      fields = self[field_type]
+      for field in fields
+        # Remove empty (empty title or value) customized fields
+        if not (field.value and field.title)
+          index = fields.indexOf(field)
+          self.customized_num_fields.splice index, 1
+        else
+          # User can further specify a function to take care
+          # of the fields if title and value are present
+          if field_handler?
+            field_handler(field)
 
     is_valid = (self)->
       if not self.title
@@ -355,65 +362,47 @@ angular.module 'continue.models', [
             # merge them into string.
             if self.new_status
               self.status = self.new_status
+            # Tags handlers
             if "tags" of self
               if typeof(self.tags) == "object"
                 self.tags = self.tags.join(",")
             if "tags_private" of self
               if typeof(self.tags_private) == "object"
                 self.tags_private = self.tags_private.join(",")
-            customized_fields_cleaner(
-              "customized_fields_cleaner",
-              (field)->
-                field.value = parseFloat(field.value)
-            )
+            # Clean up customized fields
+            # - Remove empties
+            for field in customized_fields
+              customized_fields_cleaner(
+                field,
+              )
+            # further processing of valid fields
             customized_fields_cleaner(
               "customized_num_fields",
+              (field)->
+                field.value = parseFloat(field.value)
             )
 
           images_handler: ()->
             Handlers.images_handler(this)
           tags_handler: ()->
             Handlers.tags_handler(this)
-          add_customized_char_field: ()->
-            if not @customized_char_fields
-              @customized_char_fields = []
-            @customized_char_fields.push({
+          add_customized_field: (type)->
+            self = this
+            field_type = "customized_#{type}_fields"
+            if not self[field_type]?
+              self[field_type] = []
+            init_val = {
               title: ""
               value: ""
-            })
-          add_customized_color_field: ()->
-            if not @customized_color_fields
-              @customized_color_fields = []
-            @customized_color_fields.push({
-              title: ""
-              value: ""
-            })
-          add_customized_num_field: ()->
-            if not @customized_num_fields
-              @customized_num_fields = []
-            @customized_num_fields.push({
-              title: ""
-              value: ""
-              unit: ""
-            })
-          add_customized_date_field: ()->
-            if not @customized_date_fields
-              @customized_date_fields = []
-            @customized_date_fields.push({
-              title: ""
-              value: ""
-            })
-          add_customized_email_field: ()->
-            if not @customized_email_fields
-              @customized_email_fields = []
-            @customized_email_fields.push({
-              title: ""
-              value: ""
-            })
+            }
+            if type == 'num'
+              init_val['unit'] = ""
+            self[field_type].push(init_val)
         Model:
           init: init
           customized_fields_normalization: (field)->
             customized_fields_normalization(this, field)
+          customized_fields: customized_fields
     })
 ]
 
@@ -569,9 +558,7 @@ angular.module 'continue.models', [
         tags_handler: ()->
           self = this
           self.tags_accept_donations_categories = []
-          console.log "A"
           if self.accept_donations_categories
-            console.log "B"
             self.tags_accept_donations_categories = [{text: tag} for tag in self.accept_donations_categories.split(",")][0]
         is_valid: ()->
           true

@@ -25,6 +25,11 @@
           ng-class="{'selected': layout.view_mode == 'thumbnail'}">
         Thumbnail view
       </div>
+      <div class='tag tag-small tag-gray'
+          ng-click='switch_view_mode("printable")'
+          ng-class="{'selected': layout.view_mode == 'printable'}">
+        Printable View
+      </div>
     </div>
   </div>
 
@@ -69,6 +74,10 @@
     <div ng-cloak drop-down-menu-target
         class="sidebar-secondary"
         style='min-width:250px;'>
+      <div>
+        Tags
+      </div>
+      <hr style='margin:5px 0px;'/>
       {% for tag in available_tags %}
       <span class='tag tag-small tag-gray'
           ng-click="search_by_tag('{{tag}}')"
@@ -91,7 +100,15 @@
     <div drop-down-menu-target ng-cloak
         class="sidebar-secondary"
         style='min-width:250px;'>
+      <div>
+        Search and order by 
+        <span class="button button-small button-blue" ng-click="clear_search()">
+          Clear
+        </span>
+      </div>
+      <hr style='margin:10px 0px;'/>
       <div ng-repeat="field in profile.ordering_fields" click-to-expand>
+
         <div layout='row' layout-align='start center'>
           <span class='tag tag-small tag-gray' ng-bind="field.title"
               ng-click="search_by_field(field)"
@@ -101,8 +118,9 @@
             <i class="fa fa-caret-down"></i>
           </span>
         </div>
+
         <div click-to-expand-target>
-          <span ng-if="field.model_name == 'CustomizedDateField'">
+          <div ng-if="field.model_name == 'CustomizedDateField'">
             <span class="text-gray">From</span>: <input type="text"
                 placeholder="From"
                 datepicker-popup="MM-dd-yyyy"
@@ -128,7 +146,7 @@
                 ng-click="search_by_field(field, field.lower_bound, field.upper_bound)">
               Search
             </span>
-          </span>
+          </div>
         </div>
       </div>
     </div>

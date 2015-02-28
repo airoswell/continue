@@ -1,0 +1,22 @@
+<div>
+
+  <div style="box-shadow:0px 2px 5px #ccc;">
+    <div class='item-thumbnail'
+        ng-class="{'selected': item == layout.item_to_edit}"
+        ng-click="edit_item(item)"
+        layout='row' layout-align='center center'>
+      <img ng-src="{{item.pic}}" alt="" height="250">
+    </div>
+    <div style='background:#fff;padding:2px 10px;color:#666;'>
+      <item-editor-pro-basics></item-editor-pro-basics>
+    </div>
+  </div>
+
+  <div class='item-thumbnail-title'
+      ng-bind="item.title"
+      ng-click="edit_item(item)">
+  </div>
+
+
+  <item-editor-pro item="item" ng-if="show_editor_pro"></item-editor-pro>
+</div>
