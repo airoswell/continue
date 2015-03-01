@@ -1237,19 +1237,18 @@ class AttendentList(XListAPIView):
                     found = False
                     for existed_field in all_fields:
                         if existed_field["text"] == field:
-                            existed_field["count"] += 1
+                            existed_field["weight"] += 1
                             found = True
                             break
                     if not found:
-                        all_fields.append({"text": field, "count": 1})
+                        all_fields.append({"text": field, "weight": 1})
             all_fields = sorted(
-                all_fields, key=lambda k: k["count"], reverse=True
+                all_fields, key=lambda k: k["weight"], reverse=True
             )
-            # ratio = 10 / all_fields[0]["count"]
-            # import math
             for field in all_fields:
-                # field["weight"] = math.ceil(field["count"] * ratio)
-                field["weight"] = field["count"]
+                search_key_words = "+".join(field['text'].split("-"))
+                field["link"] = ("https://www.google.com/?gws_rd=ssl#q=%s"
+                                 % search_key_words)
             return Response(data=all_fields)
 
         activity = None

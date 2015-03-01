@@ -21,7 +21,6 @@
       $scope.new_attendants = [];
       unwatch = $scope.$watch("date", function() {
         $scope.date = new Date($scope.date + " EST");
-        console.log("$scope.date", $scope.date);
         return unwatch();
       });
       $scope.$watch("activity", function() {
