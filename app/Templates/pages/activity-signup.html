@@ -6,12 +6,17 @@
   [name='activitySignUpForm']{
     background: #fff;padding: 40px 20px 20px 20px;border: 1px solid #ddd
   }
+  [name='activitySignUpForm'] tags-input.custom .host{
+    cursor: pointer;
+  }
 </style>
-<div ng-controller="activitySignUpCtrl" ng-init="activity = '{{activity}}'">
-  <form name='activitySignUpForm'>
+<div ng-controller="activitySignUpCtrl"
+    ng-init="date='{{date|date:'Y-m-d'}}';activity = '{{activity}}'">
+  <form name='activitySignUpForm' action="">
     <div reduced-padding>
       <div class='text-gray'>
-        A beginners' guide to
+        <!-- A beginners' guide to -->
+        A weekly event
       </div>
       <div style='border-bottom:2px solid #aaa;'
           layout='row' layout-sm='column' layout-align='space-between center'>
@@ -28,7 +33,7 @@
     <div style='background:#f4f4f4;padding:10px;border-bottom:1px solid #ccc;'>
       <p><span class='text-large text-blue'>Hi there!</span></p>
       <p>
-        The <span class='text-large text-blue'>Feb 20</span> event will take place at <span class='text-large text-blue'>5:30</span> pm in <span class='text-large text-blue'>SAC 303</span>. We welcome everyone to come; <span class='text-large text-blue'>no</span> previous programing experiences required!
+        The <span class='text-large text-blue'>{{date|date:"M d"}}</span> event will take place at <span class='text-large text-blue'>5:30</span> pm in <span class='text-large text-blue'>SAC 303</span>. We welcome everyone to come; <span class='text-large text-blue'>no</span> previous programing experiences required!
       </p>
       <p>
         <i class="fa fa-info-circle"></i> A glimpse at what we will discuss can be found in <em class='text-large text-blue'>
@@ -45,7 +50,7 @@
           <span>Your name</span>
         </div>
         <div>
-          <input type="text" ng-model="name" style='font-size:20px;line-height:30px;'
+          <input type="text" ng-model="name" name="name" style='font-size:20px;line-height:30px;'
               placeholder="Bill Gates" required>
         </div>
       </div>
@@ -55,7 +60,7 @@
           <span>Your email</span>
         </div>
         <div>
-          <input type="email" ng-model="email" style='font-size:20px;line-height:30px;'
+          <input type="email" name="email" ng-model="email" style='font-size:20px;line-height:30px;'
               placeholder="me@stonybrook.edu" required>
         </div>
       </div>
@@ -74,19 +79,40 @@
           <span>Which department are you from? (optional)</span>
         </div>
         <div>
-          <input type="text" ng-model="department" style='font-size:20px;line-height:30px;'
+          <input type="text" style='font-size:20px;line-height:30px;'
+              ng-model="department" name="department"
               placeholder="AMS, Physics, etc." required>
         </div>
       </div>
 
       <input-dropdown data='level' label="'Are you a grad or undergrad? (optional)'" choices="['Inapplicable', 'Grad student', 'Undergrad']" style='display:inline-block'>
       </input-dropdown>
+      <br/>
+      <br/>
+      <div auto-expand data='department'
+          min-size="20" init-width="250px">
+        <div class='text-light-gray'>
+          <span>What topic would you be interested in? (optional)</span>
+        </div>
+        <div>
+          <tags-input class="custom" ng-model="interested_in_fields_tags"
+              placeholder="Enter your interested topics">
+            <auto-complete source="load_fields()"
+                load-on-empty="true" load-on-down-arrow="true"
+                load-on-focus="true">
+            </auto-complete>
+          </tags-input>
+        </div>
+      </div>
 
       <br/>
       <br/>
       
       <div layout='row' layout-align='start'>
-        <div class='button button-small button-blue' ng-click="submit()">
+        <div class='button button-small'
+            ng-class="{'button-blue': !layout.submited, 'button-gray': layout.submited}"
+            ng-disabled="layout.submited"
+            ng-click="submit()">
           Submit
         </div>
       </div>
@@ -110,25 +136,39 @@
     </div>
     {% endverbatim %}
     <br/>
-    {% for attendant in attendants %}
-    <span ng-show="layout.filter == '{{attendant.is_comming}}' || layout.filter == ''" class="tag tag-large text-bold
-        {% if attendant.is_comming == 'Yes' %}
-        tag-blue
-        {% elif attendant.is_comming == 'Maybe' %}
-        tag-gray
-        {% elif attendant.is_comming == 'No' %}
-        tag-red
-        {% endif %}
-        ">
-      {{ attendant.name }} {% if attendant.department %}| {{ attendant.department }} {% endif %}
-    </span>
-    {% endfor %}
-    <span ng-cloak ng-repeat="attendant in new_attendants" class="tag tag-large text-bold"
-        ng-show="layout.filter == attendant.is_comming || layout.filter == ''"
-        ng-class='{"tag-blue": attendant.is_comming == "Yes", "tag-red": attendant.is_comming == "No", "tag-gray": attendant.is_comming == "Maybe"}'>
-        <bind ng-bind="attendant.name"></bind> <bind ng-if="attendant.department">|</bind> <bind ng-if="attendant.department" ng-bind="attendant.department"></bind>
-    </span>
+    <div>
+      {% for attendant in attendants %}
+      <span ng-show="layout.filter == '{{attendant.is_comming}}' || layout.filter == ''" class="tag tag-large text-bold
+          {% if attendant.is_comming == 'Yes' %}
+          tag-blue
+          {% elif attendant.is_comming == 'Maybe' %}
+          tag-gray
+          {% elif attendant.is_comming == 'No' %}
+          tag-red
+          {% endif %}
+          ">
+        {{ attendant.name }} {% if attendant.department %}| {{ attendant.department }} {% endif %}
+      </span>
+      {% endfor %}
+    </div>
+    <div>
+      <span ng-cloak class="tag tag-large text-bold"
+          ng-repeat="attendant in new_attendants" 
+          ng-show="layout.filter == attendant.is_comming || layout.filter == ''"
+          ng-class='{"tag-blue": attendant.is_comming == "Yes", "tag-red": attendant.is_comming == "No", "tag-gray": attendant.is_comming == "Maybe"}'>
+          <bind ng-bind="attendant.name"></bind> <bind ng-if="attendant.department">|</bind> <bind ng-if="attendant.department" ng-bind="attendant.department"></bind>
+      </span>
+    </div>
+    <br/>
+    <div>
+      <div class="text-large">Topics that our attendants find interesting</div>
+    </div>
+    <div style="80%" id="fields">
+      <jqcloud words="fields" height="300" steps="10"></jqcloud>
+    </div>
   </div>
+
+
 </div>
 
 {% endblock content %}

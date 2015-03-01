@@ -862,3 +862,6 @@ class Attendant(UUIDModel):
         choices=(("Yes", "Yes"), ("No", "No"), ("Maybe", "Maybe"))
     )
     activity = models.CharField(max_length=100, blank=False)
+    date = models.DateTimeField(blank=False)
+    fields = models.TextField(blank=True, default="")
+    expertise = models.TextField(blank=True, default="")

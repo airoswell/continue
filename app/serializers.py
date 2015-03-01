@@ -281,4 +281,4 @@ class AttendantSerializer(serializers.ModelSerializer):
     class Meta:
         model = Attendant
         fields = ("id", "name", "email", "department", "level",
-                  "is_comming", "activity", )
+                  "is_comming", "activity", "date", "fields", "expertise", )

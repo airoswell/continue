@@ -541,8 +541,7 @@ angular.module 'continue.models', [
 ]
 
 .factory "Image", ["Model", (Model) ->
-  return Model.create("/images/").mix(
-  )
+  return Model.create("/images/").mix()
 ]
 
 .factory "Profile", ["Model", (Model) ->
@@ -591,10 +590,17 @@ angular.module 'continue.models', [
   return Model.create("/attendants/").mix(
     $extend:
       Model:
-        statistics: (activity)->
+        statistics: (activity, date)->
+          if not date?
+            date = null
           this.search(
             statistics:true
             activity: activity
+            date: date
+          )
+        fields: ()->
+          this.search(
+            fields: true
           )
   )
 

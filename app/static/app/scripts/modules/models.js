@@ -867,10 +867,19 @@
       return Model.create("/attendants/").mix({
         $extend: {
           Model: {
-            statistics: function(activity) {
+            statistics: function(activity, date) {
+              if (date == null) {
+                date = null;
+              }
               return this.search({
                 statistics: true,
-                activity: activity
+                activity: activity,
+                date: date
+              });
+            },
+            fields: function() {
+              return this.search({
+                fields: true
               });
             }
           }

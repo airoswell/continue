@@ -1214,15 +1214,59 @@ class ImageList(XListAPIView):
             )
 
 
+from django.utils.timezone import utc
+from datetime import datetime
+
+
 class AttendentList(XListAPIView):
 
     model = Attendant
 
     def get(self, request):
+        if "fields" in request.query_params:
+            if not request.query_params['fields']:
+                pass
+            all_fields = []
+            qs = Attendant.objects.all()
+            for attendant in qs:
+                attendant_fields = attendant.fields
+                if not attendant_fields:
+                    continue
+                current_fields = attendant_fields.split(",")
+                for field in current_fields:
+                    found = False
+                    for existed_field in all_fields:
+                        if existed_field["text"] == field:
+                            existed_field["count"] += 1
+                            found = True
+                            break
+                    if not found:
+                        all_fields.append({"text": field, "count": 1})
+            all_fields = sorted(
+                all_fields, key=lambda k: k["count"], reverse=True
+            )
+            # ratio = 10 / all_fields[0]["count"]
+            # import math
+            for field in all_fields:
+                # field["weight"] = math.ceil(field["count"] * ratio)
+                field["weight"] = field["count"]
+            return Response(data=all_fields)
+
         activity = None
         if "activity" in request.query_params:
             activity = request.query_params["activity"]
-        qs = Attendant.objects.filter(activity=activity)
+        date = datetime.now()
+        if "date" in request.query_params:
+            date = request.query_params['date']
+            date = datetime.strptime(date[:10], "%Y-%m-%d")
+            year = date.year
+            month = date.month
+            day = date.day
+            date = datetime(year, month, day, 5, tzinfo=utc)
+        qs = Attendant.objects.filter(
+            activity=activity,
+            date=date,
+        )
         data = AttendantSerializer(qs, many=True).data
         if "statistics" in request.query_params:
             statistics = {"Yes": 0, "No": 0, "Maybe": 0}
@@ -1236,6 +1280,7 @@ class AttendentList(XListAPIView):
         data = request.data
         handler = ErrorHandler(AttendantSerializer)
         data = handler.validate(data)
+        print("\n\t!!!!!! data = %s " % (data))
         attendant = Attendant(**data)
         attendant.save()
         return Response(data=AttendantSerializer(attendant).data)

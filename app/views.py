@@ -546,18 +546,32 @@ def donations(request):
     )
 
 
+from django.utils.timezone import utc
+from datetime import datetime
+
+
 def activity(request):
     if not "activity" in request.GET:
         return redirect("index")
     activity = request.GET["activity"]
+    date = datetime.now()
+    if "date" in request.GET:
+        date = request.GET['date']
+        date = datetime.strptime(date, "%m-%d-%Y")
+        year = date.year
+        month = date.month
+        day = date.day
+        date = datetime(year, month, day, 5, tzinfo=utc)
     qs = Attendant.objects.filter(
-        activity=activity
+        activity=activity,
+        date=date,
     )
     return render(
         request,
         'pages/activity-signup.html',
         {
             'view': "activity-signup",
+            'date': date,
             'attendants': qs,
             'activity': activity,
         }

@@ -14,6 +14,7 @@ app = angular.module("continue", [
   "hc.marked"
   "angularFileUpload"
   "minicolors"
+  'angular-jqcloud'
 ])
 
 app.config [

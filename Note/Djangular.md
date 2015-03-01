@@ -54,3 +54,7 @@ If the data posted are **form** data, then in the view function just user `reque
           url: 'url/?para1=val1&para2=val2&...',
         })
 and in the corresponding view function, use `request.GET.get(<para-name>)`.
+
+8. `ng-init` stuffs with `filter`
+
+        ng-init="date='{{date|date:'Y-m-d'}}'"
