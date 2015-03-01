@@ -21,13 +21,10 @@ angular.module "continue"
       return deferred.promise
 
 
-
-
     $scope.new_attendants = []
 
     unwatch = $scope.$watch "date", ()->
       $scope.date = new Date($scope.date + " EST")
-      console.log "$scope.date", $scope.date
       unwatch()
 
     $scope.$watch "activity", ()->
