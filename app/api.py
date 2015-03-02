@@ -1279,24 +1279,25 @@ class AttendentList(XListAPIView):
         data = request.data
         handler = ErrorHandler(AttendantSerializer)
         data = handler.validate(data)
-        print("\n\t!!!!!! data = %s " % (data))
-        if "email" in data:
-            email = data['email']
-            date = request.data['date']
-            date = datetime.strptime(date[:10], "%Y-%m-%d")
-            year = date.year
-            month = date.month
-            day = date.day
-            date = datetime(year, month, day, 5, tzinfo=utc)
-            qs = Attendant.objects.filter(
-                email=email,
-                date=date,
-                activity=activity,
-            )
-            if qs:
-                qs.update(**data)
-                attendant = qs[0]
-                return Response(data=AttendantSerializer(attendant).data)
+
+        email = data['email']
+        activity = data["activity"]
+        date = request.data['date']
+        date = datetime.strptime(date[:10], "%Y-%m-%d")
+        year = date.year
+        month = date.month
+        day = date.day
+        date = datetime(year, month, day, 5, tzinfo=utc)
+        # Look for already registered info
+        qs = Attendant.objects.filter(
+            email=email,
+            date=date,
+            activity=activity,
+        )
+        if qs:
+            qs.update(**data)
+            attendant = qs[0]
+            return Response(data=AttendantSerializer(attendant).data)
         attendant = Attendant(**data)
         attendant.save()
         return Response(data=AttendantSerializer(attendant).data)
