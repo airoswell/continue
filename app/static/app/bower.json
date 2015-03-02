@@ -35,7 +35,8 @@
     "angular-minicolors": "~0.0.5",
     "lodash": "~3.2.0",
     "angular-jqcloud": "~1.0.1",
-    "jqcloud2": "~2.0.1"
+    "jqcloud2": "~2.0.1",
+    "datejs": "~1.0.0-rc3"
   },
   "devDependencies": {
     "angular-resource": "~1.3.7"
