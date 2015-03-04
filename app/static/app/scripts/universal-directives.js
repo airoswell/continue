@@ -2,7 +2,7 @@
 (function() {
   var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
-  angular.module("continue").filter("requested", function() {
+  angular.module("worldsheet").filter("requested", function() {
     return function(user_id, item) {
       var requester, requesters_id;
       requesters_id = [
@@ -281,8 +281,10 @@
     "$timeout", function($timeout) {
       return {
         restrict: "A",
+        scope: true,
         link: function(scope, element, attrs) {
           var target, trigger;
+          scope.show_menu = false;
           trigger = element.find("[drop-down-menu-trigger]");
           target = element.find("[drop-down-menu-target]");
           target.css({
@@ -294,13 +296,17 @@
             target.css({
               "display": ""
             });
+            scope.show_menu = true;
+            scope.$apply();
             return console.log("clicked!");
           });
           return $("html").click(function(a) {
             if (!$.contains(element[0], a.target)) {
-              return target.css({
+              scope.show_menu = false;
+              target.css({
                 "display": "none"
               });
+              return scope.$apply();
             }
           });
         }
@@ -368,20 +374,21 @@
         return console.log("itemTitle");
       }
     };
+  }).directive("angularItemOverview", function() {
+    return {
+      restrict: "E",
+      templateUrl: "/static/app/directives/angular-item-overview.html",
+      replace: true
+    };
   }).directive("angularItemOverviewHeader", function() {
     return {
       restrct: "E",
       templateUrl: "/static/app/directives/angular-item-overview-header.html"
     };
-  }).directive("angularItemOverview", function() {
+  }).directive("angularFieldDisplay", function() {
     return {
       restrict: "E",
-      templateUrl: "/static/app/directives/angular-item-overview.html"
-    };
-  }).directive("angularFieldText", function() {
-    return {
-      restrict: "E",
-      templateUrl: "/static/app/directives/angular-field-text.html",
+      templateUrl: "/static/app/directives/angular-field-display.html",
       replace: true,
       scope: {},
       link: function(scope, element, attrs) {
@@ -426,6 +433,22 @@
             return is_show = false;
           }
         });
+      }
+    };
+  }).directive("itemOverview", function() {
+    return {
+      restrict: "A",
+      scope: true,
+      link: function(scope, element, attrs) {
+        scope.item_id = attrs['itemId'];
+        return scope.add_item = function() {
+          var _ref;
+          if (!(_ref = scope.item_id, __indexOf.call(scope.items, _ref) >= 0)) {
+            return scope.items.push(scope.item_id);
+          } else {
+            return scope.items.splice(scope.items.indexOf(scope.item_id), 1);
+          }
+        };
       }
     };
   });

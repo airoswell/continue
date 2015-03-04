@@ -2,7 +2,7 @@
 (function() {
   var app;
 
-  app = angular.module("continue", ["ngResource", "ngAria", "ngAnimate", "ngMaterial", "restmod", "continue.auth", "continue.models", "continue.social_accounts"]);
+  app = angular.module("worldsheet", ["ngResource", "ngAria", "ngAnimate", "ngMaterial", "restmod", "worldsheet.auth", "worldsheet.models", "worldsheet.social_accounts"]);
 
   app.config([
     "$httpProvider", function($httpProvider) {

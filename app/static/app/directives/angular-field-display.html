@@ -1,0 +1,23 @@
+<div class='item-overview-field'>
+  <div>
+    <span style='color:#999;' ng-bind="::title"></span>
+  </div>
+
+  <div layout='row' layout-align='start center'>
+    <span style='height:11px;width:11px;background-color:{{value}}'
+        ng-if="widget == 'color'"></span>
+    <span style='font-weight:600;color:#666;'
+        ng-bind="value|date: 'MM-dd-yyyy'" ng-if="value && widget == 'date'">
+    </span>
+    <span style='font-weight:600;color:#666;'
+        ng-bind="value" ng-if="value && widget != 'date' && widget != 'color' ">
+    </span>
+    <span style='font-weight:600;color:#666;' ng-if="!value">
+      NA
+    </span>
+    &nbsp;
+    <span style='font-weight:600;color:#666;'
+        ng-bind='unit' ng-if="unit">
+    </span>
+  </div>
+</div>

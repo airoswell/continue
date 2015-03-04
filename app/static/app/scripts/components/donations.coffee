@@ -1,6 +1,6 @@
 console.log "donations"
 
-angular.module "continue"
+angular.module "worldsheet"
 
 .controller "donationsCtrl", [
   "$scope", "Item", "BulkItems", "Alert",

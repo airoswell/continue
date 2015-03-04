@@ -53,35 +53,36 @@ class UserSerializer(serializers.ModelSerializer):
 class CustomizedCharFieldSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomizedCharField
-        fields = ("id", "item", "title", "value", "display", "model_name",)
+        fields = ("id", "item", "title", "value", "display", "model_name",
+                  "widget", )
 
 
 class CustomizedColorFieldSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomizedColorField
         fields = ("id", "item", "title", "value", "display", "visibility",
-                  "model_name",)
+                  "model_name", "widget")
 
 
 class CustomizedNumFieldSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomizedNumField
         fields = ("id", "item", "title", "value", "unit", "display",
-                  "model_name", "visibility",)
+                  "model_name", "visibility", "widget")
 
 
 class CustomizedDateFieldSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomizedDateField
         fields = ("id", "item", "title", "value", "display", "model_name",
-                  "visibility",)
+                  "visibility", "widget")
 
 
 class CustomizedEmailFieldSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomizedEmailField
         fields = ("id", "item", "title", "value", "display", "visibility",
-                  "model_name",)
+                  "model_name", "widget")
 
 
 class ImageSerializer(serializers.ModelSerializer):

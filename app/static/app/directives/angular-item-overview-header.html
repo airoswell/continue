@@ -1,12 +1,12 @@
 <div layout='row' layout-sm='column' layout-align='start'>
-  <div style='margin:0px 20px' flex="20" flex-sm="40">
+  <div flex="20" flex-sm="40">
     <img ng-if="item.pic" width="100%" ng-src="{{item.pic}}">
     <img ng-if="!item.pic" src="http://i.imgur.com/4NDzM4I.png" width="100%">
   </div>
 
   <div flex="5" flex-sm="0"></div>
 
-  <div flex="70" flex-sm="100" style='margin:0px 20px'>
+  <div flex="70" flex-sm="100">
     <div class='text-xlarge' ng-bind="item.title">
     </div>
 
@@ -27,42 +27,42 @@
       </div>
     </div>
     
-    <angular-field-text title='Condition'
+    <angular-field-display title='Condition'
         value='{{::item.condition}}'
         ng-if="item.condition != 'Inapplicable'">
-    </angular-field-text>
-    <angular-field-text title='Size'
+    </angular-field-display>
+    <angular-field-display title='Size'
         value='{{::item.size}}'
         ng-if="item.size">
-    </angular-field-text>
-    <angular-field-text ng-if="item.available != 'No' "
+    </angular-field-display>
+    <angular-field-display ng-if="item.available != 'No' "
         title='Available'
         value='{{::item.available}}'>
-    </angular-field-text>
-    <angular-field-text title='Frequence of use'
+    </angular-field-display>
+    <angular-field-display title='Frequence of use'
         value='{{::item.utilization}}'
         ng-if="::item.utilization != 'Inapplicable'">
-    </angular-field-text>
-    <angular-field-text title='Unavailable'
+    </angular-field-display>
+    <angular-field-display title='Unavailable'
         value='Currently out'
         ng-if="!item.transferrable">
-    </angular-field-text>
+    </angular-field-display>
 
     <!-- Customized fields -->
     <!-- - NUMBER fields -->
-    <angular-field-text title='{{::field.title}}'
+    <angular-field-display title='{{::field.title}}'
         value='{{::field.value}}' unit="{{::field.unit}}"
         ng-repeat="field in item.customized_num_fields">
-    </angular-field-text>
+    </angular-field-display>
 
     <!-- - Char Fields -->
-    <angular-field-text title='{{::field.title}}' value='{{::field.value}}'
+    <angular-field-display title='{{::field.title}}' value='{{::field.value}}'
         ng-repeat="field in item.customized_char_fields">
-    </angular-field-text>
+    </angular-field-display>
 
     <!-- - Color Fields -->
-    <angular-field-text title='{{::field.title}}' value='{{::field.value}}' widget='color'
+    <angular-field-display title='{{::field.title}}' value='{{::field.value}}' widget='color'
         ng-repeat="field in item.customized_color_fields">
-    </angular-field-text>
+    </angular-field-display>
   </div>
 </div>

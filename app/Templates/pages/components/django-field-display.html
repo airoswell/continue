@@ -1,13 +1,24 @@
 <div style='display:inline-block;padding-right:20px;'>
   <div>
-    <span style='color:#999;'>{{ field_title }}</span>
+    <span style='color:#999;'>
+      {% if field_title %}
+      {{ field_title }}
+      {% else %}
+      No title
+      {% endif %}
+    </span>
   </div>
   <div layout='row' layout-align='start center'>
     {% if field.model_name == "CustomizedColorField" %}
-    <span style='height:11px;width:11px;background-color:{{value}}'></span>&nbsp;
+    <span style='height:11px;width:11px;background-color:{{value}}'></span>
+    &nbsp;
     {% endif %}
     <span style='font-weight:600;color:#666;'>
+    {% if value %}
       {{ value }}
+    {% else %}
+      No value
+    {% endif %}
     </span>
     &nbsp;
     {% if unit %}

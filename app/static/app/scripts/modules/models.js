@@ -3,7 +3,7 @@
   'user strict';
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
-  angular.module('continue.models', ['restmod', 'continue.auth']).config(function(restmodProvider) {
+  angular.module('worldsheet.models', ['restmod']).config(function(restmodProvider) {
     return restmodProvider.rebase({
       $config: {
         primaryKey: "id",
@@ -37,6 +37,7 @@
               if (!(/^http/.test(image.url))) {
                 url = image.url;
                 url_abs = "" + settings.UPLOADED_URL + url;
+                console.log("url_abs", url_abs);
                 _results.push(image.url = url_abs);
               } else {
                 _results.push(void 0);
@@ -203,7 +204,6 @@
                   }
                 },
                 tags_handler: function() {
-                  console.log("A");
                   return Handlers.tags_handler(this);
                 },
                 fetch: function(params) {
@@ -212,7 +212,10 @@
                   this.loading = true;
                   return this.$fetch(params).$then(function(response) {
                     if (response.tags_handler != null) {
-                      return response.tags_handler();
+                      response.tags_handler();
+                    }
+                    if (response.images_handler != null) {
+                      return response.images_handler();
                     }
                   });
                 }
@@ -277,6 +280,9 @@
                   return this.$search(params).$then(function(response) {
                     if (response.tags_handler != null) {
                       response.tags_handler();
+                    }
+                    if (response.images_handler != null) {
+                      response.images_handler();
                     }
                     if (response.post_search_handler != null) {
                       return response.post_search_handler();
@@ -564,6 +570,17 @@
                 init_val['unit'] = "";
               }
               return self[field_type].push(init_val);
+            }
+          },
+          Collection: {
+            tags_handler: function() {
+              var record, _i, _len, _results;
+              _results = [];
+              for (_i = 0, _len = this.length; _i < _len; _i++) {
+                record = this[_i];
+                _results.push(Handlers.tags_handler(record));
+              }
+              return _results;
             }
           },
           Model: {

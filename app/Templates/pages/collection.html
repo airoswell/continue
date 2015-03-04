@@ -5,12 +5,6 @@
 
 <style>
 
-  .sidebar .section-icon{
-    border-radius:30px;
-    width: 60px;height: 60px;
-    border:1px solid #ddd;background:#f9f9f9;
-    cursor: pointer;
-  }
   .tag.tag-gray.selected{
     background-color: #4889F0;color: #fff;
   }
@@ -43,21 +37,6 @@
     layout='row' layout-align='end'>
   <div flex-gt-md="80" flex="100">
 
-
-    <!-- Add item button -->
-    <div trigger style='position:fixed;top:100px;right:20px;z-index:1'>
-      <md-button class="md-fab" aria-label="New document"
-          ng-click="create_item()" style='background:#4184f3;color:#fff;'>
-        <i class="fa fa-plus" style='font-size:20px;line-height:50px;'></i>
-      </md-button>
-      &nbsp;
-      <a href="/app/post/">
-        <md-button class="md-fab" aria-label="New document"
-            style='background:#4184f3;color:#fff;'>
-          <i class="fa fa-align-left" style='font-size:20px;line-height:50px;'></i>
-        </md-button>
-      </a>
-    </div>
 
 
     <!-- side bar -->
@@ -106,9 +85,9 @@
           ng-show="!layout.show_items_search_results && layout.view_mode == 'detail'">
         <div flex-sm="0" flex="10"></div>
         <div flex-gt-lg="70" flex-gt-md="80" flex-md="80" flex-sm="100">
-          <item-editor-pro item="item" ng-repeat="item in items"
+          <item-editor-lite item="item" ng-repeat="item in items"
               ng-show="(item.available == layout.filter_available) || layout.filter_available == ''">
-          </item-editor-pro>
+          </item-editor-lite>
         </div>
       </div>
 
@@ -148,10 +127,10 @@
               No item found with the criteria.
             </div>
           </div>
-          <item-editor-pro item='item'
+          <item-editor-lite item='item'
               ng-repeat="item in items_search_results |orderBy: 'order_by_value'"
               ng-show="(item.available == layout.filter_available) || layout.filter_available == ''">
-          </item-editor-pro>
+          </item-editor-lite>
         </div>
       </div>
 

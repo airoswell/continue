@@ -21,7 +21,7 @@
     i++;
   }
 
-  angular.module("continue").controller("LayoutCtrl", [
+  angular.module("worldsheet").controller("LayoutCtrl", [
     "$scope", "Auth", "Alert", function($scope, Auth, Alert) {
       $scope.user = {};
       return Auth.get_user_profile().then(function(response) {

@@ -1,5 +1,5 @@
 
-angular.module("continue")
+angular.module("worldsheet")
 
 .filter "orderByField", ["Item", (Item)->
   return (collection, type, order_by)->

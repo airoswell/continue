@@ -450,6 +450,8 @@ class ItemDetail(XDetailAPIView):
                 for data in customized_field_data[field_type]:
                     if 'model_name' in data:
                         data.pop("model_name")
+                    if "widget" in data:
+                        data.pop("widget")
 
         # ======== Validate ========
         data = handler.validate(request.data)

@@ -1,8 +1,7 @@
 'user strict'
 
-angular.module 'continue.models', [
+angular.module 'worldsheet.models', [
   'restmod'
-  'continue.auth'
 ]
 .config (restmodProvider) ->
   restmodProvider.rebase $config:
@@ -25,6 +24,7 @@ angular.module 'continue.models', [
           if not (/^http/.test(image.url))
             url = image.url
             url_abs = "#{settings.UPLOADED_URL}#{url}"
+            console.log "url_abs", url_abs
             image.url = url_abs
     tags_base_handler: (record)->
       if record.tags?
@@ -138,7 +138,6 @@ angular.module 'continue.models', [
                   this[property] = obj[property]
                 return this
             tags_handler: ()->
-              console.log "A"
               Handlers.tags_handler(this)
             fetch: (params)->
               self = this
@@ -146,6 +145,8 @@ angular.module 'continue.models', [
               this.$fetch(params).$then (response)->
                 if response.tags_handler?
                   response.tags_handler()
+                if response.images_handler?
+                  response.images_handler()
           Collection:
             path: path
             loading: false
@@ -179,6 +180,8 @@ angular.module 'continue.models', [
               this.$search(params).$then (response)->
                 if response.tags_handler?
                   response.tags_handler()
+                if response.images_handler?
+                  response.images_handler()
                 if response.post_search_handler?
                   response.post_search_handler()
       )
@@ -398,6 +401,10 @@ angular.module 'continue.models', [
             if type == 'num'
               init_val['unit'] = ""
             self[field_type].push(init_val)
+        Collection:
+          tags_handler: ()->
+            for record in this
+              Handlers.tags_handler(record)
         Model:
           init: init
           customized_fields_normalization: (field)->

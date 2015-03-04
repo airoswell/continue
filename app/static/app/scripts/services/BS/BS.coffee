@@ -1,4 +1,4 @@
-angular.module "continue"
+angular.module "worldsheet"
 
 .factory "BS", ["$q", ($q) ->
 

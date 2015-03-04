@@ -1,0 +1,138 @@
+<div class="dashboard-item-overview-details">
+  <br/>
+  <!-- Description -->
+  <div style='background:#f9f9f9;padding:10px;border:1px solid #ddd;'>
+    <div class="text-bold">Description</div>
+    <div class="text-gray">
+      <i class="fa fa-quote-left"></i>&nbsp;<span ng-bind="item.description"></span>
+    </div>
+  </div>
+  
+  
+  <div click-to-expand max-height="0px">
+
+    <div class="collapse-header" click-to-expand-trigger>
+      <i class="fa fa-cog"></i>&nbsp;Presets &nbsp; 
+      <i ng-show='!preset_is_open' class='fa fa-caret-down'></i>
+      <i ng-show='preset_is_open' class='fa fa-caret-up'></i>
+    </div>
+
+    <div click-to-expand-target class='collapse-body'>
+      <div ng-if="expanded">
+        <angular-field-display title='Condition'
+            value='{{item.condition}}'>
+        </angular-field-display>
+        <angular-field-display title='Visible to'
+            value='{{item.visibility}}'>
+        </angular-field-display>
+        <angular-field-display title='Size'
+            value='{{item.size}}'>
+        </angular-field-display>
+
+        <angular-field-display
+            title='Available'
+            value='{{item.available}}'>
+        </angular-field-display>
+        <angular-field-display title='Frequence of use'
+            value='{{item.utilization}}'>
+        </angular-field-display>
+        <angular-field-display title='Unavailable'
+            value='Currently out'
+            ng-if="!item.transferrable">
+        </angular-field-display>
+
+        <angular-field-display title='Acquired on'
+            value='{{item.acquiring_date}}'>
+        </angular-field-display>
+
+        <angular-field-display title='Quantity'
+            value='{{item.quantity}}'>
+        </angular-field-display>
+
+        <angular-field-display title='Original $'
+            value='{{item.original_value}}'>
+        </angular-field-display>
+
+        <angular-field-display title='Estimated $'
+            value='{{item.estimated_value}}'>
+        </angular-field-display>
+
+
+        <div ng-show='item.id' layout='row' layout-align='end'>
+          <a href="/app/item/{{item.id}}/delete/">
+            <div class='button button-small button-red'
+                tooltip="Permanently delete the item and all related updates.">
+              <i class='fa fa-trash'></i>&nbsp;Delete the item
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Customized fields section -->
+  <div click-to-expand max-height="0px" expanded="true">
+    <!-- Collapse header -->
+    <div click-to-expand-trigger class="collapse-header">
+      <i class="fa fa-cogs"></i>&nbsp;Customized Fields &nbsp; <i class='fa fa-caret-down'></i>
+    </div>
+
+    <!-- Collapse target -->
+    <div click-to-expand-target class='collapse-body'>
+      
+      <div ng-if="expanded">
+
+        <div ng-repeat="field_type in customized_fields">
+          <angular-field-display title="{{field.title}}"
+              ng-repeat="field in item[field_type]|orderBy: 'title' "
+              value="{{field.value}}" widget="{{field.widget || 'text'}}">
+          </angular-field-display>
+          <!-- <div>
+
+            <div ng-bind="field.title || 'No title'" class='text-gray'></div>
+            <div class="text-bold"
+                ng-if="field.model_name != 'CustomizedDateField'"
+                ng-bind="field.value || 'No val'"></div>
+            <div class="text-bold"
+                ng-if="field.model_name == 'CustomizedDateField'"
+                ng-bind="field.value|date: 'MM-dd-yyyy'"></div>
+          </div> -->
+        </div>
+      </div>
+      
+    </div>
+
+  </div>
+
+
+  <div click-to-expand>
+    <div click-to-expand-trigger class='collapse-header'>
+      Album
+    </div>
+
+    <div click-to-expand-target class='collapse-body'
+        layout='row' layout-align='center'>
+      <div class="item-image-container" ng-repeat="image in item.images"
+          layout='row' layout-align='start start'>
+        <!-- item image -->
+        <img ng-src="{{image.url}}" height="100">
+        <!-- Dropdown menu -->
+        <span class="dropdown" dropdown on-toggle="toggled(open)">
+          <a href class="dropdown-toggle" dropdown-toggle>
+            <i class='fa fa-caret-down'></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li ng-click="set_as_item_pic()">
+              <a href="">
+                Choose as item image
+              </a>
+            </li>
+          </ul>
+        </span>
+      </div>
+    </div>
+    
+  </div>
+
+
+</div>

@@ -1,4 +1,4 @@
-angular.module "continue"
+angular.module "worldsheet"
 
 .factory "Album", [
   "$q", "FB", "Instagram", "Auth", "BS",

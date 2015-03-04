@@ -2,7 +2,7 @@
 (function() {
   var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
-  angular.module("continue").factory("PrivateMessage", [
+  angular.module("worldsheet").factory("PrivateMessage", [
     "restmod", "Auth", "BS", "Alert", function(restmod, Auth, BS, Alert) {
       var PM;
       PM = restmod.model("/user/messages/").mix({

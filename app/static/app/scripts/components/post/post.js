@@ -2,7 +2,7 @@
 (function() {
   console.log("post.coffee");
 
-  angular.module("continue").controller("postEditorCtrl", [
+  angular.module("worldsheet").controller("postEditorCtrl", [
     "$scope", "Post", "ItemSelector", "ItemEditor", "Alert", "$upload", "Auth", "settings", function($scope, Post, ItemSelector, ItemEditor, Alert, $upload, Auth, settings) {
       $scope.new_items = [];
       $scope.images_list = [];

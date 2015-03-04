@@ -1,6 +1,6 @@
 console.log "post.coffee"
 
-angular.module "continue"
+angular.module "worldsheet"
 
 .controller "postEditorCtrl", [
   "$scope", "Post", "ItemSelector", "ItemEditor", "Alert", "$upload", "Auth", "settings",

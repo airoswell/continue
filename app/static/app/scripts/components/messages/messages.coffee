@@ -1,4 +1,4 @@
-angular.module "continue"
+angular.module "worldsheet"
 
 .controller "messageViewCtrl", ["$scope", ($scope)->
   $scope.reply = ()->

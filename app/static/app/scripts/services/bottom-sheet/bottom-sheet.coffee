@@ -1,4 +1,4 @@
-angular.module "continue"
+angular.module "worldsheet"
 
 .factory "BottomSheet", ["Item", (Item) ->
   return{

@@ -1,14 +1,13 @@
-angular.module "continue.social_accounts", [
-  "continue.auth"
-  "continue.social_accounts.facebook"
-  "continue.social_accounts.instagram"
+angular.module "worldsheet.social_accounts", [
+  "worldsheet.social_accounts.facebook"
+  "worldsheet.social_accounts.instagram"
 ]
 
-angular.module "continue.social_accounts.facebook", [
+angular.module "worldsheet.social_accounts.facebook", [
   "ngResource"
 ]
 
-angular.module "continue.social_accounts.facebook"
+angular.module "worldsheet.social_accounts.facebook"
 
 .factory "FB", ["$resource", "Auth", ($resource, Auth)->
 
@@ -69,11 +68,11 @@ angular.module "continue.social_accounts.facebook"
   }
 ]
 
-angular.module "continue.social_accounts.instagram", [
+angular.module "worldsheet.social_accounts.instagram", [
   "ngResource"
 ]
 
-angular.module "continue.social_accounts.instagram"
+angular.module "worldsheet.social_accounts.instagram"
 
 .factory "Instagram", ["$resource", "Auth", ($resource, Auth)->
 

@@ -2,7 +2,7 @@
 (function() {
   console.log("donations");
 
-  angular.module("continue").controller("donationsCtrl", [
+  angular.module("worldsheet").controller("donationsCtrl", [
     "$scope", "Item", "BulkItems", "Alert", function($scope, Item, BulkItems, Alert) {
       $scope.layout = {
         display_tab: 0,

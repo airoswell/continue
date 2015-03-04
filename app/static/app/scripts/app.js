@@ -2,7 +2,7 @@
 (function() {
   var app;
 
-  app = angular.module("continue", ["ngResource", "ngAria", "ngAnimate", "ngMaterial", "restmod", "ui.bootstrap", "continue.auth", "continue.models", "continue.social_accounts", "ngTagsInput", "infinite-scroll", "hc.marked", "angularFileUpload", "minicolors", 'angular-jqcloud']);
+  app = angular.module("worldsheet", ["ngResource", "ngAria", "ngAnimate", "ngMaterial", "restmod", "ui.bootstrap", "worldsheet.models", "worldsheet.social_accounts", "ngTagsInput", "infinite-scroll", "hc.marked", "angularFileUpload", "minicolors", 'angular-jqcloud']);
 
   app.config([
     "$httpProvider", function($httpProvider) {

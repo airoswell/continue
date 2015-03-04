@@ -1,4 +1,4 @@
-angular.module "continue"
+angular.module "worldsheet"
 
 .controller "itemCtrl", [
   "$scope", "Alert", "BulkItems", "Item", "Auth",

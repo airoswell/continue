@@ -1,4 +1,4 @@
-<div item-overview item-id="{{ item.id }}">
+<div item-overview mobile-wide item-id="{{ item.id }}">
   <div layout='row' layout-align='end'>
 
     <div click-to-show class='item-container' flex>
@@ -35,36 +35,36 @@
               <i ng-show='preset_is_open' class='fa fa-caret-up'></i>
             </accordion-heading>
             <div>
-              <angular-field-text title='Condition'
+              <angular-field-display title='Condition'
                   value='{{::item.condition}}'
                   ng-if="item.condition != 'Inapplicable'">
-              </angular-field-text>
-              <angular-field-text title='Visible to'
+              </angular-field-display>
+              <angular-field-display title='Visible to'
                   value='{{::item.visibility}}'>
-              </angular-field-text>
-              <angular-field-text title='Available'
+              </angular-field-display>
+              <angular-field-display title='Available'
                   value='{{::item.available}}'>
-              </angular-field-text>
-              <angular-field-text title='Frequence of use'
+              </angular-field-display>
+              <angular-field-display title='Frequence of use'
                   value='{{::item.utilization}}'
                   ng-if="::item.utilization != 'Inapplicable'">
-              </angular-field-text>
+              </angular-field-display>
             </div>
             <div>
-              <angular-field-text title='Acquired on'
+              <angular-field-display title='Acquired on'
                   value='{{::item.acquiring_date}}'
                   ng-if="::item.acquiring_date">
-              </angular-field-text>
+              </angular-field-display>
 
-              <angular-field-text title='Original $'
+              <angular-field-display title='Original $'
                   value='{{::item.original_value}}'
                   ng-if="::item.original_value">
-              </angular-field-text>
+              </angular-field-display>
 
-              <angular-field-text title='Estimated $'
+              <angular-field-display title='Estimated $'
                   value='{{::item.estimated_value}}'
                   ng-if='::item.estimated_value'>
-              </angular-field-text>
+              </angular-field-display>
             </div>
           </accordion-group>
 
@@ -77,20 +77,20 @@
 
               <!-- Customized fields -->
               <!-- - NUMBER fields -->
-              <angular-field-text title='{{::field.title}}'
+              <angular-field-display title='{{::field.title}}'
                   value='{{::field.value}}' unit="{{::field.unit}}"
                   ng-repeat="field in item.customized_num_fields">
-              </angular-field-text>
+              </angular-field-display>
 
               <!-- - Char Fields -->
-              <angular-field-text title='{{::field.title}}' value='{{::field.value}}'
+              <angular-field-display title='{{::field.title}}' value='{{::field.value}}'
                   ng-repeat="field in item.customized_char_fields">
-              </angular-field-text>
+              </angular-field-display>
 
               <!-- - Color Fields -->
-              <angular-field-text title='{{::field.title}}' value='{{::field.value}}' widget='color'
+              <angular-field-display title='{{::field.title}}' value='{{::field.value}}' widget='color'
                   ng-repeat="field in item.customized_color_fields">
-              </angular-field-text>
+              </angular-field-display>
               
               
 

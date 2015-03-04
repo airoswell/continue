@@ -1,4 +1,4 @@
-angular.module("continue")
+angular.module("worldsheet")
 
 .filter "requested", ()->
   return (user_id, item)->
@@ -197,18 +197,23 @@ angular.module("continue")
 
 .directive "dropDownMenu", ["$timeout", ($timeout)->
   restrict: "A"
-  # scope: true
+  scope: true
   link: (scope, element, attrs)->
+    scope.show_menu = false
     trigger = element.find("[drop-down-menu-trigger]")
     target = element.find("[drop-down-menu-target]")
     target.css({"position": "absolute", "display": "none", "z-index": 1})
 
     trigger.on "click", (e)->
       target.css({"display": ""})
+      scope.show_menu = true
+      scope.$apply()
       console.log "clicked!"
     $("html").click (a)->
       if not $.contains(element[0], a.target)
+        scope.show_menu = false
         target.css({"display": "none"})
+        scope.$apply()
 ]
 
 .directive "postItemDeleteButton", ["Item", (Item)->
@@ -260,17 +265,18 @@ angular.module("continue")
   link: (scope, element, attrs)->
     console.log "itemTitle"
 
+.directive "angularItemOverview", ()->
+  restrict: "E"
+  templateUrl: "/static/app/directives/angular-item-overview.html"
+  replace: true
+
 .directive "angularItemOverviewHeader", ()->
   restrct: "E"
   templateUrl: "/static/app/directives/angular-item-overview-header.html"
 
-.directive "angularItemOverview", ()->
+.directive "angularFieldDisplay", ()->
   restrict: "E"
-  templateUrl: "/static/app/directives/angular-item-overview.html"
-
-.directive "angularFieldText", ()->
-  restrict: "E"
-  templateUrl: "/static/app/directives/angular-field-text.html"
+  templateUrl: "/static/app/directives/angular-field-display.html"
   replace: true
   scope: {}
   link: (scope, element, attrs)->
@@ -300,3 +306,15 @@ angular.module("continue")
       if is_show
         target.css({'display': "none"})
         is_show = false
+
+
+.directive "itemOverview", ()->
+  restrict: "A"
+  scope: true
+  link: (scope, element, attrs)->
+    scope.item_id = attrs['itemId']
+    scope.add_item = ()->
+      if not (scope.item_id in scope.items)
+        scope.items.push(scope.item_id)
+      else
+        scope.items.splice scope.items.indexOf(scope.item_id), 1

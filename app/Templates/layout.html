@@ -31,7 +31,7 @@
   {% endif %}
 </head>
 
-<body ng-app="continue">
+<body ng-app="worldsheet">
   <div id="fb-root"></div>
   
   <div style='height:100%;' ng-controller="LayoutCtrl"
@@ -86,28 +86,24 @@
   <script type="text/javascript" src="{% static 'app/bower_components/jqcloud2/dist/jqcloud.min.js' %}"></script>
 
   {# End: Bower #}
+  <!-- Determine if it is running on local or actual server -->
   <script type='text/javascript'>
     var LIVEHOST = '{{ LIVEHOST }}'
-  </script> 
+  </script>
+
   <script type="text/javascript" src="{% static 'app/scripts/components/auto-resize.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/scripts/app.js'%}"></script>
-  <script type="text/javascript" src="{% static 'app/scripts/modules/auth.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/scripts/modules/social-accounts.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/scripts/modules/models.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/scripts/layout.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/scripts/universal-directives.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/scripts/services/alert/alert.js'%}"></script>
-  <script type="text/javascript" src="{% static 'app/scripts/services/private-message/private-message.js'%}"></script>
+  <!-- Bottom Sheet -->
   <script type="text/javascript" src="{% static 'app/scripts/services/BS/BS.js'%}"></script>
+  <script type="text/javascript" src="{% static 'app/scripts/services/private-message/private-message.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/scripts/services/album/album.js'%}"></script>
-  <script type="text/javascript" src="{% static 'app/scripts/components/messages/messages.js'%}"></script>
-  <script type="text/javascript" src="{% static 'app/scripts/components/donations.js'%}"></script>
-  <script type="text/javascript" src="{% static 'app/scripts/components/collection.js'%}"></script>
-  <script type="text/javascript" src="{% static 'app/scripts/components/index.js'%}"></script>
-  <script type="text/javascript" src="{% static 'app/scripts/components/search/search.js'%}"></script>
-  <script type="text/javascript" src="{% static 'app/scripts/components/dashboard.js'%}"></script>
-  <script type="text/javascript" src="{% static 'app/scripts/components/user-profile.js'%}"></script>
-  <script type="text/javascript" src="{% static 'app/scripts/components/item-editor-pro/item-editor-pro.js'%}"></script>
+  <!-- Bottom Sheet End -->
+  <script type="text/javascript" src="{% static 'app/scripts/components/item-editor/item-editor.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/scripts/components/dashboard-directives.js'%}"></script>
   {% if view == 'post' or view == 'post_create' %}
   <script type="text/javascript" src="{% static 'app/scripts/components/post/post.js'%}"></script>
@@ -117,6 +113,18 @@
   <script type="text/javascript" src="{% static 'app/scripts/components/item/item.js'%}"></script>
   {% elif view == 'activity-signup' %}
   <script type="text/javascript" src="{% static 'app/scripts/components/activity-signup.js'%}"></script>
+  {% elif view == 'search' %}
+  <script type="text/javascript" src="{% static 'app/scripts/components/search/search.js'%}"></script>
+  {% elif view == 'donations' %}
+  <script type="text/javascript" src="{% static 'app/scripts/components/donations.js'%}"></script>
+  {% elif view == 'collection' %}
+  <script type="text/javascript" src="{% static 'app/scripts/components/collection.js'%}"></script>
+  {% elif view == 'dashboard' %}
+  <script type="text/javascript" src="{% static 'app/scripts/components/dashboard.js'%}"></script>
+  {% elif view == 'index' %}
+  <script type="text/javascript" src="{% static 'app/scripts/components/index.js'%}"></script>
+  {% elif view == 'user-profile' %}
+  <script type="text/javascript" src="{% static 'app/scripts/components/user-profile.js'%}"></script>
   {% endif %}
   <script type="text/javascript">
     $("#content-wrapper").css({"min-height": $("body").height() + "px"});
@@ -142,7 +150,7 @@
   <!-- {% compile "app/scripts/components/donations.coffee" %} -->
   <!-- {% compile "app/scripts/components/dashboard.coffee" %} -->
   <!-- {% compile "app/scripts/components/collection.coffee" %} -->
-  <!-- {% compile "app/scripts/components/item-editor-pro/item-editor-pro.coffee" %} -->
+  <!-- {% compile "app/scripts/components/item-editor/item-editor.coffee" %} -->
   <!-- {% compile "app/scripts/components/user-profile.coffee" %} -->
   <!-- {% compile "app/scripts/components/item-timeline.coffee" %} -->
   <!-- {% compile "app/scripts/components/dashboard-directives.coffee" %} -->
@@ -151,7 +159,6 @@
   <!-- {% compile "app/scripts/components/post/post.coffee" %} -->
   <!-- {% compile "app/scripts/components/item/item.coffee" %} -->
   <!-- {% compile "app/scripts/modules/models.coffee" %} -->
-  <!-- {% compile "app/scripts/modules/auth.coffee" %} -->
   <!-- {% compile "app/scripts/modules/social-accounts.coffee" %} -->
   <!-- {% compile "app/scripts/services/alert/alert.coffee" %} -->
   <!-- {% compile "app/scripts/services/bottom-sheet/bottom-sheet.coffee" %} -->

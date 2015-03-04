@@ -26,7 +26,7 @@
     return console.log($("textarea"));
   });
 
-  angular.module("continue").controller("LayoutCtrl", [
+  angular.module("worldsheet").controller("LayoutCtrl", [
     "$scope", "Auth", "Alert", function($scope, Auth, Alert) {
       $scope.search = function() {
         var areas, tags;

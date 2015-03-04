@@ -1,4 +1,4 @@
-angular.module "continue"
+angular.module "worldsheet"
 
 .controller "activitySignUpCtrl", [
   "$scope", "$q", "Alert", "Attendant",
@@ -51,6 +51,8 @@ angular.module "continue"
       $scope.layout.submitting = true
       attendant.save().$then (response)->
         $scope.new_attendants.push(response)
+        top = $("#response").offset().top
+        $("html, body").animate "scrollTop": top
         $scope.fields = Attendant.fields()
         Attendant.statistics($scope.activity, $scope.date).$then (response)->
           $scope.statistics = response[0]

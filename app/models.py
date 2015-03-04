@@ -393,6 +393,7 @@ class Item(UUIDModel):
         # update customized fields
         print("\n\tcustomized_field_data = %s " % (customized_field_data))
         for field in customized_field_data:
+            import pdb; pdb.set_trace()
             model = cls.customized_fields()[field]
             data = customized_field_data[field]
             item.update_or_create_customized_fields(
@@ -460,6 +461,7 @@ class Item(UUIDModel):
     def update_or_create_customized_fields(
             self, model, customized_fields_data, widget="text"
     ):
+        import pdb; pdb.set_trace()
         for field_data in customized_fields_data:
             field_data["item"] = self
             try:
@@ -492,8 +494,10 @@ class Item(UUIDModel):
                         widget=widget,
                     )
             except FieldDoesNotExist, e:
-                print("\n\t !!!!!!!!!!!!!!!!!!")
-                print("\titem.update_customized_char_fields error:")
+                print("\n\t item.update_customized_char_fields():")
+                print("""\t\titem.update_customized_char_fields error:
+                      field_data contains stuffs that are not in the model
+                      definition!!!! """)
                 print("error message = %s" % (e.message))
                 raise FieldDoesNotExist("\n\te.message = %s" % (e.message))
         return
@@ -565,6 +569,10 @@ class CustomizedColorField(CustomizedField):
 class CustomizedDateField(CustomizedField):
     item = models.ForeignKey(Item, related_name="customized_date_fields")
     value = models.DateTimeField(blank=False)
+
+    @classmethod
+    def widget(self):
+        return "date"
 
 
 class CustomizedEmailField(CustomizedField):

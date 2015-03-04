@@ -1,4 +1,4 @@
-angular.module "continue"
+angular.module "worldsheet"
 
 .factory "PrivateMessage", [
   "restmod", "Auth", "BS", "Alert", "Profile"

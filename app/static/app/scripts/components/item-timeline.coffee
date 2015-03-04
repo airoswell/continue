@@ -1,4 +1,4 @@
-angular.module "continue"
+angular.module "worldsheet"
 
 .controller "itemTimelineCtrl", [
   "$scope", "InfiniteScroll", "ItemTimeline", "Update", "Alert",

@@ -12,8 +12,10 @@
 }
 
 .item-overview-field{
-    display: inline-block;margin-right: 20px;margin-bottom: 10px;
+    display: inline-block;
+    padding: 10px;
 }
+
 [drop-down-menu]{
     cursor: pointer;
     transition: all 0.3s ease-out;
@@ -49,6 +51,18 @@
 }
 [drop-down-menu] .drop-down-menu-input span{
     padding-left: 15px;
+}
+
+.slide-right{
+    -webkit-transition:all 0.1s;
+    transition:all 0.1s;
+}
+.slide-right.ng-show{
+    opacity: 1;
+}
+.slide-right.ng-hide{
+    opacity: 0;
+    margin-left: -50px;
 }
 [trigger]{
     cursor: pointer;
@@ -172,4 +186,31 @@ input.submission-error.ng-invalid.ng-dirty{
     border-bottom-left-radius: 3px;border-bottom-right-radius: 3px;
     border-bottom: 1px solid #ddd;
     padding: 10px;
+}
+
+[item-overview] {
+    display:inline-block;margin-top:5px;margin-bottom:5px;max-width:48%;
+}
+
+
+@media only screen
+and (min-width : 320px)
+and (max-width : 640px){
+    [item-overview][mobile-wide]{
+        max-width: 100%;
+    }
+}
+
+@media only screen
+and (min-device-width : 320px)
+and (max-device-width : 640px){
+    [item-overview][mobile-wide]{
+        max-width: 100%;
+    }
+}
+
+/* Modal */
+.modal-backdrop{
+    position: fixed;bottom: 0px;
+    background: rgba(0,0,0,0.8);
 }

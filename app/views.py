@@ -314,7 +314,10 @@ def user_profile(request):
         return render(
             request,
             "404-not-found.html",
-            {"view": 'user-profile', "target": "page", }
+            {
+                "view": 'user-profile',
+                "target": "page",
+            }
         )
     target_user = qs[0]
 

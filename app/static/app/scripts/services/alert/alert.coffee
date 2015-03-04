@@ -1,4 +1,4 @@
-angular.module "continue"
+angular.module "worldsheet"
 
 .factory 'Alert', ["$rootScope", "$timeout", ($rootScope, $timeout) ->
 

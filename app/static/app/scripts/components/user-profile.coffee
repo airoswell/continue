@@ -1,5 +1,5 @@
 
-angular.module("continue")
+angular.module("worldsheet")
 
 .controller "userProfileCtrl", [
   "$scope", "Post", "Item", "Feed", "UserTimeline", "Alert",

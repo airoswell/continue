@@ -4,8 +4,8 @@
     drag-over-class="{accept:'acceptClass', reject:'rejectClass', delay:100}"  accept="image/*">
   <!-- ======== Header ======== -->
   <div class='item-editor-pro-header' layout='row' layout-align='space-between center'>
-    <item-editor-pro-title flex></item-editor-pro-title>
-    <item-editor-pro-basics style='padding:15px;'></item-editor-pro-basics>
+    <item-editor-title flex></item-editor-title>
+    <item-editor-basics style='padding:15px;'></item-editor-basics>
   </div>
 
   
@@ -44,10 +44,13 @@
     </div>
   </div>
 
-  <!-- ======== Buttons ======== -->
   <div style='padding:10px;'>
-    <item-editor-pro-more ng-show='item.expanded'></item-editor-pro-more>
+
+    <item-editor-lite-more ng-show='item.expanded'>
+    </item-editor-lite-more>
   </div>
+
+  <!-- ======== Buttons ======== -->
 
   <div style="padding:10px;" layout='row' layout-align='end'>
     <div class='button button-small button-gray'
@@ -57,6 +60,12 @@
       </span>
       <span ng-show="item.expanded">
         Less&nbsp;<i class="fa fa-caret-up"></i>
+      </span>
+    </div>
+    <div class='button button-small button-gray'
+        ng-click="open_modal(item)">
+      <span>
+        <i class="fa fa-pencil"></i>&nbsp;Edit
       </span>
     </div>
     &nbsp;

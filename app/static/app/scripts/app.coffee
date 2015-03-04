@@ -1,13 +1,12 @@
-app = angular.module("continue", [
+app = angular.module("worldsheet", [
   "ngResource"
   "ngAria"
   "ngAnimate"
   "ngMaterial"
   "restmod"
   "ui.bootstrap"
-  "continue.auth"
-  "continue.models"
-  "continue.social_accounts"
+  "worldsheet.models"
+  "worldsheet.social_accounts"
   # some nice angular widgets
   "ngTagsInput"
   "infinite-scroll"
@@ -20,7 +19,6 @@ app = angular.module("continue", [
 app.config [
   "$httpProvider"
   ($httpProvider) ->
-    # $httpProvider.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest"
     $httpProvider.defaults.xsrfCookieName = "csrftoken"
     $httpProvider.defaults.xsrfHeaderName = "X-CSRFToken"
 ]

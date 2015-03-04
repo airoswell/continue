@@ -1,4 +1,4 @@
-angular.module "continue"
+angular.module "worldsheet"
 
 
 .controller "SearchResultsCtrl", [
@@ -42,14 +42,3 @@ angular.module "continue"
         # Error handlers
         Alert.show_msg("All posts are downloaded ...")
 ]
-
-.directive "itemOverview", ()->
-  restrict: "A"
-  scope: true
-  link: (scope, element, attrs)->
-    scope.item_id = attrs['itemId']
-    scope.add_item = ()->
-      if not (scope.item_id in scope.items)
-        scope.items.push(scope.item_id)
-      else
-        scope.items.splice scope.items.indexOf(scope.item_id), 1

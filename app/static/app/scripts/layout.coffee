@@ -18,7 +18,7 @@ $(document).ready ()->
   $('textarea').autosize()
   console.log $("textarea")
 # ============================
-angular.module("continue")
+angular.module "worldsheet"
 
 .controller "LayoutCtrl", [
   "$scope"
