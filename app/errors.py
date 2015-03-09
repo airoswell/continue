@@ -19,7 +19,6 @@ class ErrorHandler:
             return data_serialized.validated_data
         print("\n\tverifying data for data = %s" % (data))
         self.errors = data_serialized.errors
-        import pdb; pdb.set_trace()
         print("\n\t !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         print("\t\nErrorHandler.validate() ==> %s" % (self.errors))
         print("\n\t !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")

@@ -558,7 +558,6 @@ def activity(request):
         return redirect("index")
     activity = request.GET["activity"]
     date = datetime.now()
-    import pdb; pdb.set_trace()
     if "date" in request.GET:
         date = request.GET['date']
         date = datetime.strptime(date, "%m-%d-%Y")
