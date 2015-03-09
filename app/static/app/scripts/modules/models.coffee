@@ -9,7 +9,6 @@ angular.module 'worldsheet.models', [
     style: "ams"
     urlPrefix: "/app/"
 
-
 .factory "Handlers", ["settings", (settings)->
   return{
     handler: (container, base_handler)->
@@ -26,6 +25,7 @@ angular.module 'worldsheet.models', [
             url_abs = "#{settings.UPLOADED_URL}#{url}"
             console.log "url_abs", url_abs
             image.url = url_abs
+
     tags_base_handler: (record)->
       if record.tags?
         if typeof(record.tags) == "string"
@@ -69,10 +69,6 @@ angular.module 'worldsheet.models', [
       self.pre_save_handler()
     Alert.show_msg("Saving your data to database ...")
     self.$save().$then (response) ->
-      if self.tags_handler?
-        self.tags_handler()
-      if self.images_handler?
-        self.images_handler()
       if successHandler?
         successHandler(self, response)
       Alert.show_msg("Your data is saved! You may need to refresh ...")
@@ -123,6 +119,18 @@ angular.module 'worldsheet.models', [
         $hooks:
           "before-request": (_req)->
             _req.url += "/"
+          "after-feed": ()->
+            if this.tags_handler?
+              this.tags_handler()
+            if this.images_handler?
+              this.images_handler()
+            if this.post_search_handler?
+              this.post_search_handler()
+          "after-save": ()->
+            if self.tags_handler?
+              self.tags_handler()
+            if self.images_handler?
+              self.images_handler()
         $extend:
           Record:
             loading: false
@@ -143,6 +151,7 @@ angular.module 'worldsheet.models', [
               self = this
               this.loading = true
               this.$fetch(params).$then (response)->
+                console.log "fetch"
                 if response.tags_handler?
                   response.tags_handler()
                 if response.images_handler?
@@ -177,13 +186,7 @@ angular.module 'worldsheet.models', [
               return record.copy(obj)
             search: (params)->
               this.loading = true
-              this.$search(params).$then (response)->
-                if response.tags_handler?
-                  response.tags_handler()
-                if response.images_handler?
-                  response.images_handler()
-                if response.post_search_handler?
-                  response.post_search_handler()
+              this.$search(params)
       )
   }
 ]
@@ -286,8 +289,8 @@ angular.module 'worldsheet.models', [
 
 
 .factory "Item",
-  ["Model", "settings", "Handlers",
-  (Model, settings, Handlers) ->
+  ["Model", "settings", "Handlers", "Image",
+  (Model, settings, Handlers, Image) ->
 
     condition_choices = ["Inapplicable", "New", "Like new", "Good", "Functional", "Broken"]
     visibility_choices = ["Public", "Private", "Ex-owners"]
@@ -344,6 +347,10 @@ angular.module 'worldsheet.models', [
       true
 
     return Model.create("/items/").mix({
+      $hooks:
+        'after-save': ()->
+          this.tags_handler()
+          this.images_handler()
       $extend:
         Record:
           condition_choices: condition_choices
@@ -387,6 +394,10 @@ angular.module 'worldsheet.models', [
 
           images_handler: ()->
             Handlers.images_handler(this)
+            length = this.images.length
+            for i in [0...length]
+              image = this.images[i]
+              this.images[i] = Image.transform(image)
           tags_handler: ()->
             Handlers.tags_handler(this)
           add_customized_field: (type)->
@@ -548,7 +559,13 @@ angular.module 'worldsheet.models', [
 ]
 
 .factory "Image", ["Model", (Model) ->
-  return Model.create("/images/").mix()
+  return Model.create("/images/").mix(
+    $extend:
+      Record:
+        delete: ()->
+          this.$destroy().$then ()->
+            console.log "delete"
+  )
 ]
 
 .factory "Profile", ["Model", (Model) ->

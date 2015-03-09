@@ -1,5 +1,7 @@
 /app/static/app/bower_components
-/app/migrations
+/app/migrations/**
 /app/*.pyc
 /app/templatetags/*.pyc
+/app/static/uploaded/**
+/app/static/uploaded/
 /env-continue/*

@@ -393,7 +393,6 @@ class Item(UUIDModel):
         # update customized fields
         print("\n\tcustomized_field_data = %s " % (customized_field_data))
         for field in customized_field_data:
-            import pdb; pdb.set_trace()
             model = cls.customized_fields()[field]
             data = customized_field_data[field]
             item.update_or_create_customized_fields(
@@ -461,7 +460,6 @@ class Item(UUIDModel):
     def update_or_create_customized_fields(
             self, model, customized_fields_data, widget="text"
     ):
-        import pdb; pdb.set_trace()
         for field_data in customized_fields_data:
             field_data["item"] = self
             try:

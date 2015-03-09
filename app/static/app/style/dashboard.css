@@ -41,8 +41,15 @@
     font-size: 15px;color: #666;
 }
 
-.item-editor-pro .item-image-container{
+.item-editor-pro .item-image-container,
+.item-editor-lite .item-image-container{
     display: inline-block;margin: 10px;
+    border:2px solid #eee;
+}
+
+.item-editor-pro .item-image-container:hover,
+.item-editor-lite .item-image-container:hover{
+    border:2px solid #ccc;
 }
 
 .dashboard-item-overview textarea{

@@ -119,12 +119,6 @@
         }
         Alert.show_msg("Saving your data to database ...");
         return self.$save().$then(function(response) {
-          if (self.tags_handler != null) {
-            self.tags_handler();
-          }
-          if (self.images_handler != null) {
-            self.images_handler();
-          }
           if (successHandler != null) {
             successHandler(self, response);
           }
@@ -182,6 +176,25 @@
             $hooks: {
               "before-request": function(_req) {
                 return _req.url += "/";
+              },
+              "after-feed": function() {
+                if (this.tags_handler != null) {
+                  this.tags_handler();
+                }
+                if (this.images_handler != null) {
+                  this.images_handler();
+                }
+                if (this.post_search_handler != null) {
+                  return this.post_search_handler();
+                }
+              },
+              "after-save": function() {
+                if (self.tags_handler != null) {
+                  self.tags_handler();
+                }
+                if (self.images_handler != null) {
+                  return self.images_handler();
+                }
               }
             },
             $extend: {
@@ -211,6 +224,7 @@
                   self = this;
                   this.loading = true;
                   return this.$fetch(params).$then(function(response) {
+                    console.log("fetch");
                     if (response.tags_handler != null) {
                       response.tags_handler();
                     }
@@ -277,17 +291,7 @@
                 },
                 search: function(params) {
                   this.loading = true;
-                  return this.$search(params).$then(function(response) {
-                    if (response.tags_handler != null) {
-                      response.tags_handler();
-                    }
-                    if (response.images_handler != null) {
-                      response.images_handler();
-                    }
-                    if (response.post_search_handler != null) {
-                      return response.post_search_handler();
-                    }
-                  });
+                  return this.$search(params);
                 }
               }
             }
@@ -436,7 +440,7 @@
       });
     }
   ]).factory("Item", [
-    "Model", "settings", "Handlers", function(Model, settings, Handlers) {
+    "Model", "settings", "Handlers", "Image", function(Model, settings, Handlers, Image) {
       var availability_choices, condition_choices, customized_fields, customized_fields_cleaner, customized_fields_normalization, init, is_valid, type, utilization_choices, visibility_choices;
       condition_choices = ["Inapplicable", "New", "Like new", "Good", "Functional", "Broken"];
       visibility_choices = ["Public", "Private", "Ex-owners"];
@@ -508,6 +512,12 @@
         return true;
       };
       return Model.create("/items/").mix({
+        $hooks: {
+          'after-save': function() {
+            this.tags_handler();
+            return this.images_handler();
+          }
+        },
         $extend: {
           Record: {
             condition_choices: condition_choices,
@@ -550,7 +560,15 @@
               });
             },
             images_handler: function() {
-              return Handlers.images_handler(this);
+              var i, image, length, _i, _results;
+              Handlers.images_handler(this);
+              length = this.images.length;
+              _results = [];
+              for (i = _i = 0; 0 <= length ? _i < length : _i > length; i = 0 <= length ? ++_i : --_i) {
+                image = this.images[i];
+                _results.push(this.images[i] = Image.transform(image));
+              }
+              return _results;
             },
             tags_handler: function() {
               return Handlers.tags_handler(this);
@@ -788,7 +806,17 @@
     }
   ]).factory("Image", [
     "Model", function(Model) {
-      return Model.create("/images/").mix();
+      return Model.create("/images/").mix({
+        $extend: {
+          Record: {
+            "delete": function() {
+              return this.$destroy().$then(function() {
+                return console.log("delete");
+              });
+            }
+          }
+        }
+      });
     }
   ]).factory("Profile", [
     "Model", function(Model) {

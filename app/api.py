@@ -1193,7 +1193,17 @@ class ImageList(XListAPIView):
     num_of_records = 100
 
     def get(self, request):
-        return Response(data=request.query_params)
+        self.get_object()
+        user = request.user
+        # Get all images of a specified user via user_uid
+        if "user_uid" in request.query_params:
+            return Response(data=[])
+        # Get all images of the current user
+        data, status = retrieve_records(
+            self.model, self.serializer,
+            owner__profile__id=user.uid(),
+        )
+        return Response(data=data, status=status)
 
     def post(self, request):
         data = {
@@ -1212,6 +1222,52 @@ class ImageList(XListAPIView):
             print("\n\tserialized.errors = %s " % (serialized.errors))
             return Response(
                 data="There is error processing the image",
+                status=st.HTTP_400_BAD_REQUEST,
+            )
+
+
+class ImageDetail(XListAPIView):
+    """
+        get, delete images.
+    """
+    permission_classes = (
+        # only logged in user can post
+        perms.IsOwnerOrNoPermission,
+    )
+
+    model = Image
+    serializer = ImageSerializer
+
+    def get(self, request, pk):
+        self.get_object()
+        crud = Crud(request.user, self.model)
+        image, errors = crud.get(pk=pk)
+        if image:
+            return Response(data=self.serializer(image).data)
+        else:
+            return Response(
+                data="The image with pk = %s is not found" % (pk),
+                status=st.HTTP_404_NOT_FOUND,
+            )
+
+    def delete(self, request, pk):
+        self.get_object()
+        crud = Crud(request.user, self.model)
+        image, errors = crud.get(pk=pk)
+        if not image:
+            return Response(
+                data="The image with pk = %s is not found" % (pk),
+                status=st.HTTP_404_NOT_FOUND,
+            )
+        data = "deleted"
+        try:
+            image.delete()
+            return Response(
+                data=data,
+            )
+        except:
+            return Response(
+                data="ERROR",
                 status=st.HTTP_400_BAD_REQUEST,
             )
 

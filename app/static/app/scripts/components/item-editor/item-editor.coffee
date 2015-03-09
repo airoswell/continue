@@ -169,12 +169,31 @@ angular.module("worldsheet")
 .directive "itemEditorLiteMore", ["Auth", (Auth)->
   restrict: "E"
   templateUrl: "/static/app/scripts/components/item-editor/item-editor-lite-more.html"
+  link: (scope)->
+    scope.set_as_item_pic = (image, item)->
+      item.pic = image.url
+      item.save()
+    scope.delete_image = (image, item)->
+      if item.pic == image.url
+        item.pic = ""
+        item.save()
+      console.log "haha"
+      image.delete()
 ]
 
 .directive "itemEditorProMore", ["Auth", (Auth)->
   restrict: "E"
   templateUrl: "/static/app/scripts/components/item-editor/item-editor-pro-more.html"
   link: (scope)->
+    scope.set_as_item_pic = (image, item)->
+      item.pic = image.url
+      item.save()
+
+    scope.delete_image = (image, item)->
+      if item.pic == image.url
+        item.pic = ""
+        item.save()
+      image.delete()
 
     scope.set_as_ordering = (field)->
       profile = Auth.get_profile()
@@ -184,7 +203,6 @@ angular.module("worldsheet")
         ordering_fields.push(new_ordering_field)
       profile.save()
 
-    
     scope.open = ($event) ->
       $event.preventDefault()
       $event.stopPropagation()

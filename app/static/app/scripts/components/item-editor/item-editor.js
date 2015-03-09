@@ -236,7 +236,21 @@
     "Auth", function(Auth) {
       return {
         restrict: "E",
-        templateUrl: "/static/app/scripts/components/item-editor/item-editor-lite-more.html"
+        templateUrl: "/static/app/scripts/components/item-editor/item-editor-lite-more.html",
+        link: function(scope) {
+          scope.set_as_item_pic = function(image, item) {
+            item.pic = image.url;
+            return item.save();
+          };
+          return scope.delete_image = function(image, item) {
+            if (item.pic === image.url) {
+              item.pic = "";
+              item.save();
+            }
+            console.log("haha");
+            return image["delete"]();
+          };
+        }
       };
     }
   ]).directive("itemEditorProMore", [
@@ -245,6 +259,17 @@
         restrict: "E",
         templateUrl: "/static/app/scripts/components/item-editor/item-editor-pro-more.html",
         link: function(scope) {
+          scope.set_as_item_pic = function(image, item) {
+            item.pic = image.url;
+            return item.save();
+          };
+          scope.delete_image = function(image, item) {
+            if (item.pic === image.url) {
+              item.pic = "";
+              item.save();
+            }
+            return image["delete"]();
+          };
           scope.set_as_ordering = function(field) {
             var new_ordering_field, ordering_fields, profile;
             profile = Auth.get_profile();

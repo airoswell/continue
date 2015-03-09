@@ -216,25 +216,27 @@
     </div>
 
     <div click-to-expand-target class='collapse-body'
-        layout='row' layout-align='center'>
-      <div class="item-image-container" ng-repeat="image in item.images">
-        <div layout='row' layout-align='start start'>
-          <img ng-src="{{image.url}}" height="100">
-          &nbsp;
-          <i class='fa fa-caret-down'></i>
-          <span class="dropdown" dropdown on-toggle="toggled(open)">
+            layout='row' layout-align='center'>
+          <div class="item-image-container dropdown" dropdown on-toggle="toggled(open)"
+              ng-repeat="image in item.images"
+              layout='row' layout-align='start start'>
             <a href class="dropdown-toggle" dropdown-toggle>
-              Click me for a dropdown, yo!
+              <img ng-src="{{image.url}}" height="100">
             </a>
             <ul class="dropdown-menu">
-              <li ng-repeat="choice in items">
-                <a href>{{choice}}</a>
+              <li ng-click="set_as_item_pic(image, item)">
+                <a href="">
+                  Choose as item image
+                </a>
+              </li>
+              <li ng-click="delete_image(image, item)">
+                <a href="">
+                  Delete the image
+                </a>
               </li>
             </ul>
-          </span>
+          </div>
         </div>
-      </div>
-    </div>
     
   </div>
 

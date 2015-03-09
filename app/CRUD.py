@@ -24,6 +24,7 @@ class Crud:
             return insatnce, []
         except model.DoesNotExist, e:
             errors = [e.message]
+            print("\t\n Not found!!! %s" % (errors))
             return None, errors
 
     def create(self, validated_data, *args, **kwargs):
