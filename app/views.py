@@ -558,13 +558,14 @@ def activity(request):
         return redirect("index")
     activity = request.GET["activity"]
     date = datetime.now()
+    import pdb; pdb.set_trace()
     if "date" in request.GET:
         date = request.GET['date']
         date = datetime.strptime(date, "%m-%d-%Y")
         year = date.year
         month = date.month
         day = date.day
-        date = datetime(year, month, day, 5, tzinfo=utc)
+        date = datetime(year, month, day, 4, tzinfo=utc)
     qs = Attendant.objects.filter(
         activity=activity,
         date=date,
