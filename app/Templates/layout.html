@@ -52,13 +52,19 @@
     <div simple-alert></div>
   </div>
 
-
+  <!-- Determine if it is running on local or actual server -->
+  <script type='text/javascript'>
+    var LIVEHOST = '{{ LIVEHOST }}'
+  </script>
   {% load staticfiles %}
 
   {# Begin: Bower #}
   <script type="text/javascript" src="{% static 'app/bower_components/jQuery/dist/jquery.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/bower_components/angular/angular.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/bower_components/angular-animate/angular-animate.js'%}"></script>
+  {% if LIVEHOST %}
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular-animate.min.js"></script>
+  {% endif %}
   <script type="text/javascript" src="{% static 'app/bower_components/angular-aria/angular-aria.min.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/bower_components/hammerjs/hammer.min.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/bower_components/angular-material/angular-material.js'%}"></script>
@@ -86,10 +92,6 @@
   <script type="text/javascript" src="{% static 'app/bower_components/jqcloud2/dist/jqcloud.min.js' %}"></script>
 
   {# End: Bower #}
-  <!-- Determine if it is running on local or actual server -->
-  <script type='text/javascript'>
-    var LIVEHOST = '{{ LIVEHOST }}'
-  </script>
 
   <script type="text/javascript" src="{% static 'app/scripts/components/auto-resize.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/scripts/app.js'%}"></script>
