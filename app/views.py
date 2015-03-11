@@ -577,5 +577,6 @@ def activity(request):
             'date': date,
             'attendants': qs,
             'activity': activity,
+            'LIVEHOST': settings.LIVEHOST
         }
     )
