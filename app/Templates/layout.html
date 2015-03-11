@@ -58,8 +58,6 @@
   </script>
   {% load staticfiles %}
 
-  {# Begin: Bower #}
-
 
   {% if LIVEHOST %}
   <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
@@ -90,6 +88,42 @@
   <script type="text/javascript" src="{% static 'app/bower_components/angular-minicolors/angular-minicolors.js' %}"></script>
   <script type="text/javascript" src="{% static 'app/bower_components/angular-jqcloud/angular-jqcloud.js' %}"></script>
   <script type="text/javascript" src="{% static 'app/bower_components/jqcloud2/dist/jqcloud.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'app/scripts/components/auto-resize.js'%}"></script>
+  <script type="text/javascript" src="{% static 'app/scripts/app.js'%}"></script>
+  <script type="text/javascript" src="{% static 'app/scripts/modules/social-accounts.js'%}"></script>
+  <script type="text/javascript" src="{% static 'app/scripts/modules/models.js'%}"></script>
+  <script type="text/javascript" src="{% static 'app/scripts/layout.js'%}"></script>
+  <script type="text/javascript" src="{% static 'app/scripts/universal-directives.js'%}"></script>
+  <script type="text/javascript" src="{% static 'app/scripts/services/alert/alert.js'%}"></script>
+  <!-- Bottom Sheet -->
+  <script type="text/javascript" src="{% static 'app/scripts/services/BS/BS.js'%}"></script>
+  <script type="text/javascript" src="{% static 'app/scripts/services/private-message/private-message.js'%}"></script>
+  <script type="text/javascript" src="{% static 'app/scripts/services/album/album.js'%}"></script>
+  <!-- Bottom Sheet End -->
+  <script type="text/javascript" src="{% static 'app/scripts/components/item-editor/item-editor.js'%}"></script>
+  <script type="text/javascript" src="{% static 'app/scripts/components/dashboard-directives.js'%}"></script>
+  {%   if view == 'post' or view == 'post_create' %}
+  <script type="text/javascript" src="{% static 'app/scripts/components/post/post.js'%}"></script>
+  {%   elif view == 'item-timeline'%}
+  <script type="text/javascript" src="{% static 'app/scripts/components/item-timeline.js'%}"></script>
+  {%   elif view == 'item' %}
+  <script type="text/javascript" src="{% static 'app/scripts/components/item/item.js'%}"></script>
+  {%   elif view == 'activity-signup' %}
+  <script type="text/javascript" src="{% static 'app/scripts/components/activity-signup.js'%}"></script>
+  {%   elif view == 'search' %}
+  <script type="text/javascript" src="{% static 'app/scripts/components/search/search.js'%}"></script>
+  {%   elif view == 'donations' %}
+  <script type="text/javascript" src="{% static 'app/scripts/components/donations.js'%}"></script>
+  {%   elif view == 'collection' %}
+  <script type="text/javascript" src="{% static 'app/scripts/components/collection.js'%}"></script>
+  {%   elif view == 'dashboard' %}
+  <script type="text/javascript" src="{% static 'app/scripts/components/dashboard.js'%}"></script>
+  {%   elif view == 'index' %}
+  <script type="text/javascript" src="{% static 'app/scripts/components/index.js'%}"></script>
+  {%   elif view == 'user-profile' %}
+  <script type="text/javascript" src="{% static 'app/scripts/components/user-profile.js'%}"></script>
+  {%   endif %}
+
   {% else %}
   <script type="text/javascript" src="{% static 'app/bower_components/jQuery/dist/jquery.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/bower_components/angular/angular.js'%}"></script>
@@ -119,11 +153,6 @@
   <script type="text/javascript" src="{% static 'app/bower_components/angular-minicolors/angular-minicolors.js' %}"></script>
   <script type="text/javascript" src="{% static 'app/bower_components/angular-jqcloud/angular-jqcloud.js' %}"></script>
   <script type="text/javascript" src="{% static 'app/bower_components/jqcloud2/dist/jqcloud.min.js' %}"></script>
-  {% endif %}
-
-
-  {# End: Bower #}
-
   <script type="text/javascript" src="{% static 'app/scripts/components/auto-resize.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/scripts/app.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/scripts/modules/social-accounts.js'%}"></script>
@@ -159,6 +188,8 @@
   {% elif view == 'user-profile' %}
   <script type="text/javascript" src="{% static 'app/scripts/components/user-profile.js'%}"></script>
   {% endif %}
+  {% endif %}
+
   <script type="text/javascript">
     $("#content-wrapper").css({"min-height": $("body").height() + "px"});
   </script>
