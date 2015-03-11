@@ -1356,6 +1356,12 @@ class AttendentList(XListAPIView):
             qs.update(**data)
             attendant = qs[0]
             return Response(data=AttendantSerializer(attendant).data)
-        attendant = Attendant(**data)
-        attendant.save()
-        return Response(data=AttendantSerializer(attendant).data)
+        else:
+            attendant = Attendant(**data)
+            attendant.save()
+            data = AttendantSerializer(attendant).data
+            data[email] = email
+            data[date] = date
+            data[activity] = activity
+            data[count] = qs.count()
+            return Response(data=data)
