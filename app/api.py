@@ -1345,7 +1345,7 @@ class AttendentList(XListAPIView):
         year = date.year
         month = date.month
         day = date.day
-        date = datetime(year, month, day, 5, tzinfo=utc)
+        date = datetime(year, month, day, 4, tzinfo=utc)
         # Look for already registered info
         qs = Attendant.objects.filter(
             email=email,
