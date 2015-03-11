@@ -60,11 +60,15 @@
 
   {# Begin: Bower #}
   <script type="text/javascript" src="{% static 'app/bower_components/jQuery/dist/jquery.js'%}"></script>
-  <script type="text/javascript" src="{% static 'app/bower_components/angular/angular.js'%}"></script>
-  <script type="text/javascript" src="{% static 'app/bower_components/angular-animate/angular-animate.js'%}"></script>
+
+
   {% if LIVEHOST %}
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular.min.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular-animate.min.js"></script>
   {% endif %}
+
+  <script type="text/javascript" src="{% static 'app/bower_components/angular/angular.js'%}"></script>
+  <script type="text/javascript" src="{% static 'app/bower_components/angular-animate/angular-animate.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/bower_components/angular-aria/angular-aria.min.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/bower_components/hammerjs/hammer.min.js'%}"></script>
   <script type="text/javascript" src="{% static 'app/bower_components/angular-material/angular-material.js'%}"></script>
