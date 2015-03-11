@@ -12,7 +12,7 @@ app = angular.module("worldsheet", [
   "infinite-scroll"
   "hc.marked"
   "angularFileUpload"
-  "minicolors"
+  # "minicolors"
   'angular-jqcloud'
 ])
 
