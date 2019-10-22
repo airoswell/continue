@@ -2,7 +2,7 @@ CoffeeScript==1.0.10
 Django==1.7.2
 Markdown==2.5.2
 MySQL-python==1.2.5
-Pillow==2.7.0
+Pillow==6.2.0
 PyExecJS==1.1.0
 django-allauth==0.19.0
 django-appconf==0.6
